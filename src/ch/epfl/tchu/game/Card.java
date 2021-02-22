@@ -18,7 +18,8 @@ public enum Card {
     }
     public static final List<Card> ALL = List.of(Card.values());
     public static final int COUNT = ALL.size();
-    public static final List<Card> CARS = new ArrayList<Card>(Collections.singleton(ALL.remove(8)));
+    //public static final List<Card> CARS = ALL.removeLast(); //boucle??
+    //cardinal??   conversion en ArrayList??
     public static Card of(Color color){
         return valueOf(color.name());
     }
