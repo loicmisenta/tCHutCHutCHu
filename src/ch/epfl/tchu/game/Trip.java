@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ */
 public final class Trip {
 
     private final Station from;
     private final Station to;
     private final int points;
 
+    /**
+     *
+     * @param from
+     * @param to
+     * @param points
+     */
     public Trip(Station from, Station to, int points) {
         if(from == null || to == null){
             throw new NullPointerException("Une des deux gares est nulle");
@@ -37,6 +46,10 @@ public final class Trip {
         return trajet;
     }
 
+    /**
+     *
+     * @return
+     */
     public Station from() {
         return from;
     }
