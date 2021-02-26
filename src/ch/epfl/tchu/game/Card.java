@@ -1,5 +1,6 @@
 package ch.epfl.tchu.game;
 
+import java.net.SocketOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,7 @@ public enum Card {
     RED("wagon rouge", Color.RED), WHITE("wagon blanc", Color.RED),
     LOCOMOTIVE("locomotive", null);
 
-    private String value;
-    private Color color;
-
     private Card(String value, Color color) {
-        this.value = value;
-        this.color = color;
     }
 
     public static final List<Card> ALL = List.of(Card.values());
@@ -29,6 +25,7 @@ public enum Card {
 
     public static Card of(Color color) { return valueOf(color.name());}
 }
+
 
 
 
