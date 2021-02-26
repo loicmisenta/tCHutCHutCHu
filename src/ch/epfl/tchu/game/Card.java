@@ -16,16 +16,24 @@ public enum Card {
     RED("wagon rouge", Color.RED), WHITE("wagon blanc", Color.RED),
     LOCOMOTIVE("locomotive", null);
 
+    private final Color color;
+    private final String value;
     private Card(String value, Color color) {
+        this.color = color;
+        this.value = value;
     }
 
     public static final List<Card> ALL = List.of(Card.values());
     public static final int COUNT = ALL.size();
     public static final List<Card> CARS = List.of(BLACK, VIOLET, BLUE, GREEN, YELLOW, ORANGE, RED, WHITE);
 
-    public static Card of(Color color) { return valueOf(color.name());}
-}
+    public static Card of(Color color) {
+        return valueOf(color.name());
+    }
 
+    public Color color() { return color;}
+
+}
 
 
 
