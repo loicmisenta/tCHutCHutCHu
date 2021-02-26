@@ -1,5 +1,7 @@
 package ch.epfl.tchu.game;
 
+import ch.epfl.tchu.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,9 +25,9 @@ public final class Trip {
         if(from == null || to == null){
             throw new NullPointerException("Une des deux gares est nulle");
         }
-        if (points <= 0){
-            throw new IllegalArgumentException("Points négatifs");
-        }
+        Preconditions.checkArgument(points>0);
+
+
         this.from = Objects.requireNonNull(from);
         this.to = Objects.requireNonNull(to);
         this.points = points;

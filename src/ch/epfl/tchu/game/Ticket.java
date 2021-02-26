@@ -1,5 +1,7 @@
 package ch.epfl.tchu.game;
 
+import ch.epfl.tchu.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -10,15 +12,19 @@ public final class Ticket implements Comparable<Ticket>{
 
     public Ticket(List<Trip> trips) {
         boolean allSameFrom = true;
-        for (int i = 1; i < trips.size()-1; i++) {
-            if (trips.get(0).from() != trips.get(i).from()){
+        for (int i = 1; i < trips.size(); i++) {
+            if (!(trips.get(0).from().name().equals(trips.get(i).from().name()))){
+                System.out.println(trips.get(0).from().toString() + "     " + trips.get(i).from().toString());;
                 allSameFrom = false;
             }
+
         }
-        if (trips.isEmpty() || allSameFrom){
-            throw new IllegalArgumentException("trajet vide ou pas les même gare de départ");
-        }
-        this.trips = trips;
+        //if (trips.isEmpty() || !allSameFrom){
+        //    throw new IllegalArgumentException("trajet vide ou pas les même gare de départ");
+        //}
+        Preconditions.checkArgument(!(trips.isEmpty())|| !allSameFrom);
+
+        this.trips = List.copyOf(trips);
         billetText = computeText(trips);
     }
 
@@ -38,23 +44,28 @@ public final class Ticket implements Comparable<Ticket>{
             listeArriveeText.add(String.format("%s (%s)", s.to().toString(), s.points()));
         }
         String arrivee = String.join(", ", listeArriveeText);
+        if (listeArriveeText.size()>1){
+            return departText + " - {" + arrivee + "}";
+        }
+        else{
+            return departText + " - " + arrivee;
+        }
 
-        return departText + " - " + arrivee;
     }
     public int points(StationConnectivity connectivity){
-        int max = 0;
-        for (int i = 0; i < trips.size()-1; i++) {
-            if (trips.get(i).points(connectivity) > max){
-                max = trips.get(i).points(connectivity);
+        int min = -1000000;
+        for (int i = 0; i < trips.size(); i++) {
+            if (trips.get(i).points(connectivity) > min){
+                min = trips.get(i).points(connectivity);
             }
         }
-        return max;
+        return min;
     }
 
     @Override
     public int compareTo(Ticket that) {
-        String thisText = text();
-        String thatText = computeText(that.trips);
+        String thisText = this.text();
+        String thatText = that.text();
         return thisText.compareTo(thatText);
     }
 }
