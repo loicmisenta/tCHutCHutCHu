@@ -1,5 +1,6 @@
 package ch.epfl.tchu.game;
 
+import java.awt.*;
 import java.net.SocketOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,26 +12,43 @@ import java.util.List;
 
  */
 public enum Card {
-    BLACK("wagon noir", Color.BLACK), VIOLET("wagon violet", Color.VIOLET), BLUE("wagon bleu", Color.BLUE),
-    GREEN("wagon vert", Color.GREEN), YELLOW("wagon jaune", Color.YELLOW), ORANGE("wagon orange", Color.ORANGE),
-    RED("wagon rouge", Color.RED), WHITE("wagon blanc", Color.RED),
-    LOCOMOTIVE("locomotive", null);
+    BLACK(Color.BLACK), VIOLET( Color.VIOLET), BLUE( Color.BLUE),
+    GREEN(Color.GREEN), YELLOW( Color.YELLOW), ORANGE( Color.ORANGE),
+    RED( Color.RED), WHITE( Color.WHITE),
+    LOCOMOTIVE( null);
 
     private final Color color;
-    private final String value;
-    private Card(String value, Color color) {
+
+
+    /**
+     * Constructeur de Card qui prend en compte:
+     * @param color la coiuleur attribuée à un wagon
+     */
+    private Card( Color color) {
         this.color = color;
-        this.value = value;
     }
+
 
     public static final List<Card> ALL = List.of(Card.values());
     public static final int COUNT = ALL.size();
     public static final List<Card> CARS = List.of(BLACK, VIOLET, BLUE, GREEN, YELLOW, ORANGE, RED, WHITE);
 
-    public static Card of(Color color) {
-        return valueOf(color.name());
-    }
 
+    /**
+     * Methode qui prend en compte:
+     * @param color la couleur de la carte
+     * @return le wagon qui lui est associé
+     */
+     public static Card of(Color color) {
+         return valueOf(color.name());
+     }
+
+
+
+    /**
+     * Methode qui
+     * @return la couleur
+     */
     public Color color() { return color;}
 
 }

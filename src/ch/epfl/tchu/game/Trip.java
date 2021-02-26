@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Une classe representant les trajets
  */
 public final class Trip {
 
@@ -16,10 +16,10 @@ public final class Trip {
     private final int points;
 
     /**
-     *
-     * @param from
-     * @param to
-     * @param points
+     * Une classe qui va contruire un trajet entre deux desinations données
+     * @param from destination de départ
+     * @param to destination d'arrivée
+     * @param points la distance entre les deux destinations
      */
     public Trip(Station from, Station to, int points) {
         if(from == null || to == null){
@@ -32,16 +32,21 @@ public final class Trip {
         this.to = Objects.requireNonNull(to);
         this.points = points;
     }
+
+    /**
+     *Une classe qui va contruire un trajet entre deux desinations données
+     * @param from destination de départ
+     * @param to destination d'arrivée
+     * @param points la distance entre les deux destinations
+     * @return
+     */
     public static List<Trip> all(List<Station> from, List<Station> to, int points){
         if ((from.isEmpty() || to.isEmpty()) || points<=0){
             throw new IllegalArgumentException("Liste vide ou points négatifs");
         }
-
         List<Trip> trajet = new ArrayList<>();
-        for (Station f:
-             from) {
-            for (Station t:
-                 to) {
+        for (Station f: from) {
+            for (Station t: to) {
                 trajet.add(new Trip(f, t, points));
             }
         }
@@ -49,20 +54,32 @@ public final class Trip {
     }
 
     /**
-     *
-     * @return
+     * @return la destination de départ
      */
     public Station from() {
         return from;
     }
 
+    /**
+     * @return la destination d'arrivée
+     */
     public Station to() {
         return to;
     }
 
+    /**
+     *
+     * @return les points reliant les deux destinations
+     */
     public int points() {
         return points;
     }
+
+    /**
+     * Cette methode @return nb de points en fonction de
+     * @param connectivity
+     * qu'on lui passe en paramétre
+     */
     public int points(StationConnectivity connectivity){
         if(connectivity.connected(from(), to())){
             return points();
