@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  Représente les huit couleurs utilisées dans le jeu
- pour colorer les cartes wagon et les routes
- *
+ pour colorer les cartes wagon et les routes.
+
  */
 public enum Color{
     BLACK("noir"), VIOLET("violet"), BLUE("bleu"), GREEN("vert"), YELLOW("jaune"),
