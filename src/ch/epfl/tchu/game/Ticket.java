@@ -6,10 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+
+/**
+ * Une classe represantant un ticket
+ */
 public final class Ticket implements Comparable<Ticket>{
     private final List<Trip> trips;
     private final String billetText;
 
+    /**
+     * Constructeur Principal du Ticket à partir  du'une liste de trajets:
+     * @param trips
+     */
     public Ticket(List<Trip> trips) {
         boolean allSameFrom = true;
         for (int i = 1; i < trips.size(); i++) {
@@ -28,14 +36,31 @@ public final class Ticket implements Comparable<Ticket>{
         billetText = computeText(trips);
     }
 
+    /**
+     * Constructeur Secondaire  du ticket pour un seul trajet, qui va prendre les memes parametre qu'à la création
+     * d'un trajet:
+     * @param from destination de départ
+     * @param to destination d'arrivée
+     * @param points la distance entre les deux destinations
+     * Et va crée une liste d'un seul trajet pour ensuite appeler le constructeur principal
+     */
     public Ticket(Station from, Station to, int points){
         this(List.of(new Trip(from, to, points)));
     }
 
+    /**
+     *
+     * @return la representation grpahique du billet
+     */
     public String text(){
         return billetText;
     }
 
+    /**
+     * compile billet (avec sa liste de trajet)
+     * @param trajets la liste de trajet
+     * @return sous forme de texte
+     */
     private static String computeText(List<Trip> trajets){
         String departText = trajets.get(0).from().toString();
         TreeSet<String> listeArriveeText = new TreeSet<>();
@@ -52,6 +77,16 @@ public final class Ticket implements Comparable<Ticket>{
         }
 
     }
+
+    /**
+     *
+     * @param connectivity
+     * @return
+     */
+
+    //FAUSE !!!!!!!!!!!!!!!
+
+
     public int points(StationConnectivity connectivity){
         int min = -1000000;
         for (int i = 0; i < trips.size(); i++) {
@@ -62,6 +97,12 @@ public final class Ticket implements Comparable<Ticket>{
         return min;
     }
 
+    /**
+     * compare deux tickets entre eux
+     * @param that le ticket avec on veut le comparer
+     * @return retourne un entier négatif  si la première vient avant la seconde dans l'ordre alphabétique,
+     * zéro si les deux sont égales, sinon un entier positif.
+     */
     @Override
     public int compareTo(Ticket that) {
         String thisText = this.text();
