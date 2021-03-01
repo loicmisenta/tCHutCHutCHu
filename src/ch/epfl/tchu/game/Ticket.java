@@ -80,21 +80,23 @@ public final class Ticket implements Comparable<Ticket>{
 
     /**
      *
-     * @param connectivity
-     * @return
+     * @param connectivity represente le fait que deux gares sont reliés ou non par
+     *                     le réseau
+     * @return le nombre de points que vaut le billet
      */
+
 
     //FAUSE !!!!!!!!!!!!!!!
 
 
     public int points(StationConnectivity connectivity){
-        int min = -1000000;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < trips.size(); i++) {
-            if (trips.get(i).points(connectivity) > min){
-                min = trips.get(i).points(connectivity);
+            if (trips.get(i).points(connectivity) > max){
+                max = trips.get(i).points(connectivity);
             }
         }
-        return min;
+        return max;
     }
 
     /**
