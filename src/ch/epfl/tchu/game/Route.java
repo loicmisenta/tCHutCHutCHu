@@ -80,7 +80,33 @@ public final class Route {
     }
 
     public List<SortedBag<Card>> possibleClaimCards() {
+        SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
 
+        //le cas de Overground
+        if (level == Level.OVERGROUND){
+            //ajouter le nombre de wagons en fnct de la long
+            for (int i = 1; i <= length; i++){
+                //couleur grise
+                if (color == null ){
+                    for (Card c : Card.CARS){ possibleClaimCards.add(c); }
+                } else {
+                    possibleClaimCards.add(Card.of(color)); }
+            }
+        //le cas de underground
+        } else {
+            for (int i = 0; i <= length; i++){ // nb de locomotives
+                for(int j = length ; j >= 0; j-- ){ // nb de wagons
+                    if (color == null) {
+                        for (Card c : Card.CARS){ possibleClaimCards.add(SortedBag.of(j, c , i, Card.LOCOMOTIVE)); }
+                    } else {
+                        possibleClaimCards.add(SortedBag.of(j, Card.of(color), i, Card.LOCOMOTIVE));
+                    }
+                }
+            }
+
+        }
+        return List.of(possibleClaimCards.build());
     }
+
 
 }
