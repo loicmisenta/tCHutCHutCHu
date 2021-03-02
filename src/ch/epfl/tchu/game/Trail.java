@@ -9,8 +9,13 @@ public final class Trail {
 
     //faire un constructeur qui n'est pas forcément public
 
-
+    /**
+     *
+     * @param routes
+     */
     static void longest(List<Route> routes){
+        List<Route> cs = ChMap.routes();
+        //liste de tous les chemins constitués d'une seule route
 
     }
 
