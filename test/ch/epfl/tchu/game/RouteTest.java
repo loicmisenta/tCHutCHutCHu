@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RouteTest {
     @Test
     void retourneStationOpposeeCorrect(){
-        //var expectedValues = new Route("id", );
+        var routeTest = ChMap.routes().get(0);
+        var expectedValues = ChMap.routes().get(0).station1();
+        assertEquals(expectedValues, routeTest.stationOpposite(routeTest.station2()));
     }
     
     

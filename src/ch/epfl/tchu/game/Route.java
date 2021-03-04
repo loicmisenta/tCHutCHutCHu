@@ -4,8 +4,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Une classe representant une route qui va lier deux gares entre elles et ses caractéristiques
@@ -149,37 +148,55 @@ public final class Route {
     //TEST NE PASSE PAS
     //RAJOUTER DANS DES SORTED BAGS DIFF
     public List<SortedBag<Card>> possibleClaimCards() {
+
         SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
+        List<SortedBag<Card>> sortedBagList = new ArrayList<>();
+        int j = length();
 
         //le cas de Overground
-        if (level == Level.OVERGROUND){
+
+        if (level() == Level.OVERGROUND){
             //ajouter le nombre de wagons en fnct de la long
-            for (int i = 1; i <= length; i++){
-                //couleur grise
-                if (color == null ){
+            //couleur grise
+            if (color() == null){
+                for (int i = 1; i <= length; i++){
                     for (Card c : Card.CARS){
-                        possibleClaimCards.add(c);}
-                } else {
-                    possibleClaimCards.add(Card.of(color)); }
-                List.of(possibleClaimCards.build());
-                System.out.println(List.of(possibleClaimCards.build()));
+                        sortedBagList.add(SortedBag.of(i, c));
+                    }
+                }
+            }
+            else {
+                sortedBagList.add(SortedBag.of(length(), Card.of(color())));
             }
         //le cas de underground
         } else {
-            for (int i = 0; i <= length; i++){ // nb de locomotives
-                for(int j = length ; j >= 0; j-- ){ // nb de wagons
-                    if (color == null) {
-                        for (Card c : Card.CARS){ possibleClaimCards.add(SortedBag.of(j, c , i, Card.LOCOMOTIVE)); }
-                    } else {
-                        possibleClaimCards.add(SortedBag.of(j, Card.of(color), i, Card.LOCOMOTIVE));
-                    };
-                    List.of(possibleClaimCards.build());
-                    System.out.println(List.of(possibleClaimCards.build()));
-                }
-            }
 
+            for (int i = 0; i <= length(); i++){ // nb de locomotives
+                // j = nb de wagons
+
+                if (color() == null) {
+                    if(i == length() && j == 0){
+                        sortedBagList.add(SortedBag.of(i, Card.LOCOMOTIVE));
+                    }
+                    else{
+                        for (Card c : Card.CARS){
+                            sortedBagList.add(SortedBag.of(j, c , i, Card.LOCOMOTIVE));
+                        }
+                    }
+
+                } else {
+                    sortedBagList.add(SortedBag.of(j, Card.of(color()), i, Card.LOCOMOTIVE));
+                }
+
+                j--;
+            }
         }
-        return List.of(possibleClaimCards.build());
+        //for (int i = 0; i < sortedBagList.size(); i++) {
+        //    System.out.println(i + " -> " + sortedBagList.get(i));
+        //}
+
+        //System.out.println(List.of(sortedBagList));
+        return sortedBagList;
     }
 
     /**
