@@ -159,18 +159,16 @@ public final class Route {
             //ajouter le nombre de wagons en fnct de la long
             //couleur grise
             if (color() == null){
-                for (int i = 1; i <= length; i++){
-                    for (Card c : Card.CARS){
-                        sortedBagList.add(SortedBag.of(i, c));
-                    }
+                for (Card c : Card.CARS){
+                    sortedBagList.add(SortedBag.of(length(), c));
                 }
             }
             else {
                 sortedBagList.add(SortedBag.of(length(), Card.of(color())));
             }
+
         //le cas de underground
         } else {
-
             for (int i = 0; i <= length(); i++){ // nb de locomotives
                 // j = nb de wagons
 

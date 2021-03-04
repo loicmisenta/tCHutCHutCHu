@@ -14,12 +14,31 @@ public class RouteTest {
         var expectedValues = ChMap.routes().get(0).station1();
         assertEquals(expectedValues, routeTest.stationOpposite(routeTest.station2()));
     }
-    
+
+
     
     @Test 
     void possibleClaimDeuxWagonsVioletsBon(){
         var routeTest = ChMap.routes().get(3);
         var expectedValues = List.of(SortedBag.of(2, Card.VIOLET));
+        assertEquals(expectedValues, routeTest.possibleClaimCards());
+
+    }
+
+    @Test
+    void tunnelGrisLongTrois(){
+        var routeTest = ChMap.routes().get(31);
+        var expectedValues = List.of(SortedBag.of(3, Card.BLACK), SortedBag.of(3, Card.VIOLET),
+                SortedBag.of(3, Card.BLUE), SortedBag.of(3, Card.GREEN), SortedBag.of(3, Card.YELLOW), SortedBag.of(3, Card.ORANGE),
+                SortedBag.of(3, Card.RED), SortedBag.of(3, Card.WHITE),
+                SortedBag.of(2, Card.BLACK, 1, Card.LOCOMOTIVE), SortedBag.of(2, Card.VIOLET, 1, Card.LOCOMOTIVE),
+                SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE), SortedBag.of(2, Card.GREEN , 1, Card.LOCOMOTIVE), SortedBag.of(2, Card.YELLOW, 1, Card.LOCOMOTIVE),
+                SortedBag.of(2, Card.ORANGE, 1, Card.LOCOMOTIVE), SortedBag.of(2, Card.RED, 1, Card.LOCOMOTIVE), SortedBag.of(2, Card.WHITE , 1, Card.LOCOMOTIVE),
+                SortedBag.of(1, Card.BLACK, 2, Card.LOCOMOTIVE), SortedBag.of(1, Card.VIOLET, 2, Card.LOCOMOTIVE),
+                SortedBag.of(1, Card.BLUE, 2, Card.LOCOMOTIVE), SortedBag.of(1, Card.GREEN , 2, Card.LOCOMOTIVE), SortedBag.of(1, Card.YELLOW, 2, Card.LOCOMOTIVE),
+                SortedBag.of(1, Card.ORANGE, 2, Card.LOCOMOTIVE), SortedBag.of(1, Card.RED, 2, Card.LOCOMOTIVE), SortedBag.of(1, Card.WHITE , 2, Card.LOCOMOTIVE),
+                SortedBag.of(3, Card.LOCOMOTIVE)
+        );
         assertEquals(expectedValues, routeTest.possibleClaimCards());
 
     }

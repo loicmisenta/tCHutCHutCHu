@@ -18,6 +18,10 @@ public final class Trail {
         }
     }
 
+    /**
+     *
+     * @return la longeur du Trail
+     */
     public int length() {
         return length;
     }
@@ -56,9 +60,7 @@ public final class Trail {
                 for (Route r: rs) {
                     if(!r.station1().equals(c.station2())){
                         rs.remove(r);
-                    }
-
-                    else{
+                    } else{
                         Trail t = new Trail(List.of(r, c));
                         csPrime.addAll(List.of(c, r));
                     }
@@ -73,6 +75,7 @@ public final class Trail {
 
         return new Trail(lastcs);
         //liste de tous les chemins constitués d'une seule route
+
 
     }
 
