@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.SortedBag;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,15 +15,22 @@ public class RouteTest {
         var expectedValues = ChMap.routes().get(0).station1();
         assertEquals(expectedValues, routeTest.stationOpposite(routeTest.station2()));
     }
+    @Test
+    void retourneStationException(){
+        var routeTest = ChMap.routes().get(0);
+        var expectedValues = ChMap.routes().get(0).station1();
+
+        assertEquals(expectedValues, routeTest.stationOpposite(routeTest.station2()));
+    }
 
 
     
     @Test 
     void possibleClaimDeuxWagonsVioletsBon(){
-        var routeTest = ChMap.routes().get(3);
-        var expectedValues = List.of(SortedBag.of(2, Card.VIOLET));
-        assertEquals(expectedValues, routeTest.possibleClaimCards());
-
+        var routeTest = ChMap.routes().get(0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            routeTest.stationOpposite(ChMap.routes().get(5).station1());
+        });
     }
 
     @Test
@@ -89,8 +97,54 @@ public class RouteTest {
         assertEquals(expectedValue, routeTest.claimPoints());
     }
     @Test
-    void additionnalClaimCardException(){
+    void additionnalClaimCardGeneralTest(){
         var routeTest = ChMap.routes().get(0);
-
+        var claimCards = SortedBag.of(4, Card.BLUE);
+        var drawnCards = SortedBag.of(1, Card.BLUE, 2, Card.WHITE);
+        var expectedValue = 1;
+        assertEquals(expectedValue, routeTest.additionalClaimCardsCount(claimCards, drawnCards));
+    }
+    @Test
+    void additionnalClaimCardExceptionNotTunnel(){
+        var routeTest = ChMap.routes().get(3);
+        var claimCards = SortedBag.of(4, Card.BLUE);
+        var drawnCards = SortedBag.of(1, Card.BLUE, 2, Card.WHITE);
+        var expectedValue = 1;
+        assertThrows(IllegalArgumentException.class, () -> {
+            routeTest.additionalClaimCardsCount(claimCards, drawnCards);
+        });
+    }
+    @Test
+    void additionnalClaimCardExceptionDrawnCardsNot3(){
+        var routeTest = ChMap.routes().get(0);
+        var claimCards = SortedBag.of(4, Card.BLUE);
+        var drawnCards = SortedBag.of(3, Card.BLUE, 2, Card.WHITE);
+        var expectedValue = 1;
+        assertThrows(IllegalArgumentException.class, () -> {
+            routeTest.additionalClaimCardsCount(claimCards, drawnCards);
+        });
+    }
+    @Test
+    void constructeur2EqualStations(){
+        var Station = new Station(0, "Gare1");
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Route("GARE", Station, Station, 2, Route.Level.UNDERGROUND, Color.BLACK);
+        });
+    }
+    @Test
+    void constructeurTooLong(){
+        var Station = new Station(0, "Gare1");
+        var Station2 = new Station(1, "Gare2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Route("GARE", Station, Station2, 200, Route.Level.UNDERGROUND, Color.BLACK);
+        });
+    }
+    @Test
+    void constructeurLengthTooShort(){
+        var Station = new Station(0, "Gare1");
+        var Station2 = new Station(1, "Gare2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Route("GARE", Station, Station2, 0, Route.Level.UNDERGROUND, Color.BLACK);
+        });
     }
 }

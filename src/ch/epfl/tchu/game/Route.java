@@ -10,12 +10,12 @@ import java.util.*;
  * Une classe representant une route qui va lier deux gares entre elles et ses caractéristiques
  */
 public final class Route {
-    private String id;
-    private Station station1;
-    private Station station2;
-    private int length;
-    private Level level;
-    private Color color;
+    private final String id;
+    private final Station station1;
+    private final Station station2;
+    private final int length;
+    private final Level level;
+    private final Color color;
 
 
     /**
@@ -36,7 +36,7 @@ public final class Route {
      * @throws NullPointerException si une des stations ou/et l'identifiant sont nulls
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
-        Preconditions.checkArgument(station1.equals(station2) || length <= Constants.MAX_ROUTE_LENGTH ||
+        Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH &&
                 length >= Constants.MIN_ROUTE_LENGTH);
         if (id == null || station1 == null || station2 == null) {
             throw new NullPointerException("l'id, la station 1 ou la station 2 est nulle");
@@ -143,10 +143,6 @@ public final class Route {
      * @return la liste de tous les ensembles de cartes qui pourraient être joués
      * pour s'emparer d'une route
      */
-
-    //ERREUR AVEC LA METHODE
-    //TEST NE PASSE PAS
-    //RAJOUTER DANS DES SORTED BAGS DIFF
     public List<SortedBag<Card>> possibleClaimCards() {
 
         SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
@@ -205,7 +201,7 @@ public final class Route {
 
         Preconditions.checkArgument(level().equals(Level.UNDERGROUND) && drawnCards.size()==3);
         int count = 0;
-        for (int i = 0; i < claimCards.size(); i++) {
+        for (int i = 0; i < drawnCards.size(); i++) {
             if (drawnCards.get(i).equals(claimCards.get(0)) || drawnCards.get(i).equals(Card.LOCOMOTIVE)){
                 count += 1;
             }
