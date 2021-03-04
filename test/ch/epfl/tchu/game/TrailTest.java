@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TrailTest {
 
+
     @Test
     void TestlongestWithTwoRoutes(){
         var listRouteTest = List.of(ChMap.routes().get(2), ChMap.routes().get(5));

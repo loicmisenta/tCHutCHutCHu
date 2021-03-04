@@ -10,12 +10,12 @@ import java.util.*;
  * Une classe representant une route qui va lier deux gares entre elles et ses caractéristiques
  */
 public final class Route {
-    String id;
-    Station station1;
-    Station station2;
-    int length;
-    Level level;
-    Color color;
+    private String id;
+    private Station station1;
+    private Station station2;
+    private int length;
+    private Level level;
+    private Color color;
 
 
     /**
@@ -143,30 +143,34 @@ public final class Route {
      * @return la liste de tous les ensembles de cartes qui pourraient être joués
      * pour s'emparer d'une route
      */
+
+    //ERREUR AVEC LA METHODE
+    //TEST NE PASSE PAS
+    //RAJOUTER DANS DES SORTED BAGS DIFF
     public List<SortedBag<Card>> possibleClaimCards() {
 
         SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
         List<SortedBag<Card>> sortedBagList = new ArrayList<>();
-        int j = length();
+        int j = length();  // j = nb de wagons
 
         //le cas de Overground
+
         if (level() == Level.OVERGROUND){
-            //ajouter le nombre de wagons en fnct de la long
             //couleur grise
             if (color() == null){
                 for (Card c : Card.CARS){
-                    sortedBagList.add(SortedBag.of(length(), c));
+                    sortedBagList.add(SortedBag.of(j, c));
                 }
             }
             else {
-                sortedBagList.add(SortedBag.of(length(), Card.of(color())));
+                sortedBagList.add(SortedBag.of(j, Card.of(color())));
             }
 
-        //le cas de underground
+        //le cas de Underground
         } else {
             for (int i = 0; i <= length(); i++){ // nb de locomotives
-                // j = nb de wagons
 
+                //couleur grise
                 if (color() == null) {
                     if(i == length() && j == 0){
                         sortedBagList.add(SortedBag.of(i, Card.LOCOMOTIVE));

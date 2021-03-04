@@ -69,6 +69,7 @@ public class RouteTest {
             routeTest.additionalClaimCardsCount(SortedBag.of(2, Card.YELLOW), SortedBag.of(3, Card.WHITE));
         });
     }
+
     @Test
     void stationIsNull(){
         assertThrows(NullPointerException.class, () -> {
