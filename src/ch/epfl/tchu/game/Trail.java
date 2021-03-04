@@ -16,7 +16,10 @@ public final class Trail {
      * @param routes
      */
     static void longest(List<Route> routes){
-        List<Route> cs = routes;
+
+        //FAUX ::::
+        List<Route> cs = List.copyOf(routes);  //il faudra faire une copie
+        List<Route> rs = List.copyOf(routes);  // à chaque fois
         //liste de tous les chemins constitués d'une seule route
 
     }

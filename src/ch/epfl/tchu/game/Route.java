@@ -147,6 +147,7 @@ public final class Route {
 
     //ERREUR AVEC LA METHODE
     //TEST NE PASSE PAS
+    //RAJOUTER DANS DES SORTED BAGS DIFF
     public List<SortedBag<Card>> possibleClaimCards() {
         SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
 
@@ -156,9 +157,12 @@ public final class Route {
             for (int i = 1; i <= length; i++){
                 //couleur grise
                 if (color == null ){
-                    for (Card c : Card.CARS){ possibleClaimCards.add(c); }
+                    for (Card c : Card.CARS){
+                        possibleClaimCards.add(c);}
                 } else {
                     possibleClaimCards.add(Card.of(color)); }
+                List.of(possibleClaimCards.build());
+                System.out.println(List.of(possibleClaimCards.build()));
             }
         //le cas de underground
         } else {
@@ -168,7 +172,9 @@ public final class Route {
                         for (Card c : Card.CARS){ possibleClaimCards.add(SortedBag.of(j, c , i, Card.LOCOMOTIVE)); }
                     } else {
                         possibleClaimCards.add(SortedBag.of(j, Card.of(color), i, Card.LOCOMOTIVE));
-                    }
+                    };
+                    List.of(possibleClaimCards.build());
+                    System.out.println(List.of(possibleClaimCards.build()));
                 }
             }
 
