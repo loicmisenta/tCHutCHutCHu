@@ -46,5 +46,6 @@ public class RouteTest {
         var routeTest = ChMap.routes().get(4);
         assertThrows(IllegalArgumentException.class, () -> {
             routeTest.additionalClaimCardsCount(SortedBag.of(2, Card.YELLOW), SortedBag.of(3, Card.WHITE));
+
     });
 }}

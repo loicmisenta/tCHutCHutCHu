@@ -193,7 +193,8 @@ public final class Route {
      * drawnCards ne contient pas exactement trois cartes
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards){
-        Preconditions.checkArgument(level().equals(Level.UNDERGROUND) || drawnCards.size()==3);
+
+        Preconditions.checkArgument(level().equals(Level.UNDERGROUND) && drawnCards.size()==3);
         int count = 0;
         for (int i = 0; i < claimCards.size(); i++) {
             if (drawnCards.get(i).equals(claimCards.get(0)) || drawnCards.get(i).equals(Card.LOCOMOTIVE)){
