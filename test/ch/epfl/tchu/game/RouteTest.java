@@ -67,6 +67,29 @@ public class RouteTest {
         var routeTest = ChMap.routes().get(4);
         assertThrows(IllegalArgumentException.class, () -> {
             routeTest.additionalClaimCardsCount(SortedBag.of(2, Card.YELLOW), SortedBag.of(3, Card.WHITE));
+        });
+    }
+    @Test
+    void stationIsNull(){
+        assertThrows(NullPointerException.class, () -> {
+            new Route("AT1_STG_1", null, new Station(0, "Baden"), 4, Route.Level.UNDERGROUND, null);
+        });
+    }
+    @Test
+    void idIsNull(){
+        assertThrows(NullPointerException.class, () -> {
+            new Route(null, new Station(4, "Brigue"), new Station(0, "Baden"), 4, Route.Level.UNDERGROUND, null);
+        });
+    }
+    @Test
+    void claimPointsCorrect(){
+        var routeTest = ChMap.routes().get(0);
+        var expectedValue = 7;
+        assertEquals(expectedValue, routeTest.claimPoints());
+    }
+    @Test
+    void additionnalClaimCardException(){
+        var routeTest = ChMap.routes().get(0);
 
-    });
-}}
+    }
+}

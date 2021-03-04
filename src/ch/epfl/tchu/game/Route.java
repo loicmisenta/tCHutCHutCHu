@@ -143,10 +143,6 @@ public final class Route {
      * @return la liste de tous les ensembles de cartes qui pourraient être joués
      * pour s'emparer d'une route
      */
-
-    //ERREUR AVEC LA METHODE
-    //TEST NE PASSE PAS
-    //RAJOUTER DANS DES SORTED BAGS DIFF
     public List<SortedBag<Card>> possibleClaimCards() {
 
         SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
@@ -154,7 +150,6 @@ public final class Route {
         int j = length();
 
         //le cas de Overground
-
         if (level() == Level.OVERGROUND){
             //ajouter le nombre de wagons en fnct de la long
             //couleur grise
@@ -189,11 +184,6 @@ public final class Route {
                 j--;
             }
         }
-        //for (int i = 0; i < sortedBagList.size(); i++) {
-        //    System.out.println(i + " -> " + sortedBagList.get(i));
-        //}
-
-        //System.out.println(List.of(sortedBagList));
         return sortedBagList;
     }
 
@@ -226,7 +216,7 @@ public final class Route {
      * en s'emparant d'une route
      */
     public int claimPoints(){
-        return Constants.ROUTE_CLAIM_POINTS.get(length()-1);
+        return Constants.ROUTE_CLAIM_POINTS.get(length());
     }
 
 
