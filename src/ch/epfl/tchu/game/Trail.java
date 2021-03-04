@@ -21,7 +21,7 @@ public final class Trail {
             this.length += r.length();
         }
     }
-    private Trail(int length, Station station1, Station station2){
+    public Trail(int length, Station station1, Station station2){
         this.length = length;
         this.station1 = station1;
         this.station2 = station2;
@@ -54,12 +54,13 @@ public final class Trail {
      * @param routes dont le joueur s'est émparé
      * @return le chemin le plus long
      */
+
+    //ERREUR RUNTIME EXCEPTION
     static Trail longest(List<Route> routes){
 
 
         //Trail cs = new Trail(routes);
         List<Route> cs = new ArrayList<>(routes);
-        List<Route> lastcs = new ArrayList<>();
         Trail longest = new Trail(0, null, null);
 
         //le cas si la route passée en paramètre est vide
@@ -96,4 +97,10 @@ public final class Trail {
 
     }
 
+
+    @Override
+    public String toString() {
+        return "Trail { " + " length = " + length + ", station1 = " + station1 +
+                ", station2 = " + station2 + " }";
+    }
 }
