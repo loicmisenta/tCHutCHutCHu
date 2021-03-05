@@ -92,11 +92,11 @@ public final class Trail {
             List<Trail> csPrime = new ArrayList<>();
 
             for (Trail c: cs) {
-                //List<Route> rs = new ArrayList<>(routes);
+                List<Route> rs = new ArrayList<>(routes);
 
-                routes.removeAll(c.routes);
+                rs.removeAll(c.routes);
 
-                for (Route r: routes) {
+                for (Route r: rs) {
                     Trail trailLong;
                         if ((r.station1().equals(c.station2()))) {
                             List<Route> routesAjouter = new ArrayList<>(c.routes);
@@ -123,8 +123,7 @@ public final class Trail {
                         }
                 }
             }
-
-                cs = csPrime;
+            cs = csPrime;
         }
         return longest;
 
@@ -139,7 +138,7 @@ public final class Trail {
         //return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
         //       ", station2 = " + station2 + " }";
 
-        String list = station1.toString() + " ";
+        String list = station1.toString() + " - ";
         Station station = station1;
         for (Route r: routes) {
             list += r.stationOpposite(station).toString() + " - ";
