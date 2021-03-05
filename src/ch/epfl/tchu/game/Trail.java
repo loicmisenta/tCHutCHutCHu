@@ -83,33 +83,44 @@ public final class Trail {
             return longest;
         }
 
-
         while(!cs.isEmpty()){
             List<Route> csPrime = new ArrayList<>();
+
             for (Route c: cs) {
                 List<Route> rs = new ArrayList<>(routes);
 
                 rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
 
                 for (Route r: rs) {
-                    if((!r.station1().equals(c.station2())) || (!r.station2().equals(c.station1()))){
+                    if((!r.station1().equals(c.station2())) && (!r.station2().equals(c.station1()))){
                         rs.remove(r);
                     } else{
-                        csPrime.addAll(List.of(c, r));
+                        if (r.station1().equals(c.station2())){
+                            csPrime.addAll(List.of(c, r));
 
-                        //crée un nouveau trail et le conserve si sa
-                        //longeur est la plus grande
-                        Trail t = new Trail(List.of(r, c));
-                        if (t.length() > longest.length()){
-                            longest = t;
+                            //crée un nouveau trail et le conserve si sa
+                            //longeur est la plus grande
+                            Trail trail1 = new Trail(List.of(c, r));
+                            if (trail1.length() > longest.length()){
+                                longest = trail1;
+
+                        } else {
+                            csPrime.addAll(List.of(r, c));
+                            //crée un nouveau trail et le conserve si sa
+                            //longeur est la plus grande
+                            Trail trail2 = new Trail(List.of(r, c));
+                                if (trail2.length() > longest.length()){
+                                    longest = trail2;
+                        }}
+
                         }
+
                     }
                 }
                 cs = csPrime;
             }
         }
         return longest;
-
 
     }
 

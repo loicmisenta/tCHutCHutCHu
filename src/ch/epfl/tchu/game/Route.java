@@ -253,4 +253,15 @@ public final class Route {
     }
 
 
+    @Override
+    public String toString() {
+        return "Route{" +
+                "id='" + id + '\'' +
+                ", station1=" + station1 +
+                ", station2=" + station2 +
+                ", length=" + length +
+                ", level=" + level +
+                ", color=" + color +
+                '}';
+    }
 }
