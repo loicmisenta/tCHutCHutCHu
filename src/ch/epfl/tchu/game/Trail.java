@@ -88,7 +88,6 @@ public final class Trail {
                 //for (Route r: rs) {
                 for (int i = 0; i < rs.size(); i++) {
                     Route r = rs.get(i);
-                    System.out.println(r.station1().equals(c.station1()));
                     if(!((r.station1().equals(c.station2())) || (r.station2().equals(c.station1())) || (r.station1().equals(c.station1()))
                             || (r.station2().equals(c.station2())))){
 
