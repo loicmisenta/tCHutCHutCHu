@@ -14,7 +14,7 @@ public class TrailTest {
     @Test
     void testlongestWithTwoRoutes(){
         var listRouteTest = List.of(ChMap.routes().get(2), ChMap.routes().get(5));
-        var expectedValue = "Trail {( length = 4 ), station1 = Baden , station2 = Zürich }";
+        var expectedValue = "Trail {( length = 4), station1 = Baden , station2 = Allemagne }";
         assertEquals(expectedValue, longest(listRouteTest).toString());
     }
 

@@ -90,10 +90,10 @@ public final class ChMap {
     private static final List<Route> ALL_ROUTES = List.of(
             new Route("AT1_STG_1", AT1, STG, 4, Level.UNDERGROUND, null),
             new Route("AT2_VAD_1", AT2, VAD, 1, Level.UNDERGROUND, Color.RED),
-            new Route("BAD_BAL_1", BAD, BAL, 3, Level.UNDERGROUND, Color.RED),
+            new Route("BAD_BAL_1", BAD, BAL, 3, Level.UNDERGROUND, Color.RED),//
             new Route("BAD_OLT_1", BAD, OLT, 2, Level.OVERGROUND, Color.VIOLET),
             new Route("BAD_ZUR_1", BAD, ZUR, 1, Level.OVERGROUND, Color.YELLOW),
-            new Route("BAL_DE1_1", BAL, DE1, 1, Level.UNDERGROUND, Color.BLUE),
+            new Route("BAL_DE1_1", BAL, DE1, 1, Level.UNDERGROUND, Color.BLUE),//
             new Route("BAL_DEL_1", BAL, DEL, 2, Level.UNDERGROUND, Color.YELLOW),
             new Route("BAL_OLT_1", BAL, OLT, 2, Level.UNDERGROUND, Color.ORANGE),
             new Route("BEL_LOC_1", BEL, LOC, 1, Level.UNDERGROUND, Color.BLACK),

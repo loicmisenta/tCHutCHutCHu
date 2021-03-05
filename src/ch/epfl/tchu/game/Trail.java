@@ -71,7 +71,7 @@ public final class Trail {
      */
 
     //ERREUR RUNTIME EXCEPTION
-    static Trail longest(List<Route> routes){
+    public static Trail longest(List<Route> routes){
 
 
         //Trail cs = new Trail(routes);
@@ -90,13 +90,14 @@ public final class Trail {
                 List<Route> rs = new ArrayList<>(routes);
 
                 rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
-
                 for (Route r: rs) {
-                    if((!r.station1().equals(c.station2())) && (!r.station2().equals(c.station1()))){
+                    if(!(r.station1().equals(c.station2())) || (r.station2().equals(c.station1()))){
                         rs.remove(r);
+
                     } else{
                         if (r.station1().equals(c.station2())){
                             csPrime.addAll(List.of(c, r));
+
 
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
@@ -115,8 +116,14 @@ public final class Trail {
 
                         }
 
+
                     }
                 }
+                for (Route r:
+                     cs) {
+                    System.out.println(r.toString());
+                }
+                System.out.println(longest.toString());
                 cs = csPrime;
             }
         }
