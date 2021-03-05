@@ -78,7 +78,7 @@ public final class Trail {
         List<Trail> cs = new ArrayList<Trail>();
         for (Route r: routes) {
             cs.add(new Trail(List.of(r)));
-            cs.add(new Trail( List.of(reverseRoute(r))));
+            cs.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));
         }
 
         Trail longest = new Trail(null, null, 0 , List.of());
@@ -97,32 +97,23 @@ public final class Trail {
                 rs.removeAll(c.routes);
 
                 for (Route r: rs) {
-                    Trail trailLong;
-                        if ((r.station1().equals(c.station2()))) {
-                            List<Route> routesAjouter = new ArrayList<>(c.routes);
-                            routesAjouter.add(r);
-                            csPrime.add(new Trail(routesAjouter));
+                    if ((r.station1().equals(c.station2()))) {
+                        List<Route> routesAjouter = new ArrayList<>(c.routes);
+                        routesAjouter.add(r);
+                        csPrime.add(new Trail(c.station1(), r.station2(), c.length()+r.length(), routesAjouter));
 
-                            //crée un nouveau trail et le conserve si sa
-                            //longeur est la plus grande
-                            trailLong = new Trail(routesAjouter);
+                    } else if ((r.station2().equals(c.station2()))) {
+                        List<Route> routesAjouter = new ArrayList<>(c.routes);
+                        routesAjouter.add(r);
+                        csPrime.add(new Trail(c.station1(), r.station1(), c.length()+r.length(), routesAjouter));
+                    }
 
-                        } else if ((r.station2().equals(c.station2()))) {
-                            List<Route> routesAjouter = new ArrayList<>(c.routes);
-                            routesAjouter.add(r);
-                            csPrime.add(new Trail(routesAjouter));
-
-                            //crée un nouveau trail et le conserve si sa
-                            //longeur est la plus grande
-                            trailLong = new Trail(routesAjouter);
-                        } else {
-                            trailLong = new Trail(null, null, 0, List.of());
-                        }
-                        if (c.length() > longest.length()) {
-                            longest = c;
-                        }
+                }
+                if (c.length() > longest.length()) {
+                    longest = c;
                 }
             }
+
             cs = csPrime;
         }
         return longest;
@@ -137,9 +128,13 @@ public final class Trail {
     public String toString() {
         //return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
         //       ", station2 = " + station2 + " }";
-
+        if (routes==null){
+            return "route vide";
+        }
         String list = station1.toString() + " - ";
         Station station = station1;
+
+
         for (Route r: routes) {
             list += r.stationOpposite(station).toString() + " - ";
             station = r.stationOpposite(station);

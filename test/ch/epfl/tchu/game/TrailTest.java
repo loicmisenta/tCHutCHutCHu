@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static ch.epfl.tchu.game.Trail.longest;
@@ -22,10 +23,10 @@ public class TrailTest {
     @Test
     void cheminLucerneFribourgAvecRoutesInutiles(){
         var listRouteTest = List.of(ChMap.routes().get(16), ChMap.routes().get(18),
-                ChMap.routes().get(65), ChMap.routes().get(19) , ChMap.routes().get(13) );
-
-        //ChMap.routes().get(41), ChMap.routes().get(42), ChMap.routes().get(46));
+                ChMap.routes().get(65), ChMap.routes().get(19) , ChMap.routes().get(13));
+                //ChMap.routes().get(41), ChMap.routes().get(42), ChMap.routes().get(46));
         var expectedValue = "Lucerne - Berne - Neuchâtel - Soleure - Berne - Fribourg (13)";
+        System.out.println(Arrays.toString(longest(listRouteTest).routes.toArray()));
         assertEquals(expectedValue, longest(listRouteTest).toString());
     }
 
