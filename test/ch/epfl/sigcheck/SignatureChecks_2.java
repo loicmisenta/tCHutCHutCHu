@@ -31,7 +31,7 @@ final class SignatureChecks_2 {
     }
 
     void checkTrail() {
-        v12 = ch.epfl.tchu.game.Trail.longest(v11);
+        //v12 = ch.epfl.tchu.game.Trail.longest(v11);
         v04 = v12.length();
         v03 = v12.station1();
         v03 = v12.station2();

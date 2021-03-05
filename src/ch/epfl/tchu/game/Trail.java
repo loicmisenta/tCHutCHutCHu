@@ -16,6 +16,7 @@ public final class Trail {
     public int length;
     public Station station1;
     public Station station2;
+    public List<Route> routes;
 
 
     //faire un constructeur ??
@@ -26,11 +27,18 @@ public final class Trail {
         for (Route r: routes) {
             this.length += r.length();
         }
+        this.routes = routes;
     }
-    private Trail(int length, Station station1, Station station2){
-        this.length = length;
+
+    private Trail(Station station1, Station station2, int length, List<Route> routes){
         this.station1 = station1;
         this.station2 = station2;
+        this.length = length;
+        this.routes = routes;
+    }
+    //private reverse
+    private static Route reverseRoute(Route route){
+        return new Route(route.id(), route.station2(), route.station1(), route.length(), route.level(), route.color());
     }
 
 
@@ -56,19 +64,24 @@ public final class Trail {
     }
 
 
+
     /**
      * Méthode calculant à partir des
      * @param routes dont le joueur s'est émparé
      * @return le chemin le plus long
      */
 
-    //ERREUR RUNTIME EXCEPTION
+
     public static Trail longest(List<Route> routes){
 
 
-        //Trail cs = new Trail(routes);
-        List<Route> cs = new ArrayList<>(routes);
-        Trail longest = new Trail(0, null, null);
+        List<Trail> cs = new ArrayList<Trail>();
+        for (Route r: routes) {
+            cs.add(new Trail(List.of(r)));
+            cs.add(new Trail( List.of(reverseRoute(r))));
+        }
+
+        Trail longest = new Trail(null, null, 0 , List.of());
 
         //le cas si la route passée en paramètre est vide
         if (routes == null ) {
@@ -76,62 +89,42 @@ public final class Trail {
         }
 
         while(!cs.isEmpty()){
-            List<Route> csPrime = new ArrayList<>();
+            List<Trail> csPrime = new ArrayList<>();
 
-            for (Route c: cs) {
-                List<Route> rs = new ArrayList<>(routes);
+            for (Trail c: cs) {
+                //List<Route> rs = new ArrayList<>(routes);
 
+                routes.removeAll(c.routes);
 
-                //rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
-                rs.remove(c);
-
-                //for (Route r: rs) {
-                for (int i = 0; i < rs.size(); i++) {
-                    Route r = rs.get(i);
-                    if(!((r.station1().equals(c.station2())) || (r.station2().equals(c.station1())) || (r.station1().equals(c.station1()))
-                            || (r.station2().equals(c.station2())))){
-                        rs.remove(r);
-
-
-                    } else{
-                        Trail trail;
-
-                        if (r.station1().equals(c.station2())){
-
-                            csPrime.addAll(List.of(c, r));
+                for (Route r: routes) {
+                    Trail trailLong;
+                        if ((r.station1().equals(c.station2()))) {
+                            List<Route> routesAjouter = new ArrayList<>(c.routes);
+                            routesAjouter.add(r);
+                            csPrime.add(new Trail(routesAjouter));
 
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
-                            trail = new Trail(List.of(c, r));
+                            trailLong = new Trail(routesAjouter);
 
-                        } else if (r.station2().equals(c.station1())){
-                            csPrime.addAll(List.of(r, c));
+                        } else if ((r.station2().equals(c.station2()))) {
+                            List<Route> routesAjouter = new ArrayList<>(c.routes);
+                            routesAjouter.add(r);
+                            csPrime.add(new Trail(routesAjouter));
 
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
-                            trail= new Trail(List.of(r, c));
-
-                        } else if(r.station1().equals(c.station1())){
-                            Route routeInverseC = new Route(c.id(), c.station2(), c.station1(), c.length(), c.level(), c.color());
-                            csPrime.addAll(List.of(routeInverseC, r));
-                            trail = new Trail(List.of(routeInverseC, r));
-
+                            trailLong = new Trail(routesAjouter);
                         } else {
-                            Route routeInverseR = new Route(r.id(), r.station2(), r.station1(), r.length(), r.level(), r.color());
-                            csPrime.addAll(List.of(c, routeInverseR));
-                            trail = new Trail(List.of(c, routeInverseR));
+                            trailLong = new Trail(null, null, 0, List.of());
                         }
-                        if (trail.length() > longest.length()){
-                            longest = trail; }
-                    }
+                        if (c.length() > longest.length()) {
+                            longest = c;
+                        }
                 }
-                //for (Route r:
-                     //cs) {
-                    //System.out.println(r.toString());
-                //}
-                //System.out.println(longest.toString());
-                cs = csPrime;
             }
+
+                cs = csPrime;
         }
         return longest;
 
@@ -143,7 +136,17 @@ public final class Trail {
      */
     @Override
     public String toString() {
-        return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
-                ", station2 = " + station2 + " }";
+        //return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
+        //       ", station2 = " + station2 + " }";
+
+        String list = station1.toString() + " ";
+        Station station = station1;
+        for (Route r: routes) {
+            list += r.stationOpposite(station).toString() + " - ";
+            station = r.stationOpposite(station);
+        }
+        return list + " (" + length() + ") ";
     }
+
+
 }
