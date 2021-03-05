@@ -81,6 +81,7 @@ public final class Trail {
             for (Route c: cs) {
                 List<Route> rs = new ArrayList<>(routes);
 
+
                 //rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
 
                 rs.remove(c);
@@ -90,11 +91,16 @@ public final class Trail {
                 //for (Route r: rs) {
                 for (int i = 0; i < rs.size(); i++) {
                     Route r = rs.get(i);
+                    System.out.println(r.station1().equals(c.station1()));
+                    if(!((r.station1().equals(c.station2())) || (r.station2().equals(c.station1())) || (r.station1().equals(c.station1()))
+                            || (r.station2().equals(c.station2())))){
 
-                    if(!(r.station1().equals(c.station2())) || (r.station2().equals(c.station1()))){
                         rs.remove(r);
 
+
                     } else{
+                        System.out.println(1);
+
                         if (r.station1().equals(c.station2())){
 
                             csPrime.addAll(List.of(c, r));
