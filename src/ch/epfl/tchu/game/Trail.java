@@ -140,7 +140,7 @@ public final class Trail {
      */
     @Override
     public String toString() {
-        return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
-                ", station2 = " + station2 + " }";
+        return "Trail {( " + " length = " + length + " ) , station1 = " + station1 +
+                " , station2 = " + station2 + " }";
     }
 }
