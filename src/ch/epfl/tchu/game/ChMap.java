@@ -88,7 +88,7 @@ public final class ChMap {
 
     // Routes
     private static final List<Route> ALL_ROUTES = List.of(
-            new Route("AT1_STG_1", AT1, STG, 4, Level.UNDERGROUND, null),
+            new Route("AT1_STG_1", AT1, STG, 4, Level.UNDERGROUND, null),//
             new Route("AT2_VAD_1", AT2, VAD, 1, Level.UNDERGROUND, Color.RED),
             new Route("BAD_BAL_1", BAD, BAL, 3, Level.UNDERGROUND, Color.RED),//
             new Route("BAD_OLT_1", BAD, OLT, 2, Level.OVERGROUND, Color.VIOLET),
@@ -169,13 +169,13 @@ public final class ChMap {
             new Route("SCZ_WAS_2", SCZ, WAS, 2, Level.UNDERGROUND, Color.YELLOW),
             new Route("SCZ_ZOU_1", SCZ, ZOU, 1, Level.OVERGROUND, Color.BLACK),
             new Route("SCZ_ZOU_2", SCZ, ZOU, 1, Level.OVERGROUND, Color.WHITE),
-            new Route("STG_VAD_1", STG, VAD, 2, Level.UNDERGROUND, Color.BLUE),
+            new Route("STG_VAD_1", STG, VAD, 2, Level.UNDERGROUND, Color.BLUE),//
             new Route("STG_WIN_1", STG, WIN, 3, Level.OVERGROUND, Color.RED),
             new Route("STG_ZUR_1", STG, ZUR, 4, Level.OVERGROUND, Color.BLACK),
             new Route("WIN_ZUR_1", WIN, ZUR, 1, Level.OVERGROUND, Color.BLUE),
             new Route("WIN_ZUR_2", WIN, ZUR, 1, Level.OVERGROUND, Color.VIOLET),
             new Route("ZOU_ZUR_1", ZOU, ZUR, 1, Level.OVERGROUND, Color.GREEN),
-            new Route("ZOU_ZUR_2", ZOU, ZUR, 1, Level.OVERGROUND, Color.RED));
+            new Route("ZOU_ZUR_2", ZOU, ZUR, 1, Level.OVERGROUND, Color.RED));//
 
     // Tickets
     private static final Ticket deToNeighbors = ticketToNeighbors(DE, 0, 5, 13, 5);

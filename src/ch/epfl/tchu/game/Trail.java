@@ -126,20 +126,22 @@ public final class Trail {
      */
     @Override
     public String toString() {
-        //return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
-        //       ", station2 = " + station2 + " }";
+
         if (routes==null){
             return "route vide";
         }
+        List<String> l = new ArrayList<>();
         String list = station1.toString() + " - ";
         Station station = station1;
 
 
         for (Route r: routes) {
-            list += r.stationOpposite(station).toString() + " - ";
+            //list += r.stationOpposite(station).toString();
+            l.add(r.stationOpposite(station).toString());
             station = r.stationOpposite(station);
         }
-        return list + " (" + length() + ") ";
+        list += String.join(" - ", l);
+        return list + " (" + length() + ")";
     }
 
 
