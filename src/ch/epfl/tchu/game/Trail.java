@@ -89,13 +89,22 @@ public final class Trail {
             for (Route c: cs) {
                 List<Route> rs = new ArrayList<>(routes);
 
-                rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
-                for (Route r: rs) {
+                //rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
+
+                rs.remove(c);
+
+
+
+                //for (Route r: rs) {
+                for (int i = 0; i < rs.size(); i++) {
+                    Route r = rs.get(i);
+
                     if(!(r.station1().equals(c.station2())) || (r.station2().equals(c.station1()))){
                         rs.remove(r);
 
                     } else{
                         if (r.station1().equals(c.station2())){
+
                             csPrime.addAll(List.of(c, r));
 
 
@@ -119,10 +128,10 @@ public final class Trail {
 
                     }
                 }
-                for (Route r:
-                     cs) {
-                    System.out.println(r.toString());
-                }
+                //for (Route r:
+                     //cs) {
+                    //System.out.println(r.toString());
+                //}
                 System.out.println(longest.toString());
                 cs = csPrime;
             }
@@ -140,7 +149,7 @@ public final class Trail {
      */
     @Override
     public String toString() {
-        return "Trail {( " + " length = " + length + " ) , station1 = " + station1 +
-                " , station2 = " + station2 + " }";
+        return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
+                ", station2 = " + station2 + " }";
     }
 }
