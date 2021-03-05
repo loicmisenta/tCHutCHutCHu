@@ -1,13 +1,12 @@
 package ch.epfl.tchu.game;
 
 /**
+ * @author loicmisenta
+ * @author lagutovaalexandra
  * Interface representant la connectivité du réseau d'un joueur
  */
 public interface StationConnectivity {
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Methode abstraite la
      * @param s1 gare 1
      * @param s2 gare 2

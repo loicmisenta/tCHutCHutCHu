@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ *
+ * @author loicmisenta
+ * @author lagutovaalexandra
+ *
  * Une classe representant les trajets
  */
 public final class Trip {
@@ -16,9 +20,6 @@ public final class Trip {
     private final int points;
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Une classe qui va contruire un trajet entre deux desinations données
      * @param from destination de départ
      * @param to destination d'arrivée
@@ -40,9 +41,6 @@ public final class Trip {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Une classe qui va contruire un trajet entre deux desinations données
      * @param from destination de départ
      * @param to destination d'arrivée
@@ -66,9 +64,6 @@ public final class Trip {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la destination de départ
      */
     public Station from() {
@@ -76,9 +71,6 @@ public final class Trip {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la destination d'arrivée
      */
     public Station to() {
@@ -86,9 +78,6 @@ public final class Trip {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return les points reliant les deux destinations
      */
     public int points() {
@@ -96,9 +85,6 @@ public final class Trip {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Cette methode @return nb de points en fonction de
      * @param connectivity
      * qu'on lui passe en paramétre

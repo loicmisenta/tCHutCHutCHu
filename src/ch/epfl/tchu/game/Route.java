@@ -7,7 +7,8 @@ import ch.epfl.tchu.SortedBag;
 import java.util.*;
 
 /**
- *
+ * @author loicmisenta
+ * @author lagutovaalexandra
  * Une classe representant une route qui va lier deux gares entre elles et ses caractéristiques
  */
 public final class Route {
@@ -20,10 +21,6 @@ public final class Route {
 
 
     /**
-     *
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Constructeur de la classe route qui aura comme paramètres:
      * @param id l'identité de la route
      * @param station1 la première gare de la route
@@ -56,9 +53,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Type énuméré qui représente les deux niveaux auquel une route
      * peut se trouver
      */
@@ -72,9 +66,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return l'identité de la route
      */
     public String id() {
@@ -82,9 +73,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la première gare de la route
      */
     public Station station1() {
@@ -92,9 +80,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la deuxième gare de la route
      */
     public Station station2() {
@@ -102,9 +87,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la longueur de la route
      */
     public int length() {
@@ -112,9 +94,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return le niveau auquel se trouve la route
      */
     public Level level() {
@@ -122,9 +101,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la couleur de la route
      */
     public Color color() {
@@ -132,9 +108,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la liste des deux gares de la route
      */
     public List<Station> stations() {
@@ -142,9 +115,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Méthode qui prend en parametre:
      * @param station la station et
      * @return son opposé
@@ -164,9 +134,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Méthode qui retourne:
      * @return la liste de tous les ensembles de cartes qui pourraient être joués
      * pour s'emparer d'une route
@@ -216,9 +183,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Méthode qui prend en paramètre:
      * @param claimCards cartes posés par le joueur
      * @param drawnCards cartes tirés de la pioche
@@ -242,9 +206,6 @@ public final class Route {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Méthode qui retourne:
      * @return le nombre de points de construction qu'un joueur obtient
      * en s'emparant d'une route
