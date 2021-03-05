@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ @author loicmisenta
+ @author lagutovaalexandra
  Cette classe représente les différents types de cartes du jeu,
  donc les huit types de cartes wagon (chacun avec une couleur associé),
  et le type de carte locomotive.
@@ -21,9 +23,6 @@ public enum Card {
 
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Constructeur de Card qui prend en compte:
      * @param color la coiuleur attribuée à un wagon
      */
@@ -38,9 +37,6 @@ public enum Card {
 
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Methode qui prend en compte:
      * @param color la couleur de la carte
      * @return le wagon qui lui est associé
@@ -52,9 +48,6 @@ public enum Card {
 
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Methode qui
      * @return la couleur
      */

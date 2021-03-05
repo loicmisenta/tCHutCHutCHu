@@ -17,6 +17,9 @@ public final class Trail {
     public Station station1;
     public Station station2;
 
+
+    //faire un constructeur ??
+
     private Trail (List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
@@ -32,9 +35,6 @@ public final class Trail {
 
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la longeur du Trail
      */
     public int length() {
@@ -42,8 +42,6 @@ public final class Trail {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
      * @return la première station
      */
     public Station station1() {
@@ -51,9 +49,6 @@ public final class Trail {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * @return la deuxième station
      */
     public Station station2() {
@@ -62,9 +57,6 @@ public final class Trail {
 
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * Méthode calculant à partir des
      * @param routes dont le joueur s'est émparé
      * @return le chemin le plus long
@@ -132,9 +124,6 @@ public final class Trail {
     }
 
     /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     *
      * La redefinition de la méthode toString
      * @return une représentation textuelle du chemin
      */
