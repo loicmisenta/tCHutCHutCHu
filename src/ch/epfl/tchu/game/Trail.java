@@ -83,10 +83,7 @@ public final class Trail {
 
 
                 //rs.removeAll(Collections.singleton(c));//PEUT ETRE IF ON SAIS PAS TROP KOI
-
                 rs.remove(c);
-
-
 
                 //for (Route r: rs) {
                 for (int i = 0; i < rs.size(); i++) {
@@ -105,32 +102,30 @@ public final class Trail {
 
                             csPrime.addAll(List.of(c, r));
 
-
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
                             Trail trail1 = new Trail(List.of(c, r));
                             if (trail1.length() > longest.length()){
-                                longest = trail1;
+                                longest = trail1; }
 
                         } else {
                             csPrime.addAll(List.of(r, c));
+
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
                             Trail trail2 = new Trail(List.of(r, c));
-                                if (trail2.length() > longest.length()){
-                                    longest = trail2;
-                        }}
+                            if (trail2.length() > longest.length()){
+                                longest = trail2;
 
+                            }
                         }
-
-
                     }
                 }
                 //for (Route r:
                      //cs) {
                     //System.out.println(r.toString());
                 //}
-                System.out.println(longest.toString());
+                //System.out.println(longest.toString());
                 cs = csPrime;
             }
         }

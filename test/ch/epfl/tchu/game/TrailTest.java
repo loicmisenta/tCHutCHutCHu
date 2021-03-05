@@ -27,7 +27,7 @@ public class TrailTest {
         var expectedValue = "Trail {( length = 13 ), station1 = Lucerne , station2 = Fribourg }";
         assertEquals(expectedValue, longest(listRouteTest));
     }
-    /**
+
 
     @Test
     void deuxRoutesMemeLongueur(){
@@ -36,7 +36,7 @@ public class TrailTest {
         var expectedValue = "";
         assertEquals(expectedValue, longest(listRouteTest));
     }
-    */
+
 
     @Test
     void longestListeVide(){
