@@ -5,6 +5,9 @@ package ch.epfl.tchu.game;
  */
 public interface StationConnectivity {
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Methode abstraite la
      * @param s1 gare 1
      * @param s2 gare 2

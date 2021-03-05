@@ -3,6 +3,8 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
+ @author loicmisenta
+ @author lagutovaalexandra
  Représente les huit couleurs utilisées dans le jeu
  pour colorer les cartes wagon et les routes.
 

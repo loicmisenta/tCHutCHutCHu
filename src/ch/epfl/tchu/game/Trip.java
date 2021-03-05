@@ -16,10 +16,16 @@ public final class Trip {
     private final int points;
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Une classe qui va contruire un trajet entre deux desinations données
      * @param from destination de départ
      * @param to destination d'arrivée
      * @param points la distance entre les deux destinations
+     *
+     * @throws NullPointerException si une des gares est nulle
+     * @throw IllegalArgumentException (avec Preconditions.checkArgument)
      */
     public Trip(Station from, Station to, int points) {
         if(from == null || to == null){
@@ -34,11 +40,17 @@ public final class Trip {
     }
 
     /**
-     *Une classe qui va contruire un trajet entre deux desinations données
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
+     * Une classe qui va contruire un trajet entre deux desinations données
      * @param from destination de départ
      * @param to destination d'arrivée
      * @param points la distance entre les deux destinations
-     * @return
+     * @return un trajet
+     *
+     * @throws IllegalArgumentException si la liste est vide ou si les points sont
+     *                                  négatifs
      */
     public static List<Trip> all(List<Station> from, List<Station> to, int points){
         if ((from.isEmpty() || to.isEmpty()) || points<=0){
@@ -54,6 +66,9 @@ public final class Trip {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * @return la destination de départ
      */
     public Station from() {
@@ -61,6 +76,9 @@ public final class Trip {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * @return la destination d'arrivée
      */
     public Station to() {
@@ -68,6 +86,8 @@ public final class Trip {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
      *
      * @return les points reliant les deux destinations
      */
@@ -76,6 +96,9 @@ public final class Trip {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Cette methode @return nb de points en fonction de
      * @param connectivity
      * qu'on lui passe en paramétre

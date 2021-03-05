@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * @author loicmisenta
+ * @author lagutovaalexandra
+ *
  * La classe représentant un chemin dans le réseau
  * fait à partir des routes qui lui sont donnés et contennant:
  * deux stations qui sont reliés par une longueur
@@ -21,13 +24,17 @@ public final class Trail {
             this.length += r.length();
         }
     }
-    public Trail(int length, Station station1, Station station2){
+    private Trail(int length, Station station1, Station station2){
         this.length = length;
         this.station1 = station1;
         this.station2 = station2;
     }
 
+
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * @return la longeur du Trail
      */
     public int length() {
@@ -35,6 +42,8 @@ public final class Trail {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
      * @return la première station
      */
     public Station station1() {
@@ -42,6 +51,9 @@ public final class Trail {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * @return la deuxième station
      */
     public Station station2() {
@@ -50,6 +62,9 @@ public final class Trail {
 
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Méthode calculant à partir des
      * @param routes dont le joueur s'est émparé
      * @return le chemin le plus long
@@ -81,6 +96,7 @@ public final class Trail {
                         rs.remove(r);
                     } else{
                         csPrime.addAll(List.of(c, r));
+
                         //crée un nouveau trail et le conserve si sa
                         //longeur est la plus grande
                         Trail t = new Trail(List.of(r, c));
@@ -97,10 +113,16 @@ public final class Trail {
 
     }
 
-
+    /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
+     * La redefinition de la méthode toString
+     * @return une représentation textuelle du chemin
+     */
     @Override
     public String toString() {
-        return "Trail { " + " length = " + length + ", station1 = " + station1 +
+        return "Trail {( " + " length = " + length + ") , station1 = " + station1 +
                 ", station2 = " + station2 + " }";
     }
 }

@@ -8,6 +8,9 @@ import java.util.TreeSet;
 
 
 /**
+ * @author loicmisenta
+ * @author lagutovaalexandra
+ *
  * Une classe represantant un ticket
  */
 public final class Ticket implements Comparable<Ticket>{
@@ -15,6 +18,9 @@ public final class Ticket implements Comparable<Ticket>{
     private final String billetText;
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Constructeur Principal du Ticket à partir  du'une liste de trajets:
      * @param trips
      */
@@ -37,6 +43,9 @@ public final class Ticket implements Comparable<Ticket>{
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Constructeur Secondaire  du ticket pour un seul trajet, qui va prendre les memes parametre qu'à la création
      * d'un trajet:
      * @param from destination de départ
@@ -49,6 +58,8 @@ public final class Ticket implements Comparable<Ticket>{
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
      *
      * @return la representation grpahique du billet
      */
@@ -57,6 +68,9 @@ public final class Ticket implements Comparable<Ticket>{
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * compile billet (avec sa liste de trajet)
      * @param trajets la liste de trajet
      * @return sous forme de texte
@@ -79,14 +93,13 @@ public final class Ticket implements Comparable<Ticket>{
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
      *
      * @param connectivity represente le fait que deux gares sont reliés ou non par
      *                     le réseau
      * @return le nombre de points que vaut le billet
      */
-
-
-    //FAUSE !!!!!!!!!!!!!!!
 
 
     public int points(StationConnectivity connectivity){
@@ -100,6 +113,9 @@ public final class Ticket implements Comparable<Ticket>{
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * compare deux tickets entre eux
      * @param that le ticket avec on veut le comparer
      * @return retourne un entier négatif  si la première vient avant la seconde dans l'ordre alphabétique,

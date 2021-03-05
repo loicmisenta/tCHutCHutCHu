@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 /**
+
  Cette classe représente les stations du jeu
  avec leur identifications unique et leur nom
  et comportant le nombre total de stations
@@ -13,7 +14,8 @@ public final class Station {
     private final int TOTALSTATIONS = 51;
 
     /**
-     *
+     * @author loicmisenta
+     * @author lagutovaalexandra
      * @param id retourne le numéro d'identification de la gare
      * @param name le nom de la gare
      */
@@ -24,6 +26,9 @@ public final class Station {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Methode qui
      * @return le numéro d'identification de la gare
      */
@@ -32,6 +37,9 @@ public final class Station {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     *
      * Methode qui
      * @return le nom de la gare
      */
@@ -40,6 +48,8 @@ public final class Station {
     }
 
     /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
      *
      * @return le nom de la gare
      */
