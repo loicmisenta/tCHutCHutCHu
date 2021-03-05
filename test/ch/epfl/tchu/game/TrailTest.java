@@ -29,6 +29,15 @@ public class TrailTest {
     }
 
     @Test
+    void deuxRoutesMemeLongueur(){
+        var listRouteTest =  List.of(ChMap.routes().get(2), ChMap.routes().get(5), ChMap.routes().get(0),
+                ChMap.routes().get(81), ChMap.routes().get(87));
+        var expectedValue = "";
+        assertEquals(expectedValue, longest(listRouteTest));
+    }
+
+
+    @Test
     void longestListeVide(){
         var listeRouteVide = new ArrayList<Route>();
         var expectedValue = 0;

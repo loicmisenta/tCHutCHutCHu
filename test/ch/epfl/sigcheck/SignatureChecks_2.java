@@ -30,13 +30,13 @@ final class SignatureChecks_2 {
         v10 = ch.epfl.tchu.game.Route.Level.values();
     }
 
-    //void checkTrail() {
-    //    v12 = ch.epfl.tchu.game.Trail.longest(v11);
-    //    v04 = v12.length();
-    //    v03 = v12.station1();
-    //    v03 = v12.station2();
-    //    v02 = v12.toString();
-    //}
+    void checkTrail() {
+        v12 = ch.epfl.tchu.game.Trail.longest(v11);
+        v04 = v12.length();
+        v03 = v12.station1();
+        v03 = v12.station2();
+        v02 = v12.toString();
+    }
 
     ch.epfl.tchu.game.Route v01;
     java.lang.String v02;

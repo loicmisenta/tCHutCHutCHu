@@ -45,6 +45,7 @@ public final class Route {
         if (id == null || station1 == null || station2 == null) {
             throw new NullPointerException("l'id, la station 1 ou la station 2 est nulle");
         }
+
         this.id = Objects.requireNonNull(id);
         this.station1 = Objects.requireNonNull(station1);
         this.station2 = Objects.requireNonNull(station2);
