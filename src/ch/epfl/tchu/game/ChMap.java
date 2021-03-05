@@ -21,8 +21,8 @@ public final class ChMap {
     }
 
     // Stations - cities
-    private static final Station BAD = new Station(0, "Baden");
-    private static final Station BAL = new Station(1, "Bâle");
+    public static final Station BAD = new Station(0, "Baden");
+    public static final Station BAL = new Station(1, "Bâle");
     private static final Station BEL = new Station(2, "Bellinzone");
     private static final Station BER = new Station(3, "Berne");
     private static final Station BRI = new Station(4, "Brigue");

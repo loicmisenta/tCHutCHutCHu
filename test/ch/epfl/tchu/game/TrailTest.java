@@ -48,16 +48,17 @@ public class TrailTest {
         assertEquals(null , longest(listeRouteVide).station2());
     }
 
-    /**
+
+
     @Test
     void longestWorksWithoutConnectedRoutes(){
         List<Route> routes = new ArrayList<>();
         routes.add(ChMap.routes().get(2));
         routes.add(ChMap.routes().get(10));
-        Trail expectedTrail = new Trail(ChMap.BAD, ChMap.BAL, List.of(routes.get(0)));
+        Trail expectedTrail = new Trail(ChMap.BAD, ChMap.BAL, routes.get(0).length(), List.of(routes.get(0)));
         assertEquals(expectedTrail.toString(), Trail.longest(routes).toString());
 
 
     }
-    **/
+
 }
