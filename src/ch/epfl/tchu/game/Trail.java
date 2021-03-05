@@ -90,12 +90,11 @@ public final class Trail {
                     Route r = rs.get(i);
                     if(!((r.station1().equals(c.station2())) || (r.station2().equals(c.station1())) || (r.station1().equals(c.station1()))
                             || (r.station2().equals(c.station2())))){
-
                         rs.remove(r);
 
 
                     } else{
-                        System.out.println(1);
+                        Trail trail;
 
                         if (r.station1().equals(c.station2())){
 
@@ -103,21 +102,27 @@ public final class Trail {
 
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
-                            Trail trail1 = new Trail(List.of(c, r));
-                            if (trail1.length() > longest.length()){
-                                longest = trail1; }
+                            trail = new Trail(List.of(c, r));
 
-                        } else {
+                        } else if (r.station2().equals(c.station1())){
                             csPrime.addAll(List.of(r, c));
 
                             //crée un nouveau trail et le conserve si sa
                             //longeur est la plus grande
-                            Trail trail2 = new Trail(List.of(r, c));
-                            if (trail2.length() > longest.length()){
-                                longest = trail2;
+                            trail= new Trail(List.of(r, c));
 
-                            }
+                        } else if(r.station1().equals(c.station1())){
+                            Route routeInverseC = new Route(c.id(), c.station2(), c.station1(), c.length(), c.level(), c.color());
+                            csPrime.addAll(List.of(routeInverseC, r));
+                            trail = new Trail(List.of(routeInverseC, r));
+
+                        } else {
+                            Route routeInverseR = new Route(r.id(), r.station2(), r.station1(), r.length(), r.level(), r.color());
+                            csPrime.addAll(List.of(c, routeInverseR));
+                            trail = new Trail(List.of(c, routeInverseR));
                         }
+                        if (trail.length() > longest.length()){
+                            longest = trail; }
                     }
                 }
                 //for (Route r:
