@@ -25,6 +25,6 @@ public final class Deck<C extends Comparable<C>>  {
      * @return
      */
     <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
-        return new Deck<C>(Collections.shuffle((cards), rng));
+        return new Deck<C>(Collections.shuffle(cards.toList(), rng));
     }
 }

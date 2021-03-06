@@ -150,8 +150,7 @@ public final class Route {
             //couleur grise
             if (color() == null){
                 for (Card c : Card.CARS){
-                    sortedBagList.add(SortedBag.of(j, c));
-                }
+                    sortedBagList.add(SortedBag.of(j, c)); }
             }
             else {
                 sortedBagList.add(SortedBag.of(j, Card.of(color())));
@@ -175,11 +174,8 @@ public final class Route {
                 } else {
                     sortedBagList.add(SortedBag.of(j, Card.of(color()), i, Card.LOCOMOTIVE));
                 }
-
                 j--;
-            }
-        }
-        return sortedBagList;
+            } } return sortedBagList;
     }
 
     /**
