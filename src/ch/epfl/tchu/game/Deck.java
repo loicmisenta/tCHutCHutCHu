@@ -12,7 +12,7 @@ import static java.util.List.copyOf;
 /**
  * @author loicmisenta
  * @author lagutovaalexandra
- * représentant un tas de cartes
+ * Représentant un tas de cartes
  */
 public final class Deck<C extends Comparable<C>>  {
 
@@ -32,6 +32,7 @@ public final class Deck<C extends Comparable<C>>  {
      * @param <C> le type des cartes du tas
      * @return
      */
+
     <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
         return new Deck<C>(Collections.shuffle(cards.toList(), rng));
     }
