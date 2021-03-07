@@ -16,19 +16,17 @@ public class DeckTest {
 
     @Test
     void carteDuHautSupprimé(){
-        Deck<Card>tas = new Deck(List.of(Card.LOCOMOTIVE, Card.YELLOW, Card.LOCOMOTIVE));
-        tas.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
+        Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
         var expectedvalue = new Deck(List.of( Card.LOCOMOTIVE, Card.GREEN));
-        assertEquals(expectedvalue.toString(), tas.withoutTopCard().toString());
+        assertEquals(expectedvalue.toString(), cardDeck.withoutTopCard().toString());
     }
 
     //
 
     @Test
     void listeDontCarteDuHautSupprimé(){
-        Deck tas = new Deck( List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN));
+        Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
         var expectedvalue = new Deck(List.of( Card.LOCOMOTIVE, Card.GREEN));
-        tas.withoutTopCard();
-        assertEquals(expectedvalue.toString(), tas.withoutTopCard().toString());
+        assertEquals(expectedvalue.toString(), cardDeck.withoutTopCard().toString());
     }
 }
