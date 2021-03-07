@@ -82,4 +82,10 @@ public final class StringsFr {
     public static String plural(int value) {
         return Math.abs(value) == 1 ? "" : "s";
     }
+
+    /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     */
+
 }

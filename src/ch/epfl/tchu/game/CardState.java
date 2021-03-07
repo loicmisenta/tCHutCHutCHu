@@ -49,7 +49,7 @@ public final class CardState extends PublicCardState{
 
     public CardState withDeckRecreatedFromDiscards(Random rng){
         Preconditions.checkArgument(deckSize() == 0);
-        List<Card> pioche = new ArrayList<>(deck.getCards().toList());
+        List<Card> pioche = new ArrayList<>(deck.getCards());
         Collections.shuffle(pioche, rng);
         return new CardState(pioche, pioche.size(), 0);
     }

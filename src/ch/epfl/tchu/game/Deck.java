@@ -18,11 +18,9 @@ import static java.util.List.copyOf;
  */
 public final class Deck<C extends Comparable<C>>  {
 
-    private final C c;
-    private SortedBag<C> cards;
+    private List<C> cards;
 
-    private Deck(C c, SortedBag<C> cards){
-        this.c  = c;
+    public Deck( List<C> cards){
         this.cards = cards;
     }
 
@@ -38,10 +36,11 @@ public final class Deck<C extends Comparable<C>>  {
     <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
         List<C> cardArray = new ArrayList<>(cards.toList());
         Collections.shuffle(cardArray, rng);
-        return new Deck<C>((C) c, SortedBag.of(cardArray));
+        return new Deck<C>( cardArray);
     }
+
     //PAS SUR MAIS VOILA KOI
-    public SortedBag<C> getCards(){
+    public List<C> getCards(){
         return cards;
     }
 
@@ -61,17 +60,23 @@ public final class Deck<C extends Comparable<C>>  {
 
     public Deck<C> withoutTopCard(){
         Preconditions.checkArgument(!isEmpty());
-        return new Deck<C>(c , SortedBag.of((cards.toList()).subList(1, size())));
+        return new Deck<C>( (cards).subList(1, size()));
     }
 
     public SortedBag<C> topCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
-        return SortedBag.of((cards.toList()).subList(1, count + 1));
+        return SortedBag.of((cards).subList(1, count + 1));
     }
 
     public Deck<C> withoutTopCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
-        return new Deck<C>(c ,SortedBag.of((cards.toList()).subList(count + 1, size())));
+        return new Deck<C>((cards).subList(count + 1, size()));
     }
 
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "cards=" + cards +
+                '}';
+    }
 }
