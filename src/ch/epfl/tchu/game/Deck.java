@@ -3,10 +3,12 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import static java.util.Collections.shuffle;
 import static java.util.List.copyOf;
 
 /**
@@ -34,10 +36,12 @@ public final class Deck<C extends Comparable<C>>  {
      */
 
     <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
-        return new Deck<C>(Collections.shuffle(cards.toList(), rng));
+        List<C> cardArray = new ArrayList<>(cards.toList());
+        Collections.shuffle(cardArray, rng);
+        return new Deck<C>((C) c, SortedBag.of(cardArray));
     }
-
-    private SortedBag<C> getCards(){
+    //PAS SUR MAIS VOILA KOI
+    public SortedBag<C> getCards(){
         return cards;
     }
 
@@ -53,6 +57,7 @@ public final class Deck<C extends Comparable<C>>  {
         Preconditions.checkArgument(!isEmpty());
         return getCards().get(0);
     }
+    //PEUT ETRE IMMUABLE LISTE
 
     public Deck<C> withoutTopCard(){
         Preconditions.checkArgument(!isEmpty());

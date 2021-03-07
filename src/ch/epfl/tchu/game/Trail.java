@@ -97,6 +97,7 @@ public final class Trail {
                 rs.removeAll(c.routes);
 
                 for (Route r: rs) {
+                    //OPTIMISER ( SI TEMPS LIBRE ;) ) PEUT ETRE AVEC STATIONOPOSITE
                     if ((r.station1().equals(c.station2()))) {
                         List<Route> routesAjouter = new ArrayList<>(c.routes);
                         routesAjouter.add(r);

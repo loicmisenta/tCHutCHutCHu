@@ -1,7 +1,9 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
+import ch.epfl.tchu.SortedBag;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -46,7 +48,13 @@ public final class CardState extends PublicCardState{
     }
 
     public CardState withDeckRecreatedFromDiscards(Random rng){
-        List<Card> piocheModifié = deck.of();
-        return new CardState();
+        Preconditions.checkArgument(deckSize() == 0);
+        List<Card> pioche = new ArrayList<>(deck.getCards().toList());
+        Collections.shuffle(pioche, rng);
+        return new CardState(pioche, pioche.size(), 0);
+    }
+    //ON EST PERDU -> PAS SUR
+    public CardState withMoreDiscardedCards(SortedBag<Card> additionalDiscards){
+        return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size());
     }
 }
