@@ -38,7 +38,7 @@ public class PublicCardStateTest {
         PublicCardState carte = new PublicCardState(List.of(Card.BLUE, Card.BLACK, Card.YELLOW, Card.GREEN, Card.VIOLET), 2, 1);
         assertThrows(IndexOutOfBoundsException.class, () -> {
            carte.faceUpCard(6);
-                });
+        });
     }
     @Test
     void PiocheVide(){

@@ -36,6 +36,7 @@ public class DeckTest {
         var expectedvalue = new Deck(List.of( Card.LOCOMOTIVE, Card.GREEN));
         assertEquals(expectedvalue.toString(), cardDeck.withoutTopCard().toString());
     }
+
     @Test
     void topCardWithEmptyList(){
         Deck cardDeck = new Deck(List.of());
@@ -75,4 +76,6 @@ public class DeckTest {
             cardDeck.withoutTopCards(3).toString();
         });
     }
+
+
 }
