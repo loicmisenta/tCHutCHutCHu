@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author loicmisenta
@@ -16,7 +17,10 @@ public class DeckTest {
 
     @Test
     void carteDuHautSupprimé(){
-        Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
+        //Attention DECK OF melange les carte
+
+        //Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN));
         var expectedvalue = new Deck(List.of( Card.LOCOMOTIVE, Card.GREEN));
         assertEquals(expectedvalue.toString(), cardDeck.withoutTopCard().toString());
     }
@@ -25,8 +29,43 @@ public class DeckTest {
 
     @Test
     void listeDontCarteDuHautSupprimé(){
-        Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
+        //Pareil elle melange les cartes
+
+        //Deck cardDeck = Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN)), new Random());
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN));
         var expectedvalue = new Deck(List.of( Card.LOCOMOTIVE, Card.GREEN));
         assertEquals(expectedvalue.toString(), cardDeck.withoutTopCard().toString());
+    }
+    @Test
+    void topCardWithEmptyList(){
+        Deck cardDeck = new Deck(List.of());
+        assertThrows(IllegalArgumentException.class, () -> {
+            cardDeck.topCard();
+        });
+    }
+    @Test
+    void withoutTopCardWithEmptyList(){
+        Deck cardDeck = new Deck(List.of());
+        assertThrows(IllegalArgumentException.class, () -> {
+            cardDeck.withoutTopCard();
+        });
+    }
+    @Test
+    void TopCardRetourneLes3PremieresCard(){
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN, Card.WHITE, Card.ORANGE));
+        var expectedvalue = SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN));
+        assertEquals(expectedvalue.toString(), cardDeck.topCards(3).toString());
+    }
+    @Test
+    void retourneTopCard(){
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN, Card.WHITE, Card.ORANGE));
+        var expectedvalue = Card.YELLOW;
+        assertEquals(expectedvalue.toString(), cardDeck.topCard().toString());
+    }
+    @Test
+    void withoutFourFirstCard(){
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE, Card.GREEN, Card.WHITE, Card.ORANGE, Card.BLACK));
+        var expectedvalue = new Deck(List.of(Card.ORANGE, Card.BLACK));
+        assertEquals(expectedvalue.toString(), cardDeck.withoutTopCards(3).toString());
     }
 }

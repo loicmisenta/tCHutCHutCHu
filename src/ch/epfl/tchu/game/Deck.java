@@ -65,7 +65,7 @@ public final class Deck<C extends Comparable<C>>  {
 
     public SortedBag<C> topCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
-        return SortedBag.of((cards).subList(1, count + 1));
+        return SortedBag.of((cards).subList(0, count));
     }
 
     public Deck<C> withoutTopCards(int count){
