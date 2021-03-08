@@ -56,31 +56,21 @@ public final class Info {
         return String.format(StringsFr.DREW_VISIBLE_CARD, playerName, cardName(card, 1));
     }
     public String claimedRoute(Route route, SortedBag<Card> cards){
+
         String nomRoute = route.station1().toString() + StringsFr.EN_DASH_SEPARATOR + route.station2().toString();
-        return String.format(StringsFr.CLAIMED_ROUTE, playerName, nomRoute, cards.toString());
+        return String.format(StringsFr.CLAIMED_ROUTE, playerName, nomRoute, cardToString(cards));
     }
     public String attemptsTunnelClaim(Route route, SortedBag<Card> initialCards){
         String nomRoute = route.station1().toString() + StringsFr.EN_DASH_SEPARATOR + route.station2().toString();
-        return String.format(StringsFr.ATTEMPTS_TUNNEL_CLAIM, playerName, nomRoute, initialCards.toString());
+        return String.format(StringsFr.ATTEMPTS_TUNNEL_CLAIM, playerName, nomRoute, cardToString(initialCards));
     }
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost){
-        String additionalString = "";
         if (additionalCost==0){
             return StringsFr.NO_ADDITIONAL_COST;
 
         }
-        else{
-            List<String> listString = new ArrayList<>();
-
-            for (int i = 0; i < drawnCards.size()-1; i++) {
-                int n = drawnCards.countOf(drawnCards.get(i));
-                listString.add(cardName(drawnCards.get(i), n));
-            }
-            additionalString += String.join(", ", listString);
-            additionalString += StringsFr.AND_SEPARATOR + cardName(drawnCards.get(drawnCards.size()-1), drawnCards.countOf(drawnCards.get(drawnCards.size()-1)));
-
-        }
-        return String.format(StringsFr.ADDITIONAL_CARDS_ARE, additionalString) + String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost));
+        return String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardToString(drawnCards)) +
+                String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost));
     }
     public String didNotClaimRoute(Route route){
         String nomRoute = route.station1().toString() + StringsFr.EN_DASH_SEPARATOR + route.station2().toString();
@@ -89,12 +79,29 @@ public final class Info {
     public String lastTurnBegins(int carCount){
         return String.format(StringsFr.LAST_TURN_BEGINS, playerName, carCount, StringsFr.plural(carCount));
     }
-    String getsLongestTrailBonus(Trail longestTrail){
+    public String getsLongestTrailBonus(Trail longestTrail){
         String longChemin = longestTrail.station1().toString() + StringsFr.EN_DASH_SEPARATOR + longestTrail.station2().toString();
         return String.format(StringsFr.GETS_BONUS, playerName, longChemin);
     }
-    String won(int points, int loserPoints){
+    public String won(int points, int loserPoints){
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
+    }
+
+    private String cardToString(SortedBag<Card> cards){
+
+        String cardsString = "";
+        List<String> listString = new ArrayList<>();
+
+        for (int i = 0; i < cards.size()-1; i++) {
+            int n = cards.countOf(cards.get(i));
+            listString.add( n + " " + cardName(cards.get(i), n));
+            i += n-1;
+        }
+
+        cardsString += String.join(", ", listString);
+        cardsString += StringsFr.AND_SEPARATOR + cards.countOf(cards.get(cards.size()-1)) + " "
+                + cardName(cards.get(cards.size()-1), cards.countOf(cards.get(cards.size()-1)));
+        return cardsString;
     }
 
 }
