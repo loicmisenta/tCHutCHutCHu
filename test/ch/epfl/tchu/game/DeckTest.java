@@ -68,4 +68,11 @@ public class DeckTest {
         var expectedvalue = new Deck(List.of(Card.ORANGE, Card.BLACK));
         assertEquals(expectedvalue.toString(), cardDeck.withoutTopCards(3).toString());
     }
+    @Test
+    void withoutTopCardsCountImpossibleCount(){
+        Deck cardDeck = new Deck(List.of(Card.YELLOW, Card.LOCOMOTIVE));
+        assertThrows(IllegalArgumentException.class, () -> {
+            cardDeck.withoutTopCards(3).toString();
+        });
+    }
 }

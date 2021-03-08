@@ -22,7 +22,7 @@ public class PublicCardState {
     }
 
     public int totalSize(){
-        return 5 + deckSize + discardsSize;
+        return 5 + deckSize() + discardsSize();
     }
 
     public List<Card> faceUpCards(){
