@@ -22,6 +22,13 @@ public class PublicCardStateTest {
     }
 
     @Test
+    void NegativeSize(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PublicCardState(List.of(Card.BLUE, Card.BLACK), 2, -5);
+        });
+    }
+
+    @Test
     void TailleTotal(){
         PublicCardState carte = new PublicCardState(List.of(Card.BLUE, Card.BLACK, Card.YELLOW, Card.GREEN, Card.VIOLET), 2, 1);
         var ExpectedValue = 8;

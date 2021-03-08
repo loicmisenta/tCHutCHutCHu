@@ -10,9 +10,9 @@ import java.util.Objects;
  * @author lagutovaalexandra
  */
 public class PublicCardState {
-    List<Card> faceUpCards;
-    int deckSize;
-    int discardsSize;
+     List<Card> faceUpCards;
+     int deckSize;
+     int discardsSize;
 
     public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize){
         Preconditions.checkArgument((faceUpCards.size() == 5) && (deckSize >= 0 ) && (discardsSize >= 0));
