@@ -70,7 +70,7 @@ public final class Deck<C extends Comparable<C>>  {
 
     public Deck<C> withoutTopCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
-        return new Deck<C>((cards).subList(count + 1, size()));
+        return new Deck<C>((cards).subList(count , size()));
     }
 
     @Override

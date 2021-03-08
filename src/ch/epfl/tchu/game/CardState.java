@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
-    Deck<Card> deck;
+    private Deck<Card> deck;
 
     private CardState(List<Card> faceUpCards, int deckSize, int discardsSize) {
         super(faceUpCards, deckSize, discardsSize);
