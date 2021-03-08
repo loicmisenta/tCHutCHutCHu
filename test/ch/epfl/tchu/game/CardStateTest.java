@@ -33,12 +33,32 @@ public class CardStateTest {
 
 
 
-    @Test
-    void deckComposéDeDiscards(){
-        var expectedValue = CardState.of(new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
-                Card.YELLOW, Card.WHITE)));
+    //@Test
+    //void deckComposéDeDiscards(){
+    //    var expectedValue = CardState.of(new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+    //            Card.YELLOW, Card.WHITE)));
+    //    CardState étatDesCartes = CardState.of(new Deck(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
+    //            Card.YELLOW, Card.ORANGE, Card.WHITE)));
+    //    assertEquals(expectedValue, étatDesCartes.withDeckRecreatedFromDiscards(new Random()));
 
-    }
+    //}
 
+    //@Test
+    //void piocheVideTopDeck(){
+    //    CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)));
+    //    assertThrows(IllegalArgumentException.class, () -> {
+    //           étatDesCartes.topDeckCard();
+    //        });
+
+    //}
+
+    //@Test
+    //void piocheVideWithoutTop(){
+    //    CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)));
+    //    assertThrows(IllegalArgumentException.class, () -> {
+    //           étatDesCartes.withoutTopDeckCard();
+    //        });
+
+    //}
 
 }
