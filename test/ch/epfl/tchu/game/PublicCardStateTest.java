@@ -27,4 +27,24 @@ public class PublicCardStateTest {
         var ExpectedValue = 8;
         assertEquals(ExpectedValue, carte.totalSize());
     }
+    @Test
+    void retourneLa2emeCarteFaceVisible(){
+        PublicCardState carte = new PublicCardState(List.of(Card.BLUE, Card.BLACK, Card.YELLOW, Card.GREEN, Card.VIOLET), 2, 1);
+        var ExpectedValue = Card.BLACK;
+        assertEquals(ExpectedValue, carte.faceUpCard(1));
+    }
+    @Test
+    void retourneLa6emeCarteFaceVisibleImpossible(){
+        PublicCardState carte = new PublicCardState(List.of(Card.BLUE, Card.BLACK, Card.YELLOW, Card.GREEN, Card.VIOLET), 2, 1);
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+           carte.faceUpCard(6);
+                });
+    }
+    @Test
+    void PiocheVide(){
+        PublicCardState carte = new PublicCardState(List.of(Card.BLUE, Card.BLACK, Card.YELLOW, Card.GREEN, Card.VIOLET), 0, 1);
+        var ExpectedValue = true;
+        assertEquals(ExpectedValue, carte.isDeckEmpty());
+    }
+
 }

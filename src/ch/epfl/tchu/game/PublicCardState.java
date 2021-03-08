@@ -43,7 +43,7 @@ public class PublicCardState {
     }
 
     public boolean isDeckEmpty(){
-        return faceUpCards().isEmpty();
+        return deckSize() == 0;
     }
 
 }
