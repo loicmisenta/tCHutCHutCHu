@@ -30,7 +30,7 @@ public final class Deck<C extends Comparable<C>>  {
      * @param cards le tas de cartes
      * @param rng générateur de nombres aléatoires
      * @param <C> le type des cartes du tas
-     * @return
+     * @return un tas de cartes mélangés
      */
 
     public static <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
@@ -39,40 +39,68 @@ public final class Deck<C extends Comparable<C>>  {
         return new Deck<C>( cardArray);
     }
 
-    //PAS SUR MAIS VOILA KOI
-    public List<C> getCards(){
+
+    private List<C> getCards(){
         return cards;
     }
 
+    /**
+     * @return la taille du tas
+     */
     public int size(){
         return getCards().size();
     }
-
+    /**
+     * @return vrai si le tas est vide
+     */
     public boolean isEmpty(){
         return getCards().isEmpty();
     }
 
+    /**
+     * @return la carte du sommet du tas
+     * @throws IllegalArgumentException (grâce à Preconditions) si vide
+     */
     public C topCard(){
         Preconditions.checkArgument(!isEmpty());
         return getCards().get(0);
     }
-    //PEUT ETRE IMMUABLE LISTE
 
+
+    /**
+     * @return un tas identique au récepteur
+     * sans la carte du sommet du tas
+     * @throws IllegalArgumentException (grâce à Preconditions) si vide
+     */
     public Deck<C> withoutTopCard(){
         Preconditions.checkArgument(!isEmpty());
         return new Deck<C>( (cards).subList(1, size()));
     }
 
+    /**
+     * @param count le nb de cartes se trouvant au sommet du tas
+     * @return un multisensemble contenant ces cartes
+     * @throws IllegalArgumentException (grâce à Preconditions) si pas compris entre
+     * 0 et la taille du tas
+     */
     public SortedBag<C> topCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
         return SortedBag.of((cards).subList(0, count));
     }
 
+    /**
+     * @param count le nb de cartes se trouvant au sommet du tas
+     * @return un tas identique au récepteur (this) mais sans ces cartes du sommet
+     * @throws IllegalArgumentException (grâce à Preconditions) si pas compris entre
+     * 0 et la taille du tas
+     */
     public Deck<C> withoutTopCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
         return new Deck<C>((cards).subList(count , size()));
     }
 
+
+    //Est-ce qu'on peut redefinir toString()??
     @Override
     public String toString() {
         return "Deck{" +
