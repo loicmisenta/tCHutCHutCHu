@@ -17,11 +17,13 @@ import java.util.Random;
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
     private Deck<Card> deck;
+    private SortedBag<Card> discards;
 
 
-    public CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck) {
+    public CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
         super(faceUpCards, deckSize, discardsSize);
         this.deck = deck;
+        this.discards = discards;
     }
 
 
@@ -29,7 +31,7 @@ public final class CardState extends PublicCardState{
     static public CardState of(Deck<Card> deck){
         Preconditions.checkArgument(deck.size() >= 5);
         //this.deck = deck;
-        return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck);
+        return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck, SortedBag.of(List.of()));
 
     }
 
@@ -38,7 +40,7 @@ public final class CardState extends PublicCardState{
         if((slot < 0) || (slot >= 5)) throw new IndexOutOfBoundsException();
         List<Card> piocheModifié = Collections.singletonList(List.copyOf(faceUpCards()).remove(slot));
         piocheModifié.add(slot, topDeckCard());
-        return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck);
+        return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck, discards.union(SortedBag.of(faceUpCards().get(slot))));
     }
 
     public Card topDeckCard(){
@@ -49,19 +51,19 @@ public final class CardState extends PublicCardState{
     public CardState withoutTopDeckCard(){
         Preconditions.checkArgument(!deck.isEmpty());
         List<Card> piocheModifié = Collections.singletonList(List.copyOf(faceUpCards()).remove(0));
-        return new CardState(piocheModifié, deckSize() -1, discardsSize(), deck);
+        return new CardState(piocheModifié, deckSize() -1, discardsSize(), deck, discards);
     }
 
     public CardState withDeckRecreatedFromDiscards(Random rng){
         Preconditions.checkArgument(deckSize() == 0);
         List<Card> pioche = new ArrayList<>(deck.getCards());
-        //comment obtenir les cartes?
         Collections.shuffle(pioche, rng);
-        return new CardState(pioche, pioche.size(), 0, deck);
+        return new CardState(pioche, pioche.size(), 0, deck, SortedBag.of());
     }
+
     //ON EST PERDU -> PAS SUR
     public CardState withMoreDiscardedCards(SortedBag<Card> additionalDiscards){
-        return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size(), deck);
+        return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size(), deck, discards.union(additionalDiscards));
     }
 
 }

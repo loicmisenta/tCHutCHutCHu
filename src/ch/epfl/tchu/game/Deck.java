@@ -40,7 +40,7 @@ public final class Deck<C extends Comparable<C>>  {
     }
 
 
-    private List<C> getCards(){
+    public List<C> getCards(){
         return cards;
     }
 
