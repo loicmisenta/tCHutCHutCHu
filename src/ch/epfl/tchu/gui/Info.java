@@ -66,10 +66,10 @@ public final class Info {
     }
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost){
         if (additionalCost==0){
-            return StringsFr.NO_ADDITIONAL_COST;
+            return String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardToString(drawnCards)) + StringsFr.NO_ADDITIONAL_COST;
 
-        }
-        return String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardToString(drawnCards)) +
+        }else
+            return String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardToString(drawnCards)) +
                 String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost));
     }
     public String didNotClaimRoute(Route route){
