@@ -31,18 +31,20 @@ public class CardStateTest {
         assertEquals(expectedValue, étatDesCartes.withDrawnFaceUpCard(2));
     }
 
-    /**
+
 
     @Test
     void deckComposéDeDiscards(){
-        var expectedValue = CardState.of(new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
-                Card.YELLOW, Card.WHITE)));
-        CardState étatDesCartes = CardState.of(new Deck(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
-                Card.YELLOW, Card.ORANGE, Card.WHITE)));
+        var expectedValue = new CardState(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW), 8, 0, new Deck<>(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.ORANGE, Card.WHITE,Card.YELLOW, Card.ORANGE)), SortedBag.of());
+        CardState étatDesCartes =  new CardState(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW), 0, 8, new Deck<>(List.of()), SortedBag.of(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.ORANGE, Card.WHITE,Card.YELLOW, Card.ORANGE)));
         assertEquals(expectedValue, étatDesCartes.withDeckRecreatedFromDiscards(new Random()));
 
     }
-
+/**
     @Test
     void piocheVideTopDeck(){
         CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)));
@@ -59,6 +61,5 @@ public class CardStateTest {
                étatDesCartes.withoutTopDeckCard();        });
 
     }
-
     **/
 }

@@ -27,10 +27,8 @@ public final class CardState extends PublicCardState{
     }
 
 
-    //PROBLEME
     static public CardState of(Deck<Card> deck){
         Preconditions.checkArgument(deck.size() >= 5);
-        //this.deck = deck;
         return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck, SortedBag.of());
 
     }
