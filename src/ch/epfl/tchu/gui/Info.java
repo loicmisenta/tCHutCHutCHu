@@ -99,6 +99,8 @@ public final class Info {
         }
 
         cardsString += String.join(", ", listString);
+
+        //ERREUR !!!!
         cardsString += StringsFr.AND_SEPARATOR + cards.countOf(cards.get(cards.size()-1)) + " "
                 + cardName(cards.get(cards.size()-1), cards.countOf(cards.get(cards.size()-1)));
         return cardsString;
