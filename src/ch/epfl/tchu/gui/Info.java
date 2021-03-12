@@ -160,20 +160,32 @@ public final class Info {
      */
     private String cardToString(SortedBag<Card> cards){
 
+        int count = 0;
         String cardsString = "";
         List<String> listString = new ArrayList<>();
+        System.out.println(cards);
 
-        for (int i = 0; i < cards.size()-1; i++) {
+
+        if (cards.size() == 1){
+            int n = cards.countOf(cards.get(0));
+            listString.add( n + " " + cardName(cards.get(0), n));
+            count += 1;
+        } else {
+        //Boucle principale, crée les cartes
+        for (int i = 0; i < cards.countOf(cards.get(cards.size()-1)) ; i++) {
             int n = cards.countOf(cards.get(i));
             listString.add( n + " " + cardName(cards.get(i), n));
             i += n-1;
-        }
+            count += n;
+        } }
 
+        System.out.println(listString);
         cardsString += String.join(", ", listString);
 
-        //ERREUR !!!!
-        cardsString += StringsFr.AND_SEPARATOR + cards.countOf(cards.get(cards.size()-1)) + " "
-                + cardName(cards.get(cards.size()-1), cards.countOf(cards.get(cards.size()-1)));
+        if ( cards.size() - count > 0) {
+            cardsString += StringsFr.AND_SEPARATOR + cards.countOf(cards.get(cards.size()-1)) + " "
+                     + cardName(cards.get(cards.size()-1), cards.countOf(cards.get(cards.size()-1)));
+        }
         return cardsString;
     }
 
