@@ -16,8 +16,8 @@ import java.util.Random;
  */
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
-    private Deck<Card> deck;
-    private SortedBag<Card> discards;
+    public Deck<Card> deck;
+    public SortedBag<Card> discards;
 
 
     public CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
@@ -25,6 +25,7 @@ public final class CardState extends PublicCardState{
         this.deck = deck;
         this.discards = discards;
     }
+
 
 
     static public CardState of(Deck<Card> deck){
@@ -36,8 +37,10 @@ public final class CardState extends PublicCardState{
     public CardState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(!deck.isEmpty());
         if((slot < 0) || (slot >= 5)) throw new IndexOutOfBoundsException();
+        System.out.println(List.copyOf(faceUpCards()));
         List<Card> piocheModifié = new ArrayList<>(List.copyOf(faceUpCards()));
         piocheModifié.remove(slot);
+
         piocheModifié.add(slot, topDeckCard());
 
         return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck.withoutTopCard(), discards.union(SortedBag.of(faceUpCards().get(slot))));
@@ -55,6 +58,7 @@ public final class CardState extends PublicCardState{
 
     public CardState withDeckRecreatedFromDiscards(Random rng){
         Preconditions.checkArgument(deckSize() == 0);
+        System.out.println(deckSize());
         Deck<Card> pioche = Deck.of(discards, rng);
         return new CardState((pioche.topCards(5)).toList(), pioche.size(), 0, pioche, SortedBag.of());
     }
@@ -71,4 +75,5 @@ public final class CardState extends PublicCardState{
                 ", discards=" + discards +
                 '}';
     }
+
 }

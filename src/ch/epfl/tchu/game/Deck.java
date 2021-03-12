@@ -18,7 +18,7 @@ import static java.util.List.copyOf;
  */
 public final class Deck<C extends Comparable<C>>  {
 
-    private List<C> cards;
+    public List<C> cards;
 
     public Deck( List<C> cards){
         this.cards = cards;
@@ -84,6 +84,7 @@ public final class Deck<C extends Comparable<C>>  {
      * 0 et la taille du tas
      */
     public SortedBag<C> topCards(int count){
+        System.out.println(count + " " + size());
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
         return SortedBag.of((cards).subList(0, count));
     }
@@ -100,11 +101,4 @@ public final class Deck<C extends Comparable<C>>  {
     }
 
 
-    //Est-ce qu'on peut redefinir toString()??
-    @Override
-    public String toString() {
-        return "Deck{" +
-                "cards=" + cards +
-                '}';
-    }
 }

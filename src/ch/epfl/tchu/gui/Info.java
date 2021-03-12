@@ -137,23 +137,44 @@ public final class Info {
             return String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardToString(drawnCards)) +
                 String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost));
     }
+
+    /**
+     * @param route
+     * @return
+     */
     public String didNotClaimRoute(Route route){
         String nomRoute = route.station1().toString() + StringsFr.EN_DASH_SEPARATOR + route.station2().toString();
         return String.format(StringsFr.DID_NOT_CLAIM_ROUTE, playerName, nomRoute);
     }
+
+    /**
+     * @param carCount
+     * @return
+     */
     public String lastTurnBegins(int carCount){
         return String.format(StringsFr.LAST_TURN_BEGINS, playerName, carCount, StringsFr.plural(carCount));
     }
+
+    /**
+     * @param longestTrail
+     * @return
+     */
     public String getsLongestTrailBonus(Trail longestTrail){
         String longChemin = longestTrail.station1().toString() + StringsFr.EN_DASH_SEPARATOR + longestTrail.station2().toString();
         return String.format(StringsFr.GETS_BONUS, playerName, longChemin);
     }
+
+    /**
+     * @param points
+     * @param loserPoints
+     * @return
+     */
     public String won(int points, int loserPoints){
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 
     /**
-     *A MODIFIER ERREUR
+     *Methode utilisée pour construire les strings
      *
      * @param cards
      * @return
@@ -163,7 +184,7 @@ public final class Info {
         int count = 0;
         String cardsString = "";
         List<String> listString = new ArrayList<>();
-
+        //Cas spécial dans lequel cards est composé d'un seul élement
         if (cards.size() == 1){
             int n = cards.countOf(cards.get(0));
             listString.add( n + " " + cardName(cards.get(0), n));
