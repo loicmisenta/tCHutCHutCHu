@@ -5,17 +5,32 @@ import ch.epfl.tchu.Preconditions;
 /**
 *@author loicmisenta
 *@author lagutovaalexandra
+ * classe qui represente une partition (aplatie) des gares
 */
 public class StationPartition implements StationConnectivity  {
     private int[] liens;
 
+    /**
+     * Constructeur de la partition
+     * @param liens tableau d'entiers contenant les liens
+     */
     private StationPartition(int[] liens){
         this.liens = liens;
     }
 
+    /**
+     * Classe imbriquée statiquement, representant un bâtisseur
+     * de partition de gare
+     */
     public static final class Builder{
         private int[] buildLiens;
 
+        /**
+         * Constructeur public
+         * @param stationCount
+         * @throw IllegalArgumentException (grâce à Preconditions)
+         * si stationCount est négatif
+         */
         public Builder(int stationCount){
             Preconditions.checkArgument(stationCount< 0);
             buildLiens = new int[stationCount];
@@ -24,6 +39,40 @@ public class StationPartition implements StationConnectivity  {
         public Builder connect(Station s1, Station s2){
             buildLiens[s1.id()] = s2.id();
             return this;
+        }
+
+        /**
+         * Méthode qui construit une partition à partir du Builder
+         * @return la partition construite
+         */
+        //PLUS FACILE???
+        public StationPartition build(){
+
+            //for (int l: buildLiens) {
+            //if(buildLiens[l] != representative(l)){
+            //    buildLiens[l] = representative(l);
+            // }
+
+            for (int i = 0; i < buildLiens.length; i++) {
+                if(buildLiens[i] != representative(i)){
+                    buildLiens[i] = representative(i);
+                }
+            }
+            return new StationPartition(buildLiens);
+        }
+
+
+        /**
+         * Méthode qui prend en paramètre
+         * @param id l'identifiant
+         * @return la valeur de son representant
+         */
+        private int representative(int id) {
+            if (buildLiens[id] == id) {
+                return id;
+            } else {
+                return representative(buildLiens[id]);
+            }
         }
 
     }
