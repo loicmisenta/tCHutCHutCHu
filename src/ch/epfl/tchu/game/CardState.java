@@ -43,7 +43,7 @@ public final class CardState extends PublicCardState{
 
         piocheModifié.add(slot, topDeckCard());
 
-        return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck.withoutTopCard(), discards.union(SortedBag.of(faceUpCards().get(slot))));
+        return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck.withoutTopCard(), discards);
     }
 
     public Card topDeckCard(){
@@ -68,12 +68,5 @@ public final class CardState extends PublicCardState{
         return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size(), deck, discards.union(additionalDiscards));
     }
 
-    @Override
-    public String toString() {
-        return "CardState{" +
-                "deck=" + deck +
-                ", discards=" + discards +
-                '}';
-    }
 
 }

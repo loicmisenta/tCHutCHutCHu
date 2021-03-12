@@ -73,7 +73,6 @@ public final class Info {
     }
 
     /**
-     *
      * @return  le message déclarant que le joueur peut jouer
      */
     public String canPlay(){
@@ -89,7 +88,7 @@ public final class Info {
     }
 
     /**
-     * @return e message déclarant que le joueur a tiré une carte du sommet de la pioche
+     * @return le message déclarant que le joueur a tiré une carte du sommet de la pioche
      */
     public String drewBlindCard(){
         return String.format(StringsFr.DREW_BLIND_CARD, playerName);
@@ -125,9 +124,9 @@ public final class Info {
     }
 
     /**
-     * @param drawnCards
-     * @param additionalCost
-     * @return
+     * @param drawnCards cartes additionnelles tirés
+     * @param additionalCost un coût additionel des cartes données
+     * @return le message déclarant que le joueur a tiré les trois cartes additionnelles données, et qu'elles impliquent un coût additionel du nombre de cartes donné
      */
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost){
         if (additionalCost==0){
@@ -139,8 +138,8 @@ public final class Info {
     }
 
     /**
-     * @param route
-     * @return
+     * @param route tunnel donné
+     * @return e message déclarant que le joueur n'a pas pu (ou voulu) s'emparer d'un tunnel
      */
     public String didNotClaimRoute(Route route){
         String nomRoute = route.station1().toString() + StringsFr.EN_DASH_SEPARATOR + route.station2().toString();
@@ -148,16 +147,18 @@ public final class Info {
     }
 
     /**
-     * @param carCount
-     * @return
+     * @param carCount nb de wagon
+     * @return un message  déclarant que le dernier tour commence et que le joueur
+     * a un nb de wagons donnés
      */
     public String lastTurnBegins(int carCount){
         return String.format(StringsFr.LAST_TURN_BEGINS, playerName, carCount, StringsFr.plural(carCount));
     }
 
     /**
-     * @param longestTrail
-     * @return
+     * @param longestTrail le chemin le plus long
+     * @return un message  déclarant que le joueur obtient le bonus de fin de partie
+     * avec le chemin le plus long
      */
     public String getsLongestTrailBonus(Trail longestTrail){
         String longChemin = longestTrail.station1().toString() + StringsFr.EN_DASH_SEPARATOR + longestTrail.station2().toString();
@@ -165,19 +166,18 @@ public final class Info {
     }
 
     /**
-     * @param points
-     * @param loserPoints
-     * @return
+     * @param points nb de points données
+     * @param loserPoints points de l'adversaire
+     * @return un message déclarant le nom du gagnant
      */
     public String won(int points, int loserPoints){
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 
     /**
-     *Methode utilisée pour construire les strings
-     *
-     * @param cards
-     * @return
+     * Methode utilisée pour construire les strings
+     * @param cards les cartes
+     * @return un string composé des cartes données
      */
     private String cardToString(SortedBag<Card> cards){
 

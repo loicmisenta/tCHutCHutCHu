@@ -73,8 +73,7 @@ public class PublicCardState {
     }
 
     /**
-     *
-     * @return vrai ssi la pioche est vide
+     * @return vrai si la pioche est vide
      */
     public boolean isDeckEmpty(){
         return deckSize() == 0;

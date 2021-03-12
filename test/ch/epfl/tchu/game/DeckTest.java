@@ -9,6 +9,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
+    /**
     @Test
     void ofDoesNotChangeOriginalSortedBag(){
         SortedBag<Card> originalSortedBag1 = SortedBag.of(2, Card.BLACK, 3, Card.GREEN);
@@ -27,7 +28,7 @@ public class DeckTest {
 
         assertEquals(expectedSortedBag, difference);
     }
-    /**
+
     @Test
     void ofShuffles(){
         SortedBag<Card> originalSortedBag1 = SortedBag.of(2, Card.BLACK, 3, Card.GREEN);
@@ -36,7 +37,7 @@ public class DeckTest {
         Deck<Card> shuffled = Deck.of(originalSortedBag1, rng);
         assertNotEquals(notShuffled.cards.toString(), shuffled.cards.toString());
     }
-     */
+
 
     @Test
     void topCardFailsWithEmptyDeck(){
@@ -70,7 +71,7 @@ public class DeckTest {
         });
     }
 
-    /**
+
 
     @Test
     void withoutTopCardReturnsRightDeck(){
@@ -80,8 +81,7 @@ public class DeckTest {
 
         assertEquals(expectedDeck.cards.toString(), originalDeck.withoutTopCard().cards.toString());
     }
-     *
-     */
+
 
     @Test
     void withoutTopCardReturnsNewDeck(){
@@ -153,7 +153,7 @@ public class DeckTest {
         });
     }
 
-    /**
+
     @Test
     void withoutTopCardsReturnsRightCards(){
         SortedBag<Card> originalSortedBag = SortedBag.of(2, Card.BLACK, 3, Card.GREEN);
@@ -162,6 +162,5 @@ public class DeckTest {
         assertEquals(expectedDeck.cards.toString(), originalDeck.withoutTopCards(2).cards.toString());
     }
     **/
-
 }
 

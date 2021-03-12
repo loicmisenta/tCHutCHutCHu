@@ -20,7 +20,7 @@ public final class Deck<C extends Comparable<C>>  {
 
     public List<C> cards;
 
-    public Deck( List<C> cards){
+    private Deck( List<C> cards){
         this.cards = cards;
     }
 
@@ -40,7 +40,7 @@ public final class Deck<C extends Comparable<C>>  {
     }
 
 
-    public List<C> getCards(){
+    private List<C> getCards(){
         return cards;
     }
 
