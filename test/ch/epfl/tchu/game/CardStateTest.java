@@ -22,6 +22,7 @@ public class CardStateTest {
         });
     }
 
+    /**
     @Test
     void carteVisibleRemplacéParCarteBleue(){
         var expectedValue = CardState.of(new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
@@ -44,10 +45,11 @@ public class CardStateTest {
         assertEquals(expectedValue, étatDesCartes.withDeckRecreatedFromDiscards(new Random()));
 
     }
-/**
+
+
     @Test
     void piocheVideTopDeck(){
-        CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)));
+        CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)), SortedBag.of());
         assertThrows(IllegalArgumentException.class, () -> {
                étatDesCartes.topDeckCard();
             });
@@ -56,7 +58,7 @@ public class CardStateTest {
 
     @Test
     void piocheVideWithoutTop(){
-        CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)));
+        CardState étatDesCartes = new CardState(List.of(),0 ,3 , new Deck<Card>(List.of(Card.YELLOW)), SortedBag.of());
         assertThrows(IllegalArgumentException.class, () -> {
                étatDesCartes.withoutTopDeckCard();        });
 
