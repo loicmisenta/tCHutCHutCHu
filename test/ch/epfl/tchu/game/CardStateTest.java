@@ -22,18 +22,18 @@ public class CardStateTest {
         });
     }
 
-    /**
+
     @Test
     void carteVisibleRemplacéParCarteBleue(){
         var expectedValue = CardState.of(new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
                 Card.YELLOW, Card.WHITE)));
         CardState étatDesCartes = CardState.of(new Deck(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
                 Card.YELLOW, Card.ORANGE, Card.WHITE)));
-        assertEquals(expectedValue, étatDesCartes.withDrawnFaceUpCard(2));
+        assertEquals(expectedValue.faceUpCards(), (étatDesCartes.withDrawnFaceUpCard(2)).faceUpCards());
     }
 
 
-
+    /**
     @Test
     void deckComposéDeDiscards(){
         var expectedValue = new CardState(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,

@@ -36,7 +36,10 @@ public final class CardState extends PublicCardState{
     public CardState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(!deck.isEmpty());
         if((slot < 0) || (slot >= 5)) throw new IndexOutOfBoundsException();
-        List<Card> piocheModifié = Collections.singletonList(List.copyOf(faceUpCards()).remove(slot));
+        System.out.println(List.copyOf(faceUpCards()));
+        List<Card> piocheModifié = new ArrayList<>(List.copyOf(faceUpCards()));
+        piocheModifié.remove(slot);
+
         piocheModifié.add(slot, topDeckCard());
         return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck, discards.union(SortedBag.of(faceUpCards().get(slot))));
     }
