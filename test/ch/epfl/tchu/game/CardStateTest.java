@@ -22,18 +22,20 @@ public class CardStateTest {
             CardState étatDesCartes = CardState.of(Deck.of(SortedBag.of(List.of(Card.YELLOW, Card.LOCOMOTIVE)), new Random()));
         });
     }
+     */
 
     @Test
     void carteVisibleRemplacéParCarteYELLOW(){
-        var expectedValue = new CardState(List.of(Card.BLACK, Card.YELLOW, Card.BLACK, Card.BLACK, Card.BLACK), 8, 0 , new Deck(List.of(Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
-                Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of(Card.BLACK));
-
-
-        CardState étatDesCartes = new CardState(List.of(Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK), 8, 0 , new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+        var expectedValue = new CardState(List.of(Card.BLACK, Card.GREEN, Card.YELLOW, Card.RED, Card.VIOLET), 8, 0 , new Deck(List.of(Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
                 Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of());
-        assertEquals(expectedValue.toString(), (étatDesCartes.withDrawnFaceUpCard(2)).toString());
+
+
+        CardState étatDesCartes = new CardState(List.of(Card.BLACK, Card.GREEN, Card.BLACK, Card.RED, Card.VIOLET), 8, 0 , new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of());
+        assertEquals(expectedValue.faceUpCards().toString(), (étatDesCartes.withDrawnFaceUpCard(2)).faceUpCards().toString());
     }
 
+    /**
     @Test
     void deckComposéDeDiscards(){
         var expectedValue = new CardState(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
