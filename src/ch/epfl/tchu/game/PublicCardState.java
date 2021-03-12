@@ -14,9 +14,9 @@ import java.util.Objects;
  *
  */
 public class PublicCardState {
-     private List<Card> faceUpCards;
-     private int deckSize;
-     private int discardsSize;
+     private final List<Card> faceUpCards;
+     private final int deckSize;
+     private final int discardsSize;
 
     /**
      * Le constructeur qui prend en paramètre
