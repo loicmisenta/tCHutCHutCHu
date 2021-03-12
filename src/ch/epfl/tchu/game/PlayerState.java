@@ -20,6 +20,7 @@ public final class PlayerState extends PublicPlayerState{
     }
     public SortedBag<Ticket> tickets(){
         return tickets;
+
     }
 
     public SortedBag<Card> cards() {
