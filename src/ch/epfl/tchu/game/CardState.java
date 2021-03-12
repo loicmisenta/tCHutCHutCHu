@@ -29,7 +29,7 @@ public final class CardState extends PublicCardState{
 
     static public CardState of(Deck<Card> deck){
         Preconditions.checkArgument(deck.size() >= 5);
-        return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck, SortedBag.of());
+        return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck.withoutTopCards(5), SortedBag.of());
 
     }
 
@@ -50,8 +50,7 @@ public final class CardState extends PublicCardState{
 
     public CardState withoutTopDeckCard(){
         Preconditions.checkArgument(!deck.isEmpty());
-        List<Card> piocheModifié = Collections.singletonList(List.copyOf(faceUpCards()).remove(0));
-        return new CardState(piocheModifié, deckSize() -1, discardsSize(), deck, discards);
+        return new CardState(faceUpCards(), deckSize() -1, discardsSize(), deck.withoutTopCard(), discards);
     }
 
     public CardState withDeckRecreatedFromDiscards(Random rng){
@@ -60,7 +59,7 @@ public final class CardState extends PublicCardState{
         return new CardState((pioche.topCards(5)).toList(), pioche.size(), 0, pioche, SortedBag.of());
     }
 
-    //ON EST PERDU -> PAS SUR
+
     public CardState withMoreDiscardedCards(SortedBag<Card> additionalDiscards){
         return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size(), deck, discards.union(additionalDiscards));
     }

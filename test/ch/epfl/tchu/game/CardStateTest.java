@@ -22,9 +22,8 @@ public class CardStateTest {
         });
     }
 
-
     @Test
-    void carteVisibleRemplacéParCarteBleue(){
+    void carteVisibleRemplacéParCarteYELLOW(){
         var expectedValue = new CardState(List.of(Card.BLACK, Card.YELLOW, Card.BLACK, Card.BLACK, Card.BLACK), 8, 0 , new Deck(List.of(Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
                 Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of(Card.BLACK));
 
@@ -33,7 +32,6 @@ public class CardStateTest {
                 Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of());
         assertEquals(expectedValue.toString(), (étatDesCartes.withDrawnFaceUpCard(2)).toString());
     }
-
 
     @Test
     void deckComposéDeDiscards(){
@@ -72,6 +70,28 @@ public class CardStateTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             étatDesCartes.withoutTopDeckCard();
+        });
+
+    }
+    @Test
+    void withMoreDiscardedCards(){
+        var expectedValue = new CardState(List.of(Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK), 8, 1 , new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of(Card.BLACK));
+
+
+        CardState étatDesCartes = new CardState(List.of(Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK, Card.BLACK), 8, 0 , new Deck(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.BLUE, Card.WHITE, Card.GREEN)), SortedBag.of());
+        assertEquals(expectedValue.toString(), étatDesCartes.withMoreDiscardedCards(SortedBag.of(Card.BLACK)).toString());
+    }
+    @Test
+    void withDeckRecreatedFromDiscardsWithNoneEmptyDeck(){
+
+        CardState étatDesCartes =  new CardState(List.of(Card.YELLOW, Card.ORANGE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW), 1, 9, new Deck<>(List.of(Card.BLACK)), SortedBag.of(List.of(Card.YELLOW, Card.BLUE, Card.LOCOMOTIVE,  Card.WHITE,
+                Card.YELLOW, Card.ORANGE, Card.WHITE,Card.YELLOW, Card.ORANGE)));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            étatDesCartes.withDeckRecreatedFromDiscards(new Random());
         });
 
     }
