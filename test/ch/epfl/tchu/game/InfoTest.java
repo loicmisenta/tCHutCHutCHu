@@ -13,9 +13,9 @@ public class InfoTest {
 
     @Test
     void cardNameReturnsCorrectString(){
-        assertEquals("2 noires", Info.cardName(Card.BLACK, 2));
-        assertEquals("1 locomotive", Info.cardName(Card.LOCOMOTIVE, 1));
-        assertEquals("0 locomotives", Info.cardName(Card.LOCOMOTIVE, 0));
+        assertEquals("noires", Info.cardName(Card.BLACK, 2));
+        assertEquals("locomotive", Info.cardName(Card.LOCOMOTIVE, 1));
+        assertEquals("locomotives", Info.cardName(Card.LOCOMOTIVE, 0));
     }
     /**
     @Test

@@ -163,8 +163,6 @@ public final class Info {
         int count = 0;
         String cardsString = "";
         List<String> listString = new ArrayList<>();
-        System.out.println(cards);
-
 
         if (cards.size() == 1){
             int n = cards.countOf(cards.get(0));
@@ -179,7 +177,6 @@ public final class Info {
             count += n;
         } }
 
-        System.out.println(listString);
         cardsString += String.join(", ", listString);
 
         if ( cards.size() - count > 0) {
