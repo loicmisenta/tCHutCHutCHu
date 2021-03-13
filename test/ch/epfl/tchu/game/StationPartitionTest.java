@@ -11,7 +11,8 @@ public class StationPartitionTest {
     @Test
     void construitCorrectement(){
         /**
-        StationPartition.Builder construit = new StationPartition.Builder(4).connect(ChMap.SCH, 6).connect(a, b). ... .build();
+        StationPartition.Builder construit = new StationPartition.Builder(4).connect(ChMap.SCH, ChMAp.).connect(a, b). ... .build();
         */
+
          }
 }
