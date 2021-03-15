@@ -45,14 +45,8 @@ public class StationPartition implements StationConnectivity  {
          * Méthode qui construit une partition à partir du Builder
          * @return la partition construite
          */
-        //PLUS FACILE???
+
         public StationPartition build(){
-
-            //for (int l: buildLiens) {
-            //if(buildLiens[l] != representative(l)){
-            //    buildLiens[l] = representative(l);
-            // }
-
             for (int i = 0; i < buildLiens.length; i++) {
                 if(buildLiens[i] != representative(i)){
                     buildLiens[i] = representative(i);

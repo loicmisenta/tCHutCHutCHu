@@ -28,9 +28,7 @@ public final class Ticket implements Comparable<Ticket>{
                 System.out.println(trips.get(0).from().toString() + "     " + trips.get(i).from().toString());;
                 allSameFrom = false;
             }
-
         }
-
         Preconditions.checkArgument(!(trips.isEmpty())|| !allSameFrom);
 
         this.trips = List.copyOf(trips);

@@ -11,8 +11,8 @@ public final class PlayerState extends PublicPlayerState{
 
     public PlayerState(SortedBag<Ticket> tickets, SortedBag<Card> cards, List<Route> routes) {
         super(tickets.size(), cards.size(), routes);
-        this.tickets = tickets;
-        this.cards = cards;
+        this.tickets = SortedBag.of(tickets);
+        this.cards = SortedBag.of(cards);
     }
     public static PlayerState initial(SortedBag<Card> initialCards){
         Preconditions.checkArgument(initialCards.size()==4);
@@ -38,13 +38,17 @@ public final class PlayerState extends PublicPlayerState{
     public PlayerState withAddedCard(Card card){
         return this.withAddedCards(SortedBag.of(card));
     }
-    //PETIT DOUTE KOI
-    //JE CROIS QUE CEST FAUX AVEC LE CONTAINS...
+
+
+    //CONTAINS ?
     public boolean canClaimRoute(Route route){
-        return route.possibleClaimCards().contains(cards()) && carCount() == route.length();
+        return route.possibleClaimCards().contains(cards()) && carCount() >= route.length();
     }
+
     public List<SortedBag<Card>> possibleClaimCards(Route route){
-        //BOUCLE BLABLABLA
+        for (SortedBag<Card> routesPossibles: route.possibleClaimCards()) {
+
+        }
         return null;
     }
 

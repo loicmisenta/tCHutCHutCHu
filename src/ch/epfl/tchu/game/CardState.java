@@ -30,7 +30,7 @@ public final class CardState extends PublicCardState{
     private CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
         super(faceUpCards, deckSize, discardsSize);
         this.deck = deck;
-        this.discards = discards;
+        this.discards = SortedBag.of(discards);
     }
 
     /**
@@ -85,8 +85,11 @@ public final class CardState extends PublicCardState{
      */
     public CardState withDeckRecreatedFromDiscards(Random rng){
         Preconditions.checkArgument(deckSize() == 0);
+
+        //creer une condition pour taille 0 de discards ?
+
         Deck<Card> pioche = Deck.of(discards, rng);
-        return new CardState((pioche.topCards(5)).toList(), pioche.size(), 0, pioche, SortedBag.of());
+        return new CardState(faceUpCards(), pioche.size(), 0, pioche, SortedBag.of());
     }
 
     /**

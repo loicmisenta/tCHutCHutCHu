@@ -30,7 +30,7 @@ public class PublicPlayerState {
         Preconditions.checkArgument(ticketCount>=0 && cardCount>=0);
         this.ticketCount = ticketCount;
         this.cardCount = cardCount;
-        this.routes = routes;
+        this.routes = List.copyOf(routes);
 
         //calcul nb de wagon
         int lengthRoute = 0;
