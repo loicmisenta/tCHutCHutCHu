@@ -174,8 +174,7 @@ public final class Route {
                 } else {
                     sortedBagList.add(SortedBag.of(j, Card.of(color()), i, Card.LOCOMOTIVE));
                 }
-                j--;
-            } } return sortedBagList;
+                j--; } } return sortedBagList;
     }
 
     /**
