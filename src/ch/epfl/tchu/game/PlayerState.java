@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class PlayerState extends PublicPlayerState{
@@ -40,16 +41,23 @@ public final class PlayerState extends PublicPlayerState{
     }
 
 
-    //CONTAINS ?
     public boolean canClaimRoute(Route route){
-        return route.possibleClaimCards().contains(cards()) && carCount() >= route.length();
+        return !possibleClaimCards(route).isEmpty() && route.length() <= carCount();
     }
 
     public List<SortedBag<Card>> possibleClaimCards(Route route){
-        for (SortedBag<Card> routesPossibles: route.possibleClaimCards()) {
-
+        List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
+        for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
+            if (cards.contains(routePossible)){
+                listeDesRoutesEmparables.add(routePossible);
+            }
         }
         return null;
+    }
+
+    public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
+
+        //si locomotive
     }
 
 }
