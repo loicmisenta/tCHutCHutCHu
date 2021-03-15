@@ -32,7 +32,7 @@ public class StationPartition implements StationConnectivity  {
          * si stationCount est négatif
          */
         public Builder(int stationCount){
-            Preconditions.checkArgument(stationCount< 0);
+            Preconditions.checkArgument(stationCount> 0);
             buildLiens = new int[stationCount];
         }
 
@@ -47,7 +47,7 @@ public class StationPartition implements StationConnectivity  {
          */
 
         public StationPartition build(){
-            for (int i = 0; i < buildLiens.length; i++) {
+            for (int i = 0; i < buildLiens.length ; i++) {
                 if(buildLiens[i] != representative(i)){
                     buildLiens[i] = representative(i);
                 }
