@@ -38,6 +38,7 @@ public class StationPartition implements StationConnectivity  {
 
         public Builder connect(Station s1, Station s2){
             buildLiens[s1.id()] = s2.id();
+            buildLiens[s2.id()] = s2.id();
             return this;
         }
 
