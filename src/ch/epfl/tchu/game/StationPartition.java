@@ -8,7 +8,8 @@ import ch.epfl.tchu.Preconditions;
  * classe qui represente une partition (aplatie) des gares
 */
 public class StationPartition implements StationConnectivity  {
-    private int[] liens;
+
+    public int[] liens;
 
     /**
      * Constructeur de la partition
@@ -17,6 +18,8 @@ public class StationPartition implements StationConnectivity  {
     private StationPartition(int[] liens){
         this.liens = liens;
     }
+
+
 
     /**
      * Classe imbriquée statiquement, representant un bâtisseur
@@ -68,6 +71,10 @@ public class StationPartition implements StationConnectivity  {
             } else {
                 return representative(buildLiens[id]);
             }
+        }
+
+        public int[] getBuildLiens(){
+            return buildLiens;
         }
 
     }
