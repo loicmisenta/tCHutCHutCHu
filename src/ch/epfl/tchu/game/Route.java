@@ -57,12 +57,7 @@ public final class Route {
      * peut se trouver
      */
     public enum Level {
-        OVERGROUND("route en surface"), UNDERGROUND("route en tunnel");
-        private final String nomFrancais;
-
-        private Level(String nomFrancais) {
-            this.nomFrancais = nomFrancais;
-        }
+        OVERGROUND, UNDERGROUND;
     }
 
     /**

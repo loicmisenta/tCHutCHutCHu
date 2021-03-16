@@ -54,7 +54,7 @@ public final class PlayerState extends PublicPlayerState{
                 listeDesRoutesEmparables.add(routePossible);
             }
         }
-        return null;
+        return listeDesRoutesEmparables;
     }
 
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
@@ -100,6 +100,17 @@ public final class PlayerState extends PublicPlayerState{
         List<Route> avecRouteEmparé = routes();
         avecRouteEmparé.add(route);
         return new PlayerState(tickets, SortedBag.of(sansCartesJoués), avecRouteEmparé);
+    }
+
+    public int ticketPoints(){
+        //StationPartition.Builder partition = new StationPartition.Builder(routes().size());
+
+        //for (Route routesPossibles: routes()) {
+
+        //}
+
+        //utiliser connected pour une instance de StationPartition ??
+        return 0;
     }
 
     @Override

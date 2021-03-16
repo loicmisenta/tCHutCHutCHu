@@ -31,24 +31,47 @@ public class StationPartitionTest {
     @Test
     void buildDeStationPartition(){
         var stations = new Station[6];
-        var station0 = new Station(0, "station 0");
         StationPartition.Builder station = new StationPartition.Builder(6);
-
         for (int i = 0; i < stations.length -1; i++) {
             stations[i] = new Station(i, "Station " + i);
             stations[i+ 1] = new Station(i + 1, "Station " + i + 1);
             station.connect(stations[i], stations[i + 1]);
         }
-
         StationPartition builtPartition = station.build();
-
         String tousLesId = "";
         for (int identifiant: builtPartition.liens) {
             tousLesId += identifiant + " ";
         }
 
+
         var expectedValue = "5 5 5 5 5 5 ";
         assertEquals(expectedValue, tousLesId);
+
+
+    }
+
+    @Test
+    void stationPartitionWithTwoDifferentRepresentatives(){
+        var lesAutresStations = new Station[9];
+        StationPartition.Builder autreStation = new StationPartition.Builder(9);
+        for (int i = 0; i < 5; i++) {
+            lesAutresStations[i] = new Station(i, "Station " + i);
+            lesAutresStations[i+ 1] = new Station(i + 1, "Station " + i + 1);
+            autreStation.connect(lesAutresStations[i], lesAutresStations[i + 1]);
+        }
+        for (int i = 6; i < lesAutresStations.length -1; i++) {
+            lesAutresStations[i] = new Station(i, "Station " + i);
+            lesAutresStations[i+ 1] = new Station(i + 1, "Station " + i + 1);
+            autreStation.connect(lesAutresStations[i], lesAutresStations[i + 1]);
+        }
+        StationPartition builtAutrePartition = autreStation.build();
+        String tousLesAutresId = "";
+        for (int identifiant: builtAutrePartition.liens) {
+            tousLesAutresId += identifiant + " ";
+        }
+
+        var expectedOtherValue = "5 5 5 5 5 5 8 8 8 ";
+        assertEquals(expectedOtherValue, tousLesAutresId);
     }
 
     @Test
