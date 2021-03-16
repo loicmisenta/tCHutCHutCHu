@@ -102,9 +102,11 @@ public final class PlayerState extends PublicPlayerState{
         return new PlayerState(tickets, SortedBag.of(sansCartesJoués), avecRouteEmparé);
     }
 
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "PlayerState{" +
+                "tickets=" + tickets.toString() +
+                ", cards=" + cards.toString() +
+                '}';
+    }
 }
