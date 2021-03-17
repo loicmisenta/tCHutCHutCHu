@@ -120,7 +120,7 @@ public final class PlayerState extends PublicPlayerState{
             point += t.points(partition);
         }
 
-        //utiliser connected pour une instance de StationPartition ??
+        //RETOURNE LES POINT NEGATIF A LA PLACE DE POSITIF ???!!!!????
         return point;
     }
 

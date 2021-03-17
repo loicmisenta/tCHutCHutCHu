@@ -49,9 +49,13 @@ class PlayerStateTest {
                         1, Route.Level.OVERGROUND, Color.GREEN), new Route("LUC_ZOU_2",
                         new Station(16, "Lucerne"), new Station(32, "Zoug"),
                         1, Route.Level.OVERGROUND, Color.YELLOW)));
-
+        PlayerState playerState3 = new PlayerState(SortedBag.of(List.of(ChMap.tickets().get(12))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
+                List.of(new Route("ZOU_ZUR_1", new Station(32, "Zoug"), new Station(33, "Zürich"),
+                        1, Route.Level.OVERGROUND, Color.GREEN), new Route("LUC_ZOU_2",
+                        new Station(16, "Lucerne"), new Station(32, "Zoug"),
+                        1, Route.Level.OVERGROUND, Color.YELLOW)));
         var ExpectedValue = 2;
-        assertEquals(ExpectedValue, playerState2.ticketPoints());
+        assertEquals(ExpectedValue, playerState3.ticketPoints());
     }
 
     @Test
