@@ -69,9 +69,7 @@ public final class PlayerState extends PublicPlayerState{
             }  //ajouter dans une liste si locomotive ou une couleur
         }
 
-        //Cartes sans les cartes joués
-        List<Card> sansCartesJoués = cards().toList();
-        sansCartesJoués.remove(initialCards);
+        SortedBag<Card> sansCartesJoués = cards().difference(initialCards);
 
         SortedBag.Builder<Card> cartesJouables = null;
         for (Card cartes : sansCartesJoués) {
@@ -83,19 +81,20 @@ public final class PlayerState extends PublicPlayerState{
 
         //ajout des subsets de taille donnée dans une liste
         List<SortedBag<Card>> possibilitésDesCartes = new ArrayList<>();
-        possibilitésDesCartes.addAll(cartesJoués.subsetsOfSize(additionalCardsCount));
 
-        //tri des cartes
-        possibilitésDesCartes.sort(
-                Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
+        if(cartesJoués.size() >= additionalCardsCount) {
+            //condition si addCC est plus grand
+            possibilitésDesCartes.addAll(cartesJoués.subsetsOfSize(additionalCardsCount));
+            //tri des cartes
+            possibilitésDesCartes.sort(
+                    Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
-        return possibilitésDesCartes;
+            return possibilitésDesCartes;
+        } else return List.of();
     }
 
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards){
-        //Est-ce que c'est correct??
-        List<Card> sansCartesJoués = cards().toList();
-        sansCartesJoués.remove(claimCards);
+        SortedBag<Card> sansCartesJoués = cards().difference(claimCards);
 
         List<Route> avecRouteEmparé = routes();
         avecRouteEmparé.add(route);
@@ -104,7 +103,6 @@ public final class PlayerState extends PublicPlayerState{
 
     public int ticketPoints(){
         //StationPartition.Builder partition = new StationPartition.Builder(routes().size());
-
         //for (Route routesPossibles: routes()) {
 
         //}

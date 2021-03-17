@@ -12,7 +12,7 @@ class PlayerStateTest {
     PlayerState playerState = new PlayerState(SortedBag.of(List.of(ChMap.tickets().get(0),
             ChMap.tickets().get(1))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
             List.of(ChMap.routes().get(0), ChMap.routes().get(1)));
-    //Route route = new Route(new Station(0, "station 1"), new Station(1, "station 2"), 2, Route.Level.OVERGROUND, Color.BLUE);
+    Route route = ChMap.routes().get(0);
 
     @Test
     void initialWith1Card() {

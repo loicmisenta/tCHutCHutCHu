@@ -25,7 +25,6 @@ public class StationPartitionTest {
         assertEquals(expectedString, station.liens[2]);
         assertEquals(expectedString, station.liens[3]);
         assertFalse(station.connected(station4, stationNotConnected));
-        //assertEquals(station.representative());
     }
 
     @Test
