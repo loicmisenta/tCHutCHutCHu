@@ -30,7 +30,7 @@ public final class Trail {
         this.routes = routes;
     }
 
-    public Trail(Station station1, Station station2, int length, List<Route> routes){
+    private Trail(Station station1, Station station2, int length, List<Route> routes){
         this.station1 = station1;
         this.station2 = station2;
         this.length = length;

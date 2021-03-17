@@ -102,13 +102,26 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     public int ticketPoints(){
-        //StationPartition.Builder partition = new StationPartition.Builder(routes().size());
-        //for (Route routesPossibles: routes()) {
-
-        //}
+        int max = 0;
+        for (Route routesPossibles: routes()) {
+            int maximumlocal = Math.max(routesPossibles.station1().id(), routesPossibles.station2().id());
+            if ( maximumlocal> max){
+                max = maximumlocal;
+            }
+        }
+        max += 1;
+        StationPartition.Builder partitionBuild = new StationPartition.Builder(max);
+        for (Route routesPossibles: routes()) {
+            partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2());
+        }
+        StationPartition partition = partitionBuild.build();
+        int point = 0;
+        for (Ticket t: tickets()) {
+            point += t.points(partition);
+        }
 
         //utiliser connected pour une instance de StationPartition ??
-        return 0;
+        return point;
     }
 
     @Override
