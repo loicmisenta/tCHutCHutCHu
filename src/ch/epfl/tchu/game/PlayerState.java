@@ -124,6 +124,10 @@ public final class PlayerState extends PublicPlayerState{
         return point;
     }
 
+    public int finalPoints(){
+        return ticketPoints() + claimPoints();
+    }
+
     @Override
     public String toString() {
         return "PlayerState{" +
