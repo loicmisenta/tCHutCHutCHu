@@ -8,6 +8,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStateTest {
+    Ticket ticket = new Ticket(
+            new Station(9, "Fribourg"),
+            new Station(16, "Lucerne"), 5);
+    Ticket autreTicket = new Ticket(
+            new Station(9, "Fribourg"),
+            new Station(16, "Lucerne"), 9);
 
     PlayerState playerState = new PlayerState(
             SortedBag.of(List.of(ChMap.tickets().get(0), ChMap.tickets().get(1))),
@@ -103,6 +109,8 @@ class PlayerStateTest {
 
     }
 
+
+
     @Test
     void possibleAdditionalCardsFails(){
         assertThrows(IllegalArgumentException.class, () -> {
@@ -114,11 +122,12 @@ class PlayerStateTest {
         assertThrows(IllegalArgumentException.class, () -> {
                 playerState.possibleAdditionalCards(2, SortedBag.of(2, Card.YELLOW, 4, Card.LOCOMOTIVE), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
         });
-        //assertThrows(IllegalArgumentException.class, () -> {
-        //    playerState.possibleAdditionalCards(2, SortedBag.of(4, Card.GREEN), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
-        //});
+        assertThrows(IllegalArgumentException.class, () -> {
+            playerState.possibleAdditionalCards(2, SortedBag.of(4, Card.GREEN), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
+        });
 
     }
+
     @Test
     void withAddedCards() {
         var expectedValue = "{5×BLUE, 2×YELLOW, 3×LOCOMOTIVE}";
@@ -139,7 +148,7 @@ class PlayerStateTest {
 
     @Test
     void possibleAdditionalCards() {
-
+        //assertEquals();
     }
 
     @Test
@@ -148,5 +157,11 @@ class PlayerStateTest {
         var expectedValue = List.of( ChMap.routes().get(0), ChMap.routes().get(1), ChMap.routes().get(2));
         assertEquals(expectedValue, otherPlayerState.routes());
 
+    }
+
+    @Test
+    void finalPoints(){
+        assertEquals(6, new PlayerState(SortedBag.of(ticket), SortedBag.of(1, Card.LOCOMOTIVE), List.of(ChMap.routes().get(1))).finalPoints());
+        assertEquals(12 , new PlayerState(SortedBag.of(autreTicket), SortedBag.of(3, Card.LOCOMOTIVE), List.of(ChMap.routes().get(2))).finalPoints()); // 9 + 3
     }
 }

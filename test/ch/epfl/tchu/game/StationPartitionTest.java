@@ -18,13 +18,16 @@ public class StationPartitionTest {
         var station4 = new Station(3, "toisième station");
         var stationNotConnected = new Station(4, "station pas connecté");
         var expectedString = 3;
-        StationPartition station = new StationPartition.Builder(4).connect(station1, station2).connect(station2, station3).connect(station3, station4).build();
+        StationPartition station = new StationPartition.Builder(4).connect(station1, station3).connect(station2, station3).connect(station3, station4).build();
 
         assertEquals(expectedString, station.liens[0]);
         assertEquals(expectedString, station.liens[1]);
         assertEquals(expectedString, station.liens[2]);
         assertEquals(expectedString, station.liens[3]);
         assertFalse(station.connected(station4, stationNotConnected));
+        assertTrue(station.connected(station1, station4));
+        assertTrue(station.connected(station1, station2));
+        assertTrue(station.connected(station3, station2));
     }
 
     @Test
