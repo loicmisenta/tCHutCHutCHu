@@ -48,6 +48,7 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     public List<SortedBag<Card>> possibleClaimCards(Route route){
+        Preconditions.checkArgument(route.length() <= cards().size());
         List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
         for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
             if (cards.contains(routePossible)){
@@ -58,8 +59,8 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
-        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && (!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
-        && (drawnCards.size() == 3));
+        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
+        && (drawnCards.size() == 3)));
 
         //La couleur de la carte supp
         Card carteDeCouleurJoué = null;
@@ -71,7 +72,7 @@ public final class PlayerState extends PublicPlayerState{
 
         SortedBag<Card> sansCartesJoués = cards().difference(initialCards);
 
-        SortedBag.Builder<Card> cartesJouables = null;
+        SortedBag.Builder<Card> cartesJouables = new SortedBag.Builder<Card>();
         for (Card cartes : sansCartesJoués) {
             if((cartes == carteDeCouleurJoué) || (cartes == Card.LOCOMOTIVE)){
                 cartesJouables.add(cartes);
@@ -96,7 +97,7 @@ public final class PlayerState extends PublicPlayerState{
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards){
         SortedBag<Card> sansCartesJoués = cards().difference(claimCards);
 
-        List<Route> avecRouteEmparé = routes();
+        List<Route> avecRouteEmparé = new ArrayList<>(routes());
         avecRouteEmparé.add(route);
         return new PlayerState(tickets, SortedBag.of(sansCartesJoués), avecRouteEmparé);
     }

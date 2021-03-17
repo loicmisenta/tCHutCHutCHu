@@ -9,10 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStateTest {
 
-    PlayerState playerState = new PlayerState(SortedBag.of(List.of(ChMap.tickets().get(0),
-            ChMap.tickets().get(1))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
+    PlayerState playerState = new PlayerState(
+            SortedBag.of(List.of(ChMap.tickets().get(0), ChMap.tickets().get(1))),
+            SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
             List.of(ChMap.routes().get(0), ChMap.routes().get(1)));
-    Route route = ChMap.routes().get(0);
+    Route route1 = new Route("BER_LUC_1",
+            new Station(3, "Berne"),
+            new Station(16, "Lucerne"), 3, Route.Level.UNDERGROUND, Color.BLUE);
+    Route route2 = new Route("BER_LUC_1",
+            new Station(3, "Berne"),
+            new Station(16, "Lucerne"), 3, Route.Level.OVERGROUND, Color.BLUE);
 
     @Test
     void initialWith1Card() {
@@ -43,46 +49,104 @@ class PlayerStateTest {
     }
     @Test
     void ticketPointsTest(){
-        PlayerState playerState2 = new PlayerState(SortedBag.of(List.of(new Ticket(new Station(16, "Lucerne"),
-                new Station(33, "Zürich"), 2))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
-                List.of(new Route("ZOU_ZUR_1", new Station(32, "Zoug"), new Station(33, "Zürich"),
-                        1, Route.Level.OVERGROUND, Color.GREEN), new Route("LUC_ZOU_2",
-                        new Station(16, "Lucerne"), new Station(32, "Zoug"),
-                        1, Route.Level.OVERGROUND, Color.YELLOW)));
-        PlayerState playerState3 = new PlayerState(SortedBag.of(List.of(ChMap.tickets().get(12))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
-                List.of(new Route("ZOU_ZUR_1", new Station(32, "Zoug"), new Station(33, "Zürich"),
-                        1, Route.Level.OVERGROUND, Color.GREEN), new Route("LUC_ZOU_2",
-                        new Station(16, "Lucerne"), new Station(32, "Zoug"),
-                        1, Route.Level.OVERGROUND, Color.YELLOW)));
+        PlayerState playerState1 = new PlayerState(SortedBag.of(List.of(
+                new Ticket(
+                        new Station(16, "Lucerne"),
+                        new Station(33, "Zürich"), 2))),
+                SortedBag.of( 2, Card.GREEN, 2, Card.YELLOW),
+                List.of(new Route("ZOU_ZUR_1",
+                        new Station(32, "Zoug"),
+                        new Station(33, "Zürich"), 1, Route.Level.OVERGROUND, Color.GREEN),
+                        new Route("LUC_ZOU_2",
+                        new Station(16, "Lucerne"),
+                        new Station(32, "Zoug"), 1, Route.Level.OVERGROUND, Color.YELLOW)));
+
+        PlayerState playerState2 = new PlayerState(SortedBag.of(List.of(
+                ChMap.tickets().get(12))),
+                SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
+                List.of(new Route("ZOU_ZUR_1",
+                        new Station(32, "Zoug"),
+                        new Station(33, "Zürich"),
+                        1, Route.Level.OVERGROUND, Color.GREEN),
+                        new Route("LUC_ZOU_2",
+                        new Station(16, "Lucerne"),
+                        new Station(32, "Zoug"), 1, Route.Level.OVERGROUND, Color.YELLOW)));
+        PlayerState playerState3 = new PlayerState(SortedBag.of(List.of(
+                ChMap.tickets().get(12),
+                new Ticket(
+                        new Station(16, "Lucerne"),
+                        new Station(33, "Zürich"), 2))),
+                SortedBag.of(2, Card.GREEN, 2, Card.YELLOW),
+                List.of(new Route("ZOU_ZUR_1",
+                                new Station(32, "Zoug"),
+                                new Station(33, "Zürich"),
+                                1, Route.Level.OVERGROUND, Color.GREEN),
+                        new Route("LUC_ZOU_2",
+                                new Station(16, "Lucerne"),
+                                new Station(32, "Zoug"), 1, Route.Level.OVERGROUND, Color.YELLOW)));
+
         var ExpectedValue = 2;
-        assertEquals(ExpectedValue, playerState3.ticketPoints());
+        var ExpectedValue2 = -7;
+        var ExpectedValue3 = -5;
+        assertEquals(ExpectedValue, playerState1.ticketPoints());
+        assertEquals(ExpectedValue2, playerState2.ticketPoints());
+        assertEquals(ExpectedValue3, playerState3.ticketPoints());
     }
 
+    @Test
+    void possibleClaimCardsFails(){
+        PlayerState oneMorePlayerState = new PlayerState(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(2, Card.LOCOMOTIVE), List.of( ChMap.routes().get(0), ChMap.routes().get(1)));
+        assertThrows(IllegalArgumentException.class, () -> {
+            oneMorePlayerState.possibleClaimCards(ChMap.routes().get(2));
+        });
+
+
+    }
+
+    @Test
+    void possibleAdditionalCardsFails(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            playerState.possibleAdditionalCards(0, SortedBag.of(2, Card.YELLOW), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            playerState.possibleAdditionalCards(2, SortedBag.of(), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+                playerState.possibleAdditionalCards(2, SortedBag.of(2, Card.YELLOW, 4, Card.LOCOMOTIVE), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
+        });
+        //assertThrows(IllegalArgumentException.class, () -> {
+        //    playerState.possibleAdditionalCards(2, SortedBag.of(4, Card.GREEN), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
+        //});
+
+    }
     @Test
     void withAddedCards() {
+        var expectedValue = "{5×BLUE, 2×YELLOW, 3×LOCOMOTIVE}";
+        assertEquals(expectedValue, playerState.withAddedCards(SortedBag.of(2, Card.YELLOW)).cards().toString());
 
     }
 
     @Test
-    void withAddedCard() {
+    void canClaimRouteAndPossibleClaim() {
+        assertTrue(playerState.canClaimRoute(route1));
+
+        var expectedValue = "[{3×BLUE}, {2×BLUE, LOCOMOTIVE}, {BLUE, 2×LOCOMOTIVE}, {3×LOCOMOTIVE}]";
+        assertEquals(expectedValue, playerState.possibleClaimCards(route1).toString());
+        var expectedValue2 = "[{3×BLUE}]";
+        assertEquals(expectedValue2, playerState.possibleClaimCards(route2).toString());
     }
 
-    @Test
-    void canClaimRoute() {
-        //assertTrue(playerState.canClaimRoute(route));
-        //var expectedValue = 2 bleu, 1 bleu et 1 wagon, 2 wagons
-        //assertEquals(expectedValue, playerState.possibleClaimCards(route));
-    }
-
-    @Test
-    void possibleClaimCards() {
-    }
 
     @Test
     void possibleAdditionalCards() {
+
     }
 
     @Test
     void withClaimedRoute() {
+        PlayerState otherPlayerState = playerState.withClaimedRoute(ChMap.routes().get(2), SortedBag.of(1, Card.LOCOMOTIVE));
+        var expectedValue = List.of( ChMap.routes().get(0), ChMap.routes().get(1), ChMap.routes().get(2));
+        assertEquals(expectedValue, otherPlayerState.routes());
+
     }
 }

@@ -183,7 +183,7 @@ public final class ChMap {
     private static final Ticket itToNeighbors = ticketToNeighbors(IT, 13, 6, 0, 11);
     private static final Ticket frToNeighbors = ticketToNeighbors(FR, 5, 14, 11, 0);
 
-    private static final List<Ticket> ALL_TICKETS = List.of(
+    public static final List<Ticket> ALL_TICKETS = List.of(
             // City-to-city tickets
             new Ticket(BAL, BER, 5),
             new Ticket(BAL, BRI, 10),
@@ -232,7 +232,7 @@ public final class ChMap {
             itToNeighbors, itToNeighbors,
             frToNeighbors, frToNeighbors);
 
-    private static Ticket ticketToNeighbors(List<Station> from, int de, int at, int it, int fr) {
+    public static Ticket ticketToNeighbors(List<Station> from, int de, int at, int it, int fr) {
         var trips = new ArrayList<Trip>();
         if (de != 0) trips.addAll(Trip.all(from, DE, de));
         if (at != 0) trips.addAll(Trip.all(from, AT, at));
