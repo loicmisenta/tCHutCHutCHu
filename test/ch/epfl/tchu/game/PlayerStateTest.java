@@ -148,7 +148,23 @@ class PlayerStateTest {
 
     @Test
     void possibleAdditionalCards() {
-        //assertEquals();
+        var expectedValue = "[{2×BLUE}, {BLUE, LOCOMOTIVE}, {2×LOCOMOTIVE}]";
+        var expectedValue2 = "";
+        assertEquals(expectedValue, playerState.possibleAdditionalCards(2, SortedBag.of(2 , Card.BLUE), SortedBag.of(2, Card.BLUE, 1, Card.GREEN)).toString());
+        assertEquals(expectedValue2, playerState.possibleAdditionalCards(3, SortedBag.of(), SortedBag.of()));
+    }
+
+    @Test
+    void possibleAdditionalPasDeCartesPossiblesAjoutables(){
+        PlayerState newPlayer = new PlayerState(SortedBag.of(autreTicket), SortedBag.of(1, Card.GREEN), List.of(route1));
+        var expectedValueForNewPlayer = "";
+        assertEquals(expectedValueForNewPlayer, newPlayer.possibleAdditionalCards(1, SortedBag.of(1, Card.LOCOMOTIVE), SortedBag.of(1, Card.YELLOW)));
+
+    }
+    @Test
+    void possibleAdditionalAvecCarteQueLeJoueurNAsPas(){
+        ///??????????????????????????????????????????????
+        //doit retourner une liste vide
     }
 
     @Test
