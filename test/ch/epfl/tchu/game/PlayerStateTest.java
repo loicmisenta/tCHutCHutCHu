@@ -161,7 +161,7 @@ class PlayerStateTest {
 
     @Test
     void finalPoints(){
-        assertEquals(6, new PlayerState(SortedBag.of(ticket), SortedBag.of(1, Card.LOCOMOTIVE), List.of(ChMap.routes().get(1))).finalPoints());
-        assertEquals(12 , new PlayerState(SortedBag.of(autreTicket), SortedBag.of(3, Card.LOCOMOTIVE), List.of(ChMap.routes().get(2))).finalPoints()); // 9 + 3
+        assertEquals(6, (new PlayerState(SortedBag.of(ticket), SortedBag.of(1, Card.LOCOMOTIVE), List.of(ChMap.routes().get(1)))).finalPoints());
+        assertEquals(12 , (new PlayerState(SortedBag.of(autreTicket), SortedBag.of(3, Card.LOCOMOTIVE), List.of(ChMap.routes().get(2)))).finalPoints());
     }
 }
