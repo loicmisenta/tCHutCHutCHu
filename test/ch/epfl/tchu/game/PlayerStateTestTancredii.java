@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerStateTestTancredii {
+class PlayerStateTest {
     Ticket ticket = new Ticket(
             new Station(9, "Fribourg"),
             new Station(16, "Lucerne"), 5);

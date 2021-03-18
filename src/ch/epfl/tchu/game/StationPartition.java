@@ -2,6 +2,8 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
+import java.util.Arrays;
+
 /**
 *@author loicmisenta
 *@author lagutovaalexandra
@@ -40,8 +42,11 @@ public class StationPartition implements StationConnectivity  {
         }
 
         public Builder connect(Station s1, Station s2){
-            buildLiens[s1.id()] = s2.id();
-            buildLiens[s2.id()] = s2.id();
+            //// connecter les repreentatives
+                //pour tout ayant s1 en represntative passe pas
+                //efface lien
+            buildLiens[representative(s1.id())] = representative(s2.id());
+                // buildLiens[s2.id()] = representative(s2.id());
             return this;
         }
 
@@ -77,6 +82,7 @@ public class StationPartition implements StationConnectivity  {
             return buildLiens;
         }
 
+
     }
 
     @Override
@@ -90,5 +96,6 @@ public class StationPartition implements StationConnectivity  {
         }
         return false;
     }
+
 
 }

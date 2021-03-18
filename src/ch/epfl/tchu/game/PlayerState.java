@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class PlayerState extends PublicPlayerState{
+
     private final SortedBag<Ticket> tickets;
     private final SortedBag<Card> cards;
 
@@ -48,7 +49,7 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     public List<SortedBag<Card>> possibleClaimCards(Route route){
-        Preconditions.checkArgument(route.length() <= cards().size());
+        Preconditions.checkArgument(route.length() <= carCount());
         List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
         for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
             if (cards.contains(routePossible)){
@@ -122,19 +123,16 @@ public final class PlayerState extends PublicPlayerState{
             point += t.points(partition);
         }
 
-        //RETOURNE LES POINT NEGATIF A LA PLACE DE POSITIF ???!!!!????
+        //RETOURNE LES POINT NEGATIF A LA PLACE DE POSITIF ???!!!!???? TODO
         return point;
     }
 
+
+    //Tickets compte faux
+    //Compte si le ticket est faux
     public int finalPoints(){
         return ticketPoints() + claimPoints();
     }
 
-    @Override
-    public String toString() {
-        return "PlayerState{" +
-                "tickets=" + tickets.toString() +
-                ", cards=" + cards.toString() +
-                '}';
-    }
+
 }
