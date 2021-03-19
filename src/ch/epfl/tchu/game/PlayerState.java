@@ -122,6 +122,7 @@ public final class PlayerState extends PublicPlayerState{
         Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
         && (drawnCards.size() == 3)));
         System.out.println(initialCards + " " + cards() );
+
         //jouer une carte n'est pas dans ses mains TODO
         if (!(cards().contains(initialCards))){
             return List.of();

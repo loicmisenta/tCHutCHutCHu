@@ -172,9 +172,11 @@ class PlayerStateTest {
 
     @Test
     void finalPoints(){
-        assertEquals(6, (new PlayerState(SortedBag.of(ticket), SortedBag.of(1, Card.LOCOMOTIVE), List.of(ChMap.routes().get(1)))).finalPoints());
-        assertEquals(12 , (new PlayerState(SortedBag.of(autreTicket), SortedBag.of(3, Card.LOCOMOTIVE), List.of(ChMap.routes().get(2)))).finalPoints());
+        assertEquals(-4, (new PlayerState(SortedBag.of(ticket), SortedBag.of(1, Card.LOCOMOTIVE), List.of(ChMap.routes().get(1)))).finalPoints());
+        assertEquals(-5 , (new PlayerState(SortedBag.of(autreTicket), SortedBag.of(3, Card.LOCOMOTIVE), List.of(ChMap.routes().get(2)))).finalPoints());
     }
+
+
     @Test
     void AdditionalCardTunnelCasLimit(){
         PlayerState playerStateCopy = new PlayerState(
@@ -183,5 +185,4 @@ class PlayerStateTest {
                 List.of(ChMap.routes().get(0), ChMap.routes().get(1)));
         assertEquals(List.of(), playerStateCopy.possibleAdditionalCards(2, SortedBag.of(3, Card.BLUE), SortedBag.of(3, Card.RED)));
     }
-
 }
