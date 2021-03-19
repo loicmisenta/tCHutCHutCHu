@@ -2,7 +2,6 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
-import java.util.Arrays;
 
 /**
 *@author loicmisenta
@@ -11,7 +10,7 @@ import java.util.Arrays;
 */
 public class StationPartition implements StationConnectivity  {
 
-    public int[] liens;
+    public int[] liens; //TODO  privé
 
     /**
      * Constructeur de la partition
@@ -31,7 +30,7 @@ public class StationPartition implements StationConnectivity  {
         private int[] buildLiens;
 
         /**
-         * Constructeur public
+         * Constructeur public du builder
          * @param stationCount
          * @throw IllegalArgumentException (grâce à Preconditions)
          * si stationCount est négatif
@@ -41,10 +40,19 @@ public class StationPartition implements StationConnectivity  {
             buildLiens = new int[stationCount];
         }
 
+        //TODO MARCHE PAS
+
+        /**
+         * Va connecter les sous-ensembles en choisisant un des deux stations
+         * comme représentant
+         * @param s1 station 1
+         * @param s2 station 2
+         * @return le bâtisseur
+         */
         public Builder connect(Station s1, Station s2){
             //// connecter les repreentatives
-                //pour tout ayant s1 en represntative passe pas
-                //efface lien
+            //pour tout ayant s1 en represntative passe pas
+            //efface lien
             buildLiens[representative(s2.id())] = representative(s1.id());
                 //buildLiens[s1.id()] = (s2.id());
                 //buildLiens[s2.id()] = (s2.id());
@@ -78,11 +86,6 @@ public class StationPartition implements StationConnectivity  {
                 return representative(buildLiens[id]);
             }
         }
-
-        public int[] getBuildLiens(){
-            return buildLiens;
-        }
-
 
     }
 

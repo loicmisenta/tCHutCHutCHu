@@ -100,6 +100,7 @@ public final class PlayerState extends PublicPlayerState{
      * pour prendre possession de @param route.
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route){
+        //Faut-il rajouter le cas quand vide ?  //TODO
         Preconditions.checkArgument(route.length() <= carCount());
         List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
         for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
@@ -187,10 +188,11 @@ public final class PlayerState extends PublicPlayerState{
         StationPartition partition = partitionBuild.build();
         int point = 0;
 
-        //devrait faire la val négative
+        //devrait faire la val négative  TODO
         for (Ticket t: tickets()) {
             point += t.points(partition);
         }
+
         //RETOURNE LES POINT NEGATIF A LA PLACE DE POSITIF ???!!!!???? TODO
         return point;
     }

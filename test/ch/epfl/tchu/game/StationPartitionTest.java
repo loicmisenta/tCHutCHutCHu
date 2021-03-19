@@ -108,6 +108,35 @@ public class StationPartitionTest {
         assertTrue(sp.connected(ChMap.stations().get(3), ChMap.stations().get(11)));
         assertFalse(sp.connected(ChMap.stations().get(32), ChMap.stations().get(17)));
     }
+    @Test
+    void testConnected() {
+
+        Station cannes = new Station(0, "Cannes");
+        Station lausanne = new Station(1, "Lausanne");
+        Station geneve = new Station(2, "Geneve");
+        Station paris = new Station(3, "Paris");
+        Station grasse = new Station(4, "Grasse");
+
+        StationPartition stationBuilderTest = new StationPartition.Builder(5).
+                connect(cannes, lausanne).
+                connect(cannes, geneve).
+                connect(grasse, lausanne).
+                connect(geneve, paris).build();
+        assertEquals(true, stationBuilderTest.connected(cannes, grasse));
+        assertEquals(true, stationBuilderTest.connected(lausanne, paris));
+        assertEquals(true, stationBuilderTest.connected(geneve, geneve));
+
+
+        StationPartition stationBuilderTest2 = new StationPartition.Builder(5).
+                connect(cannes, lausanne).
+                connect(paris, grasse).
+                connect(geneve, geneve).build();
+        assertEquals(false, stationBuilderTest2.connected(cannes, geneve));
+        assertEquals(false, stationBuilderTest2.connected(cannes, grasse));
+        assertEquals(true, stationBuilderTest2.connected(paris, grasse));
+        assertEquals(true, stationBuilderTest2.connected(geneve, geneve));
+        assertEquals(true, stationBuilderTest2.connected(cannes, lausanne));
+    }
 
 
 }
