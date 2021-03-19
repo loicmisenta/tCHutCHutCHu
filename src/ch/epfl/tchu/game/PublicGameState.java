@@ -2,6 +2,7 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class PublicGameState {
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
     private final Map<PlayerId, PublicPlayerState> playerState;
-    private final PlayerId lastPlayer;
+    private PlayerId lastPlayer = null; //NE PAS LA METTRE EN FINAL??
 
     /**
      * Constructeur public de la partie publique de l'état de partie
@@ -49,6 +50,26 @@ public class PublicGameState {
 
     public boolean canDrawCards(){
         return cardState().deckSize() + cardState().discardsSize() >= 5;
+    }
+
+    public PlayerId currentPlayerId(){
+        return currentPlayerId;
+    }
+
+    public PublicPlayerState playerState(PlayerId playerId){
+        return playerState(playerId);
+    }
+
+    public PublicPlayerState currentPlayerState(){ return playerState(currentPlayerId);}
+
+    /**
+     * @return la totalité des routes dont l'un ou l'autre des joueurs s'est emparé ??????
+     * LEQUEL ???
+     */
+    public List<Route> claimedRoutes(){return currentPlayerState().routes();}
+
+    public PlayerId lastPlayer(){
+        return lastPlayer;
     }
 
 

@@ -119,7 +119,6 @@ public final class PlayerState extends PublicPlayerState{
      * @return retourne la liste de tous les ensembles de cartes qu'il pourrait utiliser pour s'emparer d'un tunnel,
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
-        //ERREUR
         Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
         && (drawnCards.size() == 3)));
 
@@ -164,7 +163,6 @@ public final class PlayerState extends PublicPlayerState{
      */
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards){
         SortedBag<Card> sansCartesJoués = cards().difference(claimCards);
-
         List<Route> avecRouteEmparé = new ArrayList<>(routes());
         avecRouteEmparé.add(route);
         return new PlayerState(tickets, SortedBag.of(sansCartesJoués), avecRouteEmparé);
@@ -202,7 +200,6 @@ public final class PlayerState extends PublicPlayerState{
     //Compte si le ticket est faux
 
     /**
-     *
      * @return la totalité des points obtenus par le joueur à la fin de la partie.
      */
     public int finalPoints(){
