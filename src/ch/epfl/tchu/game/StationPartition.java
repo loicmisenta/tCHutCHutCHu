@@ -45,8 +45,9 @@ public class StationPartition implements StationConnectivity  {
             //// connecter les repreentatives
                 //pour tout ayant s1 en represntative passe pas
                 //efface lien
-            buildLiens[representative(s1.id())] = representative(s2.id());
-                // buildLiens[s2.id()] = representative(s2.id());
+            buildLiens[representative(s2.id())] = representative(s1.id());
+                //buildLiens[s1.id()] = (s2.id());
+                //buildLiens[s2.id()] = (s2.id());
             return this;
         }
 

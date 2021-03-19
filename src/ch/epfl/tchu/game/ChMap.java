@@ -178,10 +178,10 @@ public final class ChMap {
             new Route("ZOU_ZUR_2", ZOU, ZUR, 1, Level.OVERGROUND, Color.RED));//
 
     // Tickets
-    private static final Ticket deToNeighbors = ticketToNeighbors(DE, 0, 5, 13, 5);
-    private static final Ticket atToNeighbors = ticketToNeighbors(AT, 5, 0, 6, 14);
-    private static final Ticket itToNeighbors = ticketToNeighbors(IT, 13, 6, 0, 11);
-    private static final Ticket frToNeighbors = ticketToNeighbors(FR, 5, 14, 11, 0);
+    public static final Ticket deToNeighbors = ticketToNeighbors(DE, 0, 5, 13, 5); //TODO
+    public static final Ticket atToNeighbors = ticketToNeighbors(AT, 5, 0, 6, 14);
+    public static final Ticket itToNeighbors = ticketToNeighbors(IT, 13, 6, 0, 11);
+    public static final Ticket frToNeighbors = ticketToNeighbors(FR, 5, 14, 11, 0);
 
     public static final List<Ticket> ALL_TICKETS = List.of(
             // City-to-city tickets

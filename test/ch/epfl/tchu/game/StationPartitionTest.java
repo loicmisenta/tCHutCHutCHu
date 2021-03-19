@@ -83,5 +83,31 @@ public class StationPartitionTest {
         });
     }
 
+    // TODO
+    @Test
+    void BuilderConstructorTestFailsNegCount() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            StationPartition.Builder stb = new StationPartition.Builder(-1);
+        });
+
+        StationPartition.Builder stb = new StationPartition.Builder(0);
+    }
+
+    // TODO
+    @Test
+    void connectedTest() {
+        StationPartition.Builder stb = new StationPartition.Builder(33);
+        stb.connect(ChMap.stations().get(11), ChMap.stations().get(16));
+        stb.connect(ChMap.stations().get(3), ChMap.stations().get(11));
+        stb.connect(ChMap.stations().get(16), ChMap.stations().get(3));
+        stb.connect(ChMap.stations().get(32), ChMap.stations().get(16));
+        stb.connect(ChMap.stations().get(24), ChMap.stations().get(16));
+        stb.connect(ChMap.stations().get(32), ChMap.stations().get(24));
+        StationPartition sp = stb.build();
+
+        assertTrue(sp.connected(ChMap.stations().get(3), ChMap.stations().get(11)));
+        assertFalse(sp.connected(ChMap.stations().get(32), ChMap.stations().get(17)));
+    }
+
 
 }

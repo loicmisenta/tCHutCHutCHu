@@ -64,6 +64,8 @@ public final class PlayerState extends PublicPlayerState{
         Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
         && (drawnCards.size() == 3)));
 
+        //jouer une carte n'est pas dans ses mains
+
         //La couleur de la carte supp
         Card carteDeCouleurJoué = null;
         for (int i = 0; i < initialCards.size(); i++) {
@@ -114,11 +116,11 @@ public final class PlayerState extends PublicPlayerState{
         }
         max += 1;
         StationPartition.Builder partitionBuild = new StationPartition.Builder(max);
-        for (Route routesPossibles: routes()) {
-            partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2());
-        }
+        for (Route routesPossibles: routes()) { partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2()); }
         StationPartition partition = partitionBuild.build();
         int point = 0;
+
+        //devrait faire la val négative
         for (Ticket t: tickets()) {
             point += t.points(partition);
         }
