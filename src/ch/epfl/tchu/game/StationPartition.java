@@ -43,6 +43,7 @@ public class StationPartition implements StationConnectivity  {
             }
         }
 
+
         /**
          * Va connecter les sous-ensembles (connecte les représentatifs)
          * @param s1 station 1

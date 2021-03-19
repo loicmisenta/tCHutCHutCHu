@@ -2,6 +2,8 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.SortedBag;
 
+import java.util.EnumMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -9,7 +11,9 @@ import java.util.Random;
  * @author loicmisenta
  * @author lagutovaalexandra
  */
-public class GameState extends PublicGameState{
+public final class GameState extends PublicGameState{
+
+    int NB_CARTES_INIT = 4;
     /**
      * Constructeur privé de la partie publique de l'état de partie
      *
@@ -23,7 +27,31 @@ public class GameState extends PublicGameState{
         super(ticketsCount, cardState, currentPlayerId, playerState, lastPlayer);
     }
 
-    //public static GameState initial(SortedBag<Ticket> tickets, Random rng){
-    //    return this;
-    //}
+    public static GameState initial(SortedBag<Ticket> tickets, Random rng){
+        Deck piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
+
+        Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
+        PlayerId firstPlayer = PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT));
+        System.out.println(PlayerId.class.toString());
+
+
+        //comment faire autrement ?
+        for (Map.Entry<PlayerId, PlayerState> element: map.entrySet()) {
+            map.put(element.getKey(), PlayerState.initial(piocheInitiale.topCards(4)));
+            piocheInitiale = piocheInitiale.withoutTopCards(4);
+        }
+
+        Map<PlayerId, PublicPlayerState> mapPublique = Map.copyOf(map);
+        Deck billets = Deck.of(tickets, rng);
+
+        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, mapPublique, null);
+    }
+
+    @Override
+    public PlayerState playerState(PlayerId playerId){
+        return playerState(playerId);
+    }
+
+
+
 }

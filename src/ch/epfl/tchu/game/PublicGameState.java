@@ -58,7 +58,7 @@ public class PublicGameState {
     }
 
     public PublicPlayerState playerState(PlayerId playerId){
-        return playerState(playerId);
+        return playerState.get(playerId);
     }
 
     public PublicPlayerState currentPlayerState(){ return playerState(currentPlayerId);}
