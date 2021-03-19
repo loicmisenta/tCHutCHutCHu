@@ -18,9 +18,6 @@ public final class Trail {
     public Station station2;
     public List<Route> routes;
 
-
-    //faire un constructeur ??
-
     private Trail (List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
