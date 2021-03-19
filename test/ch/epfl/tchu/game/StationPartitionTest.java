@@ -90,7 +90,7 @@ public class StationPartitionTest {
             StationPartition.Builder stb = new StationPartition.Builder(-1);
         });
 
-        StationPartition.Builder stb = new StationPartition.Builder(0);
+        //StationPartition.Builder stb = new StationPartition.Builder(0);
     }
 
     // TODO

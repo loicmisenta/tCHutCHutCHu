@@ -101,12 +101,10 @@ class PlayerStateTest {
 
     @Test
     void possibleClaimCardsFails(){
-        PlayerState oneMorePlayerState = new PlayerState(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(2, Card.LOCOMOTIVE), List.of( ChMap.routes().get(0), ChMap.routes().get(1)));
+        PlayerState oneMorePlayerState = new PlayerState(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(2, Card.LOCOMOTIVE), List.of( ChMap.routes().get(0), ChMap.routes().get(1), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0), ChMap.routes().get(0)));
         assertThrows(IllegalArgumentException.class, () -> {
             oneMorePlayerState.possibleClaimCards(ChMap.routes().get(2));
         });
-
-
     }
 
 
@@ -118,12 +116,6 @@ class PlayerStateTest {
         });
         assertThrows(IllegalArgumentException.class, () -> {
             playerState.possibleAdditionalCards(2, SortedBag.of(), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-                playerState.possibleAdditionalCards(2, SortedBag.of(2, Card.YELLOW, 4, Card.LOCOMOTIVE), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            playerState.possibleAdditionalCards(2, SortedBag.of(4, Card.GREEN), SortedBag.of(2, Card.BLUE, 1, Card.LOCOMOTIVE));
         });
 
     }
@@ -157,16 +149,16 @@ class PlayerStateTest {
     @Test
     void possibleAdditionalPasDeCartesPossiblesAjoutables(){
         PlayerState newPlayer = new PlayerState(SortedBag.of(autreTicket), SortedBag.of(1, Card.GREEN), List.of(route1));
-        var expectedValueForNewPlayer = "";
-        assertEquals(expectedValueForNewPlayer, newPlayer.possibleAdditionalCards(1, SortedBag.of(1, Card.LOCOMOTIVE), SortedBag.of(1, Card.YELLOW)));
+        var expectedValueForNewPlayer = "[]";
+        assertEquals(expectedValueForNewPlayer, newPlayer.possibleAdditionalCards(1, SortedBag.of(1, Card.LOCOMOTIVE), SortedBag.of(3, Card.YELLOW)).toString());
 
     }
 
     @Test
     void possibleAdditionalAvecCarteQueLeJoueurNAPas(){
         //doit retourner une liste vide
-        var expectedValue = " ";
-        assertEquals(expectedValue, playerState.possibleAdditionalCards(1, SortedBag.of(1, Card.GREEN), SortedBag.of(1, Card.LOCOMOTIVE)));
+        var expectedValue = "[]";
+        assertEquals(expectedValue, playerState.possibleAdditionalCards(1, SortedBag.of(1, Card.GREEN), SortedBag.of(3, Card.LOCOMOTIVE)).toString());
 
     }
 
@@ -191,4 +183,5 @@ class PlayerStateTest {
                 List.of(ChMap.routes().get(0), ChMap.routes().get(1)));
         assertEquals(List.of(), playerStateCopy.possibleAdditionalCards(2, SortedBag.of(3, Card.BLUE), SortedBag.of(3, Card.RED)));
     }
+
 }

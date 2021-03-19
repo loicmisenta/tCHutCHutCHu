@@ -100,7 +100,7 @@ public final class PlayerState extends PublicPlayerState{
      * pour prendre possession de @param route.
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route){
-        //Faut-il rajouter le cas quand vide ?  //TODO
+        System.out.println(carCount());
         Preconditions.checkArgument(route.length() <= carCount());
         List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
         for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
@@ -121,8 +121,11 @@ public final class PlayerState extends PublicPlayerState{
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
         Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
         && (drawnCards.size() == 3)));
-
-        //jouer une carte n'est pas dans ses mains
+        System.out.println(initialCards + " " + cards() );
+        //jouer une carte n'est pas dans ses mains TODO
+        if (!(cards().contains(initialCards))){
+            return List.of();
+        }
 
         //La couleur de la carte supp
         Card carteDeCouleurJoué = null;
@@ -180,8 +183,7 @@ public final class PlayerState extends PublicPlayerState{
                 max = maximumlocal;
             }
         }
-        max += 1;
-        StationPartition.Builder partitionBuild = new StationPartition.Builder(max);
+        StationPartition.Builder partitionBuild = new StationPartition.Builder(max + 1);
         for (Route routesPossibles: routes()) { partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2()); }
         StationPartition partition = partitionBuild.build();
         int point = 0;

@@ -38,6 +38,9 @@ public class StationPartition implements StationConnectivity  {
         public Builder(int stationCount){
             Preconditions.checkArgument(stationCount> 0);
             buildLiens = new int[stationCount];
+            for (int i = 0; i < stationCount; i++) {
+                buildLiens[i] = i;
+            }
         }
 
         //TODO MARCHE PAS
@@ -53,7 +56,7 @@ public class StationPartition implements StationConnectivity  {
             //// connecter les repreentatives
             //pour tout ayant s1 en represntative passe pas
             //efface lien
-            buildLiens[representative(s2.id())] = representative(s1.id());
+            buildLiens[representative(s1.id())] = representative(s2.id());
                 //buildLiens[s1.id()] = (s2.id());
                 //buildLiens[s2.id()] = (s2.id());
             return this;
@@ -66,9 +69,7 @@ public class StationPartition implements StationConnectivity  {
 
         public StationPartition build(){
             for (int i = 0; i < buildLiens.length ; i++) {
-                if(buildLiens[i] != representative(i)){
                     buildLiens[i] = representative(i);
-                }
             }
             return new StationPartition(buildLiens);
         }

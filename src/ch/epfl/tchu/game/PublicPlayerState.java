@@ -35,7 +35,7 @@ public class PublicPlayerState {
         //calcul nb de wagon
         int lengthRoute = 0;
         for (Route r: routes()) {
-            lengthRoute+=r.length();
+            lengthRoute += r.length();
         }
         carCount = 40 - lengthRoute;
         //calcul nb de points
