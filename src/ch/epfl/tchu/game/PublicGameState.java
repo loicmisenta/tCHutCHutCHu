@@ -2,6 +2,7 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,10 +64,14 @@ public class PublicGameState {
     public PublicPlayerState currentPlayerState(){ return playerState(currentPlayerId);}
 
     /**
-     * @return la totalité des routes dont l'un ou l'autre des joueurs s'est emparé ??????
+     * @return la totalité des routes dont l'un ou l'autre des joueurs s'est emparé
      * LEQUEL ???
      */
-    public List<Route> claimedRoutes(){return currentPlayerState().routes();}
+    public List<Route> claimedRoutes(){
+        List<Route> routes = new ArrayList<>();
+        for (PublicPlayerState values:playerState.values()) {
+            routes.addAll(values.routes()); }
+        return routes;}
 
     public PlayerId lastPlayer(){
         return lastPlayer;

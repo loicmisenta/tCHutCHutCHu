@@ -51,7 +51,7 @@ class PlayerStateTest {
                 ChMap.tickets().get(1), ChMap.tickets().get(2))),SortedBag.of(5, Card.BLUE, 3, Card.LOCOMOTIVE),
                 List.of(ChMap.routes().get(0), ChMap.routes().get(1)));
 
-        assertEquals(ExpectedValue.toString(), playerState.withAddedTickets(SortedBag.of(ChMap.tickets().get(2))).toString());
+        assertEquals(ExpectedValue.tickets().toString(), playerState.withAddedTickets(SortedBag.of(ChMap.tickets().get(2))).tickets().toString());
     }
     @Test
     void ticketPointsTest(){
@@ -157,7 +157,7 @@ class PlayerStateTest {
     @Test
     void possibleAdditionalAvecCarteQueLeJoueurNAPas(){
         //doit retourner une liste vide
-        var expectedValue = "[]";
+        var expectedValue = "[{LOCOMOTIVE}]";
         assertEquals(expectedValue, playerState.possibleAdditionalCards(1, SortedBag.of(1, Card.GREEN), SortedBag.of(3, Card.LOCOMOTIVE)).toString());
 
     }

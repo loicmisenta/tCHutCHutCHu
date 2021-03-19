@@ -123,11 +123,6 @@ public final class PlayerState extends PublicPlayerState{
         && (drawnCards.size() == 3)));
         System.out.println(initialCards + " " + cards() );
 
-        //jouer une carte n'est pas dans ses mains TODO
-        if (!(cards().contains(initialCards))){
-            return List.of();
-        }
-
         //La couleur de la carte supp
         Card carteDeCouleurJoué = null;
         for (int i = 0; i < initialCards.size(); i++) {
