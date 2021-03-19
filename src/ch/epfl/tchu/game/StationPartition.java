@@ -10,7 +10,7 @@ import ch.epfl.tchu.Preconditions;
 */
 public class StationPartition implements StationConnectivity  {
 
-    public int[] liens; //TODO  privé
+    private final int[] liens; //TODO  privé
 
     /**
      * Constructeur de la partition
@@ -43,22 +43,14 @@ public class StationPartition implements StationConnectivity  {
             }
         }
 
-        //TODO MARCHE PAS
-
         /**
-         * Va connecter les sous-ensembles en choisisant un des deux stations
-         * comme représentant
+         * Va connecter les sous-ensembles (connecte les représentatifs)
          * @param s1 station 1
          * @param s2 station 2
          * @return le bâtisseur
          */
         public Builder connect(Station s1, Station s2){
-            //// connecter les repreentatives
-            //pour tout ayant s1 en represntative passe pas
-            //efface lien
             buildLiens[representative(s1.id())] = representative(s2.id());
-                //buildLiens[s1.id()] = (s2.id());
-                //buildLiens[s2.id()] = (s2.id());
             return this;
         }
 
@@ -90,6 +82,13 @@ public class StationPartition implements StationConnectivity  {
 
     }
 
+    /**
+     * Verifie si les deux gares:
+     * @param s1 gare 1
+     * @param s2 gare 2
+     * sont connectée / les mêmes representant
+     * @return True si c'est le cas.
+     */
     @Override
     public boolean connected(Station s1, Station s2) {
         if (s1.id()< liens.length && s2.id() < liens.length){

@@ -184,18 +184,12 @@ public final class PlayerState extends PublicPlayerState{
         StationPartition partition = partitionBuild.build();
         int point = 0;
 
-        //devrait faire la val négative  TODO
         for (Ticket t: tickets()) {
             point += t.points(partition);
         }
 
-        //RETOURNE LES POINT NEGATIF A LA PLACE DE POSITIF ???!!!!???? TODO
         return point;
     }
-
-
-    //Tickets compte faux
-    //Compte si le ticket est faux
 
     /**
      * @return la totalité des points obtenus par le joueur à la fin de la partie.
