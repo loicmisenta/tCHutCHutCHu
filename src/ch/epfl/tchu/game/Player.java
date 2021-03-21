@@ -8,27 +8,29 @@ import java.util.Map;
 /**
  * @author loicmisenta
  * @author lagutovaalexandra
+ * Interface contenent les méthodes qui doivent communiquer des informations concernant
+ * le déroulement de partie
  */
 public interface Player {
-    abstract void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames);
+    public abstract void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames);
 
-    abstract void receiveInfo(String info);
+    public abstract void receiveInfo(String info);
 
-    abstract void updateState(PublicGameState newState, PlayerState ownState);
+    public abstract void updateState(PublicGameState newState, PlayerState ownState);
 
-    abstract void setInitialTicketChoice(SortedBag<Ticket> tickets);
+    public abstract void setInitialTicketChoice(SortedBag<Ticket> tickets);
 
-    abstract SortedBag<Ticket> chooseInitialTickets();
+    public abstract SortedBag<Ticket> chooseInitialTickets();
 
-    abstract TurnKind nextTurn();
+    public abstract TurnKind nextTurn();
 
-    abstract SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options);
+    public abstract SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options);
 
-    abstract int drawSlot();
+    public abstract int drawSlot();
 
-    abstract Route claimedRoute();
+    public abstract Route claimedRoute();
 
-    abstract SortedBag<Card> initialClaimCards();
+    public abstract SortedBag<Card> initialClaimCards();
 
-    abstract SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
+    public abstract SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
 }

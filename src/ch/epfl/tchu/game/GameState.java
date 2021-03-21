@@ -1,5 +1,6 @@
 package ch.epfl.tchu.game;
 
+import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
 import java.util.EnumMap;
@@ -14,6 +15,11 @@ import java.util.Random;
 public final class GameState extends PublicGameState{
 
     int NB_CARTES_INIT = 4;
+    Deck<Card> cartes;
+    Deck<Ticket> tickets;
+    CardState cardState;
+
+    Map<PlayerId, PublicPlayerState> playerState; //TODO on peut faire ça?
     /**
      * Constructeur privé de la partie publique de l'état de partie
      *
@@ -23,8 +29,12 @@ public final class GameState extends PublicGameState{
      * @param playerState     l'état public des joueurs
      * @param lastPlayer      l'identité du dernier joueur
      */
-    private GameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
+    private GameState(int ticketsCount, CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer,
+                      Deck<Ticket> tickets, Deck<Card> cartes) {
+        //completer CardState?
         super(ticketsCount, cardState, currentPlayerId, playerState, lastPlayer);
+        this.tickets = tickets;
+        this.cartes = cartes;
     }
 
     public static GameState initial(SortedBag<Ticket> tickets, Random rng){
@@ -44,13 +54,42 @@ public final class GameState extends PublicGameState{
         Map<PlayerId, PublicPlayerState> mapPublique = Map.copyOf(map);
         Deck billets = Deck.of(tickets, rng);
 
-        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, mapPublique, null);
+        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, mapPublique, null, billets, piocheInitiale);
     }
 
+    // TODO ??
     @Override
     public PlayerState playerState(PlayerId playerId){
-        return playerState(playerId);
+        //est-ce qu'elle appelle playerState de PublicGameState?
+        return new PlayerState(currentPlayerState().tickets(), currentPlayerState().cards(), currentPlayerState().routes());
     }
+    // TODO ??
+   @Override
+    public PlayerState currentPlayerState(){
+        //doit contenir les tickets du joueur ?
+        return new PlayerState(tickets, cardState(), playerState(playerId).routes());
+    }
+
+    public SortedBag<Ticket> topTickets(int count){
+        Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
+        return tickets.topCards(count);
+    }
+
+    public GameState withoutTopTickets(int count){
+        //TODO creer la map ?
+        return new GameState(ticketsCount()-count, cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count), cartes);
+    }
+
+    public Card topCard(){
+        Preconditions.checkArgument(!cartes.isEmpty());
+        return cartes.topCard();
+    }
+
+    public GameState withoutTopCard(){
+
+    }
+
+
 
 
 
