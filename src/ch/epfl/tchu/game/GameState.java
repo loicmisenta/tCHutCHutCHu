@@ -86,7 +86,21 @@ public final class GameState extends PublicGameState{
     }
 
     public GameState withoutTopCard(){
+        Preconditions.checkArgument(!cartes.isEmpty());
+        return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.withoutTopCard());
+    }
 
+    public GameState withMoreDiscardedCards(SortedBag<Card> discardedCards){
+        //TODO quoi enlever aux cartes ?
+        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.);
+    }
+
+    public GameState withCardsDeckRecreatedIfNeeded(Random rng){
+        //pas fini
+        if (cardState.isDeckEmpty()){
+            //TODO ....
+            return this;
+        } else return this;
     }
 
 
