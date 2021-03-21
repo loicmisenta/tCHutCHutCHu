@@ -35,7 +35,7 @@ public final class GameState extends PublicGameState{
         System.out.println(PlayerId.class.toString());
 
 
-        //comment faire autrement ?
+        //comment faire autrement ?  TODO
         for (Map.Entry<PlayerId, PlayerState> element: map.entrySet()) {
             map.put(element.getKey(), PlayerState.initial(piocheInitiale.topCards(4)));
             piocheInitiale = piocheInitiale.withoutTopCards(4);
