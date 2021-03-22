@@ -92,7 +92,7 @@ public final class PlayerState extends PublicPlayerState{
      * @return True si la route peut être prise, false sinon.
      */
     public boolean canClaimRoute(Route route){
-        return !possibleClaimCards(route).isEmpty() && route.length() <= carCount();
+        return route.length() <= carCount() && !possibleClaimCards(route).isEmpty();
     }
 
     /**
@@ -100,8 +100,7 @@ public final class PlayerState extends PublicPlayerState{
      * pour prendre possession de @param route.
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route){
-        System.out.println(carCount());
-        Preconditions.checkArgument(route.length() <= carCount());
+        Preconditions.checkArgument(route.length() <= carCount()); //
         List<SortedBag<Card>> listeDesRoutesEmparables = new ArrayList<>();
         for (SortedBag<Card> routePossible: route.possibleClaimCards()) {
             if (cards.contains(routePossible)){

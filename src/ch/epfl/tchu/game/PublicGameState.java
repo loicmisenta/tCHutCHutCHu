@@ -16,7 +16,7 @@ public class PublicGameState {
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
     private final Map<PlayerId, PublicPlayerState> playerState;
-    private PlayerId lastPlayer = null; //NE PAS LA METTRE EN FINAL?? TODO
+    private final PlayerId lastPlayer; //NE PAS LA METTRE EN FINAL?? TODO
 
     /**
      * Constructeur public de la partie publique de l'état de partie
@@ -71,7 +71,7 @@ public class PublicGameState {
         List<Route> routes = new ArrayList<>();
         for (PublicPlayerState values:playerState.values()) {
             routes.addAll(values.routes()); }
-        return routes;}
+        return routes; }
 
     public PlayerId lastPlayer(){
         return lastPlayer;

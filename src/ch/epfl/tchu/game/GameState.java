@@ -18,8 +18,7 @@ public final class GameState extends PublicGameState{
     Deck<Card> cartes;
     Deck<Ticket> tickets;
     CardState cardState;
-
-    Map<PlayerId, PublicPlayerState> playerState; //TODO on peut faire ça?
+    Map<PlayerId, PlayerState> playerState;
     /**
      * Constructeur privé de la partie publique de l'état de partie
      *
@@ -29,7 +28,7 @@ public final class GameState extends PublicGameState{
      * @param playerState     l'état public des joueurs
      * @param lastPlayer      l'identité du dernier joueur
      */
-    private GameState(int ticketsCount, CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer,
+    private GameState(int ticketsCount, CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
                       Deck<Ticket> tickets, Deck<Card> cartes) {
         //completer CardState?
         super(ticketsCount, cardState, currentPlayerId, playerState, lastPlayer);
@@ -41,33 +40,28 @@ public final class GameState extends PublicGameState{
         Deck piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
 
         Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
+
         PlayerId firstPlayer = PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT));
         System.out.println(PlayerId.class.toString());
 
-
-        //comment faire autrement ?  TODO
-        for (Map.Entry<PlayerId, PlayerState> element: map.entrySet()) {
-            map.put(element.getKey(), PlayerState.initial(piocheInitiale.topCards(4)));
-            piocheInitiale = piocheInitiale.withoutTopCards(4);
+        for (PlayerId p: PlayerId.ALL) {
+            map.put(p, PlayerState.initial(piocheInitiale.topCards(Constants.INITIAL_CARDS_COUNT)));
+            piocheInitiale = piocheInitiale.withoutTopCards(Constants.INITIAL_CARDS_COUNT);
         }
-
-        Map<PlayerId, PublicPlayerState> mapPublique = Map.copyOf(map);
         Deck billets = Deck.of(tickets, rng);
 
-        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, mapPublique, null, billets, piocheInitiale);
+        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, map, null, billets, piocheInitiale);
     }
 
-    // TODO ??
+
     @Override
     public PlayerState playerState(PlayerId playerId){
-        //est-ce qu'elle appelle playerState de PublicGameState?
-        return new PlayerState(currentPlayerState().tickets(), currentPlayerState().cards(), currentPlayerState().routes());
+        return playerState.get(playerId);
     }
-    // TODO ??
+
    @Override
     public PlayerState currentPlayerState(){
-        //doit contenir les tickets du joueur ?
-        return new PlayerState(tickets, cardState(), playerState(playerId).routes());
+        return playerState(currentPlayerId());
     }
 
     public SortedBag<Ticket> topTickets(int count){
@@ -76,7 +70,7 @@ public final class GameState extends PublicGameState{
     }
 
     public GameState withoutTopTickets(int count){
-        //TODO creer la map ?
+        Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
         return new GameState(ticketsCount()-count, cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count), cartes);
     }
 
@@ -91,15 +85,16 @@ public final class GameState extends PublicGameState{
     }
 
     public GameState withMoreDiscardedCards(SortedBag<Card> discardedCards){
-        //TODO quoi enlever aux cartes ?
-        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.);
+        // TODO enlever les cartes ?
+        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets, cartes);
     }
 
     public GameState withCardsDeckRecreatedIfNeeded(Random rng){
         //pas fini
         if (cardState.isDeckEmpty()){
-            //TODO ....
-            return this;
+            //comment remplir les cartes
+            //cardState lié aux cartes ?
+            return new GameState(ticketsCount(), cardState.withDeckRecreatedFromDiscards(rng), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.);
         } else return this;
     }
 
