@@ -12,6 +12,10 @@ import java.util.Map;
  * le déroulement de partie
  */
 public interface Player {
+    /**
+     * @param ownId
+     * @param playerNames
+     */
     public abstract void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames);
 
     public abstract void receiveInfo(String info);

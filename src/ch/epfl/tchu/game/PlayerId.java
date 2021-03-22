@@ -1,7 +1,5 @@
 package ch.epfl.tchu.game;
 
-import com.sun.source.util.Plugin;
-
 import java.util.List;
 
 /**

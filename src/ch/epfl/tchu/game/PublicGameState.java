@@ -16,7 +16,7 @@ public class PublicGameState {
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
     private final Map<PlayerId, PublicPlayerState> playerState;
-    private final PlayerId lastPlayer; //NE PAS LA METTRE EN FINAL?? TODO
+    private final PlayerId lastPlayer;
 
     /**
      * Constructeur public de la partie publique de l'état de partie
@@ -65,7 +65,6 @@ public class PublicGameState {
 
     /**
      * @return la totalité des routes dont l'un ou l'autre des joueurs s'est emparé
-     * LEQUEL ??? TODO
      */
     public List<Route> claimedRoutes(){
         List<Route> routes = new ArrayList<>();

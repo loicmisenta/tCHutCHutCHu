@@ -4,7 +4,6 @@ import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
 import java.util.EnumMap;
-import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -27,7 +26,6 @@ public final class GameState extends PublicGameState{
      */
     private GameState(int ticketsCount, CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
                       Deck<Ticket> tickets) {
-        //completer CardState?
         super(ticketsCount, cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
         this.tickets = tickets;
     }
