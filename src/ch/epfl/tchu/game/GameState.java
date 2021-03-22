@@ -13,9 +13,6 @@ import java.util.Random;
  * @author lagutovaalexandra
  */
 public final class GameState extends PublicGameState{
-
-    int NB_CARTES_INIT = 4;
-    Deck<Card> cartes;
     Deck<Ticket> tickets;
     CardState cardState;
     Map<PlayerId, PlayerState> playerState;
@@ -29,11 +26,10 @@ public final class GameState extends PublicGameState{
      * @param lastPlayer      l'identité du dernier joueur
      */
     private GameState(int ticketsCount, CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
-                      Deck<Ticket> tickets, Deck<Card> cartes) {
+                      Deck<Ticket> tickets) {
         //completer CardState?
-        super(ticketsCount, cardState, currentPlayerId, playerState, lastPlayer);
+        super(ticketsCount, cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
         this.tickets = tickets;
-        this.cartes = cartes;
     }
 
     public static GameState initial(SortedBag<Ticket> tickets, Random rng){
@@ -50,7 +46,7 @@ public final class GameState extends PublicGameState{
         }
         Deck billets = Deck.of(tickets, rng);
 
-        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, map, null, billets, piocheInitiale);
+        return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, map, null, billets);
     }
 
 
@@ -71,34 +67,34 @@ public final class GameState extends PublicGameState{
 
     public GameState withoutTopTickets(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
-        return new GameState(ticketsCount()-count, cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count), cartes);
+        return new GameState(ticketsCount()-count, cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count));
     }
 
     public Card topCard(){
-        Preconditions.checkArgument(!cartes.isEmpty());
-        return cartes.topCard();
+        Preconditions.checkArgument(!cardState.isDeckEmpty());
+        return cardState.topDeckCard();
     }
 
     public GameState withoutTopCard(){
-        Preconditions.checkArgument(!cartes.isEmpty());
-        return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.withoutTopCard());
+        Preconditions.checkArgument(!cardState.isDeckEmpty());
+        return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
     public GameState withMoreDiscardedCards(SortedBag<Card> discardedCards){
-        // TODO enlever les cartes ?
-        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets, cartes);
+        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
     public GameState withCardsDeckRecreatedIfNeeded(Random rng){
         //pas fini
         if (cardState.isDeckEmpty()){
-            //comment remplir les cartes
-            //cardState lié aux cartes ?
-            return new GameState(ticketsCount(), cardState.withDeckRecreatedFromDiscards(rng), currentPlayerId(), playerState, lastPlayer(), tickets, cartes.);
+            return new GameState(ticketsCount(), cardState.withDeckRecreatedFromDiscards(rng), currentPlayerId(), playerState, lastPlayer(), tickets);
         } else return this;
     }
 
-
+    public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
+        playerState.get(playerId).withAddedTickets(chosenTickets);
+        return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets );
+    }
 
 
 
