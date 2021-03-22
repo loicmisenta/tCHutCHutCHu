@@ -85,17 +85,48 @@ public final class GameState extends PublicGameState{
     }
 
     public GameState withCardsDeckRecreatedIfNeeded(Random rng){
-        //pas fini
         if (cardState.isDeckEmpty()){
             return new GameState(ticketsCount(), cardState.withDeckRecreatedFromDiscards(rng), currentPlayerId(), playerState, lastPlayer(), tickets);
         } else return this;
     }
 
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
+        Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
         playerState.get(playerId).withAddedTickets(chosenTickets);
         return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets );
     }
 
-
+    public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets){
+        Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
+        //TODO PEUT ETRE SIMPLIFIER !?!
+        currentPlayerState().withAddedTickets(drawnTickets.difference(drawnTickets.difference(chosenTickets)));
+        return new GameState(ticketsCount()- drawnTickets.size(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets.withoutTopCards(drawnTickets.size()));
+    }
+    public GameState withDrawnFaceUpCard(int slot){
+        Preconditions.checkArgument(canDrawCards());
+        currentPlayerState().withAddedCard(cardState.faceUpCard(slot));
+        return new GameState(ticketsCount(), cardState.withDrawnFaceUpCard(slot), currentPlayerId(), playerState, lastPlayer(), tickets);
+    }
+    public GameState withBlindlyDrawnCard(){
+        Preconditions.checkArgument(canDrawCards());
+        currentPlayerState().withAddedCard(cardState.topDeckCard());
+        return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets);
+    }
+    public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
+        currentPlayerState().withClaimedRoute(route, cards);
+        //TODO AJOUTER A LA DISCARD LES CARTES UTILISER POUR S'EMPARER DE LA ROUTE.
+        cardState.withMoreDiscardedCards(cards);
+        return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets);
+    }
+    public boolean lastTurnBegins(){
+        return ((lastPlayer() == null) && (currentPlayerState().carCount() <= 2));
+    }
+    // TODO VERIFIER SI C'EST BIEN CA
+    public GameState forNextTurn(){
+        if (lastTurnBegins()){
+            return new GameState(ticketsCount(), cardState, currentPlayerId().next(), playerState, currentPlayerId(), tickets);
+        }
+        else return new GameState(ticketsCount(), cardState, currentPlayerId().next(), playerState, lastPlayer(), tickets);
+    }
 
 }
