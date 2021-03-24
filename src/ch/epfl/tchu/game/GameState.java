@@ -86,25 +86,24 @@ public final class GameState extends PublicGameState{
 
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
-        playerState.get(playerId).withAddedTickets(chosenTickets);
+        playerState.put(playerId, playerState.get(playerId).withAddedTickets(chosenTickets)); //Faire ça TODO
         return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets );
     }
 
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
-        //TODO PEUT ETRE SIMPLIFIER !?!
-        currentPlayerState().withAddedTickets(chosenTickets);
+        playerState.put(currentPlayerId(), currentPlayerState().withAddedTickets(chosenTickets));
         return new GameState(ticketsCount()- drawnTickets.size(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets.withoutTopCards(drawnTickets.size()));
     }
 
     public GameState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(canDrawCards());
-        currentPlayerState().withAddedCard(cardState.faceUpCard(slot)); // Map.put(PlayerId.PLAYER_1, )
+        playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.faceUpCard(slot))); // Map.put(PlayerId.PLAYER_1, )
         return new GameState(ticketsCount(), cardState.withDrawnFaceUpCard(slot), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
     public GameState withBlindlyDrawnCard(){
         Preconditions.checkArgument(canDrawCards());
-        currentPlayerState().withAddedCard(cardState.topDeckCard());
+        playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard()));
         return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
@@ -114,7 +113,7 @@ public final class GameState extends PublicGameState{
      * @return un état identique avec le joueur s'emparant de cette route avec ces cartes
      */
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
-        currentPlayerState().withClaimedRoute(route, cards);
+        playerState.put(currentPlayerId(),currentPlayerState().withClaimedRoute(route, cards));
         //TODO AJOUTER A LA DISCARD LES CARTES UTILISER POUR S'EMPARER DE LA ROUTE.
         return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(cards), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
