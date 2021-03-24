@@ -18,6 +18,8 @@ public class PublicGameState {
     private final Map<PlayerId, PublicPlayerState> playerState;
     private final PlayerId lastPlayer;
 
+
+    //TODO pas de creation possible d'instance !!!! Test
     /**
      * Constructeur public de la partie publique de l'état de partie
      * @param ticketsCount la taille de la pioche de billets
