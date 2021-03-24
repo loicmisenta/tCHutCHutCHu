@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * @author loicmisenta
  * @author lagutovaalexandra
+ * Représente la partie publique de l'état d'une partie
  */
 public class PublicGameState {
     private final int ticketsCount;
@@ -39,30 +40,52 @@ public class PublicGameState {
         this.lastPlayer = lastPlayer;
     }
 
+    /**
+     * @return la taille de la pioche de tickets
+     */
     public int ticketsCount(){
         return ticketsCount;
     }
 
+    /**
+     * @return vrai si il est encore possible de tirer des billets
+     */
     public boolean canDrawTickets(){
         return ticketsCount != 0;
     }
 
+    /**
+     * @return  la partie publique de l'état des cartes wagon/locomotive
+     */
     public PublicCardState cardState(){
         return cardState;
     }
 
+    /**
+     * @return  vrai si il est encore possible de tirer des cartes
+     */
     public boolean canDrawCards(){
         return cardState().deckSize() + cardState().discardsSize() >= 5;
     }
 
+    /**
+     * @return l'identité du joueur actuel
+     */
     public PlayerId currentPlayerId(){
         return currentPlayerId;
     }
 
+    /**
+     * @param playerId le joueur donné
+     * @return  la partie publique de l'état de ce joueur
+     */
     public PublicPlayerState playerState(PlayerId playerId){
         return playerState.get(playerId);
     }
 
+    /**
+     * @return  la partie publique de l'état du joueur courant
+     */
     public PublicPlayerState currentPlayerState(){ return playerState(currentPlayerId);}
 
     /**
@@ -72,8 +95,13 @@ public class PublicGameState {
         List<Route> routes = new ArrayList<>();
         for (PublicPlayerState values:playerState.values()) {
             routes.addAll(values.routes()); }
-        return routes; }
+        return routes;
+    }
 
+    /**
+     * @return l'identité du dernier joueur
+     * TODO null si la partie n'as pas encore commencé?
+     */
     public PlayerId lastPlayer(){
         return lastPlayer;
     }

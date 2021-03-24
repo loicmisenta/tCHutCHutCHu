@@ -10,13 +10,15 @@ import java.util.Random;
 /**
  * @author loicmisenta
  * @author lagutovaalexandra
+ * Représente l'état d'une partie
  */
 public final class GameState extends PublicGameState{
     Deck<Ticket> tickets;
     CardState cardState;
     Map<PlayerId, PlayerState> playerState;
     /**
-     * Constructeur privé de la partie publique de l'état de partie
+     * TODO privé !
+     * Constructeur privé de la partie de l'état de partie
      *
      * @param ticketsCount    la taille de la pioche de billets
      * @param cardState       l'état public des wagons/locomotoves
@@ -30,6 +32,11 @@ public final class GameState extends PublicGameState{
         this.tickets = tickets;
     }
 
+    /**
+     * @param tickets billets donnés au joueur
+     * @param rng random qui mélange les cartes
+     * @return un GameState initial
+     */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng){
         Deck piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
 
@@ -45,17 +52,6 @@ public final class GameState extends PublicGameState{
         Deck billets = Deck.of(tickets, rng);
 
         return new GameState(billets.size(), CardState.of(piocheInitiale), firstPlayer, map, null, billets);
-    }
-
-
-    @Override
-    public PlayerState playerState(PlayerId playerId){
-        return playerState.get(playerId);
-    }
-
-   @Override
-    public PlayerState currentPlayerState(){
-        return playerState(currentPlayerId());
     }
 
     public SortedBag<Ticket> topTickets(int count){
@@ -110,21 +106,55 @@ public final class GameState extends PublicGameState{
         currentPlayerState().withAddedCard(cardState.topDeckCard());
         return new GameState(ticketsCount(), cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
+
+    /**
+     * @param route route donnée
+     * @param cards cartes données
+     * @return un état identique avec le joueur s'emparant de cette route avec ces cartes
+     */
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
         currentPlayerState().withClaimedRoute(route, cards);
         //TODO AJOUTER A LA DISCARD LES CARTES UTILISER POUR S'EMPARER DE LA ROUTE.
         cardState.withMoreDiscardedCards(cards);
         return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets);
     }
+
+    /**
+     * @return vrai ssi le dernier tour commence
+     */
     public boolean lastTurnBegins(){
         return ((lastPlayer() == null) && (currentPlayerState().carCount() <= 2));
     }
+
+
     // TODO VERIFIER SI C'EST BIEN CA
+    /**
+     * @return un état dans lequel le joueur courant finit son tour
+     */
     public GameState forNextTurn(){
         if (lastTurnBegins()){
             return new GameState(ticketsCount(), cardState, currentPlayerId().next(), playerState, currentPlayerId(), tickets);
         }
         else return new GameState(ticketsCount(), cardState, currentPlayerId().next(), playerState, lastPlayer(), tickets);
+    }
+
+    /**
+     * Redéfinition de la méthode de sa classe mère
+     * @param playerId le joueur donné
+     * @return l'état de ce joueur
+     */
+    @Override
+    public PlayerState playerState(PlayerId playerId){
+        return playerState.get(playerId);
+    }
+
+    /**
+     * Redéfinition de la méthode de sa classe mère
+     * @return le joueur courant
+     */
+    @Override
+    public PlayerState currentPlayerState(){
+        return playerState(currentPlayerId());
     }
 
 }
