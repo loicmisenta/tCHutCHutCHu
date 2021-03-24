@@ -35,7 +35,7 @@ public class GameStateTest {
         var expectedTickets = "";
         assertEquals(expectedValue, gameState.initial(SortedBag.of(ChMap.tickets().get(0)), new Random()).lastPlayer().toString());
         assertEquals(expectedinitialPlayer , gameState.initial(SortedBag.of(ChMap.tickets().get(0)), new Random()).currentPlayerId()); //va fail une fois sur deux
-        assertEquals(ChMap.tickets().get(0), gameState.initial(SortedBag.of(ChMap.tickets().get(0)), new Random()).topTickets(1));
+        assertEquals(ChMap.tickets().get(0), gameState.initial(SortedBag.of(ChMap.tickets().get(0)), new Random()).topTickets(1).get(0));
 
     }
 
