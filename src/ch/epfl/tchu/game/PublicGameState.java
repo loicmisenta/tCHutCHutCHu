@@ -100,7 +100,6 @@ public class PublicGameState {
 
     /**
      * @return l'identité du dernier joueur
-     * TODO null si la partie n'as pas encore commencé?
      */
     public PlayerId lastPlayer(){
         return lastPlayer;

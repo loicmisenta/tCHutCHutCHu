@@ -93,12 +93,13 @@ public final class GameState extends PublicGameState{
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
         //TODO PEUT ETRE SIMPLIFIER !?!
-        currentPlayerState().withAddedTickets(drawnTickets.difference(drawnTickets.difference(chosenTickets)));
+        currentPlayerState().withAddedTickets(chosenTickets);
         return new GameState(ticketsCount()- drawnTickets.size(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets.withoutTopCards(drawnTickets.size()));
     }
+
     public GameState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(canDrawCards());
-        currentPlayerState().withAddedCard(cardState.faceUpCard(slot));
+        currentPlayerState().withAddedCard(cardState.faceUpCard(slot)); // Map.put(PlayerId.PLAYER_1, )
         return new GameState(ticketsCount(), cardState.withDrawnFaceUpCard(slot), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
     public GameState withBlindlyDrawnCard(){
@@ -115,8 +116,7 @@ public final class GameState extends PublicGameState{
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
         currentPlayerState().withClaimedRoute(route, cards);
         //TODO AJOUTER A LA DISCARD LES CARTES UTILISER POUR S'EMPARER DE LA ROUTE.
-        cardState.withMoreDiscardedCards(cards);
-        return new GameState(ticketsCount(), cardState, currentPlayerId(), playerState, lastPlayer(), tickets);
+        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(cards), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
     /**
@@ -127,7 +127,6 @@ public final class GameState extends PublicGameState{
     }
 
 
-    // TODO VERIFIER SI C'EST BIEN CA
     /**
      * @return un état dans lequel le joueur courant finit son tour
      */

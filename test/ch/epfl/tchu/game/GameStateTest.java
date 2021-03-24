@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class GameStateTest {
 
     CardState etatDesCartes = CardState.of(Deck.of(SortedBag.of(3, Card.BLUE, 2, Card.BLACK), new Random()));
+
+    //TODO creation de Map
     Map<PlayerId, PlayerState> map = Map.of(
             PlayerId.PLAYER_1 , new PlayerState(SortedBag.of(
                     1, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
