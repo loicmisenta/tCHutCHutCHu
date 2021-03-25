@@ -30,6 +30,8 @@ public final class GameState extends PublicGameState{
                       Deck<Ticket> tickets) {
         super(ticketsCount, cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
         this.tickets = tickets;
+        this.cardState = cardState;
+        this.playerState = playerState;
     }
 
     /**
@@ -43,7 +45,6 @@ public final class GameState extends PublicGameState{
         Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
 
         PlayerId firstPlayer = PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT));
-        System.out.println(PlayerId.class.toString());
 
         for (PlayerId p: PlayerId.ALL) {
             map.put(p, PlayerState.initial(piocheInitiale.topCards(Constants.INITIAL_CARDS_COUNT)));
@@ -65,6 +66,7 @@ public final class GameState extends PublicGameState{
     }
 
     public Card topCard(){
+
         Preconditions.checkArgument(!cardState.isDeckEmpty());
         return cardState.topDeckCard();
     }
@@ -154,5 +156,4 @@ public final class GameState extends PublicGameState{
     public PlayerState currentPlayerState(){
         return playerState(currentPlayerId());
     }
-
 }
