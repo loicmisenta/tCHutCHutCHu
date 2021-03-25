@@ -27,7 +27,7 @@ public final class CardState extends PublicCardState{
      * @param deck le deck
      * @param discards la défausse
      */
-    private CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
+    public CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
         super(faceUpCards, deckSize, discardsSize);
         this.deck = deck;
         this.discards = SortedBag.of(discards);
