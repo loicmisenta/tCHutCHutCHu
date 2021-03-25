@@ -26,11 +26,26 @@ public class GameStateTest {
             SortedBag.of(3, Card.WHITE, 4, Card.LOCOMOTIVE),
             List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW)));
 
+
+    public SortedBag<Ticket> TicketsGamestate() {
+        SortedBag.Builder<Ticket> ticketGamestate = new SortedBag.Builder<>();
+        ticketGamestate.add(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5));
+        ticketGamestate.add(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5));
+        ticketGamestate.add(new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9));
+        return ticketGamestate.build();
+    }
+
+    public SortedBag<Card> CardGameState(){
+        SortedBag.Builder<Card> cardGameState = new SortedBag.Builder<>();
+        cardGameState.add(1, Card.ORANGE);;
+        cardGameState.add(2, Card.LOCOMOTIVE);
+        return cardGameState.build();
+    }
+
     Map<PlayerId, PlayerState> map = Map.of(
             PlayerId.PLAYER_1 ,etatJoueur, PlayerId.PLAYER_2, etatJoueur );
-    GameState gameState = new GameState(3, cardState, PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, Deck.of(
-            SortedBag.of(2, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
-            1, new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9)), new Random()));
+    GameState gameState = new GameState(3, cardState, PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, new Deck<Ticket>(List.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+            new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5), new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9))));
 
     @Test
     void initialTestBuild(){
@@ -46,32 +61,46 @@ public class GameStateTest {
     }
 
     @Test
-    void returnTopCard(){
-        var expectedValue1 = true;
-        var expectedValue2 = new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10);
+    void withInitialyChosenTickets(){
+        //var initialTickets =
+    }
 
-        assertEquals(expectedValue1, List.of(Card.GREEN, Card.WHITE).contains(gameState.topCard()));
+    @Test
+    void returnTopCardAndWithoutIt(){
+        var expectedValue2 = new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10);
+        assertTrue(List.of(Card.GREEN, Card.WHITE).contains(gameState.topCard()));
         assertEquals(1 , gameState.withoutTopTickets(2).ticketsCount());
         assertEquals(expectedValue2.text(), gameState.playerState.get(PlayerId.PLAYER_1).tickets().get(1).text());
+
+        /*var expectedValue = new GameState(3,
+                new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), 8, 3, Deck.of(SortedBag.of(5, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE)),
+                PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, new Deck<Ticket>(List.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+                new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5), new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9))));
+        */ //not a very good test
+        assertEquals(7, gameState.withoutTopCard().cardState().deckSize());
+        //assertTrue(gameState.withoutTopCard().cardState().equals(expectedValue));
     }
 
 
-    //
-    // FAUX JAI PAS COMPRIIIIIIIIIIIIISSSS :(
-    // C'est L IN - COM - PRE - HENSIOOOONN
-    // PEUT ETRE LA FACON DE TRIER
     @Test
     void withoutTopTicketsReturnTopTickets(){
         var expectedValue = new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9);
+        var expectedValue2 = new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5);
         assertEquals(expectedValue.text(), gameState.withoutTopTickets(2).tickets.topCard().text());
+        assertEquals(expectedValue2.text(), gameState.withoutTopTickets(0).tickets.topCard().text());
     }
 
+    @Test
+    void topTicketsFails(){
+        assertThrows(IllegalArgumentException.class,()->
+                gameState.topTickets(-2));
+    }
 
     @Test
-
     void withMoreDiscardedCards(){
-        var expectedValue = 3;
+        var expectedValue = 6;
         assertEquals(expectedValue, gameState.withMoreDiscardedCards(SortedBag.of(1, Card.BLUE,2, Card.BLACK)).cardState().discardsSize());
+        assertEquals(8, gameState.withMoreDiscardedCards(SortedBag.of(1, Card.BLUE,2, Card.BLACK)).cardState().deckSize());
     }
 
 
@@ -96,15 +125,19 @@ public class GameStateTest {
         Assertions.assertTrue(lastTurnGameState.lastTurnBegins());
         assertFalse(gameState.lastTurnBegins());
     }
-    //
-    //
-    // FAUX LE TRUC AVEC LIST MAIS JE PEUX PAS TESTER...
 
+    @Test
+    void stateWithClaimedRoute(){
+        var routesClaimed = List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW),
+                new Route("BAL_OLT_1", new Station(1, "Bâle"), new Station(20, "Olten"), 3, Route.Level.UNDERGROUND, Color.ORANGE));
+        //var cardsAdded = SortedBag
+        assertEquals(routesClaimed.toString(), gameState.withClaimedRoute(new Route("BAL_OLT_1", new Station(1, "Bâle"), new Station(20, "Olten"), 3, Route.Level.UNDERGROUND, Color.ORANGE), CardGameState()).claimedRoutes().toString());
+    }
 
     @Test
     void withChosenAdditionalTickets(){
-        var expectedValue = List.of(2, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
-                1, new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9), 1, ChMap.tickets().get(0));
+        var expectedValue = List.of(3, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+                1, new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9));
         assertEquals(expectedValue, List.of(gameState.withChosenAdditionalTickets(SortedBag.of(List.of(ChMap.tickets().get(0), ChMap.tickets().get(2), ChMap.tickets().get(5))), SortedBag.of(ChMap.tickets().get(0))).tickets));
     }
     @Test
@@ -117,4 +150,5 @@ public class GameStateTest {
         var expectedValue = 1;
         assertEquals(expectedValue, gameState.withBlindlyDrawnCard().currentPlayerState().cards().countOf(Card.BLUE));
     }
+
 }

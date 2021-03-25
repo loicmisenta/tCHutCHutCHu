@@ -20,7 +20,9 @@ public class PublicGameStateTest {
     PublicCardState statePubliqueCartes = new PublicCardState(List.of(Card.GREEN, Card.LOCOMOTIVE, Card.BLUE, Card.BLUE, Card.VIOLET), 23, 2);
     PublicCardState statePubliqueCartesFALSE = new PublicCardState(List.of(Card.GREEN, Card.LOCOMOTIVE, Card.BLUE, Card.BLUE, Card.VIOLET), 1, 2);
 
-    Map<PlayerId, PublicPlayerState> map = Map.of(PlayerId.PLAYER_1 , new PublicPlayerState(5, 10,List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW))),
+    Map<PlayerId, PublicPlayerState> map = Map.of(PlayerId.PLAYER_1 ,
+            new PublicPlayerState(5, 10, List.of(
+                            new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW))),
             PlayerId.PLAYER_2 , new PublicPlayerState(2, 5,List.of(ChMap.routes().get(3), ChMap.routes().get(4), ChMap.routes().get(5))));
 
 

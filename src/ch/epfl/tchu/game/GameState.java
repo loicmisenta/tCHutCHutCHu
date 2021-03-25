@@ -116,7 +116,6 @@ public final class GameState extends PublicGameState{
      */
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
         playerState.put(currentPlayerId(),currentPlayerState().withClaimedRoute(route, cards));
-        //TODO AJOUTER A LA DISCARD LES CARTES UTILISER POUR S'EMPARER DE LA ROUTE.
         return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(cards), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
