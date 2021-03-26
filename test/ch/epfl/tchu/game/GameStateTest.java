@@ -90,6 +90,8 @@ public class GameStateTest {
         var expectedValue2 = new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5);
         assertEquals(expectedValue.text(), gameState.withoutTopTickets(2).tickets.topCard().text());
         assertEquals(expectedValue2.text(), gameState.withoutTopTickets(0).tickets.topCard().text());
+        assertThrows(IllegalArgumentException.class,()->
+                gameState.withoutTopTickets(-2));
     }
 
     @Test
@@ -128,7 +130,6 @@ public class GameStateTest {
         assertFalse(gameState.lastTurnBegins());
     }
 
-    // f
     @Test
     void stateWithClaimedRoute(){
         var routesClaimed = List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW),
@@ -164,12 +165,15 @@ public class GameStateTest {
     void withInitiallyChosenTicketsFails(){
         assertThrows(IllegalArgumentException.class,()->
                 gameState.withInitiallyChosenTickets(PlayerId.PLAYER_1, SortedBag.of(1, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5))));
-
     }
 
 
     @Test
     void lastTurnNotBegins(){
         assertFalse(gameState.lastTurnBegins());
+    }
+    @Test
+    void forNextTurn(){
+        assertEquals(PlayerId.PLAYER_2 ,gameState.forNextTurn().currentPlayerId());
     }
 }

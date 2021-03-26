@@ -66,7 +66,6 @@ public final class GameState extends PublicGameState{
     }
 
     public Card topCard(){
-
         Preconditions.checkArgument(!cardState.isDeckEmpty());
         return cardState.topDeckCard();
     }
