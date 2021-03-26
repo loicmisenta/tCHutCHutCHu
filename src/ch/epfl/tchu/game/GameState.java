@@ -23,6 +23,7 @@ public final class GameState extends PublicGameState{
      * @param currentPlayerId le joueur courant
      * @param playerState     l'état public des joueurs
      * @param lastPlayer      l'identité du dernier joueur
+     * @param tickets         le deck de ticket
      */
     private GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
                       Deck<Ticket> tickets) {
@@ -53,50 +54,106 @@ public final class GameState extends PublicGameState{
         return new GameState( CardState.of(piocheInitiale), firstPlayer, map, null, billets);
     }
 
+    /**
+     * @return les
+     * @param count
+     * premier ticket
+     */
     public SortedBag<Ticket> topTickets(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
         return tickets.topCards(count);
     }
 
+    /**
+     *
+     * @return un état identique au récepteur, mais sans les
+     * @param count
+     * billets du sommet de la pioche
+     */
     public GameState withoutTopTickets(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
         return new GameState( cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count));
     }
 
+    /**
+     *
+     * @return a carte au sommet de la pioche
+     */
     public Card topCard(){
         Preconditions.checkArgument(!cardState.isDeckEmpty());
         return cardState.topDeckCard();
     }
 
+    /**
+     *
+     * @return un état identique au récepteur mais sans la carte au sommet de la pioche
+     */
     public GameState withoutTopCard(){
         Preconditions.checkArgument(!cardState.isDeckEmpty());
         return new GameState(cardState.withoutTopDeckCard(), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
+    /**
+     *
+     * @return un état identique au récepteur mais avec les
+     * @param discardedCards
+     * données ajoutées à la défausse
+     */
     public GameState withMoreDiscardedCards(SortedBag<Card> discardedCards){
         return new GameState( cardState.withMoreDiscardedCards(discardedCards), currentPlayerId(), playerState, lastPlayer(), tickets);
     }
 
+    /**
+     *
+     * @param rng générateur aléatoire
+     * @return un état identique au récepteur sauf si la pioche de cartes est vide(si c'est le cas elle sera recréée à partir de la défausse mélangée au moyen de @param rng)
+     */
     public GameState withCardsDeckRecreatedIfNeeded(Random rng){
         if (cardState.isDeckEmpty()){
             return new GameState( cardState.withDeckRecreatedFromDiscards(rng), currentPlayerId(), playerState, lastPlayer(), tickets);
         } else return this;
     }
 
+    /**
+     *
+     * @return un état identique au récepteur mais dans lequel les
+     * @param chosenTickets
+     * donnés ont été ajoutés à la main du
+     * @param playerId
+     * donné
+     */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
         return new GameState( cardState, currentPlayerId(), mapChange(playerId, playerState.get(playerId).withAddedTickets(chosenTickets)), lastPlayer(), tickets );
     }
 
+    /**
+     *
+     * @return un état identique au récepteur, mais dans lequel le joueur courant a tiré
+     * @param drawnTickets
+     * du sommet de la pioche, et choisi de garder ceux contenus dans
+     * param chosenTickets
+     */
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
         return new GameState( cardState, currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withAddedTickets(chosenTickets)), lastPlayer(), tickets.withoutTopCards(drawnTickets.size()));
     }
 
+    /**
+     *
+     *
+     * @return un état identique au récepteur si ce n'est que la carte face retournée à
+     * @param slot
+     * a été placée dans la main du joueur courant, et remplacée par celle au sommet de la pioche
+     */
     public GameState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(canDrawCards());
         return new GameState(cardState.withDrawnFaceUpCard(slot), currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withAddedCard(cardState.faceUpCard(slot))), lastPlayer(), tickets);
     }
+
+    /**
+     * @return un état identique au récepteur si ce n'est que la carte du sommet de la pioche a été placée dans la main du joueur courant
+     */
     public GameState withBlindlyDrawnCard(){
         Preconditions.checkArgument(canDrawCards());
         //playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard()));
@@ -152,6 +209,13 @@ public final class GameState extends PublicGameState{
         return playerState(currentPlayerId());
     }
 
+    /**
+     *
+     * @return une nouvelle map changée qui a la valeur associée à
+     * @param playerId
+     * modifié et égale à
+     * @param playerstate
+     */
     private Map mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
