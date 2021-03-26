@@ -209,9 +209,9 @@ public final class GameState extends PublicGameState{
     /**
      *
      * @return une nouvelle map changée qui a la valeur associée à
-     * @param playerId
+     * @param playerId l'id du joueur
      * modifié et égale à
-     * @param playerstate
+     * @param playerstate l'état du joueur
      */
     private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
