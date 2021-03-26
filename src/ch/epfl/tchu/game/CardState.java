@@ -28,7 +28,7 @@ public final class CardState extends PublicCardState{
     public CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discards) {
         super(faceUpCards, deck.size(), discards.size());
         this.deck = deck;
-        this.discards = SortedBag.of(discards);
+        this.discards = SortedBag.of(discards); //deckSize = deck.size
     }
 
     /**
