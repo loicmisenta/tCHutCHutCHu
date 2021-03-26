@@ -142,6 +142,8 @@ public class GameStateTest {
         var expectedValue = SortedBag.of(2, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
                 1, new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10));
         assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
+        assertThrows(IllegalArgumentException.class,()->
+                gameState.withChosenAdditionalTickets(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(ChMap.tickets().get(12))));
     }
 
     @Test
@@ -152,7 +154,6 @@ public class GameStateTest {
 
     @Test
     void withBlindlyDrawnCard(){
-        //var expectedValue = gameState.cardState.topDeckCard();
         assertTrue(gameState.withBlindlyDrawnCard().currentPlayerState().cards().contains(gameState.cardState.topDeckCard()));
     }
     @Test
