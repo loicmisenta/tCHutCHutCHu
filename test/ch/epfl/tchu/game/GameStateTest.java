@@ -17,7 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class GameStateTest {
 
-    CardState etatDesCartes = CardState.of(Deck.of(SortedBag.of(3, Card.BLUE, 2, Card.BLACK), new Random()));
+    public static final Random NON_RANDOM = new Random(){
+        @Override
+        public int nextInt(int i){
+            return i-1;
+        }
+    };
+
+
+    CardState etatDesCartes = CardState.of(Deck.of(SortedBag.of(3, Card.BLUE, 2, Card.BLACK), NON_RANDOM));
     //ATTENTION CARDSTATE EST MIS EN PUBLIC POUR TEST
     CardState cardState = new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), 8, 3, Deck.of(SortedBag.of(6, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE));
 
@@ -72,14 +80,7 @@ public class GameStateTest {
         assertTrue(List.of(Card.GREEN, Card.WHITE).contains(gameState.topCard()));
         assertEquals(1 , gameState.withoutTopTickets(2).ticketsCount());
         assertEquals(expectedValue2.text(), gameState.playerState.get(PlayerId.PLAYER_1).tickets().get(1).text());
-
-        /*var expectedValue = new GameState(3,
-                new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), 8, 3, Deck.of(SortedBag.of(5, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE)),
-                PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, new Deck<Ticket>(List.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
-                new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5), new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9))));
-        */ //not a very good test
         assertEquals(7, gameState.withoutTopCard().cardState().deckSize());
-        //assertTrue(gameState.withoutTopCard().cardState().equals(expectedValue));
     }
 
 
@@ -141,15 +142,16 @@ public class GameStateTest {
                 1, new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10));
         assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
     }
+
     @Test
     void withDrawnFaceUpCard(){
         var expectedValue = 1;
         assertEquals(expectedValue, gameState.withDrawnFaceUpCard(1).currentPlayerState().cards().countOf(Card.BLUE));
     }
+
     @Test
     void withBlindlyDrawnCard(){
-        var expectedValue = gameState.cardState.topDeckCard();
-
+        //var expectedValue = gameState.cardState.topDeckCard();
         assertTrue(gameState.withBlindlyDrawnCard().currentPlayerState().cards().contains(gameState.cardState.topDeckCard()));
     }
     @Test
@@ -157,6 +159,15 @@ public class GameStateTest {
         var expectedValue = ChMap.routes().get(4);
         assertTrue(gameState.withClaimedRoute(ChMap.routes().get(4), SortedBag.of(Card.YELLOW)).currentPlayerState().routes().contains(expectedValue));
     }
+
+    @Test
+    void withInitiallyChosenTicketsFails(){
+        assertThrows(IllegalArgumentException.class,()->
+                gameState.withInitiallyChosenTickets(PlayerId.PLAYER_1, SortedBag.of(1, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5))));
+
+    }
+
+
     @Test
     void lastTurnNotBegins(){
         assertFalse(gameState.lastTurnBegins());
