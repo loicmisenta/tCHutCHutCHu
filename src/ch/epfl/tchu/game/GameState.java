@@ -39,7 +39,7 @@ public final class GameState extends PublicGameState{
      * @return un GameState initial
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng){
-        Deck piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
+        Deck<Card> piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
 
         Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
 
@@ -49,7 +49,7 @@ public final class GameState extends PublicGameState{
             map.put(p, PlayerState.initial(piocheInitiale.topCards(Constants.INITIAL_CARDS_COUNT)));
             piocheInitiale = piocheInitiale.withoutTopCards(Constants.INITIAL_CARDS_COUNT);
         }
-        Deck billets = Deck.of(tickets, rng);
+        Deck<Ticket> billets = Deck.of(tickets, rng);
 
         return new GameState( CardState.of(piocheInitiale), firstPlayer, map, null, billets);
     }
@@ -140,8 +140,6 @@ public final class GameState extends PublicGameState{
     }
 
     /**
-     *
-     *
      * @return un état identique au récepteur si ce n'est que la carte face retournée à
      * @param slot
      * a été placée dans la main du joueur courant, et remplacée par celle au sommet de la pioche
@@ -216,7 +214,7 @@ public final class GameState extends PublicGameState{
      * modifié et égale à
      * @param playerstate
      */
-    private Map mapChange(PlayerId playerId, PlayerState playerstate){
+    private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
         newPlayerState.put(playerId.next(), playerState.get(playerId.next()));
