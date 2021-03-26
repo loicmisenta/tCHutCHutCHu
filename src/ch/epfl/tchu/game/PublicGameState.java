@@ -16,11 +16,10 @@ public class PublicGameState {
     private final int ticketsCount;
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
-    public final Map<PlayerId, PublicPlayerState> playerState; //TODO privé
+    private final Map<PlayerId, PublicPlayerState> playerState;
     private final PlayerId lastPlayer;
 
 
-    //TODO pas de creation possible d'instance !!!! Test
     /**
      * Constructeur public de la partie publique de l'état de partie
      * @param ticketsCount la taille de la pioche de billets

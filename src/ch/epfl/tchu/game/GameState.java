@@ -152,6 +152,7 @@ public final class GameState extends PublicGameState{
         return playerState(currentPlayerId());
     }
 
+
     private Map mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
