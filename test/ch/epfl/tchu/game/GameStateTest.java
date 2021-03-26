@@ -139,8 +139,9 @@ public class GameStateTest {
     void withChosenAdditionalTickets(){
         //TICKET RETOURNE UN DECK WATZEFUCK LES ZAMIS????????????????????????????
 
-        var expectedValue = List.of(3, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+        var expectedValue = SortedBag.of(3, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
                 1, new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9));
+
         assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(List.of(ChMap.tickets().get(0), ChMap.tickets().get(2), ChMap.tickets().get(5))), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
     }
     @Test
