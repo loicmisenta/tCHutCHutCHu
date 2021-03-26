@@ -165,7 +165,6 @@ public final class GameState extends PublicGameState{
      * @return un état identique avec le joueur s'emparant de cette route avec ces cartes
      */
 
-    //TEST POUR CONTRER L'UNSUPPORTED EXCEPTION
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
         return new GameState( cardState.withMoreDiscardedCards(cards), currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withClaimedRoute(route, cards)), lastPlayer(), tickets);
     }
