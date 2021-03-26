@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author loicmisenta
@@ -150,5 +151,18 @@ public class GameStateTest {
         var expectedValue = 1;
         assertEquals(expectedValue, gameState.withBlindlyDrawnCard().currentPlayerState().cards().countOf(Card.BLUE));
     }
-
+    @Test
+    void withClaimedRoute(){
+        var expectedValue = ChMap.routes().get(4);
+        assertTrue(gameState.withClaimedRoute(ChMap.routes().get(4), SortedBag.of(Card.YELLOW)).currentPlayerState().routes().contains(expectedValue));
+    }
+    @Test
+    void lastTurnNotBegins(){
+        assertFalse(gameState.lastTurnBegins());
+    }
+    @Test
+    void lastTurnBegins(){
+        GameState newGameState = gameState.;
+        assertTrue(gameState.lastTurnBegins());
+    }
 }

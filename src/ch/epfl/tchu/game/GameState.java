@@ -114,9 +114,13 @@ public final class GameState extends PublicGameState{
      * @param cards cartes données
      * @return un état identique avec le joueur s'emparant de cette route avec ces cartes
      */
+
+    //TEST POUR CONTRER L'UNSUPPORTED EXCEPTION
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards){
-        playerState.put(currentPlayerId(),currentPlayerState().withClaimedRoute(route, cards));
-        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(cards), currentPlayerId(), playerState, lastPlayer(), tickets);
+        Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
+        newPlayerState.put(currentPlayerId(),currentPlayerState().withClaimedRoute(route, cards));
+        newPlayerState.put(currentPlayerId().next(), playerState.get(currentPlayerId().next()));
+        return new GameState(ticketsCount(), cardState.withMoreDiscardedCards(cards), currentPlayerId(), newPlayerState, lastPlayer(), tickets);
     }
 
     /**
