@@ -127,6 +127,7 @@ public class GameStateTest {
         assertFalse(gameState.lastTurnBegins());
     }
 
+    // f
     @Test
     void stateWithClaimedRoute(){
         var routesClaimed = List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW),
