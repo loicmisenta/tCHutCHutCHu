@@ -130,6 +130,7 @@ public class GameStateTest {
         assertFalse(gameState.lastTurnBegins());
     }
 
+    // ne marche pas une fois sur deux
     @Test
     void stateWithClaimedRoute(){
         var routesClaimed = List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW),
@@ -154,6 +155,7 @@ public class GameStateTest {
 
     @Test
     void withBlindlyDrawnCard(){
+        //var expectedValue = gameState.cardState.topDeckCard();
         assertTrue(gameState.withBlindlyDrawnCard().currentPlayerState().cards().contains(gameState.cardState.topDeckCard()));
     }
     @Test
@@ -166,6 +168,7 @@ public class GameStateTest {
     void withInitiallyChosenTicketsFails(){
         assertThrows(IllegalArgumentException.class,()->
                 gameState.withInitiallyChosenTickets(PlayerId.PLAYER_1, SortedBag.of(1, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5))));
+
     }
 
 
