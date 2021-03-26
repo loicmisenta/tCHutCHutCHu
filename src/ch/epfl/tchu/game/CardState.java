@@ -16,8 +16,8 @@ import java.util.Random;
  */
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
-    public final Deck<Card> deck; //TODO
-    public final SortedBag<Card> discards;
+    private final Deck<Card> deck; //TODO
+    private final SortedBag<Card> discards;
 
     /**
      * le constructeur prend en parametre

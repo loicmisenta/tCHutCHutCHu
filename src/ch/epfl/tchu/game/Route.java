@@ -204,16 +204,4 @@ public final class Route {
         return Constants.ROUTE_CLAIM_POINTS.get(length());
     }
 
-
-    @Override //TODO enlever
-    public String toString() {
-        return "Route{" +
-                "id='" + id + '\'' +
-                ", station1=" + station1 +
-                ", station2=" + station2 +
-                ", length=" + length +
-                ", level=" + level +
-                ", color=" + color +
-                '}';
-    }
 }
