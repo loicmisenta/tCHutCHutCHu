@@ -24,10 +24,10 @@ public class GameStateTest {
         }
     };
 
-/**
+
     CardState etatDesCartes = CardState.of(Deck.of(SortedBag.of(3, Card.BLUE, 2, Card.BLACK), NON_RANDOM));
     //ATTENTION CARDSTATE EST MIS EN PUBLIC POUR TEST
-    CardState cardState = new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), 8, 3, Deck.of(SortedBag.of(6, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE));
+    CardState cardState = new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), Deck.of(SortedBag.of(6, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE));
 
     PlayerState etatJoueur = new PlayerState(SortedBag.of(
             1, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
@@ -53,7 +53,7 @@ public class GameStateTest {
 
     Map<PlayerId, PlayerState> map = Map.of(
             PlayerId.PLAYER_1 ,etatJoueur, PlayerId.PLAYER_2, etatJoueur );
-    GameState gameState = new GameState(3, cardState, PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, new Deck<Ticket>(List.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+    GameState gameState = new GameState( cardState, PlayerId.PLAYER_1, map, PlayerId.PLAYER_2, new Deck<Ticket>(List.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
             new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5), new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9))));
 
     @Test
@@ -125,7 +125,7 @@ public class GameStateTest {
 
         Map<PlayerId, PlayerState> maplast = Map.of(
                 PlayerId.PLAYER_1 , etatJoueur1, PlayerId.PLAYER_2, etatJoueur );
-        GameState lastTurnGameState = new GameState(10, etatDesCartes, PlayerId.PLAYER_1, maplast, null, Deck.of(SortedBag.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5)), new Random()));
+        GameState lastTurnGameState = new GameState( etatDesCartes, PlayerId.PLAYER_1, maplast, null, Deck.of(SortedBag.of(new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5)), new Random()));
         Assertions.assertTrue(lastTurnGameState.lastTurnBegins());
         assertFalse(gameState.lastTurnBegins());
     }
@@ -180,5 +180,4 @@ public class GameStateTest {
     void forNextTurn(){
         assertEquals(PlayerId.PLAYER_2 ,gameState.forNextTurn().currentPlayerId());
     }
-    */
 }
