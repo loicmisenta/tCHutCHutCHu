@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class PublicGameStateTest {
     //PublicGameState gameState = new PublicGameState();
-
+    /**
     PublicCardState statePubliqueCartes = new PublicCardState(List.of(Card.GREEN, Card.LOCOMOTIVE, Card.BLUE, Card.BLUE, Card.VIOLET), 23, 2);
     PublicCardState statePubliqueCartesFALSE = new PublicCardState(List.of(Card.GREEN, Card.LOCOMOTIVE, Card.BLUE, Card.BLUE, Card.VIOLET), 1, 2);
 
@@ -90,6 +90,6 @@ public class PublicGameStateTest {
     void canNotDrawCards(){
         var expectedValue = false;
         assertEquals(expectedValue, (new PublicGameState(3, statePubliqueCartesFALSE, PlayerId.PLAYER_1, map, PlayerId.PLAYER_2)).canDrawCards());
-    }
+    }*/
 
 }

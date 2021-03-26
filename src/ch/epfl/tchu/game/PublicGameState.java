@@ -16,7 +16,7 @@ public class PublicGameState {
     private final int ticketsCount;
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
-    private final Map<PlayerId, PublicPlayerState> playerState;
+    public final Map<PlayerId, PublicPlayerState> playerState; //TODO privé
     private final PlayerId lastPlayer;
 
 

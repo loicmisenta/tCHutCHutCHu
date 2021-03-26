@@ -16,19 +16,17 @@ import java.util.Random;
  */
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
-    private final Deck<Card> deck;
-    private final SortedBag<Card> discards;
+    public final Deck<Card> deck; //TODO
+    public final SortedBag<Card> discards;
 
     /**
      * le constructeur prend en parametre
      * @param faceUpCards les cartes faces visibles
-     * @param deckSize taille du deck
-     * @param discardsSize taille de la défausse
      * @param deck le deck
      * @param discards la défausse
      */
-    public CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discards) {
-        super(faceUpCards, deckSize, discardsSize);
+    public CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discards) {
+        super(faceUpCards, deck.size(), discards.size());
         this.deck = deck;
         this.discards = SortedBag.of(discards);
     }
@@ -40,7 +38,7 @@ public final class CardState extends PublicCardState{
      */
     public static CardState of(Deck<Card> deck){
         Preconditions.checkArgument(deck.size() >= 5);
-        return new CardState(deck.topCards(5).toList(), deck.size()-5, 0, deck.withoutTopCards(5), SortedBag.of());
+        return new CardState(deck.topCards(5).toList(), deck.withoutTopCards(5), SortedBag.of());
 
     }
 
@@ -57,7 +55,7 @@ public final class CardState extends PublicCardState{
         piocheModifié.remove(slot);
         piocheModifié.add(slot, topDeckCard());
 
-        return new CardState(piocheModifié, deckSize() -1, discardsSize() + 1, deck.withoutTopCard(), discards);
+        return new CardState(piocheModifié,  deck.withoutTopCard(), discards);
     }
 
     /**
@@ -75,7 +73,7 @@ public final class CardState extends PublicCardState{
      */
     public CardState withoutTopDeckCard(){
         Preconditions.checkArgument(!deck.isEmpty());
-        return new CardState(faceUpCards(), deckSize() -1, discardsSize(), deck.withoutTopCard(), discards);
+        return new CardState(faceUpCards(),  deck.withoutTopCard(), discards);
     }
 
     /**
@@ -89,7 +87,7 @@ public final class CardState extends PublicCardState{
         //creer une condition pour taille 0 de discards ?
 
         Deck<Card> pioche = Deck.of(discards, rng);
-        return new CardState(faceUpCards(), pioche.size(), 0, pioche, SortedBag.of());
+        return new CardState(faceUpCards(), pioche, SortedBag.of());
     }
 
     /**
@@ -98,7 +96,7 @@ public final class CardState extends PublicCardState{
      * @return un ensemble de cartes identique au récepteur mais avec les cartes données ajoutées à la défausse.
      */
     public CardState withMoreDiscardedCards(SortedBag<Card> additionalDiscards){
-        return new CardState(faceUpCards(), deckSize(), discardsSize() + additionalDiscards.size(), deck, discards.union(additionalDiscards));
+        return new CardState(faceUpCards(),  deck, discards.union(additionalDiscards));
     }
 
 }
