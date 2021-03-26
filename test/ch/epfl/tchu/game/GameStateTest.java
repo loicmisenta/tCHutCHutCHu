@@ -130,8 +130,7 @@ public class GameStateTest {
     @Test
     void stateWithClaimedRoute(){
         var routesClaimed = List.of(new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW),
-                new Route("BAL_OLT_1", new Station(1, "Bâle"), new Station(20, "Olten"), 3, Route.Level.UNDERGROUND, Color.ORANGE));
-        //var cardsAdded = SortedBag
+                new Route("BAL_OLT_1", new Station(1, "Bâle"), new Station(20, "Olten"), 3, Route.Level.UNDERGROUND, Color.ORANGE), new Route("BAL_DEL_1", new Station(1, "Bâle"), new Station(8, "Delémont"), 2, Route.Level.UNDERGROUND, Color.YELLOW));
         assertEquals(routesClaimed.toString(), gameState.withClaimedRoute(new Route("BAL_OLT_1", new Station(1, "Bâle"), new Station(20, "Olten"), 3, Route.Level.UNDERGROUND, Color.ORANGE), CardGameState()).claimedRoutes().toString());
     }
 
@@ -151,8 +150,6 @@ public class GameStateTest {
     @Test
     void withBlindlyDrawnCard(){
         var expectedValue = gameState.cardState.topDeckCard();
-
-        //System.out.println(cardState.topDeckCard()); //MARCHE SEULEMENT AVEC LE SYSTEMOUTPRINT CEST QUOI CETTE BALGUE LOL MDR XPTDR
 
         assertTrue(gameState.withBlindlyDrawnCard().currentPlayerState().cards().contains(gameState.cardState.topDeckCard()));
     }
