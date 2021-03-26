@@ -150,10 +150,11 @@ public class GameStateTest {
     }
     @Test
     void withBlindlyDrawnCard(){
-        var expectedValue = 1;
-        System.out.println(cardState.topDeckCard()); //MARCHE SEULEMENT AVEC LE SYSTEMOUTPRINT CEST QUOI CETTE BALGUE LOL MDR XPTDR
+        var expectedValue = gameState.cardState.topDeckCard();
 
-        assertEquals(expectedValue, gameState.withBlindlyDrawnCard().currentPlayerState().cards().countOf(Card.GREEN));
+        //System.out.println(cardState.topDeckCard()); //MARCHE SEULEMENT AVEC LE SYSTEMOUTPRINT CEST QUOI CETTE BALGUE LOL MDR XPTDR
+
+        assertTrue(gameState.withBlindlyDrawnCard().currentPlayerState().cards().contains(gameState.cardState.topDeckCard()));
     }
     @Test
     void withClaimedRoute(){
