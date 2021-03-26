@@ -17,7 +17,7 @@ public final class GameState extends PublicGameState{
     private final CardState cardState;
     private final Map<PlayerId, PlayerState> playerState;
     /**
-     * TODO privé !
+     *
      * Constructeur privé de la partie de l'état de partie
      * @param cardState       l'état public des wagons/locomotoves
      * @param currentPlayerId le joueur courant
