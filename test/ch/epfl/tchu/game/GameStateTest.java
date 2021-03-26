@@ -139,10 +139,9 @@ public class GameStateTest {
     void withChosenAdditionalTickets(){
         //TICKET RETOURNE UN DECK WATZEFUCK LES ZAMIS????????????????????????????
 
-        var expectedValue = SortedBag.of(3, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
-                1, new Ticket(new Station(33, "Zürich"), new Station(17, "Lugano"), 9));
-
-        assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(List.of(ChMap.tickets().get(0), ChMap.tickets().get(2), ChMap.tickets().get(5))), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
+        var expectedValue = SortedBag.of(2, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
+                1, new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10));
+        assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
     }
     @Test
     void withDrawnFaceUpCard(){
@@ -166,6 +165,7 @@ public class GameStateTest {
     void lastTurnNotBegins(){
         assertFalse(gameState.lastTurnBegins());
     }
+
     @Test
     void lastTurnBegins(){
         //GameState newGameState = gameState.;
