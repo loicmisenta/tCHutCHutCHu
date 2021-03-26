@@ -136,8 +136,6 @@ public class GameStateTest {
 
     @Test
     void withChosenAdditionalTickets(){
-        //TICKET RETOURNE UN DECK WATZEFUCK LES ZAMIS????????????????????????????
-
         var expectedValue = SortedBag.of(2, new Ticket(new Station(1, "Bâle"), new Station(3, "Berne"), 5),
                 1, new Ticket(new Station(1, "Bâle"), new Station(4, "Brigue"), 10));
         assertEquals(expectedValue, gameState.withChosenAdditionalTickets(SortedBag.of(ChMap.tickets().get(0)), SortedBag.of(ChMap.tickets().get(0))).currentPlayerState().tickets());
@@ -161,11 +159,5 @@ public class GameStateTest {
     @Test
     void lastTurnNotBegins(){
         assertFalse(gameState.lastTurnBegins());
-    }
-
-    @Test
-    void lastTurnBegins(){
-        //GameState newGameState = gameState.;
-        assertTrue(gameState.lastTurnBegins());
     }
 }
