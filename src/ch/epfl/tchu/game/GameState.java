@@ -13,21 +13,21 @@ import java.util.Random;
  * Représente l'état d'une partie
  */
 public final class GameState extends PublicGameState{
-    public Deck<Ticket> tickets;
-    public CardState cardState;
-    public Map<PlayerId, PlayerState> playerState;
+    private final Deck<Ticket> tickets;
+    private final CardState cardState;
+    private final Map<PlayerId, PlayerState> playerState;
     /**
-     * TODO privé !
+     *
      * Constructeur privé de la partie de l'état de partie
      * @param cardState       l'état public des wagons/locomotoves
      * @param currentPlayerId le joueur courant
      * @param playerState     l'état public des joueurs
      * @param lastPlayer      l'identité du dernier joueur
      */
-    public GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
+    private GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
                       Deck<Ticket> tickets) {
         super(tickets.size(), cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
-        this.tickets = tickets;  //ticketCount = tickets.size();
+        this.tickets = tickets;
         this.cardState = cardState;
         this.playerState = playerState;
     }

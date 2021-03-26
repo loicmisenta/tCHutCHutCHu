@@ -18,7 +18,7 @@ import static java.util.List.copyOf;
  */
 public final class Deck<C extends Comparable<C>>  {
 
-    public List<C> cards; //TODO private
+    private final List<C> cards;
 
     public Deck( List<C> cards){
         this.cards = List.copyOf(cards);

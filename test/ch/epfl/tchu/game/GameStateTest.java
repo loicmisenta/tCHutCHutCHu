@@ -24,7 +24,7 @@ public class GameStateTest {
         }
     };
 
-
+    /*
     CardState etatDesCartes = CardState.of(Deck.of(SortedBag.of(3, Card.BLUE, 2, Card.BLACK), NON_RANDOM));
     //ATTENTION CARDSTATE EST MIS EN PUBLIC POUR TEST
     CardState cardState = new CardState(List.of(Card.BLUE, Card.BLUE, Card.BLUE, Card.BLACK, Card.BLACK), Deck.of(SortedBag.of(6, Card.GREEN, 2, Card.WHITE), new Random()), SortedBag.of(3, Card.ORANGE));
@@ -180,4 +180,6 @@ public class GameStateTest {
     void forNextTurn(){
         assertEquals(PlayerId.PLAYER_2 ,gameState.forNextTurn().currentPlayerId());
     }
+
+     */
 }
