@@ -12,6 +12,17 @@ import java.util.Map;
  * le déroulement de partie
  */
 public interface Player {
+
+    /**
+     * @author loicmisenta
+     * @author lagutovaalexandra
+     * Type énuméré  qui décrit les actions d'un joueur
+     */
+    public enum TurnKind {
+        DRAW_TICKETS, DRAW_CARDS, CLAIM_ROUTE;
+        public static List<TurnKind> ALL = List.of(TurnKind.values());
+    }
+
     /**
      * Appelée au début de la partie pour communiquer au joueur
      * @param ownId l'identité du joueur

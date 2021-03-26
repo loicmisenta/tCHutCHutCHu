@@ -14,9 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author lagutovaalexandra
  */
 public class TurnKindTest {
-
+    /**
     @Test
     void turnKindAllIsDefinedCorrectly() {
         assertEquals(List.of(TurnKind.DRAW_TICKETS, TurnKind.DRAW_CARDS, TurnKind.CLAIM_ROUTE), ALL);
     }
+    */
 }
