@@ -38,18 +38,52 @@ public interface Player {
      */
     public abstract void setInitialTicketChoice(SortedBag<Ticket> tickets);
 
-
+    /**
+     * Appelée au début de la partie et demande au joueur lesquels des billets qu'on lui a
+     * distribué initialement il veut garder
+     * @return un SortedBag de Tickets qu'il garde
+     */
     public abstract SortedBag<Ticket> chooseInitialTickets();
 
+    /**
+     * Appelée au début du tour d'un joueur, pour savoir quel type d'action il désire effectuer durant ce tour
+     * @return l'action
+     */
     public abstract TurnKind nextTurn();
 
+    /**
+     * Appelée lorsque le joueur a décidé de tirer des billets supplémentaires en cours de partie
+     * @param options les billets tirés
+     * @return les tickets qu'il garde
+     */
     public abstract SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options);
 
+    /**
+     * Appelée lorsque le joueur a décidé de tirer des cartes wagon/locomotive,
+     * afin de savoir d'où il désire les tirer
+     * @return l'emplacement de la carte visible/ ou de la pioche
+     * ( dans ce cas la valeur retournée vaut Constants.DECK_SLOT (==1))
+     */
     public abstract int drawSlot();
 
+    /**
+     * Appelée lorsque le joueur a décidé de (tenter de) s'emparer d'une route
+     * @return la route dont il veut s'emparer
+     */
     public abstract Route claimedRoute();
 
+    /**
+     * Appelée lorsque le joueur a décidé de (tenter de) s'emparer d'une route
+     * @return les cartes qu'il utilise afin de le faire
+     */
     public abstract SortedBag<Card> initialClaimCards();
 
+    /**
+     * Appelée lorsque le joueur a décidé de tenter de s'emparer d'un tunnel
+     * et que des cartes additionnelles sont nécessaires
+     * @param options les possibilités des cartes additionnelles
+     * @return les cartes choisies additionelles
+     * ou un ensemble vide (si le joueur ne veut ou ne peut pas choisir une des cartes)
+     */
     public abstract SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
 }
