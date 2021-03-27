@@ -38,14 +38,13 @@ public final class Game {
 
         //La déroulement de la partie
         while (!gameState.lastTurnBegins()){
-            Player joueurCourant = players.get(gameState.currentPlayerId());
+            PlayerId currentId = gameState.currentPlayerId();
+            Player joueurCourant = players.get(currentId);
             switch(joueurCourant.nextTurn()){
+                joueurCourant.receiveInfo(infoMap.get(currentId).canPlay());
                 case DRAW_TICKETS:
-                    joueurCourant.chooseTickets(gameState.topTickets(3));
-
-                    //info
-
-
+                    joueurCourant.chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
+                    joueurCourant.receiveInfo(infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT));
                     break;
                 case DRAW_CARDS:
                     joueurCourant.drawSlot(); // TODO Faut-il stocker la valeur?
