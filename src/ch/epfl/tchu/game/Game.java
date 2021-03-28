@@ -60,12 +60,10 @@ public final class Game {
             switch (joueurCourant.nextTurn()) {
                 //TODO possible de faire plus court ?
 
-
                 case DRAW_TICKETS:
                     joueurCourant.receiveInfo(infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT)); //info tire des billets
                     SortedBag<Ticket> ticketsChoisis = joueurCourant.chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
                     joueurCourant.receiveInfo(infoMap.get(currentId).keptTickets(ticketsChoisis.size())); //info tickets choisis
-                    //TODO vérifier si c'est vide?
                     break;
 
                 case DRAW_CARDS:
@@ -96,22 +94,32 @@ public final class Game {
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
 
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
+                        joueurCourant.receiveInfo(infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
-                            if (gameState.cardState().isDeckEmpty()) {
-                                gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
-                            }
+                            //if (gameState.cardState().isDeckEmpty()) {
+                            //    gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
+                            //}
+                            gameState = deckisEmpty(); //redefnir si vide TODO comment faire autrement?
                             joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
                             gameState = gameState.withBlindlyDrawnCard();
 
                             //if (claimRoute.additionalClaimCardsCount(claimCards, ))){ //TODO avoir les 3 cartes piochés
                             //     joueurCourant.chooseAdditionalCards( ); //en paramètre le 3 cartes piochés
+                            if(gameState.cardState()){ //si peut claim le tunnel TODO quelle méthode ?
+                            joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));}
                         }
                         gameState = gameState.forNextTurn();
+                    } else {
+                        joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                     }
-
-
+                    break;
             }
         }
+        players.forEach(((playerId, player) -> {
+            players.get(playerId).receiveInfo(infoMap.get(playerId).lastTurnBegins(gameState.playerState(playerId).carCount()));
+            //s'inclinche avec le dernier joueur? TODO pas une foreach ?
+
+        }));
 
     }
     private static void updateState(Player joueurCourant, GameState gameState){
@@ -126,10 +134,9 @@ public final class Game {
 
 
     private GameState deckisEmpty(){
-        if(gameState.cardState().isDeckEmpty()){
-            gameState.withCardsDeckRecreatedIfNeeded(randomRng);
-        }
-        return null;
+        if(gameState.cardState().isDeckEmpty()) {
+            return gameState.withCardsDeckRecreatedIfNeeded(randomRng);
+        } else return gameState;
     }//TODO ON COMPRENDS PAS :(
 }
 
