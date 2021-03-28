@@ -30,10 +30,11 @@ public final class Game {
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info( playerNames.get(playerId)));
-            players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst());
+            players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst()); //info qui va jouer
             players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
+            players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
             players.get(playerId).chooseInitialTickets();
-            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(gameState.playerState(playerId).ticketCount()));
+            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(gameState.playerState(playerId).ticketCount())); //info tickets choisis
         }));
 
         //La déroulement de la partie
@@ -41,15 +42,25 @@ public final class Game {
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);
             switch(joueurCourant.nextTurn()){
-                joueurCourant.receiveInfo(infoMap.get(currentId).canPlay());
+                //TODO possible de faire plus court ?
+                joueurCourant.receiveInfo(infoMap.get(currentId).canPlay()); //info tour commence
+
                 case DRAW_TICKETS:
-                    joueurCourant.chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
-                    joueurCourant.receiveInfo(infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT));
+                    joueurCourant.receiveInfo(infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT)); //info tire des billets
+                    SortedBag<Ticket> ticketsChoisis= joueurCourant.chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
+                    joueurCourant.receiveInfo(infoMap.get(currentId).keptTickets(ticketsChoisis.size())); //info tickets choisis
+                    //TODO vérifier si c'est vide?
                     break;
+
                 case DRAW_CARDS:
-                    joueurCourant.drawSlot(); // TODO Faut-il stocker la valeur?
+                    int cartePioche = joueurCourant.drawSlot(); // TODO Faut-il stocker la valeur?
+                    if (cartePioche == 1){
+                        joueurCourant.receiveInfo(infoMap.get(currentId).drewBlindCard());
+                        joueurCourant.updateState(gameState, );
+                    } else {
+                        joueurCourant.receiveInfo(infoMap.get(currentId).drewVisibleCard(gameState.cardState().faceUpCard(cartePioche)));
+                    }
                     joueurCourant.drawSlot(); // TODO Et l'utiliser ?
-                    gameState.topCard();
                     gameState.topCard();  //TODO joueurCourant et gameState pas liés
                     break;
                 case CLAIM_ROUTE:
