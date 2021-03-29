@@ -5,9 +5,9 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author loicmisenta
@@ -89,6 +89,7 @@ public final class Game {
                 case CLAIM_ROUTE:
                     Route claimRoute = joueurCourant.claimedRoute();
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
+
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
                         SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
@@ -126,13 +127,27 @@ public final class Game {
                     }
                     break;
             }
+            updateState(players, gameState);
             gameState = gameState.forNextTurn();
         }
 
+        int maxLength = 0;
+        Trail theLongest;
         players.forEach(((playerId, player) -> {
-
-
+            Trail longest = Trail.longest(gameState.playerState(playerId).routes());
+            if (longest.length() >  maxLength) {
+                theLongest = longest; //java n'aime pas
+            }
         }));
+
+        players.forEach(((playerId, player) -> {
+            players.get(playerId).receiveInfo(infoMap.get(playerId).getsLongestTrailBonus(theLongest));
+            int finalPoints = gameState.playerState(playerId).finalPoints();
+            int otherPoints = gameState.playerState(playerId.next()).finalPoints();
+            players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints)); //info nb de points finaux
+        }));
+
+
     }
 
 
@@ -153,5 +168,5 @@ public final class Game {
         if(gameState.cardState().isDeckEmpty()) {
             return gameState.withCardsDeckRecreatedIfNeeded(rng);
         } else return gameState;
-    }//TODO ON COMPRENDS PAS :(
+    }
 }
