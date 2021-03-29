@@ -98,16 +98,27 @@ public final class Game {
 
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
-                        SortedBag.Builder listecartebuilder = null;
+                        SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
                         SortedBag<Card> listCartePioche = SortedBag.of();
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
                             gameState = deckisEmpty(rng); //redefnir si vide
-                            int cartePioche = joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
+                            joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
                             listecartebuilder.add(gameState.topCard());
                         }
+                        listCartePioche = listecartebuilder.build();
 
-                        //if (claimRoute.additionalClaimCardsCount(claimCards, ))){ //TODO avoir les 3 cartes piochés
-                        //     joueurCourant.chooseAdditionalCards( ); //en paramètre le 3 cartes piochés
+                        int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
+                        if (nbCarteAdd != 0){
+                            SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche));//en paramètre le 3 cartes piochés
+                            if (carteAddChoisi.size() == 0){
+                                receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
+                                //GAMESTATE !
+                            }
+                            else {
+                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, carteAddChoisi));//TODO PAS SUR
+                            }
+                        }
+
                         if(gameState.cardState()) { //si peut claim le tunnel TODO quelle méthode ?
                         joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                         gameState = gameState.forNextTurn();
