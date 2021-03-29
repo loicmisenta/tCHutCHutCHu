@@ -105,7 +105,7 @@ public final class Game {
 
                             //if (claimRoute.additionalClaimCardsCount(claimCards, ))){ //TODO avoir les 3 cartes piochés
                             //     joueurCourant.chooseAdditionalCards( ); //en paramètre le 3 cartes piochés
-                            if(gameState.cardState()){ //si peut claim le tunnel TODO quelle méthode ?
+                            if(gameState.cardState() ){ //si peut claim le tunnel TODO quelle méthode ?
                             joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));}
                         }
                         gameState = gameState.forNextTurn();
@@ -133,7 +133,7 @@ public final class Game {
     }
 
 
-    private GameState deckisEmpty(){
+    private static GameState deckisEmpty(){
         if(gameState.cardState().isDeckEmpty()) {
             return gameState.withCardsDeckRecreatedIfNeeded(randomRng);
         } else return gameState;
