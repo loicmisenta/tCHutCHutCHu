@@ -16,6 +16,7 @@ import java.util.Random;
 public final class Game {
     private static GameState gameState;
     private static Random randomRng;
+    private static Map<PlayerId, Player> playersMap;
 
     /**
      * Fait jouer une partie
@@ -30,21 +31,26 @@ public final class Game {
 
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
+        playersMap = players;
         randomRng = rng;
         gameState = GameState.initial(tickets, rng);
+
+
+
+        //TODO PAS UTILISER LA METHODE receiveInfo ?!
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
             players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst()); //info qui va jouer
             players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
             players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
-            //TODO on change pas le gamestate????????
-            //modifier dedans !!!
-            updateState(players.get(playerId), gameState);
+            updateState(gameState);
 
-            players.get(playerId).chooseInitialTickets();
-            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(gameState.playerState(playerId).ticketCount())); //info tickets choisis
+            SortedBag<Ticket> ticketsChoisis = players.get(playerId).chooseInitialTickets();
+            gameState = gameState.withInitiallyChosenTickets(playerId, ticketsChoisis);
+            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(ticketsChoisis.size())); //info tickets choisis
         }));
+        receiveInfo(infoMap.get());
 
         //La déroulement de la partie
         while (!gameState.lastTurnBegins()) {
@@ -116,16 +122,17 @@ public final class Game {
     }
 
 
-    //TODO MAP FOREACH
-
-    private static void updateState(Player joueurCourant, GameState gameState){
-        joueurCourant.updateState(gameState, gameState.currentPlayerState());
+    private static void updateState(GameState gameState){
+        playersMap.forEach(((playerId, player) -> {
+            playersMap.get(playerId).updateState(gameState, gameState.currentPlayerState());
+        }));
     }
 
-    //TODO A VOIR COMMENT FAIRE (PEUT ETRE DES VARIABLES AU DEBUT DE LA CLASSE)
-    private static void receiveInfo(Player joueurCourant, String string){
 
-        //joueurCourant.receiveInfo(infoMap.get(currentId).keptTickets(ticketsChoisis.size()));
+    private static void receiveInfo(String string){
+        playersMap.forEach(((playerId, player) -> {
+            playersMap.get(playerId).receiveInfo(string);
+        }));
     }
 
     private static GameState deckisEmpty(){
