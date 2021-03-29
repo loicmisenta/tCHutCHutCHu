@@ -51,12 +51,16 @@ public final class Game {
 
 
         //La déroulement de la partie
-        while (!gameState.lastTurnBegins()) {
+        while (!gameState.lastTurnBegins() || !gameState.currentPlayerId().equals(gameState.lastPlayer())) {
+
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);
-
+            if (gameState.lastTurnBegins()){
+                receiveInfo(players, infoMap.get(currentId).lastTurnBegins(gameState.playerState(currentId).carCount()));
+            }
             joueurCourant.receiveInfo(infoMap.get(currentId).canPlay()); //info tour commence
             updateState(players, gameState);
+
 
             switch (joueurCourant.nextTurn()) {
 
@@ -85,17 +89,6 @@ public final class Game {
                 case CLAIM_ROUTE:
                     Route claimRoute = joueurCourant.claimedRoute();
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
-
-
-                    //si 0 comme overground
-                    //autre possible add dans playerstate
-                    //si vide c'est bon
-                    //doit choisir si rien ensemble vide
-                    //actualise le jeu + discarded cards à jour
-
-
-
-
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
                         SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
@@ -104,37 +97,40 @@ public final class Game {
                             gameState = deckisEmpty(rng); //redefnir si vide
                             joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
                             listecartebuilder.add(gameState.topCard());
+                            gameState = gameState.withoutTopCard();
                         }
                         listCartePioche = listecartebuilder.build();
+                        gameState = gameState.withMoreDiscardedCards(listCartePioche);
 
                         int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
+                        receiveInfo(players, infoMap.get(currentId).drewAdditionalCards(listCartePioche, nbCarteAdd));
                         if (nbCarteAdd != 0){
                             SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche));//en paramètre le 3 cartes piochés
                             if (carteAddChoisi.size() == 0){
                                 receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
-                                //GAMESTATE !
                             }
                             else {
-                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, carteAddChoisi));//TODO PAS SUR
+                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
+                                gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));//TODO REPONSE piazza...
                             }
                         }
-
-                        if(gameState.cardState()) { //si peut claim le tunnel TODO quelle méthode ?
-                        joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
-                        gameState = gameState.forNextTurn();
+                        else{
+                            joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
+                            gameState = gameState.withClaimedRoute(claimRoute, claimCards);
                         }
 
-                    } else {
+                    }
+                    else {
                         joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
+                        gameState = gameState.withClaimedRoute(claimRoute, claimCards);
                     }
                     break;
             }
+            gameState = gameState.forNextTurn();
         }
 
-        // TODO pas une foreach ?
         players.forEach(((playerId, player) -> {
-            players.get(playerId).receiveInfo(infoMap.get(playerId).lastTurnBegins(gameState.playerState(playerId).carCount()));
-            //s'inclinche avec le dernier joueur?
+
 
         }));
     }
