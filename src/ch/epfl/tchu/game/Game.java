@@ -15,9 +15,6 @@ import java.util.Random;
  */
 public final class Game {
     private static GameState gameState;
-    private static Random randomRng;
-    private static Map<PlayerId, Player> playersMap;
-
     /**
      * Fait jouer une partie
      *
@@ -31,12 +28,10 @@ public final class Game {
 
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
-        playersMap = players;
-        randomRng = rng;
         gameState = GameState.initial(tickets, rng);
 
 
-
+        Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
         //TODO PAS UTILISER LA METHODE receiveInfo ?!
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
@@ -44,13 +39,16 @@ public final class Game {
             players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst()); //info qui va jouer
             players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
             players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
-            updateState(gameState);
+            updateState(players, gameState);
+            mapTicketsChoisis.put(playerId, players.get(playerId).chooseInitialTickets());
+            gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
 
-            SortedBag<Ticket> ticketsChoisis = players.get(playerId).chooseInitialTickets();
-            gameState = gameState.withInitiallyChosenTickets(playerId, ticketsChoisis);
-            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(ticketsChoisis.size())); //info tickets choisis
         }));
-        receiveInfo(infoMap.get());
+        //info tickets choisis:
+        players.forEach(((playerId, player) -> {
+            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()));
+                }));
+
 
         //La déroulement de la partie
         while (!gameState.lastTurnBegins()) {
@@ -58,53 +56,62 @@ public final class Game {
             Player joueurCourant = players.get(currentId);
 
             joueurCourant.receiveInfo(infoMap.get(currentId).canPlay()); //info tour commence
-            updateState(joueurCourant, gameState);
+            updateState(players, gameState);
 
             switch (joueurCourant.nextTurn()) {
 
                 case DRAW_TICKETS:
-                    joueurCourant.receiveInfo(infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT)); //info tire des billets
-                    SortedBag<Ticket> ticketsChoisis = joueurCourant.chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
-                    joueurCourant.receiveInfo(infoMap.get(currentId).keptTickets(ticketsChoisis.size())); //info tickets choisis
+                    receiveInfo(players, infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT));//info tire des billets
+                    SortedBag<Ticket> drawnTickets = gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT);
+                    SortedBag<Ticket> ticketsChoisis = joueurCourant.chooseTickets(drawnTickets);
+                    gameState = gameState.withChosenAdditionalTickets(drawnTickets, ticketsChoisis);
+                    receiveInfo(players, infoMap.get(currentId).keptTickets(ticketsChoisis.size()));//info tickets choisis
                     break;
 
                 case DRAW_CARDS:
-                    for (int i = 0; i < 2; i++) {   //TODO ES BIEN UNE for i ?!?!
-                        int cartePioche = joueurCourant.drawSlot(); // TODO Faut-il stocker la valeur?
+                    for (int i = 0; i < 2; i++) {
+                        gameState = deckisEmpty(rng);
+                        int cartePioche = joueurCourant.drawSlot();
                         if (cartePioche == 1) {
-
-                            joueurCourant.receiveInfo(infoMap.get(currentId).drewBlindCard()); //info prends carte pioche
-
-                            gameState = gameState.withBlindlyDrawnCard(); //TODO POUR LE REDEFINIR ?!
-
-                            //joueurCourant.updateState(newGameState, gameState.currentPlayerState());//TODO devrait etre avant?!
+                            receiveInfo(players, infoMap.get(currentId).drewBlindCard());//info prends carte pioche
+                            gameState = gameState.withBlindlyDrawnCard();
                         } else {
-                            joueurCourant.receiveInfo(infoMap.get(currentId).drewVisibleCard(gameState.cardState().faceUpCard(cartePioche)));//info prends carte pioche
-                            gameState = gameState.withDrawnFaceUpCard(cartePioche); //TODO PEUT ETRE DANS LAUTRE SENS
-
+                            receiveInfo(players, infoMap.get(currentId).drewVisibleCard(gameState.cardState().faceUpCard(cartePioche)));//info prends carte pioche
+                            gameState = gameState.withDrawnFaceUpCard(cartePioche);
                         }
                     }
-                    updateState(joueurCourant, gameState);
+                    updateState(players, gameState);
                     break;
                 case CLAIM_ROUTE:
                     Route claimRoute = joueurCourant.claimedRoute();
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
 
+
+                    //si 0 comme overground
+                    //autre possible add dans playerstate
+                    //si vide c'est bon
+                    //doit choisir si rien ensemble vide
+                    //actualise le jeu + discarded cards à jour
+
+
+
+
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
-                        joueurCourant.receiveInfo(infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
+                        receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
+                        SortedBag.Builder listecartebuilder = null;
+                        SortedBag<Card> listCartePioche = SortedBag.of();
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
-                            gameState = deckisEmpty(); //redefnir si vide TODO comment faire autrement?
-                            joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
-                            gameState = gameState.withBlindlyDrawnCard();
-
-                            //if (claimRoute.additionalClaimCardsCount(claimCards, ))){ //TODO avoir les 3 cartes piochés
-                            //     joueurCourant.chooseAdditionalCards( ); //en paramètre le 3 cartes piochés
-
-                            //TODO créer !!
-                            if(gameState.cardState() ){ //si peut claim le tunnel TODO quelle méthode ?
-                            joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));}
+                            gameState = deckisEmpty(rng); //redefnir si vide
+                            int cartePioche = joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
+                            listecartebuilder.add(gameState.topCard());
                         }
+
+                        //if (claimRoute.additionalClaimCardsCount(claimCards, ))){ //TODO avoir les 3 cartes piochés
+                        //     joueurCourant.chooseAdditionalCards( ); //en paramètre le 3 cartes piochés
+                        if(gameState.cardState()) { //si peut claim le tunnel TODO quelle méthode ?
+                        joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                         gameState = gameState.forNextTurn();
+                        }
 
                     } else {
                         joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
@@ -122,22 +129,22 @@ public final class Game {
     }
 
 
-    private static void updateState(GameState gameState){
+    private static void updateState(Map<PlayerId, Player> playersMap, GameState gameState){
         playersMap.forEach(((playerId, player) -> {
             playersMap.get(playerId).updateState(gameState, gameState.currentPlayerState());
         }));
     }
 
 
-    private static void receiveInfo(String string){
+    private static void receiveInfo(Map<PlayerId, Player> playersMap, String string){
         playersMap.forEach(((playerId, player) -> {
             playersMap.get(playerId).receiveInfo(string);
         }));
     }
 
-    private static GameState deckisEmpty(){
+    private static GameState deckisEmpty(Random rng){
         if(gameState.cardState().isDeckEmpty()) {
-            return gameState.withCardsDeckRecreatedIfNeeded(randomRng);
+            return gameState.withCardsDeckRecreatedIfNeeded(rng);
         } else return gameState;
     }//TODO ON COMPRENDS PAS :(
 }
