@@ -131,6 +131,7 @@ public final class Game {
             gameState = gameState.forNextTurn();
         }
 
+        
         int maxLength = 0;
         Trail theLongest;
         players.forEach(((playerId, player) -> {
