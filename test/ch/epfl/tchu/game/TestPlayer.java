@@ -1,6 +1,7 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.SortedBag;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Random;
@@ -9,6 +10,7 @@ import java.util.Random;
  * @author loicmisenta
  * @author lagutovaalexandra
  */
+
 private static final class TestPlayer implements Player {
     private static final int TURN_LIMIT = 1000;
 
