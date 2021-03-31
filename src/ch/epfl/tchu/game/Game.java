@@ -137,7 +137,7 @@ public final class Game {
         players.forEach(((playerId, player) -> {
             Trail longest = Trail.longest(gameState.playerState(playerId).routes());
             if (longest.length() >  maxLength) {
-                theLongest = longest; //java n'aime pas
+                theLongest = longest; //TODO java n'aime pas
             }
         }));
 
@@ -146,6 +146,7 @@ public final class Game {
             int finalPoints = gameState.playerState(playerId).finalPoints();
             int otherPoints = gameState.playerState(playerId.next()).finalPoints();
             players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints)); //info nb de points finaux
+            //TODO afficher le message deux fois si les deux gagnent ?
         }));
 
 
