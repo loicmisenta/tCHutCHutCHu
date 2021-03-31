@@ -37,6 +37,8 @@ class GameTest {
         @Override
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
 
+            //this.playerNames = playerNames;
+            System.out.println("joueurs initilalisés");
         }
 
         @Override
@@ -108,6 +110,11 @@ class GameTest {
         }
     }
 
+
+    @Test
+    void testPlay(){
+        //play();
+    }
 
 
 }

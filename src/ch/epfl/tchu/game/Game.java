@@ -4,9 +4,7 @@ import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -133,23 +131,48 @@ public final class Game {
 
         
         int maxLength = 0;
-        Trail theLongest;
-        players.forEach(((playerId, player) -> {
-            Trail longest = Trail.longest(gameState.playerState(playerId).routes());
-            if (longest.length() >  maxLength) {
-                theLongest = longest; //TODO java n'aime pas
-            }
-        }));
+        int maxPoints = 0;
+        List<PlayerId> listLongestTrail= new ArrayList<>();
+        List<String> playerNamesWon = new ArrayList<>();
+        for (PlayerId joueur: PlayerId.ALL) {
 
+            Trail longest = Trail.longest(gameState.playerState(joueur).routes());
+            if (longest.length() == maxLength) {
+                listLongestTrail.add(joueur);
+            } else if (longest.length() > maxLength) {
+                maxLength = longest.length();
+                listLongestTrail.clear();
+                listLongestTrail.add(joueur);
+            }
+
+            if(gameState.playerState(joueur).finalPoints() == maxPoints){
+                playerNamesWon.add(joueur.name());
+            } else if (gameState.playerState(joueur).finalPoints() > maxPoints){
+                maxPoints = gameState.playerState(joueur).finalPoints();
+                playerNamesWon.clear();
+                playerNamesWon.add(joueur.name());
+            }
+
+        }
+
+
+
+        int finalMaxPoints = maxPoints;
         players.forEach(((playerId, player) -> {
-            players.get(playerId).receiveInfo(infoMap.get(playerId).getsLongestTrailBonus(theLongest));
+            if (listLongestTrail.size() > 1){ players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(playerId.next()).routes()))); }
+            players.get(playerId).receiveInfo(infoMap.get(playerId).getsLongestTrailBonus(Trail.longest(gameState.playerState(playerId.next()).routes())));
+
             int finalPoints = gameState.playerState(playerId).finalPoints();
             int otherPoints = gameState.playerState(playerId.next()).finalPoints();
-            players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints)); //info nb de points finaux
-            //TODO afficher le message deux fois si les deux gagnent ?
+
+            if(finalPoints > otherPoints){
+                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
+            } else if (finalPoints < otherPoints ){
+                players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
+            } else {
+                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
+            }
         }));
-
-
     }
 
 
