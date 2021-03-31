@@ -197,4 +197,11 @@ public final class PlayerState extends PublicPlayerState{
     }
 
 
+    @Override //TODO Supprimer
+    public String toString() {
+        return "PlayerState{" +
+                "tickets=" + tickets +
+                ", cards=" + cards +
+                '}';
+    }
 }

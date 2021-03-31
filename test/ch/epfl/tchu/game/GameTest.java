@@ -50,6 +50,9 @@ class GameTest {
         public void updateState(PublicGameState newState, PlayerState ownState) {
             this.gameState = (GameState) newState;
             this.ownState = ownState;
+            System.out.println("nouveau etat du joueur 1 " + newState.playerState(PlayerId.PLAYER_1).toString() +
+                    "/n" + "nouveau etat du joueur 2 " + newState.playerState(PlayerId.PLAYER_2)
+                    + "etat" + ownState.toString());
         }
 
         @Override
