@@ -219,4 +219,13 @@ public final class GameState extends PublicGameState{
         newPlayerState.put(playerId.next(), playerState.get(playerId.next()));
         return newPlayerState;
     }
+
+    @Override
+    public String toString() {
+        return "GameState{" +
+                "tickets=" + tickets +
+                ", cardState=" + cardState +
+                ", playerState=" + playerState +
+                '}';
+    }
 }

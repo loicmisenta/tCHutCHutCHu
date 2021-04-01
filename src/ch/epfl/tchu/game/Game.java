@@ -27,19 +27,21 @@ public final class Game {
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
         gameState = GameState.initial(tickets, rng);
-
+        System.out.println(gameState.toString());
 
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
-        //TODO PAS UTILISER LA METHODE receiveInfo ?!
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
             players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst()); //info qui va jouer
-            players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
+            players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
+            gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
+            //players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
             players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
             updateState(players, gameState);
             mapTicketsChoisis.put(playerId, players.get(playerId).chooseInitialTickets());
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
+            System.out.println(gameState.toString());
 
         }));
         //info tickets choisis:
