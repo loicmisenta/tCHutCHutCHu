@@ -83,8 +83,7 @@ class GameTest {
                 throw new Error("Trop de tours joués !");
 
             // Détermine les routes dont ce joueur peut s'emparer
-            List<Route> claimableRoutes = List.of(ChMap.routes().get(0), ChMap.routes().get(1), ChMap.routes().get(2), ChMap.routes().get(3),
-                    ChMap.routes().get(4), ChMap.routes().get(5), ChMap.routes().get(6), ChMap.routes().get(7));
+            List<Route> claimableRoutes = List.of();
             if (claimableRoutes.isEmpty()) {
                 System.out.println(" claimableRoutes est vide, donc pioche cartes");
                 return TurnKind.DRAW_CARDS;
