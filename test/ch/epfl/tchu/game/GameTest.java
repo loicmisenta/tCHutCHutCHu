@@ -3,10 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.SortedBag;
 import org.junit.jupiter.api.Test;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author loicmisenta
@@ -103,11 +100,17 @@ class GameTest {
                 throw new Error("Trop de tours joués !");
 
             // Détermine les routes dont ce joueur peut s'emparer
-            List<Route> claimableRoutes = List.of();
+            List<Route> claimableRoutes = new ArrayList<>();
+            for (Route r: allRoutes) {
+                if (ownState.canClaimRoute(r)){
+                    claimableRoutes.add(r);
+                }
+            }
             if (claimableRoutes.isEmpty()) {
                 System.out.println("ClaimableRoutes est vide, donc pioche cartes");
                 return TurnKind.DRAW_CARDS;
             } else {
+
                 int routeIndex = rng.nextInt(claimableRoutes.size());
                 Route route = claimableRoutes.get(routeIndex);
                 List<SortedBag<Card>> cards = ownState.possibleClaimCards(route);
@@ -130,7 +133,7 @@ class GameTest {
 
         @Override
         public int drawSlot() {
-            System.out.println("le joueur pioche la" + random );
+            System.out.println("le joueur pioche la " + random );
             return random;
         }
 
@@ -142,8 +145,8 @@ class GameTest {
 
         @Override
         public SortedBag<Card> initialClaimCards() {
-            System.out.println("Le joueur a choisi les cartes initiales pour prenre la rote");
-            return null;
+            System.out.println("Le joueur a choisi les cartes initiales pour prenre la route");
+            return ownState.possibleClaimCards(claimedRoute()).get(0);
         }
 
         @Override
@@ -158,8 +161,8 @@ class GameTest {
     void testPlay(){
         Map<PlayerId, Player> players = new EnumMap<>(PlayerId.class);
         Map<PlayerId, String> playerName = new EnumMap<>(PlayerId.class);
-        Player firstPlayer = new TestPlayer((long)3.5, List.of());
-        Player secondPlayer = new TestPlayer((long)3.5, List.of());
+        Player firstPlayer = new TestPlayer((long)3.5, ChMap.routes());
+        Player secondPlayer = new TestPlayer((long)3.5, ChMap.routes());
         players.put(PlayerId.PLAYER_1, firstPlayer);
         players.put(PlayerId.PLAYER_2, secondPlayer);
         playerName.put(PlayerId.PLAYER_1, "Loïc");
