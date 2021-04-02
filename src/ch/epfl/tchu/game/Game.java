@@ -27,21 +27,20 @@ public final class Game {
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
         gameState = GameState.initial(tickets, rng);
-        System.out.println(gameState.toString());
 
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
         players.forEach(((playerId, player) -> {
-            players.get(playerId).initPlayers(playerId, playerNames);
+            players.get(playerId).initPlayers(playerId, playerNames);                                          //TODO FAUUUUUUXXXXX
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
-            players.get(playerId).receiveInfo(infoMap.get(playerId).willPlayFirst()); //info qui va jouer
+            players.get(playerId).receiveInfo(infoMap.get(PlayerId.PLAYER_1).willPlayFirst()); //info qui va jouer      //TODO FAUUUUUUUXXX
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
             //players.get(playerId).setInitialTicketChoice(gameState.playerState(playerId).tickets());
             players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
             updateState(players, gameState);
-            mapTicketsChoisis.put(playerId, players.get(playerId).chooseInitialTickets());
+            SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();
+            mapTicketsChoisis.put(playerId, initialticket);
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
-            System.out.println(gameState.toString());
 
         }));
         //info tickets choisis:

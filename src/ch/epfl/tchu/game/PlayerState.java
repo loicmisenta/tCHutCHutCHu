@@ -119,7 +119,6 @@ public final class PlayerState extends PublicPlayerState{
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
         Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
         && (drawnCards.size() == 3)));
-        System.out.println(initialCards + " " + cards() );
 
         //La couleur de la carte supp
         Card carteDeCouleurJoué = null;
@@ -199,9 +198,9 @@ public final class PlayerState extends PublicPlayerState{
 
     @Override //TODO Supprimer
     public String toString() {
-        return "PlayerState{" +
-                "tickets=" + tickets +
-                ", cards=" + cards +
+        return "PlayerState = {" +
+                "tickets:" + tickets.toString() +
+                ", cards:" + cards.toString() +
                 '}';
     }
 }
