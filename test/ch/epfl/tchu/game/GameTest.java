@@ -146,7 +146,12 @@ class GameTest {
         @Override
         public SortedBag<Card> initialClaimCards() {
             System.out.println("Le joueur a choisi les cartes initiales pour prenre la route");
-            return ownState.possibleClaimCards(claimedRoute()).get(0);
+            List <Card> listeCarteProposee = new ArrayList<>();
+            for (int i = 0; i < ownState.cards().size()/2; i++) {
+                listeCarteProposee.add(ownState.cards().get(i));
+            }
+            return SortedBag.of(listeCarteProposee);
+
         }
 
         @Override
