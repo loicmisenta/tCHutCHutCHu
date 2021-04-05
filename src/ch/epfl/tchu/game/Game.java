@@ -50,7 +50,7 @@ public final class Game {
 
 
         //La déroulement de la partie
-        while (!gameState.lastTurnBegins() || !gameState.currentPlayerId().equals(gameState.lastPlayer())) {
+        while (!gameState.lastTurnBegins() && !gameState.currentPlayerId().equals(gameState.lastPlayer())) {
 
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);

@@ -100,7 +100,44 @@ class GameTest {
                 throw new Error("Trop de tours joués !");
 
             // Détermine les routes dont ce joueur peut s'emparer
-            List<Route> claimableRoutes = gameState.claimedRoutes();
+
+            List<Route> preClaimableRoutes = new ArrayList<>(allRoutes);
+            List<Route> claimableRoutes = new ArrayList<>();
+            for (Route r : allRoutes) {
+                for (int j = 0; j < gameState.claimedRoutes().size(); j++) {
+                    if (r == gameState.claimedRoutes().get(j)) {
+                        preClaimableRoutes.remove(r);
+                    }
+                }
+            }
+
+            for (Route r : preClaimableRoutes) {
+                if (ownState.canClaimRoute(r)) claimableRoutes.add(r);
+            }
+
+
+            System.out.println(" --- > nb de carte de la pioche : " + gameState.cardState().deckSize() + " < --- ");
+            System.out.println(" --- > cartes face visible : " + gameState.cardState().faceUpCards() + " < --- ");
+            System.out.println(" --- > nb de carte de la défausse : " + gameState.cardState().discardsSize() + " < --- ");
+            System.out.println(" --- > nb de carte total pas en main du joueur : " + gameState.cardState().totalSize() + " < --- ");
+
+            System.out.println(" --- > nb de route prise au total : " + (88 - preClaimableRoutes.size()) + " < --- ");
+            System.out.println(" --- > size claimableRoutes & allRoutes -->   " + claimableRoutes.size() + "    " + allRoutes.size() + " < --- ");
+            System.out.println();
+            System.out.println("JOUEUR 1 nb de routes prises : ");
+            System.out.println(gameState.playerState(PlayerId.PLAYER_1).routes().size());
+            System.out.println();
+            System.out.println("JOUEUR 2 nb de routes prises : ");
+            System.out.println(gameState.playerState(PlayerId.PLAYER_2).routes().size());
+            System.out.println();
+
+            //nombre de carte en jeu doit etre egal a 110:
+            if (gameState.cardState().deckSize() + gameState.cardState().discardsSize()
+                    + gameState.cardState().faceUpCards().size() + gameState.playerState(PlayerId.PLAYER_1).cardCount()
+                    + gameState.playerState(PlayerId.PLAYER_2).cardCount() != 110){
+                throw new IllegalArgumentException("nombre de carte en jeu PAS EGAL 110");
+            }
+
             if (claimableRoutes.isEmpty()) {
                 System.out.println("ClaimableRoutes est vide, donc pioche cartes");
                 return TurnKind.DRAW_CARDS;
