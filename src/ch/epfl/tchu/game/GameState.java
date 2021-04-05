@@ -154,8 +154,6 @@ public final class GameState extends PublicGameState{
      */
     public GameState withBlindlyDrawnCard(){
         Preconditions.checkArgument(canDrawCards());
-        //playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard()));
-
         return new GameState( cardState.withoutTopDeckCard(), currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard())), lastPlayer(), tickets);
     }
 

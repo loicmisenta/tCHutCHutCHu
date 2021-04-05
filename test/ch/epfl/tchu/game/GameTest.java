@@ -42,14 +42,7 @@ class GameTest {
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
             this.playerNames = playerNames;
             System.out.println(playerNames.get(ownId) + " a été initilalisé");
-            /*
-            System.out.println();
-            System.out.println();
-            System.out.println(playerNames.get(PlayerId.PLAYER_1) + " seras le joueur 1");
-            System.out.println(playerNames.get(PlayerId.PLAYER_2) + " seras le joueur 2");
-            System.out.println();
 
-             */
             System.out.println();
             nomPlayer1 = playerNames.get(PlayerId.PLAYER_1);
             nomPlayer2 = playerNames.get(PlayerId.PLAYER_2);
@@ -140,19 +133,20 @@ class GameTest {
         @Override
         public Route claimedRoute() {
             System.out.println("Le joueur a claim une route" + " tjrs la 1ere ");
-            return ChMap.routes().get(0);
+            return routeToClaim;
         }
 
         @Override
         public SortedBag<Card> initialClaimCards() {
             System.out.println("Le joueur a choisi les cartes initiales pour prenre la route");
-            return ownState.possibleClaimCards(claimedRoute()).get(0);
+            return initialClaimCards;
         }
 
         @Override
         public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
-            System.out.println("Les cartes additionnelles choisies sont à l'incdex " + random  + " " + options.get(random).toString());
-            return options.get(random);
+            SortedBag<Card> option = options.get(0);
+            System.out.println("Les cartes additionnelles choisies sont à l'incdex " + 0  + " " + option);
+            return option;
         }
     }
 

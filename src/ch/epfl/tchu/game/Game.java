@@ -86,16 +86,17 @@ public final class Game {
                     updateState(players, gameState);
                     break;
                 case CLAIM_ROUTE:
+                    System.out.println("route");
                     Route claimRoute = joueurCourant.claimedRoute();
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
 
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
                         SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
-                        SortedBag<Card> listCartePioche = SortedBag.of();
+                        SortedBag<Card> listCartePioche;
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
                             gameState = deckisEmpty(rng); //redefnir si vide
-                            joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player
+                            joueurCourant.drawSlot(); // à chaque fois faire une action sur le Player //TODO erreur drawSlot
                             listecartebuilder.add(gameState.topCard());
                             gameState = gameState.withoutTopCard();
                         }
@@ -104,12 +105,14 @@ public final class Game {
 
                         int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
                         receiveInfo(players, infoMap.get(currentId).drewAdditionalCards(listCartePioche, nbCarteAdd));
-                        if (nbCarteAdd != 0){
-                            SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche));//en paramètre le 3 cartes piochés
-                            if (carteAddChoisi.size() == 0){
+                        if (nbCarteAdd != 0){ // TODO arrayOutOfBounds ? ici ? erreur car INdex random est OUTOFBOUNDS DANS LE TEST
+                            List<SortedBag<Card>> possibleAddCartes = gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche);//en paramètre le 3 cartes piochés
+                            if (possibleAddCartes.size() == 0){
                                 receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
                             }
                             else {
+
+                                SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche));
                                 receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
                                 gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));//TODO REPONSE piazza...
                             }
@@ -192,6 +195,7 @@ public final class Game {
 
     private static GameState deckisEmpty(Random rng){
         if(gameState.cardState().isDeckEmpty()) {
+            System.out.println("va mélanger des cartes"); // TODO  enlever
             return gameState.withCardsDeckRecreatedIfNeeded(rng);
         } else return gameState;
     }
