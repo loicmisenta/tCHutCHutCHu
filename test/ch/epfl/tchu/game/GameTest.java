@@ -100,12 +100,7 @@ class GameTest {
                 throw new Error("Trop de tours joués !");
 
             // Détermine les routes dont ce joueur peut s'emparer
-            List<Route> claimableRoutes = new ArrayList<>();
-            for (Route r: allRoutes) {
-                if (ownState.canClaimRoute(r)){
-                    claimableRoutes.add(r);
-                }
-            }
+            List<Route> claimableRoutes = gameState.claimedRoutes();
             if (claimableRoutes.isEmpty()) {
                 System.out.println("ClaimableRoutes est vide, donc pioche cartes");
                 return TurnKind.DRAW_CARDS;
