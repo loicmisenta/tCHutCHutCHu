@@ -42,7 +42,14 @@ class GameTest {
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
             this.playerNames = playerNames;
             System.out.println(playerNames.get(ownId) + " a été initilalisé");
+            /*
+            System.out.println();
+            System.out.println();
+            System.out.println(playerNames.get(PlayerId.PLAYER_1) + " seras le joueur 1");
+            System.out.println(playerNames.get(PlayerId.PLAYER_2) + " seras le joueur 2");
+            System.out.println();
 
+             */
             System.out.println();
             nomPlayer1 = playerNames.get(PlayerId.PLAYER_1);
             nomPlayer2 = playerNames.get(PlayerId.PLAYER_2);

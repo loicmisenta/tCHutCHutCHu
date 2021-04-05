@@ -91,6 +91,8 @@ public final class Game {
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
 
                     if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
+                        System.out.println("------------------------------------------" + claimRoute);
+                        System.out.println("-------------------------------------------------------" + claimCards);
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute,claimCards));
                         SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
                         SortedBag<Card> listCartePioche;
