@@ -42,25 +42,28 @@ class GameTest {
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
             this.playerNames = playerNames;
             System.out.println(playerNames.get(ownId) + " a été initilalisé");
-            /*
+
             System.out.println();
             System.out.println();
             System.out.println(playerNames.get(PlayerId.PLAYER_1) + " seras le joueur 1");
             System.out.println(playerNames.get(PlayerId.PLAYER_2) + " seras le joueur 2");
             System.out.println();
-
-             */
             System.out.println();
             nomPlayer1 = playerNames.get(PlayerId.PLAYER_1);
             nomPlayer2 = playerNames.get(PlayerId.PLAYER_2);
+            System.out.println();
+
+
 
         }
 
         @Override
         public void receiveInfo(String info) {
+            System.out.println(); //TODO comment savoir à quel joueur s'affiche l'info ?
+            System.out.println();
+            System.out.println(ownState + " a reçu l'info : ");
             System.out.println();
             System.out.println(info);
-            System.out.println();
         }
 
         @Override
@@ -85,12 +88,16 @@ class GameTest {
 
         @Override
         public SortedBag<Ticket> chooseInitialTickets() {
-            System.out.println("le joueur prend 2 ticket au hasard");
+            System.out.println("Le joueur choisit 3 tickets");
             Random randomticket1 = new Random();
             Ticket ticket1 = tickets.get(randomticket1.nextInt(5));
             Random randomticket2 = new Random();
             Ticket ticket2 = tickets.get(randomticket2.nextInt(5));
-            return SortedBag.of(1, ticket1, 1, ticket2);
+            Random randomticket3 = new Random();
+            Ticket ticket3 = tickets.get(randomticket3.nextInt(5));
+            SortedBag.Builder<Ticket> construction = new SortedBag.Builder<>();
+            construction.add(ticket1).add(ticket2).add(ticket3);
+            return construction.build();
         }
 
         @Override
@@ -130,6 +137,13 @@ class GameTest {
             System.out.println("JOUEUR 2 nb de routes prises : ");
             System.out.println(gameState.playerState(PlayerId.PLAYER_2).routes().size());
             System.out.println();
+            System.out.println();
+            System.out.println("JOUEUR 1 nb de wagons : restants");
+            System.out.println(gameState.playerState(PlayerId.PLAYER_1).carCount());
+            System.out.println();
+            System.out.println("JOUEUR 2 nb de wagons : restants");
+            System.out.println(gameState.playerState(PlayerId.PLAYER_2).carCount());
+            System.out.println();
 
             //nombre de carte en jeu doit etre egal a 110:
             if (gameState.cardState().deckSize() + gameState.cardState().discardsSize()
@@ -165,13 +179,15 @@ class GameTest {
 
         @Override
         public int drawSlot() {
+            Random rn = new Random();
+            int random = rn.nextInt(3);
             System.out.println("le joueur pioche la " + random );
             return random;
         }
 
         @Override
         public Route claimedRoute() {
-            System.out.println("Le joueur a claim une route" + " tjrs la 1ere ");
+            System.out.println("Le joueur va claim une route");
             return routeToClaim;
         }
 

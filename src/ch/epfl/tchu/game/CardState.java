@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public final class CardState extends PublicCardState{
     //Creer une nouvelle pioche
-    private final Deck<Card> deck; //TODO
+    private final Deck<Card> deck;
     private final SortedBag<Card> discards;
 
     /**
@@ -31,6 +31,7 @@ public final class CardState extends PublicCardState{
         this.discards = SortedBag.of(discards); //deckSize = deck.size
     }
 
+
     /**
      *
      * @param deck
@@ -41,6 +42,7 @@ public final class CardState extends PublicCardState{
         return new CardState(deck.topCards(5).toList(), deck.withoutTopCards(5), SortedBag.of());
 
     }
+
 
     /**
      *
