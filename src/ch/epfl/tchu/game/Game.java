@@ -24,7 +24,10 @@ public final class Game {
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument((players.size() == 2) || (playerNames.size() == 2));
 
+
         //Le début de la partie
+        boolean lastTurn = false;
+        //boolean lastPlayer = false;
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
         gameState = GameState.initial(tickets, rng);
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
@@ -38,30 +41,38 @@ public final class Game {
             SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();
             mapTicketsChoisis.put(playerId, initialticket);
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
-            players.get(playerId).receiveInfo(infoMap.get(PlayerId.PLAYER_1).willPlayFirst()); //info qui va jouer //TODO  TOUT LE TEMPS LE MÈME!
-            //receiveInfo(players, infoMap.get(PlayerId.PLAYER_1).willPlayFirst());                                //TODO  QUI RECOIT L'INFO
-            players.get(playerId).receiveInfo(infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT)); //info tickets init
-            //receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT));
         }));
+        receiveInfo(players, infoMap.get(PlayerId.PLAYER_1).willPlayFirst());
+
+        players.forEach(((playerId, player) -> { //TODO à refaire pas efficace !!
+        receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT));
+        }));
+
         //info tickets choisis:
         players.forEach(((playerId, player) -> {
-            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()));
+            players.get(playerId).receiveInfo(infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()), playerId);
                 }));
 
 
+
         //La déroulement de la partie
-        while (!gameState.currentPlayerId().equals(gameState.lastPlayer())) {
+        while (!gameState.lastTurnBegins() && !gameState.currentPlayerId().equals(gameState.lastPlayer())) {   // || lastPlayer
 
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);
-            if (gameState.lastTurnBegins()){ //ne va jamais y renter ?
-                receiveInfo(players, infoMap.get(currentId).lastTurnBegins(gameState.playerState(currentId).carCount()));
-            }
-            joueurCourant.receiveInfo(infoMap.get(currentId).canPlay()); //info tour commence
+
+            if (lastTurn ){ // && !lastPlayer
+                System.out.println("-----------------------------------LE DERNIER TOUR COMMENCE-------------------------------------");
+                receiveInfo(players, infoMap.get(gameState.lastPlayer()).lastTurnBegins(gameState.playerState(gameState.lastPlayer()).carCount()));
+
+            //    lastPlayer = true;
+            } //else if ( lastPlayer) { lastPlayer =false;}
+
+            receiveInfo(players, infoMap.get(currentId).canPlay()); //info tour commence
             updateState(players, gameState);
 
 
-            switch (joueurCourant.nextTurn()) {
+            switch (joueurCourant.nextTurn()) { //TODO NE PASSE PAS DEDANS !!
 
                 case DRAW_TICKETS:
                     receiveInfo(players, infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT));//info tire des billets
@@ -121,18 +132,23 @@ public final class Game {
                             }
                         }
                         else{
-                            joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
+                            receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                             gameState = gameState.withClaimedRoute(claimRoute, claimCards);
                         }
 
                     }
                     else {
-                        joueurCourant.receiveInfo(infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
+                        receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                         gameState = gameState.withClaimedRoute(claimRoute, claimCards);
                     }
                     break;
             }
             updateState(players, gameState);
+
+            if(gameState.lastTurnBegins()){
+                System.out.println("------------l'appel au dernier tour --------");
+                lastTurn = true;
+            }
             gameState = gameState.forNextTurn();
         }
 
@@ -151,7 +167,7 @@ public final class Game {
                 listLongestTrail.clear();
                 listLongestTrail.add(joueur);
             }
-            //TODO PROBLÈME !! S'AFFICHE POUR LES DEUX !!!!
+
             if(gameState.playerState(joueur).finalPoints() == maxPoints){
                 playerNamesWon.add(joueur.name());
             } else if (gameState.playerState(joueur).finalPoints() > maxPoints){
@@ -163,21 +179,49 @@ public final class Game {
         }
 
         int finalMaxPoints = maxPoints;
-        players.forEach(((playerId, player) -> {
-            if (listLongestTrail.size() > 1){ players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(playerId.next()).routes()))); }
-            players.get(playerId).receiveInfo(infoMap.get(playerId).getsLongestTrailBonus(Trail.longest(gameState.playerState(playerId.next()).routes())));
 
+            PlayerId plrLongestTr = listLongestTrail.get(0);
+            //if dans le cas où il y a deux routes de même longueur
+            if (listLongestTrail.size() > 1){receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
+            receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr).routes())));
+
+        players.forEach(((playerId, player) -> {
             int finalPoints = gameState.playerState(playerId).finalPoints();
             int otherPoints = gameState.playerState(playerId.next()).finalPoints();
-
             if(finalPoints > otherPoints){
-                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
+                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints), playerId);
             } else if (finalPoints < otherPoints ){
-                players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
+                players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints), playerId);
             } else {
-                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
+                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints), playerId);
             }
         }));
+
+        //TODO TEST
+        System.out.println("PLAYER 1" );
+        System.out.println();
+        System.out.println( "Claim Points");
+        System.out.println(gameState.playerState(PlayerId.PLAYER_1).claimPoints());
+        System.out.println();
+        System.out.println( "Routes");
+        System.out.println( gameState.playerState(PlayerId.PLAYER_1).routes());
+        System.out.println();
+        System.out.println("Tickets ");
+        System.out.println(gameState.playerState(PlayerId.PLAYER_1).tickets());
+        System.out.println();
+
+
+        System.out.println("PLAYER 2" );
+        System.out.println();
+        System.out.println( "Claim Points");
+        System.out.println(gameState.playerState(PlayerId.PLAYER_2).claimPoints());
+        System.out.println();
+        System.out.println( "Routes");
+        System.out.println( gameState.playerState(PlayerId.PLAYER_2).routes());
+        System.out.println();
+        System.out.println("Tickets ");
+        System.out.println(gameState.playerState(PlayerId.PLAYER_2).tickets());
+        System.out.println();
     }
 
 
@@ -196,7 +240,7 @@ public final class Game {
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string){
         playersMap.forEach(((playerId, player) -> {
             System.out.println();
-            player.receiveInfo(string);
+            player.receiveInfo(string, playerId); //TODO supprimer player
         }));
     }
 

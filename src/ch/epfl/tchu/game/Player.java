@@ -34,7 +34,7 @@ public interface Player {
      * Méthode appelée chaque fois qu'une information doit être communiquée au joueur au cours de la partie
      * @param info l'information
      */
-    public abstract void receiveInfo(String info);
+    public abstract void receiveInfo(String info, PlayerId player); //TODO supprimer player
 
     /**
      * Appelée chaque fois que l'état du jeu change et prévient le joueur du

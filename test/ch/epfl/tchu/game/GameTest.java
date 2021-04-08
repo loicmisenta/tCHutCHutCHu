@@ -58,12 +58,13 @@ class GameTest {
         }
 
         @Override
-        public void receiveInfo(String info) {
+        public void receiveInfo(String info, PlayerId player) {
             System.out.println(); //TODO comment savoir à quel joueur s'affiche l'info ?
             System.out.println();
-            System.out.println(ownState + " a reçu l'info : ");
+            System.out.println(player + " a reçu l'info : ");
             System.out.println();
             System.out.println(info);
+            System.out.println();
         }
 
         @Override
@@ -174,8 +175,7 @@ class GameTest {
             return SortedBag.of(ChMap.tickets());
         }
 
-        Random rn = new Random();
-        int random = rn.nextInt(3);
+
 
         @Override
         public int drawSlot() {
