@@ -58,10 +58,8 @@ class GameTest {
         }
 
         @Override
-        public void receiveInfo(String info, PlayerId player) {
-            System.out.println(); //TODO comment savoir à quel joueur s'affiche l'info ?
+        public void receiveInfo(String info) {
             System.out.println();
-            System.out.println(player + " a reçu l'info : ");
             System.out.println();
             System.out.println(info);
             System.out.println();
