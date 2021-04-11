@@ -10,7 +10,7 @@ import ch.epfl.tchu.Preconditions;
 */
 public class StationPartition implements StationConnectivity  {
 
-    private final int[] liens; //TODO  privé
+    private final int[] liens;
 
     /**
      * Constructeur de la partition
@@ -27,11 +27,11 @@ public class StationPartition implements StationConnectivity  {
      * de partition de gare
      */
     public static final class Builder{
-        private int[] buildLiens;
+        private final int[] buildLiens;
 
         /**
          * Constructeur public du builder
-         * @param stationCount
+         * @param stationCount le nb de stations
          * @throw IllegalArgumentException (grâce à Preconditions)
          * si stationCount est négatif
          */
@@ -93,13 +93,8 @@ public class StationPartition implements StationConnectivity  {
     @Override
     public boolean connected(Station s1, Station s2) {
         if (s1.id()< liens.length && s2.id() < liens.length){
-            if (liens[s1.id()] == liens[s2.id()]){
-                return true;
-            }
-        } else if(s1.id() == s2.id()){
-            return true;
-        }
-        return false;
+            return liens[s1.id()] == liens[s2.id()];
+        } else return s1.id() == s2.id();
     }
 
 

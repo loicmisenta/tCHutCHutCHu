@@ -15,7 +15,7 @@ import java.util.List;
  * décrivant le déroulement d'une partie
  */
 public final class Info {
-    private String playerName;
+    private final String playerName;
 
     /**
      * Constructeur qui prend en paramètre le
@@ -182,8 +182,6 @@ public final class Info {
 
     //PLUS SIMPLE?
     private String cardToString(SortedBag<Card> cards){
-
-        int count = 0;
         String cardsString = "";
         List<String> listString = new ArrayList<>();
 
@@ -191,17 +189,14 @@ public final class Info {
         if (cards.size() == 1){
             int n = cards.countOf(cards.get(0));
             listString.add( n + " " + cardName(cards.get(0), n));
-            count += 1;
         } else {
         //Boucle principale, crée les cartes
         for (int i = 0; i < cards.size() ; i++) {
 
             //CONDITION POUR LA DERNIERE CARTE?
-
             int n = cards.countOf(cards.get(i));
             listString.add( n + " " + cardName(cards.get(i), n));
             i += n-1;
-            count += n;
 
         } }
         if(listString.size() == 1){

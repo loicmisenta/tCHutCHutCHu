@@ -12,5 +12,5 @@ public interface StationConnectivity {
      * @param s2 gare 2
      * @return boolean si les deux gares sont connectés
      */
-    public abstract boolean connected(Station s1, Station s2);
+    boolean connected(Station s1, Station s2);
 }

@@ -4,7 +4,6 @@ import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +33,7 @@ public final class CardState extends PublicCardState{
 
     /**
      *
-     * @param deck
+     * @param deck un deck de cartes
      * @return CardState avec les 5 premières cartes du deck face visible, la pioche sera les cartes restante.
      */
     public static CardState of(Deck<Card> deck){
@@ -46,18 +45,18 @@ public final class CardState extends PublicCardState{
 
     /**
      *
-     * @param slot
-     * @return CardState avec les carte faces visible identiques sauf celle a l'indice slot est remplacée par
+     * @param slot l'indice
+     * @return CardState avec les carte faces visible identiques sauf celle à slot est remplacée par
      * la première carte de la pioche
      */
     public CardState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(!deck.isEmpty());
         if((slot < 0) || (slot >= 5)) throw new IndexOutOfBoundsException();
-        List<Card> piocheModifié = new ArrayList<>(List.copyOf(faceUpCards()));
-        piocheModifié.remove(slot);
-        piocheModifié.add(slot, topDeckCard());
+        List<Card> piocheModifie = new ArrayList<>(List.copyOf(faceUpCards()));
+        piocheModifie.remove(slot);
+        piocheModifie.add(slot, topDeckCard());
 
-        return new CardState(piocheModifié,  deck.withoutTopCard(), discards);
+        return new CardState(piocheModifie,  deck.withoutTopCard(), discards);
     }
 
     /**

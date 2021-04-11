@@ -1,8 +1,4 @@
 package ch.epfl.tchu.game;
-
-import java.awt.*;
-import java.net.SocketOption;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

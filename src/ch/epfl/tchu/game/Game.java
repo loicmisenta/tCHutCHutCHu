@@ -5,7 +5,6 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author loicmisenta
@@ -44,15 +43,11 @@ public final class Game {
         }));
         receiveInfo(players, infoMap.get(PlayerId.PLAYER_1).willPlayFirst());
 
-        //info ticekts piochés:  //TODO simplifier?
-        players.forEach(((playerId, player) -> {
-            receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT));
-                }));
+        //info tickets piochés:  //TODO simplifier?
+        players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT))));
 
         //info tickets choisis:
-        players.forEach(((playerId, player) -> {
-            receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()));
-                }));
+        players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
 
 
         do { middleGame(players, infoMap, rng);
@@ -88,7 +83,6 @@ public final class Game {
                 playerNamesWon.clear();
                 playerNamesWon.add(joueur.name());
             }
-
         }
 
 
@@ -192,16 +186,12 @@ public final class Game {
 
 
     private static void updateState(Map<PlayerId, Player> playersMap, GameState gameState){
-        playersMap.forEach(((playerId, player) -> {
-            playersMap.get(playerId).updateState(gameState, gameState.currentPlayerState());
-        }));
+        playersMap.forEach(((playerId, player) -> playersMap.get(playerId).updateState(gameState, gameState.currentPlayerState())));
     }
 
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string){
-        playersMap.forEach(((playerId, player) -> {
-            player.receiveInfo(string);
-        }));
+        playersMap.forEach(((playerId, player) -> player.receiveInfo(string)));
     }
 
     private static GameState deckisEmpty(Random rng){

@@ -121,34 +121,34 @@ public final class PlayerState extends PublicPlayerState{
         && (drawnCards.size() == 3)));
 
         //La couleur de la carte supp
-        Card carteDeCouleurJoué = null;
+        Card carteDeCouleurJoue = null;
         for (int i = 0; i < initialCards.size(); i++) {
             if(initialCards.get(i).color() != null){
-                carteDeCouleurJoué = initialCards.get(i);
+                carteDeCouleurJoue = initialCards.get(i);
             }  //ajouter dans une liste si locomotive ou une couleur
         }
 
-        SortedBag<Card> sansCartesJoués = cards().difference(initialCards);
+        SortedBag<Card> sansCartesJoues = cards().difference(initialCards);
 
-        SortedBag.Builder<Card> cartesJouables = new SortedBag.Builder<Card>();
-        for (Card cartes : sansCartesJoués) {
-            if((cartes == carteDeCouleurJoué) || (cartes == Card.LOCOMOTIVE)){
+        SortedBag.Builder<Card> cartesJouables = new SortedBag.Builder<>();
+        for (Card cartes : sansCartesJoues) {
+            if((cartes == carteDeCouleurJoue) || (cartes == Card.LOCOMOTIVE)){
                 cartesJouables.add(cartes);
             }
         }
-        SortedBag<Card> cartesJoués = cartesJouables.build();
+        SortedBag<Card> cartesJoues = cartesJouables.build();
 
         //ajout des subsets de taille donnée dans une liste
-        List<SortedBag<Card>> possibilitésDesCartes = new ArrayList<>();
+        List<SortedBag<Card>> possibilitesDesCartes = new ArrayList<>();
 
-        if(cartesJoués.size() >= additionalCardsCount) {
+        if(cartesJoues.size() >= additionalCardsCount) {
             //condition si addCC est plus grand
-            possibilitésDesCartes.addAll(cartesJoués.subsetsOfSize(additionalCardsCount));
+            possibilitesDesCartes.addAll(cartesJoues.subsetsOfSize(additionalCardsCount)); //TODO can be replaced with parametrized constructor call
             //tri des cartes
-            possibilitésDesCartes.sort(
+            possibilitesDesCartes.sort(
                     Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
-            return possibilitésDesCartes;
+            return possibilitesDesCartes;
         } else return List.of();
     }
 
@@ -158,10 +158,10 @@ public final class PlayerState extends PublicPlayerState{
      * au moyen des @param claimCards données,
      */
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards){
-        SortedBag<Card> sansCartesJoués = cards().difference(claimCards);
-        List<Route> avecRouteEmparé = new ArrayList<>(routes());
-        avecRouteEmparé.add(route);
-        return new PlayerState(tickets, SortedBag.of(sansCartesJoués), avecRouteEmparé);
+        SortedBag<Card> sansCartesJoues = cards().difference(claimCards);
+        List<Route> avecRouteEmpare = new ArrayList<>(routes());
+        avecRouteEmpare.add(route);
+        return new PlayerState(tickets, SortedBag.of(sansCartesJoues), avecRouteEmpare);
     }
 
     /**

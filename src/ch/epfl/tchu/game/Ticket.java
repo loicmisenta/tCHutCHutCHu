@@ -1,8 +1,6 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -19,13 +17,13 @@ public final class Ticket implements Comparable<Ticket>{
 
     /**
      * Constructeur Principal du Ticket à partir  du'une liste de trajets:
-     * @param trips
+     * @param trips les trajets
      */
     public Ticket(List<Trip> trips) {
         boolean allSameFrom = true;
         for (int i = 1; i < trips.size(); i++) {
             if (!(trips.get(0).from().name().equals(trips.get(i).from().name()))){
-                System.out.println(trips.get(0).from().toString() + "     " + trips.get(i).from().toString());;
+                System.out.println(trips.get(0).from().toString() + "     " + trips.get(i).from().toString());
                 allSameFrom = false;
             }
         }
@@ -85,9 +83,9 @@ public final class Ticket implements Comparable<Ticket>{
 
     public int points(StationConnectivity connectivity){
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < trips.size(); i++) {
-            if (trips.get(i).points(connectivity) > max){
-                max = trips.get(i).points(connectivity);
+        for (Trip trip : trips) {
+            if (trip.points(connectivity) > max) {
+                max = trip.points(connectivity);
             }
         }
         return max;

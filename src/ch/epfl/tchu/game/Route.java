@@ -46,7 +46,7 @@ public final class Route {
         this.id = Objects.requireNonNull(id);
         this.station1 = Objects.requireNonNull(station1);
         this.station2 = Objects.requireNonNull(station2);
-        this.length = Objects.requireNonNull(length);
+        this.length = length;
         this.level = Objects.requireNonNull(level);
         this.color = color;
 
@@ -57,7 +57,7 @@ public final class Route {
      * peut se trouver
      */
     public enum Level {
-        OVERGROUND, UNDERGROUND;
+        OVERGROUND, UNDERGROUND
     }
 
     /**
@@ -134,8 +134,6 @@ public final class Route {
      * pour s'emparer d'une route
      */
     public List<SortedBag<Card>> possibleClaimCards() {
-
-        SortedBag.Builder<Card> possibleClaimCards = new SortedBag.Builder<>();
         List<SortedBag<Card>> sortedBagList = new ArrayList<>();
         int j = length();  // j = nb de wagons
 
@@ -204,15 +202,4 @@ public final class Route {
         return Constants.ROUTE_CLAIM_POINTS.get(length());
     }
 
-    @Override
-    public String toString() {
-        return "Route{" +
-                "id='" + id + '\'' +
-                ", station1=" + station1 +
-                ", station2=" + station2 +
-                ", length=" + length +
-                ", level=" + level +
-                ", color=" + color +
-                '}';
-    }
 }

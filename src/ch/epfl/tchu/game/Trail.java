@@ -1,7 +1,6 @@
 package ch.epfl.tchu.game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,6 +32,8 @@ public final class Trail {
         this.length = length;
         this.routes = List.copyOf(routes);
     }
+
+
     //private reverse
     private static Route reverseRoute(Route route){
         return new Route(route.id(), route.station2(), route.station1(), route.length(), route.level(), route.color());
@@ -72,7 +73,7 @@ public final class Trail {
     public static Trail longest(List<Route> routes){
 
 
-        List<Trail> cs = new ArrayList<Trail>();
+        List<Trail> cs = new ArrayList<>();
         for (Route r: routes) {
             cs.add(new Trail(List.of(r)));
             cs.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));

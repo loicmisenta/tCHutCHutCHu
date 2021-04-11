@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static java.util.Collections.shuffle;
-import static java.util.List.copyOf;
 
 /**
  * @author loicmisenta
@@ -20,7 +18,7 @@ public final class Deck<C extends Comparable<C>>  {
 
     private final List<C> cards;
 
-    public Deck( List<C> cards){
+    private Deck( List<C> cards){
         this.cards = List.copyOf(cards);
     }
 
@@ -36,7 +34,7 @@ public final class Deck<C extends Comparable<C>>  {
     public static <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng){
         List<C> cardArray = new ArrayList<>(cards.toList());
         Collections.shuffle(cardArray, rng);
-        return new Deck<C>( cardArray);
+        return new Deck<>( cardArray);
     }
 
 
@@ -74,7 +72,7 @@ public final class Deck<C extends Comparable<C>>  {
      */
     public Deck<C> withoutTopCard(){
         Preconditions.checkArgument(!isEmpty());
-        return new Deck<C>( (cards).subList(1, size()));
+        return new Deck<>( (cards).subList(1, size()));
     }
 
     /**
@@ -96,7 +94,7 @@ public final class Deck<C extends Comparable<C>>  {
      */
     public Deck<C> withoutTopCards(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= size()));
-        return new Deck<C>((cards).subList(count , size()));
+        return new Deck<>((cards).subList(count , size()));
     }
 
 
