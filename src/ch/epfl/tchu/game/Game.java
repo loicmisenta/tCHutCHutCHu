@@ -28,7 +28,7 @@ public final class Game {
         gameState = GameState.initial(tickets, rng);
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
 
-        beguinGame(players, playerNames, infoMap, mapTicketsChoisis);
+        beginGame(players, playerNames, infoMap, mapTicketsChoisis);
 
         do { middleGame(players, infoMap, rng);
         } while (!gameState.lastTurnBegins() && (gameState.lastPlayer() == null));
@@ -42,7 +42,7 @@ public final class Game {
 
     }
 
-    private static void beguinGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis){
+    private static void beginGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis){
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
