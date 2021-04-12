@@ -22,7 +22,7 @@ public enum Card {
      * Constructeur de Card qui prend en compte:
      * @param color la coiuleur attribuée à un wagon
      */
-    private Card( Color color) {
+    Card(Color color) {
         this.color = color;
     }
 

@@ -23,7 +23,7 @@ public final class PlayerState extends PublicPlayerState{
      *
      * @param tickets ses tickets.
      * @param cards ses cartes.
-     * @param routes ses rouutes.
+     * @param routes ses routes.
      */
     public PlayerState(SortedBag<Ticket> tickets, SortedBag<Card> cards, List<Route> routes) {
         super(tickets.size(), cards.size(), routes);
@@ -37,7 +37,7 @@ public final class PlayerState extends PublicPlayerState{
      * @return l'état initial d'un joueur auquel les cartes initiales données ont été distribuées.
      */
     public static PlayerState initial(SortedBag<Card> initialCards){
-        Preconditions.checkArgument(initialCards.size()==4);
+        Preconditions.checkArgument(initialCards.size() == Constants.INITIAL_CARDS_COUNT);
         return new PlayerState(SortedBag.of(), initialCards, List.of());
     }
 
@@ -117,8 +117,8 @@ public final class PlayerState extends PublicPlayerState{
      * @return retourne la liste de tous les ensembles de cartes qu'il pourrait utiliser pour s'emparer d'un tunnel,
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
-        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount < 4)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
-        && (drawnCards.size() == 3)));
+        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
+        && (drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS)));
 
         //La couleur de la carte supp
         Card carteDeCouleurJoue = null;
@@ -168,23 +168,23 @@ public final class PlayerState extends PublicPlayerState{
      * @return  le nombre de points obtenus grâce à ses billets.
      */
     public int ticketPoints(){
-        int max = 0;
+        int maxValeur = 0;
         for (Route routesPossibles: routes()) {
             int maximumlocal = Math.max(routesPossibles.station1().id(), routesPossibles.station2().id());
-            if ( maximumlocal> max){
-                max = maximumlocal;
+            if ( maximumlocal> maxValeur){
+                maxValeur = maximumlocal;
             }
         }
-        StationPartition.Builder partitionBuild = new StationPartition.Builder(max + 1);
+        StationPartition.Builder partitionBuild = new StationPartition.Builder(maxValeur + 1);
         for (Route routesPossibles: routes()) { partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2()); }
         StationPartition partition = partitionBuild.build();
-        int point = 0;
+        int points = 0;
 
         for (Ticket t: tickets()) {
-            point += t.points(partition);
+            points += t.points(partition);
         }
 
-        return point;
+        return points;
     }
 
     /**

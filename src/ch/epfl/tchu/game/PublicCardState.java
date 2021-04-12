@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author loicmisenta
@@ -26,8 +27,8 @@ public class PublicCardState {
      * n'est pas d'exactement de 5 et la taille de la pioche ou des discards est négative
      */
     public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize){
-        Preconditions.checkArgument((faceUpCards.size() == 5) && (deckSize >= 0 ) && (discardsSize >= 0));
-        this.faceUpCards = List.copyOf(faceUpCards);   //faire ça avec chaque constructeur!
+        Preconditions.checkArgument((faceUpCards.size() == Constants.FACE_UP_CARDS_COUNT) && (deckSize >= 0 ) && (discardsSize >= 0));
+        this.faceUpCards = List.copyOf(faceUpCards);
         this.deckSize = deckSize;
         this.discardsSize = discardsSize;
     }
@@ -36,7 +37,7 @@ public class PublicCardState {
      * @return le nombre total de cartes qui ne sont pas en main des joueur
      */
     public int totalSize(){
-        return 5 + deckSize() + discardsSize();
+        return Constants.FACE_UP_CARDS_COUNT + deckSize() + discardsSize();
     }
 
     /**
@@ -53,7 +54,7 @@ public class PublicCardState {
      * @throws IndexOutOfBoundsException si l'index n'est pas compris entre 0 (inclus) et 5 (exclus)
      */
     public Card faceUpCard(int slot){
-        if ((slot < 0) || (slot >= 5)) throw new IndexOutOfBoundsException();
+        if ((slot < 0) || (slot >= Constants.FACE_UP_CARDS_COUNT)) throw new IndexOutOfBoundsException();
         return faceUpCards.get(slot);
     }
 

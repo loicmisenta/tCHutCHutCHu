@@ -142,7 +142,7 @@ public final class Game {
     private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap){
 
         int maxLength = 0;
-        int maxPoints = 0;
+        int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail= new ArrayList<>();
         List<String> playerNamesWon = new ArrayList<>();
         for (PlayerId joueur: PlayerId.ALL) {

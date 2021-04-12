@@ -40,9 +40,7 @@ public final class GameState extends PublicGameState{
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng){
         Deck<Card> piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
-
         Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
-
         PlayerId firstPlayer = PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT));
 
         for (PlayerId p: PlayerId.ALL) {
@@ -55,9 +53,8 @@ public final class GameState extends PublicGameState{
     }
 
     /**
-     * @return les
-     * @param count
-     * premier ticket
+     * @return un SortedBag de tickets
+     * @param count l'indice des premiers tickets
      */
     public SortedBag<Ticket> topTickets(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
@@ -67,8 +64,7 @@ public final class GameState extends PublicGameState{
     /**
      *
      * @return un état identique au récepteur, mais sans les
-     * @param count
-     * billets du sommet de la pioche
+     * @param count billets du sommet de la pioche
      */
     public GameState withoutTopTickets(int count){
         Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
@@ -117,10 +113,8 @@ public final class GameState extends PublicGameState{
     /**
      *
      * @return un état identique au récepteur mais dans lequel les
-     * @param chosenTickets
-     * donnés ont été ajoutés à la main du
-     * @param playerId
-     * donné
+     * @param chosenTickets tickets donnés ont été ajoutés à la main du
+     * @param playerId donné
      */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
         Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
@@ -130,8 +124,7 @@ public final class GameState extends PublicGameState{
     /**
      *
      * @return un état identique au récepteur, mais dans lequel le joueur courant a tiré
-     * @param drawnTickets
-     * du sommet de la pioche, et choisi de garder ceux contenus dans
+     * @param drawnTickets cartes piochés du sommet de la pioche, et choisi de garder ceux contenus dans
      * param chosenTickets
      */
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets){
@@ -141,8 +134,7 @@ public final class GameState extends PublicGameState{
 
     /**
      * @return un état identique au récepteur si ce n'est que la carte face retournée à
-     * @param slot
-     * a été placée dans la main du joueur courant, et remplacée par celle au sommet de la pioche
+     * @param slot l'indice a été placée dans la main du joueur courant, et remplacée par celle au sommet de la pioche
      */
     public GameState withDrawnFaceUpCard(int slot){
         Preconditions.checkArgument(canDrawCards());
