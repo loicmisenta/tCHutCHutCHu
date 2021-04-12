@@ -20,7 +20,6 @@ public final class Game {
      * @param tickets     les billets dissponibles
      * @param rng         générateur aléatoire de nombres
      */
-    //TODO fin et début du jeu dans méthodes séparées?
 
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument((players.size() == 2) && (playerNames.size() == 2));
@@ -42,9 +41,6 @@ public final class Game {
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
         }));
         receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
-
-        //info tickets piochés:
-        //players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT))));
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
 
@@ -138,7 +134,7 @@ public final class Game {
                     }
                     if (i == 0) {
                         updateState(players, gameState);
-                    }// TODO juste avant d'appeler drawSlot pour la seconde fois lorsqu'un joueur tire des cartes?
+                    }
 
                 }
                 break;
