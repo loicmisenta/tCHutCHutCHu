@@ -23,7 +23,7 @@ public final class Game {
     //TODO fin et début du jeu dans méthodes séparées?
 
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
-        Preconditions.checkArgument((players.size() == 2) || (playerNames.size() == 2));
+        Preconditions.checkArgument((players.size() == 2) && (playerNames.size() == 2));
 
 
         //Le début de la partie
@@ -45,7 +45,6 @@ public final class Game {
 
         //info tickets piochés:  //TODO simplifier?
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT))));
-
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
 
