@@ -34,11 +34,6 @@ public final class Trail {
     }
 
 
-    //private reverse
-    private static Route reverseRoute(Route route){
-        return new Route(route.id(), route.station2(), route.station1(), route.length(), route.level(), route.color());
-    }
-
 
     /**
      * @return la longeur du Trail
@@ -72,18 +67,17 @@ public final class Trail {
 
     public static Trail longest(List<Route> routes){
 
-
-        List<Trail> cs = new ArrayList<>();
-        for (Route r: routes) {
-            cs.add(new Trail(List.of(r)));
-            cs.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));
-        }
-
         Trail longest = new Trail(null, null, 0 , List.of());
 
         //le cas si la route passée en paramètre est vide
         if (routes == null ) {
             return longest;
+        }
+
+        List<Trail> cs = new ArrayList<>();
+        for (Route r: routes) {
+            cs.add(new Trail(List.of(r)));
+            cs.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));
         }
 
         while(!cs.isEmpty()){
@@ -112,7 +106,6 @@ public final class Trail {
                     longest = c;
                 }
             }
-
             cs = csPrime;
         }
         return longest;
@@ -135,7 +128,6 @@ public final class Trail {
 
 
         for (Route r: routes) {
-            //list += r.stationOpposite(station).toString();
             l.add(r.stationOpposite(station).toString());
             station = r.stationOpposite(station);
         }

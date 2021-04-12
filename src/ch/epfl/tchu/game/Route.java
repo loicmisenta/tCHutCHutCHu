@@ -33,15 +33,13 @@ public final class Route {
      * @throws IllegalArgumentException dans Preconditions
      * si les deux stations sont égales ou que la longeur de la route n'est pas comprise
      * entre l'intervalle donnée
-     *
      * @throws NullPointerException si une des stations ou/et l'identifiant sont nulls
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
-        Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH &&
-                length >= Constants.MIN_ROUTE_LENGTH);
-        if (id == null || station1 == null || station2 == null) {
-            throw new NullPointerException("l'id, la station 1 ou la station 2 est nulle");
+        if (id == null || station1 == null || station2 == null) { //TODO station1 == null ???
+            throw new NullPointerException();
         }
+        Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH && length >= Constants.MIN_ROUTE_LENGTH);
 
         this.id = Objects.requireNonNull(id);
         this.station1 = Objects.requireNonNull(station1);
@@ -113,13 +111,11 @@ public final class Route {
      * Méthode qui prend en parametre:
      * @param station la station et
      * @return son opposé
-     *
      * @throws IllegalArgumentException (grâce à Preconditions.checkArgument)
      * quand la gare donnée n'est ni la première ni la seconde gare de la route
      */
     public Station stationOpposite(Station station) {
-        Preconditions.checkArgument(station.equals(station1) ||
-                station.equals(station2));
+        Preconditions.checkArgument(station.equals(station1) || station.equals(station2));
         if (station.equals(station1)) {
             return station2();
         } else {
@@ -135,7 +131,7 @@ public final class Route {
      */
     public List<SortedBag<Card>> possibleClaimCards() {
         List<SortedBag<Card>> sortedBagList = new ArrayList<>();
-        int j = length();  // j = nb de wagons
+        int nbWagons = length();  // nbWagons = nb de wagons
 
         //le cas de Overground
 
@@ -143,31 +139,28 @@ public final class Route {
             //couleur grise
             if (color() == null){
                 for (Card c : Card.CARS){
-                    sortedBagList.add(SortedBag.of(j, c)); }
+                    sortedBagList.add(SortedBag.of(nbWagons, c)); }
+            } else {
+                sortedBagList.add(SortedBag.of(nbWagons, Card.of(color())));
             }
-            else {
-                sortedBagList.add(SortedBag.of(j, Card.of(color())));
-            }
-
         //le cas de Underground
         } else {
             for (int i = 0; i <= length(); i++){ // nb de locomotives
-
                 //couleur grise
                 if (color() == null) {
-                    if(i == length() && j == 0){
+                    if(i == length() && nbWagons == 0){
                         sortedBagList.add(SortedBag.of(i, Card.LOCOMOTIVE));
-                    }
-                    else{
+                    } else{
                         for (Card c : Card.CARS){
-                            sortedBagList.add(SortedBag.of(j, c , i, Card.LOCOMOTIVE));
+                            sortedBagList.add(SortedBag.of(nbWagons, c , i, Card.LOCOMOTIVE));
                         }
                     }
 
                 } else {
-                    sortedBagList.add(SortedBag.of(j, Card.of(color()), i, Card.LOCOMOTIVE));
+                    sortedBagList.add(SortedBag.of(nbWagons, Card.of(color()), i, Card.LOCOMOTIVE));
                 }
-                j--; } } return sortedBagList;
+                nbWagons--;
+            } } return sortedBagList;
     }
 
     /**
@@ -182,7 +175,7 @@ public final class Route {
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards){
 
-        Preconditions.checkArgument(level().equals(Level.UNDERGROUND) && drawnCards.size()==3);
+        Preconditions.checkArgument(level().equals(Level.UNDERGROUND) && drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
         int count = 0;
         for (int i = 0; i < drawnCards.size(); i++) {
             if (drawnCards.get(i).equals(claimCards.get(0)) || drawnCards.get(i).equals(Card.LOCOMOTIVE)){

@@ -37,7 +37,8 @@ public class PublicPlayerState {
         for (Route r: routes()) {
             lengthRoute += r.length();
         }
-        carCount = 40 - lengthRoute;
+        carCount = Constants.INITIAL_CAR_COUNT - lengthRoute;
+
         //calcul nb de points
         int pointsRoute = 0;
         for (Route r: routes()) {

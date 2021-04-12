@@ -183,7 +183,6 @@ public final class PlayerState extends PublicPlayerState{
         for (Ticket t: tickets()) {
             points += t.points(partition);
         }
-
         return points;
     }
 

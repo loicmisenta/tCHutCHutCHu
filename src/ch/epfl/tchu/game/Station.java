@@ -11,14 +11,13 @@ import ch.epfl.tchu.Preconditions;
 public final class Station {
     private final int id;
     private final String name;
-    private final int TOTALSTATIONS = 51;
 
     /**
      * @param id retourne le numéro d'identification de la gare
      * @param name le nom de la gare
      */
     public Station(int id, String name) {
-        Preconditions.checkArgument(id>=0);
+        Preconditions.checkArgument(id >= 0);
         this.id = id;
         this.name = name;
     }

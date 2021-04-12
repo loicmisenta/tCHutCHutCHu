@@ -180,30 +180,29 @@ public final class Info {
      * @return un string composé des cartes données
      */
 
-    //PLUS SIMPLE?
     private String cardToString(SortedBag<Card> cards){
         String cardsString = "";
         List<String> listString = new ArrayList<>();
 
         //Cas spécial dans lequel cards est composé d'un seul élement
         if (cards.size() == 1){
-            int n = cards.countOf(cards.get(0));
-            listString.add( n + " " + cardName(cards.get(0), n));
+            int nombreCarte = cards.countOf(cards.get(0));
+            listString.add( nombreCarte + " " + cardName(cards.get(0), nombreCarte));
         } else {
         //Boucle principale, crée les cartes
-        for (int i = 0; i < cards.size() ; i++) {
+            for (int i = 0; i < cards.size() ; i++) {
+                int nombreCartes = cards.countOf(cards.get(i));
+                listString.add( nombreCartes + " " + cardName(cards.get(i), nombreCartes));
+                i += nombreCartes - 1;
+            }
+        }
 
-            //CONDITION POUR LA DERNIERE CARTE?
-            int n = cards.countOf(cards.get(i));
-            listString.add( n + " " + cardName(cards.get(i), n));
-            i += n-1;
-
-        } }
+        //Affichage des cartes
         if(listString.size() == 1){
             cardsString += listString.get(0);
         } else {
             cardsString += String.join(", ", listString.subList(0, listString.size() - 1));
-            cardsString += StringsFr.AND_SEPARATOR + listString.get(listString.size()-1);
+            cardsString += StringsFr.AND_SEPARATOR + listString.get(listString.size() - 1);
         }
         return cardsString;
     }

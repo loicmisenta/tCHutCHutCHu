@@ -29,8 +29,8 @@ public class PublicGameState {
      * @param lastPlayer  l'identité du dernier joueur
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
-        Preconditions.checkArgument((ticketsCount >= 0 ) && (playerState.size() == 2));
-        if((playerState == null) || (cardState == null)|| (currentPlayerId == null)){ throw new NullPointerException();} //TODO peut suppeimer playerstate == null ?
+        Preconditions.checkArgument((ticketsCount >= 0 ) && (playerState.size() == PlayerId.COUNT));
+        if((cardState == null)|| (currentPlayerId == null)){ throw new NullPointerException();}
         this.ticketsCount = ticketsCount;
         this.cardState = Objects.requireNonNull(cardState);
         this.currentPlayerId = Objects.requireNonNull(currentPlayerId);

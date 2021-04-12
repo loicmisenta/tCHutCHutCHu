@@ -95,7 +95,6 @@ public final class Game {
             case CLAIM_ROUTE:
                 Route claimRoute = joueurCourant.claimedRoute();
                 SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
-                //System.out.println(claimRoute.toString());
                 if ((claimRoute.level() == Route.Level.UNDERGROUND)) {
                     receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute, claimCards));
                     SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
@@ -144,7 +143,7 @@ public final class Game {
         int maxLength = 0;
         int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail= new ArrayList<>();
-        List<String> playerNamesWon = new ArrayList<>();
+        List<PlayerId> playerNamesWon = new ArrayList<>();
         for (PlayerId joueur: PlayerId.ALL) {
 
             Trail longest = Trail.longest(gameState.playerState(joueur).routes());
@@ -156,12 +155,16 @@ public final class Game {
                 listLongestTrail.add(joueur);
             }
 
-            if(gameState.playerState(joueur).finalPoints() == maxPoints){
-                playerNamesWon.add(joueur.name());
+
+            int pointsFinaux = gameState.playerState(joueur).finalPoints();
+            if(listLongestTrail.contains(joueur)){ pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;}
+
+            if(pointsFinaux == maxPoints){
+                playerNamesWon.add(joueur);
             } else if (gameState.playerState(joueur).finalPoints() > maxPoints){
                 maxPoints = gameState.playerState(joueur).finalPoints();
                 playerNamesWon.clear();
-                playerNamesWon.add(joueur.name());
+                playerNamesWon.add(joueur);
             }
         }
 
@@ -170,21 +173,28 @@ public final class Game {
         PlayerId plrLongestTr = listLongestTrail.get(0);
         //if dans le cas où il y a deux routes de même longueur
 
-        if (listLongestTrail.size() > 1){receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
+        if (listLongestTrail.size() > 1){ receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
         receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr).routes())));
 
         updateState(players, gameState);
         players.forEach(((playerId, player) -> {
-            int finalPoints = gameState.playerState(playerId).finalPoints();
-            int otherPoints = gameState.playerState(playerId.next()).finalPoints();
-            if(finalPoints > otherPoints){
-                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
-            } else if (finalPoints < otherPoints ){
-                players.get(playerId).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
-            } else if(playerNamesWon.size() >= 2) { //TODO pourquoi sans le size() >= 2 ne passe pas?
-                System.out.println(players);
-                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
+
+            if (playerNamesWon.size() >= 2) {
+                List<String> playerNamesString = new ArrayList<>();
+                for (PlayerId joueur: playerNamesWon) {
+                    playerNamesString.add(joueur.name());
+                }
+                players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));
+            } else {
+                PlayerId joueurGagnant = playerNamesWon.get(0);
+                int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
+                int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
+                if (playerNamesWon.contains(joueurGagnant)){        finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS; }
+                if (playerNamesWon.contains(joueurGagnant.next())){ otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS; }
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won( finalPoints, otherPoints));
             }
+
+
         }));
 
     }

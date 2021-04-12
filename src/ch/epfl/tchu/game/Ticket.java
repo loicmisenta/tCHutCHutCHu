@@ -60,18 +60,15 @@ public final class Ticket implements Comparable<Ticket>{
     private static String computeText(List<Trip> trajets){
         String departText = trajets.get(0).from().toString();
         TreeSet<String> listeArriveeText = new TreeSet<>();
-        for (Trip s:
-             trajets) {
+        for (Trip s: trajets) {
             listeArriveeText.add(String.format("%s (%s)", s.to().toString(), s.points()));
         }
         String arrivee = String.join(", ", listeArriveeText);
-        if (listeArriveeText.size()>1){
+        if (listeArriveeText.size() > 1){
             return departText + " - {" + arrivee + "}";
-        }
-        else{
+        } else{
             return departText + " - " + arrivee;
         }
-
     }
 
     /**

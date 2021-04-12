@@ -36,7 +36,7 @@ public class StationPartition implements StationConnectivity  {
          * si stationCount est négatif
          */
         public Builder(int stationCount){
-            Preconditions.checkArgument(stationCount> 0);
+            Preconditions.checkArgument(stationCount > 0);
             buildLiens = new int[stationCount];
             for (int i = 0; i < stationCount; i++) {
                 buildLiens[i] = i;
@@ -92,7 +92,7 @@ public class StationPartition implements StationConnectivity  {
      */
     @Override
     public boolean connected(Station s1, Station s2) {
-        if (s1.id()< liens.length && s2.id() < liens.length){
+        if ( (s1.id() < liens.length) && (s2.id() < liens.length) ){
             return liens[s1.id()] == liens[s2.id()];
         } else return s1.id() == s2.id();
     }

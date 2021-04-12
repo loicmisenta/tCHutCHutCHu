@@ -1,11 +1,7 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.SortedBag;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +34,7 @@ class GameTest {
         var playerNames = Map.of(PlayerId.PLAYER_1, "1", PlayerId.PLAYER_2, "2");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Game.play(Map.of(), playerNames, SortedBag.of(), new Random(2029));
+            Game.play(Map.of(), playerNames, SortedBag.of(), new Random(2040));
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -57,7 +53,7 @@ class GameTest {
                 PlayerId.PLAYER_2, (Player) new TestPlayer(0, List.of()));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Game.play(players, Map.of(), SortedBag.of(), new Random(2029));
+            Game.play(players, Map.of(), SortedBag.of(), new Random(2045));
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -65,7 +61,7 @@ class GameTest {
                     players,
                     Map.of(PlayerId.PLAYER_1, "1"),
                     SortedBag.of(),
-                    new Random(2029));
+                    new Random(2030));
         });
     }
 
@@ -86,7 +82,7 @@ class GameTest {
 
     @Test
     void gamePlayCallsReceiveInfoOftenEnough() {
-        var players = playRandomGame(2029);
+        var players = playRandomGame(2031);
 
         var receiveInfo1 = (int) players.get(0).callSummary().get(RECEIVE_INFO);
         var receiveInfo2 = (int) players.get(1).callSummary().get(RECEIVE_INFO);
@@ -97,7 +93,7 @@ class GameTest {
 
     @Test
     void gamePlayCallsUpdateStateOftenEnough() {
-        var players = playRandomGame(2029);
+        var players = playRandomGame(2036);
 
         var updateState1 = (int) players.get(0).callSummary().get(UPDATE_STATE);
         var updateState2 = (int) players.get(1).callSummary().get(UPDATE_STATE);
@@ -107,7 +103,7 @@ class GameTest {
 
     @Test
     void gamePlayCallsSetInitialTicketChoice() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2039)) {
             var callSummary = player.callSummary();
             assertEquals(1, callSummary.get(SET_INITIAL_TICKET_CHOICE));
             assertEquals(5, player.allTicketsSeen.getFirst().size());
@@ -116,7 +112,7 @@ class GameTest {
 
     @Test
     void gamePlayCallsSetInitialTicketChoiceFirstThenChooseInitialTickets() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2067)) {
             var filteredCalls = player.calls.stream()
                     .filter(m -> m != INIT_PLAYERS && m != RECEIVE_INFO && m != UPDATE_STATE)
                     .limit(3)
@@ -130,7 +126,7 @@ class GameTest {
     @Test
     void gamePlayCallsChooseTicketsWhenPlayerDrawsTickets() {
         var ticketBagB = new SortedBag.Builder<Ticket>();
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2056)) {
             var drawTicketsTurnsCount = player.allTurns.stream()
                     .filter(Player.TurnKind.DRAW_TICKETS::equals)
                     .count();
@@ -148,7 +144,7 @@ class GameTest {
 
     @Test
     void gamePlayUpdatesStateBetweenCardDraws() {
-        for (var player : playRandomGame(2026)) {
+        for (var player : playRandomGame(2023)) {
             var filteredCallsIt = player.calls.stream()
                     .filter(m -> m == UPDATE_STATE || m == DRAW_SLOT)
                     .iterator();
@@ -164,13 +160,13 @@ class GameTest {
 
     @Test
     void gamePlayCallsChooseAdditionalCardsAtLeastOnce() {
-        for (var player : playRandomGame(2029))
+        for (var player : playRandomGame(2000))
             assertNotEquals(0, player.callSummary().get(CHOOSE_ADDITIONAL_CARDS));
     }
 
     @Test
     void gamePlayCallsChooseAdditionalCardsRightAfterClaimedRouteOrInitialClaimCardsOnly() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2001)) {
             var filteredCallsIt = player.calls.stream()
                     .filter(m -> m != RECEIVE_INFO && m != UPDATE_STATE)
                     .iterator();
@@ -211,7 +207,7 @@ class GameTest {
 
     @Test
     void gamePlayProperlyCommunicatesLastTurn() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2001)) {
             var lastTurnInfoCount = player.allInfos.stream()
                     .filter(i -> i.contains("le dernier tour commence"))
                     .count();
@@ -221,7 +217,7 @@ class GameTest {
 
     @Test
     void gamePlayProperlyHandlesLastTurn() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2034)) {
             var lastTurnsCount = player.allInfos.stream()
                     .dropWhile(i -> !i.contains("le dernier tour commence"))
                     .filter(i -> i.startsWith("\nC'est à"))
@@ -232,7 +228,7 @@ class GameTest {
 
     @Test
     void gamePlayProperlyCommunicatesLongestTrailBonus() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2066)) {
             var bonusInfoCount = player.allInfos.stream()
                     .filter(i -> i.contains("reçoit un bonus de 10 points"))
                     .count();
@@ -242,7 +238,7 @@ class GameTest {
 
     @Test
     void gamePlayProperlyCommunicatesResult() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2068)) {
             var outcomeInfo = player.allInfos.stream()
                     .filter(i -> { System.out.println(i);
                    return  i.contains("remporte la victoire") || i.contains("sont ex æqo");})

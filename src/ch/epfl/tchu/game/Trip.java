@@ -46,13 +46,12 @@ public final class Trip {
      * @param to destination d'arrivée
      * @param points la distance entre les deux destinations
      * @return un trajet
-     *
      * @throws IllegalArgumentException si la liste est vide ou si les points sont
      *                                  négatifs
      */
     public static List<Trip> all(List<Station> from, List<Station> to, int points){
-        if ((from.isEmpty() || to.isEmpty()) || points<=0){
-            throw new IllegalArgumentException("Liste vide ou points négatifs");
+        if ((from.isEmpty() || to.isEmpty()) || points <= 0){
+            throw new IllegalArgumentException();
         }
         List<Trip> trajet = new ArrayList<>();
         for (Station f: from) {
@@ -92,9 +91,8 @@ public final class Trip {
     public int points(StationConnectivity connectivity){
         if(connectivity.connected(from(), to())){
             return points();
-        }
-        else{
-            return -1*points();
+        } else{
+            return -1 * points();
         }
 
     }
