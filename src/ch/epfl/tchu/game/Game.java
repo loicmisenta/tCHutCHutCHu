@@ -11,7 +11,7 @@ import java.util.*;
  * @author lagutovaalexandra
  */
 public final class Game {
-    private static GameState gameState;
+    private static GameState gameState; //TODO correct de l'avoir ?
     /**
      * Fait jouer une partie
      *
@@ -197,8 +197,5 @@ public final class Game {
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string){
         playersMap.forEach(((playerId, player) -> player.receiveInfo(string)));
-        //if(string.contains("Charles a pris possession de la route ")){
-        //    System.out.println(string);
-        //}
     }
 }
