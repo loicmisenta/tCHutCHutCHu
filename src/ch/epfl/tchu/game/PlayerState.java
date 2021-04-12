@@ -139,11 +139,10 @@ public final class PlayerState extends PublicPlayerState{
         SortedBag<Card> cartesJoues = cartesJouables.build();
 
         //ajout des subsets de taille donnée dans une liste
-        List<SortedBag<Card>> possibilitesDesCartes = new ArrayList<>();
 
         if(cartesJoues.size() >= additionalCardsCount) {
             //condition si addCC est plus grand
-            possibilitesDesCartes.addAll(cartesJoues.subsetsOfSize(additionalCardsCount)); //TODO can be replaced with parametrized constructor call
+            List<SortedBag<Card>> possibilitesDesCartes = new ArrayList<>(cartesJoues.subsetsOfSize(additionalCardsCount));
             //tri des cartes
             possibilitesDesCartes.sort(
                     Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
