@@ -23,13 +23,26 @@ public final class Game {
 
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument((players.size() == 2) && (playerNames.size() == 2));
-
-
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
         gameState = GameState.initial(tickets, rng);
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
 
+        beguinGame(players, playerNames, infoMap, mapTicketsChoisis);
+
+        do { middleGame(players, infoMap, rng);
+        } while (!gameState.lastTurnBegins() && (gameState.lastPlayer() == null));
+
+        receiveInfo(players, infoMap.get(gameState.lastPlayer()).lastTurnBegins(gameState.playerState(gameState.lastPlayer()).carCount()));
+        for (int i = 0; i < PlayerId.COUNT ; i++) {
+            middleGame(players, infoMap, rng);
+        }
+
+        endGame(players, infoMap);
+
+    }
+
+    private static void beguinGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis){
         players.forEach(((playerId, player) -> {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
@@ -43,65 +56,6 @@ public final class Game {
         receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
-
-
-        do { middleGame(players, infoMap, rng);
-        } while (!gameState.lastTurnBegins() && (gameState.lastPlayer() == null));
-
-        receiveInfo(players, infoMap.get(gameState.lastPlayer()).lastTurnBegins(gameState.playerState(gameState.lastPlayer()).carCount()));
-        for (int i = 0; i < PlayerId.COUNT ; i++) {
-            middleGame(players, infoMap, rng);
-        }
-
-
-
-        //TODO mettre dans une méthode ?
-        int maxLength = 0;
-        int maxPoints = 0;
-        List<PlayerId> listLongestTrail= new ArrayList<>();
-        List<String> playerNamesWon = new ArrayList<>();
-        for (PlayerId joueur: PlayerId.ALL) {
-
-            Trail longest = Trail.longest(gameState.playerState(joueur).routes());
-            if (longest.length() == maxLength) {
-                listLongestTrail.add(joueur);
-            } else if (longest.length() > maxLength) {
-                maxLength = longest.length();
-                listLongestTrail.clear();
-                listLongestTrail.add(joueur);
-            }
-
-            if(gameState.playerState(joueur).finalPoints() == maxPoints){
-                playerNamesWon.add(joueur.name());
-            } else if (gameState.playerState(joueur).finalPoints() > maxPoints){
-                maxPoints = gameState.playerState(joueur).finalPoints();
-                playerNamesWon.clear();
-                playerNamesWon.add(joueur.name());
-            }
-        }
-
-
-        int finalMaxPoints = maxPoints;
-        PlayerId plrLongestTr = listLongestTrail.get(0);
-        //if dans le cas où il y a deux routes de même longueur
-
-        if (listLongestTrail.size() > 1){receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
-        receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr).routes())));
-
-        updateState(players, gameState);
-        players.forEach(((playerId, player) -> {
-            int finalPoints = gameState.playerState(playerId).finalPoints();
-            int otherPoints = gameState.playerState(playerId.next()).finalPoints();
-            if(finalPoints > otherPoints){
-                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
-            } else if (finalPoints < otherPoints ){
-                players.get(playerId).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
-            } else {
-                System.out.println(players);
-                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
-            }
-        }));
-
     }
 
     private static void middleGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, Random rng){
@@ -183,6 +137,56 @@ public final class Game {
         }
         updateState(players, gameState);
         gameState = gameState.forNextTurn();
+    }
+
+    private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap){
+
+        int maxLength = 0;
+        int maxPoints = 0;
+        List<PlayerId> listLongestTrail= new ArrayList<>();
+        List<String> playerNamesWon = new ArrayList<>();
+        for (PlayerId joueur: PlayerId.ALL) {
+
+            Trail longest = Trail.longest(gameState.playerState(joueur).routes());
+            if (longest.length() == maxLength) {
+                listLongestTrail.add(joueur);
+            } else if (longest.length() > maxLength) {
+                maxLength = longest.length();
+                listLongestTrail.clear();
+                listLongestTrail.add(joueur);
+            }
+
+            if(gameState.playerState(joueur).finalPoints() == maxPoints){
+                playerNamesWon.add(joueur.name());
+            } else if (gameState.playerState(joueur).finalPoints() > maxPoints){
+                maxPoints = gameState.playerState(joueur).finalPoints();
+                playerNamesWon.clear();
+                playerNamesWon.add(joueur.name());
+            }
+        }
+
+
+        int finalMaxPoints = maxPoints;
+        PlayerId plrLongestTr = listLongestTrail.get(0);
+        //if dans le cas où il y a deux routes de même longueur
+
+        if (listLongestTrail.size() > 1){receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
+        receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr).routes())));
+
+        updateState(players, gameState);
+        players.forEach(((playerId, player) -> {
+            int finalPoints = gameState.playerState(playerId).finalPoints();
+            int otherPoints = gameState.playerState(playerId.next()).finalPoints();
+            if(finalPoints > otherPoints){
+                players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
+            } else if (finalPoints < otherPoints ){
+                players.get(playerId).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
+            } else if(playerNamesWon.size() >= 2) { //TODO pourquoi sans le size() >= 2 ne passe pas?
+                System.out.println(players);
+                players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
+            }
+        }));
+
     }
 
 
