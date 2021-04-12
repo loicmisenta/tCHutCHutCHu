@@ -41,10 +41,10 @@ public final class Game {
             mapTicketsChoisis.put(playerId, initialticket);
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
         }));
-        receiveInfo(players, infoMap.get(PlayerId.PLAYER_1).willPlayFirst());
+        receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
 
-        //info tickets piochés:  //TODO simplifier?
-        players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT))));
+        //info tickets piochés:
+        //players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).drewTickets(Constants.INITIAL_TICKETS_COUNT))));
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
 
@@ -99,8 +99,9 @@ public final class Game {
             if(finalPoints > otherPoints){
                 players.get(playerId).receiveInfo(infoMap.get(playerId).won(finalPoints, otherPoints));
             } else if (finalPoints < otherPoints ){
-                players.get(playerId.next()).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
+                players.get(playerId).receiveInfo(infoMap.get(playerId.next()).won(otherPoints, finalPoints));
             } else {
+                System.out.println(players);
                 players.get(playerId).receiveInfo(Info.draw(playerNamesWon, finalMaxPoints));
             }
         }));
@@ -126,8 +127,8 @@ public final class Game {
 
             case DRAW_CARDS:
                 for (int i = 0; i < 2; i++) {
-                    gameState = deckisEmpty(rng);
                     int cartePioche = joueurCourant.drawSlot();
+                    gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                     if (cartePioche == Constants.DECK_SLOT) {
                         receiveInfo(players, infoMap.get(currentId).drewBlindCard());//info prends carte pioche
                         gameState = gameState.withBlindlyDrawnCard();
@@ -135,7 +136,7 @@ public final class Game {
                         receiveInfo(players, infoMap.get(currentId).drewVisibleCard(gameState.cardState().faceUpCard(cartePioche)));//info prends carte pioche
                         gameState = gameState.withDrawnFaceUpCard(cartePioche);
                     }
-                    if (i != 1) {
+                    if (i == 0) {
                         updateState(players, gameState);
                     }// TODO juste avant d'appeler drawSlot pour la seconde fois lorsqu'un joueur tire des cartes?
 
@@ -144,18 +145,18 @@ public final class Game {
             case CLAIM_ROUTE:
                 Route claimRoute = joueurCourant.claimedRoute();
                 SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
-
-                if ((joueurCourant.claimedRoute().level() == Route.Level.UNDERGROUND)) {
+                //System.out.println(claimRoute.toString());
+                if ((claimRoute.level() == Route.Level.UNDERGROUND)) {
                     receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute, claimCards));
                     SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
                     SortedBag<Card> listCartePioche;
                     for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
-                        gameState = deckisEmpty(rng); //redefnir si vide
+                        gameState = gameState.withCardsDeckRecreatedIfNeeded(rng); //redefnir si vide
                         listecartebuilder.add(gameState.topCard());
                         gameState = gameState.withoutTopCard();
                     }
                     listCartePioche = listecartebuilder.build();
-                    gameState = gameState.withMoreDiscardedCards(listCartePioche);
+
 
                     int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
                     receiveInfo(players, infoMap.get(currentId).drewAdditionalCards(listCartePioche, nbCarteAdd));
@@ -164,14 +165,19 @@ public final class Game {
                         if (possibleAddCartes.size() == 0) {
                             receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
                         } else {
-                            SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(gameState.currentPlayerState().possibleAdditionalCards(nbCarteAdd, claimCards, listCartePioche));
-                            receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
-                            gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));
+                            SortedBag<Card> carteAddChoisi = joueurCourant.chooseAdditionalCards(possibleAddCartes);
+                            if(carteAddChoisi.isEmpty()){
+                                receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
+                            } else {
+                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
+                                gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));
+                            }
                         }
                     } else {
                         receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                         gameState = gameState.withClaimedRoute(claimRoute, claimCards);
                     }
+                    gameState = gameState.withMoreDiscardedCards(listCartePioche);
 
                 } else {
                     receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
@@ -191,11 +197,8 @@ public final class Game {
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string){
         playersMap.forEach(((playerId, player) -> player.receiveInfo(string)));
-    }
-
-    private static GameState deckisEmpty(Random rng){
-        if(gameState.cardState().isDeckEmpty()) {
-            return gameState.withCardsDeckRecreatedIfNeeded(rng);
-        } else return gameState;
+        //if(string.contains("Charles a pris possession de la route ")){
+        //    System.out.println(string);
+        //}
     }
 }

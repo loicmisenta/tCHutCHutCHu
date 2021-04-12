@@ -188,6 +188,7 @@ class GameTest {
     void gamePlayProperlyAnnouncesRouteClaims() {
         for (var player : playRandomGame(2029)) {
             var playerClaimedRoute = player.ownName() + " a pris possession de la route ";
+            System.out.println(player.ownName());
 
             var expectedInfosB = new SortedBag.Builder<String>();
             player.ownState().routes().stream()
@@ -241,8 +242,10 @@ class GameTest {
     void gamePlayProperlyCommunicatesResult() {
         for (var player : playRandomGame(2033)) {
             var outcomeInfo = player.allInfos.stream()
-                    .filter(i -> i.contains("remporte la victoire") || i.contains("sont ex æqo"))
+                    .filter(i -> { System.out.println(i);
+                   return  i.contains("remporte la victoire") || i.contains("sont ex æqo");})
                     .collect(Collectors.toList());
+
             assertEquals(1, outcomeInfo.size());
             assertEquals(player.allInfos.getLast(), outcomeInfo.get(0));
         }
