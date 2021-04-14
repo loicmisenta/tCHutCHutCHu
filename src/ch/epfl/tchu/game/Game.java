@@ -48,7 +48,7 @@ public final class Game {
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
-            updateState(players, gameState);
+            updateState(players, gameState); //TODO boucles séparées  pour choix ticket
             SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();
             mapTicketsChoisis.put(playerId, initialticket);
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
@@ -105,8 +105,6 @@ public final class Game {
                         gameState = gameState.withoutTopCard();
                     }
                     listCartePioche = listecartebuilder.build();
-
-
                     int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
                     receiveInfo(players, infoMap.get(currentId).drewAdditionalCards(listCartePioche, nbCarteAdd));
                     if (nbCarteAdd != 0) {
@@ -118,24 +116,24 @@ public final class Game {
                             if(carteAddChoisi.isEmpty()){
                                 receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
                             } else {
-                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
                                 gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));
+                                receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
                             }
                         }
                     } else {
-                        receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                         gameState = gameState.withClaimedRoute(claimRoute, claimCards);
+                        receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                     }
                     gameState = gameState.withMoreDiscardedCards(listCartePioche);
 
                 } else {
-                    receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                     gameState = gameState.withClaimedRoute(claimRoute, claimCards);
+                    receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards));
                 }
                 break;
         }
-        updateState(players, gameState);
         gameState = gameState.forNextTurn();
+        updateState(players, gameState);
     }
 
     private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap){
@@ -193,7 +191,7 @@ public final class Game {
                 if (playerNamesWon.contains(joueurGagnant.next())){ otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS; }
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won( finalPoints, otherPoints));
             }
-
+            //TODO simplifier ???
 
         }));
 
@@ -201,7 +199,7 @@ public final class Game {
 
 
     private static void updateState(Map<PlayerId, Player> playersMap, GameState gameState){
-        playersMap.forEach(((playerId, player) -> playersMap.get(playerId).updateState(gameState, gameState.currentPlayerState())));
+        playersMap.forEach(((playerId, player) -> playersMap.get(playerId).updateState(gameState, gameState.playerState(playerId))));
     }
 
 
