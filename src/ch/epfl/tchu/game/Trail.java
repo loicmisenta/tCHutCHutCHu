@@ -89,19 +89,16 @@ public final class Trail {
                 rs.removeAll(t.routes);
 
                 for (Route r: rs) {
-                    //OPTIMISER ( SI TEMPS LIBRE ;) ) PEUT ETRE AVEC STATIONOPOSITE
-                    if ((r.station1().equals(c.station2()))) {
-                        List<Route> routesAjouter = new ArrayList<>(c.routes);
-                        routesAjouter.add(r);
-                        trailsPrime.add(new Trail(t.station1(), r.station2(), t.length()+r.length(), routesAjouter));
 
-                    } else if ((r.station2().equals(t.station2()))) {
+                    for (Station station: r.stations()) {
+                        Station opposite = r.stationOpposite(station);
+                        if(station.equals(t.station2())){
 
-                        List<Route> routesAjouter = new ArrayList<>(t.routes);
-                        routesAjouter.add(r);
-                        trailsPrime.add(new Trail(t.station1(), r.station1(), t.length()+r.length(), routesAjouter));
+                            List<Route> routesAjouter = new ArrayList<>(t.routes);
+                            routesAjouter.add(r);
+                            trailsPrime.add(new Trail(t.station1(), opposite, t.length() + r.length(), routesAjouter));
+                        }
                     }
-
                 }
                 if (t.length() > longest.length()) {
                     longest = t;
