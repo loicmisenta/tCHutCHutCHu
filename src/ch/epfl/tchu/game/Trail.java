@@ -85,7 +85,6 @@ public final class Trail {
 
             for (Trail t: trails) {
                 List<Route> rs = new ArrayList<>(routes);
-
                 rs.removeAll(t.routes);
 
                 for (Route r: rs) {

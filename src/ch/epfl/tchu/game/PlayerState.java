@@ -117,10 +117,10 @@ public final class PlayerState extends PublicPlayerState{
      * @return retourne la liste de tous les ensembles de cartes qu'il pourrait utiliser pour s'emparer d'un tunnel,
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards){
-        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS)) && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2)
-        && (drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS)));
+        Preconditions.checkArgument(((additionalCardsCount > 0) && (additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS))
+                && ((!initialCards.isEmpty()) && (initialCards.toSet().size() <=2) && (drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS)));
 
-        //La couleur de la carte supp
+        //La couleur de la carte supplémentaire
         Card carteDeCouleurJoue = null;
         for (int i = 0; i < initialCards.size(); i++) {
             if(initialCards.get(i).color() != null){
