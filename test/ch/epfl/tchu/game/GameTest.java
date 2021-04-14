@@ -182,7 +182,7 @@ class GameTest {
 
     @Test
     void gamePlayProperlyAnnouncesRouteClaims() {
-        for (var player : playRandomGame(2029)) {
+        for (var player : playRandomGame(2028)) {
             var playerClaimedRoute = player.ownName() + " a pris possession de la route ";
             System.out.println(player.ownName());
 

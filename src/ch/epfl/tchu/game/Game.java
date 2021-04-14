@@ -11,7 +11,7 @@ import java.util.*;
  * @author lagutovaalexandra
  */
 public final class Game {
-    private static GameState gameState; //TODO correct de l'avoir ?
+
     /**
      * Fait jouer une partie
      *
@@ -25,42 +25,44 @@ public final class Game {
         Preconditions.checkArgument((players.size() == 2) && (playerNames.size() == 2));
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
-        gameState = GameState.initial(tickets, rng);
-        Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis= new EnumMap<>(PlayerId.class);
+        GameState gameState = GameState.initial(tickets, rng);
+        Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis = new EnumMap<>(PlayerId.class);
 
-        beginGame(players, playerNames, infoMap, mapTicketsChoisis);
+        gameState = beginGame(players, playerNames, infoMap, mapTicketsChoisis, gameState);
 
-        do { middleGame(players, infoMap, rng);
-        } while (!gameState.lastTurnBegins() && (gameState.lastPlayer() == null));
+        gameState = middleGame(players, infoMap, rng, gameState);
 
-        receiveInfo(players, infoMap.get(gameState.lastPlayer()).lastTurnBegins(gameState.playerState(gameState.lastPlayer()).carCount()));
-        for (int i = 0; i < PlayerId.COUNT ; i++) {
-            middleGame(players, infoMap, rng);
-        }
-
-        endGame(players, infoMap);
+        endGame(players, infoMap, gameState);
 
     }
 
-    private static void beginGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis){
-        players.forEach(((playerId, player) -> {
+    private static GameState beginGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames,
+            Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis, GameState gameState) {
+
+        for (PlayerId playerId : PlayerId.ALL) {
             players.get(playerId).initPlayers(playerId, playerNames);
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
             updateState(players, gameState); //TODO boucles séparées  pour choix ticket
+        }
+
+        for (PlayerId playerId : PlayerId.ALL) {
             SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();
             mapTicketsChoisis.put(playerId, initialticket);
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
-        }));
+        }
+
         receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
+        return gameState;
     }
 
-    private static void middleGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, Random rng){
-        PlayerId currentId = gameState.currentPlayerId();
-        Player joueurCourant = players.get(currentId);
+    private static GameState middleGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, Random rng, GameState gameState) {
+        while(true) {
+            PlayerId currentId = gameState.currentPlayerId();
+            Player joueurCourant = players.get(currentId);
 
         receiveInfo(players, infoMap.get(currentId).canPlay()); //info tour commence
         updateState(players, gameState);
@@ -136,7 +138,7 @@ public final class Game {
         updateState(players, gameState);
     }
 
-    private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap){
+    private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, GameState gameState) {
 
         int maxLength = 0;
         int maxPoints = Integer.MIN_VALUE;
@@ -170,9 +172,11 @@ public final class Game {
         int finalMaxPoints = maxPoints;
         PlayerId plrLongestTr = listLongestTrail.get(0);
         //if dans le cas où il y a deux routes de même longueur
-
-        if (listLongestTrail.size() > 1){ receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr.next()).routes()))); }
-        receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(Trail.longest(gameState.playerState(plrLongestTr).routes())));
+        Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr.next()).routes());
+        if (listLongestTrail.size() > 1) {
+            receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(longestTrail));
+        }
+        receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
 
         updateState(players, gameState);
         players.forEach(((playerId, player) -> {
@@ -187,9 +191,15 @@ public final class Game {
                 PlayerId joueurGagnant = playerNamesWon.get(0);
                 int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
                 int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
-                if (playerNamesWon.contains(joueurGagnant)){        finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS; }
-                if (playerNamesWon.contains(joueurGagnant.next())){ otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS; }
-                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won( finalPoints, otherPoints));
+
+                if (listLongestTrail.contains(joueurGagnant)) {
+                    finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
+                }
+                if (listLongestTrail.contains(joueurGagnant.next())) {
+                    otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
+                }
+
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints, otherPoints));
             }
             //TODO simplifier ???
 
