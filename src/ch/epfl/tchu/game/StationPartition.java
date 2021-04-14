@@ -62,7 +62,7 @@ public class StationPartition implements StationConnectivity  {
 
         public StationPartition build(){
             for (int i = 0; i < buildLiens.length ; i++) {
-                    buildLiens[i] = representative(i);
+                buildLiens[i] = representative(i);
             }
             return new StationPartition(buildLiens);
         }

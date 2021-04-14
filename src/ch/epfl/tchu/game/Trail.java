@@ -74,39 +74,40 @@ public final class Trail {
             return longest;
         }
 
-        List<Trail> cs = new ArrayList<>();
+        List<Trail> trails = new ArrayList<>();
         for (Route r: routes) {
-            cs.add(new Trail(List.of(r)));
-            cs.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));
+            trails.add(new Trail(List.of(r)));
+            trails.add(new Trail(r.station2(), r.station1(), r.length(), List.of(r)));
         }
 
-        while(!cs.isEmpty()){
-            List<Trail> csPrime = new ArrayList<>();
+        while(!trails.isEmpty()){
+            List<Trail> trailsPrime = new ArrayList<>();
 
-            for (Trail c: cs) {
+            for (Trail t: trails) {
                 List<Route> rs = new ArrayList<>(routes);
 
-                rs.removeAll(c.routes);
+                rs.removeAll(t.routes);
 
                 for (Route r: rs) {
                     //OPTIMISER ( SI TEMPS LIBRE ;) ) PEUT ETRE AVEC STATIONOPOSITE
                     if ((r.station1().equals(c.station2()))) {
                         List<Route> routesAjouter = new ArrayList<>(c.routes);
                         routesAjouter.add(r);
-                        csPrime.add(new Trail(c.station1(), r.station2(), c.length()+r.length(), routesAjouter));
+                        trailsPrime.add(new Trail(t.station1(), r.station2(), t.length()+r.length(), routesAjouter));
 
-                    } else if ((r.station2().equals(c.station2()))) {
-                        List<Route> routesAjouter = new ArrayList<>(c.routes);
+                    } else if ((r.station2().equals(t.station2()))) {
+
+                        List<Route> routesAjouter = new ArrayList<>(t.routes);
                         routesAjouter.add(r);
-                        csPrime.add(new Trail(c.station1(), r.station1(), c.length()+r.length(), routesAjouter));
+                        trailsPrime.add(new Trail(t.station1(), r.station1(), t.length()+r.length(), routesAjouter));
                     }
 
                 }
-                if (c.length() > longest.length()) {
-                    longest = c;
+                if (t.length() > longest.length()) {
+                    longest = t;
                 }
             }
-            cs = csPrime;
+            trails = trailsPrime;
         }
         return longest;
 
