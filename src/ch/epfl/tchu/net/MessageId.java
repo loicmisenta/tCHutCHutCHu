@@ -1,4 +1,4 @@
-package ch.epfl.tchu.game;
+package ch.epfl.tchu.net;
 
 /**
  * @author loicmisenta

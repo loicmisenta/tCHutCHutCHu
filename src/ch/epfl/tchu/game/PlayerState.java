@@ -193,12 +193,4 @@ public final class PlayerState extends PublicPlayerState{
         return ticketPoints() + claimPoints();
     }
 
-
-    @Override //TODO Supprimer
-    public String toString() {
-        return "PlayerState = {" +
-                "tickets:" + tickets.toString() +
-                ", cards:" + cards.toString() +
-                '}';
-    }
 }

@@ -92,7 +92,8 @@ public class PublicGameState {
     public List<Route> claimedRoutes(){
         List<Route> routes = new ArrayList<>();
         for (PublicPlayerState values:playerState.values()) {
-            routes.addAll(values.routes()); }
+            routes.addAll(values.routes());
+        }
         return routes;
     }
 

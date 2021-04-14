@@ -143,6 +143,7 @@ public final class Route {
             } else {
                 sortedBagList.add(SortedBag.of(nbWagons, Card.of(color())));
             }
+
         //le cas de Underground
         } else {
             for (int i = 0; i <= length(); i++){ // nb de locomotives
@@ -160,7 +161,9 @@ public final class Route {
                     sortedBagList.add(SortedBag.of(nbWagons, Card.of(color()), i, Card.LOCOMOTIVE));
                 }
                 nbWagons--;
-            } } return sortedBagList;
+            }
+        }
+        return sortedBagList;
     }
 
     /**
@@ -196,15 +199,4 @@ public final class Route {
     }
 
 
-    @Override
-    public String toString() {  //TODO SUPPRIMER
-        return "Route{" +
-                "id='" + id + '\'' +
-                ", station1=" + station1 +
-                ", station2=" + station2 +
-                ", length=" + length +
-                ", level=" + level +
-                ", color=" + color +
-                '}';
-    }
 }

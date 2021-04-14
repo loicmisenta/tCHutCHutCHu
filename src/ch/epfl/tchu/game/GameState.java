@@ -211,14 +211,4 @@ public final class GameState extends PublicGameState{
         return newPlayerState;
     }
 
-
-
-    @Override //TODO ENLEVER
-    public String toString() {
-        return "GameState{" +
-                "tickets=" + tickets +
-                ", cardState=" + cardState +
-                ", playerState=" + playerState +
-                '}';
-    }
 }
