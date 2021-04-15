@@ -1,5 +1,6 @@
 package ch.epfl.tchu.net;
 
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -27,8 +28,10 @@ interface Serde<T> {
     }
 
 
-    static void oneOf(){
-
+    static <X> Serde<X> oneOf(List<X> listEnum){
+        Function<X, String> f = (X t) -> String.valueOf(listEnum.indexOf(t));
+        Function<String, X> f2 = (X t) -> listEnum.indexOf(t);
+        return Serde.of(f)
     }
 
 }
