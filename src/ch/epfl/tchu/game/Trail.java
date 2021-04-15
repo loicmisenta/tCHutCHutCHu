@@ -11,6 +11,7 @@ import java.util.List;
  * fait à partir des routes qui lui sont donnés et contennant:
  * deux stations qui sont reliés par une longueur
  */
+
 public final class Trail {
     public int length;
     public Station station1;
