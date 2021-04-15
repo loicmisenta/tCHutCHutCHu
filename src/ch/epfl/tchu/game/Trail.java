@@ -13,17 +13,19 @@ import java.util.List;
  */
 
 public final class Trail {
-    public int length;
-    public Station station1;
-    public Station station2;
-    public List<Route> routes;
+    private final int length;
+    private final Station station1;
+    private final Station station2;
+    private final List<Route> routes;
 
     private Trail (List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
+        int temp = 0;
         for (Route r: routes) {
-            this.length += r.length();
+            temp += r.length();
         }
+        this.length = temp;
         this.routes = routes;
     }
 

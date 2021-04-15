@@ -14,7 +14,6 @@ import java.util.Map;
 public interface Player {
 
 
-    //TODO SUPPRIMER PUBLIC ABSTRACT?
     /**
      * @author loicmisenta
      * @author lagutovaalexandra

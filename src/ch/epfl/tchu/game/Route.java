@@ -36,7 +36,7 @@ public final class Route {
      * @throws NullPointerException si une des stations ou/et l'identifiant sont nulls
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
-        if (id == null || station1 == null || station2 == null) { //TODO station1 == null ???
+        if (id == null || station1 == null || station2 == null) {
             throw new NullPointerException();
         }
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH && length >= Constants.MIN_ROUTE_LENGTH);
