@@ -18,12 +18,12 @@ public final class CardState extends PublicCardState{
     private final SortedBag<Card> discards;
 
     /**
-     * le constructeur prend en parametre
+     * Le constructeur qui prend en paramètre
      * @param faceUpCards les cartes faces visibles
      * @param deck le deck
      * @param discards la défausse
      */
-    public CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discards) {
+    private CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discards) {
         super(faceUpCards, deck.size(), discards.size());
         this.deck = deck;
         this.discards = SortedBag.of(discards);

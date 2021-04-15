@@ -14,7 +14,6 @@ public final class Game {
 
     /**
      * Fait jouer une partie
-     *
      * @param players     joueurs
      * @param playerNames les noms des joueurs
      * @param tickets     les billets dissponibles

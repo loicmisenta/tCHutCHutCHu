@@ -20,7 +20,6 @@ public final class PlayerState extends PublicPlayerState{
 
     /**
      * Constructeur de la classe PlayerState qui aura comme paramètres:
-     *
      * @param tickets ses tickets.
      * @param cards ses cartes.
      * @param routes ses routes.
@@ -42,8 +41,7 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     /**
-     *
-     * @return les tickets
+     * @return les tickets du PlayerState
      */
     public SortedBag<Ticket> tickets(){
         return tickets;
@@ -52,7 +50,7 @@ public final class PlayerState extends PublicPlayerState{
 
     /**
      *
-     * @return ses cartes
+     * @return les cartes du PlayerState
      */
     public SortedBag<Card> cards() {
         return cards;
@@ -148,11 +146,11 @@ public final class PlayerState extends PublicPlayerState{
                     Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
             return possibilitesDesCartes;
-        } else return List.of();
+        }
+        else return List.of();
     }
 
     /**
-     *
      * @return un état identique au récepteur, si ce n'est qu'il s'est de plus emparé de @param route donnée
      * au moyen des @param claimCards données,
      */
@@ -164,7 +162,6 @@ public final class PlayerState extends PublicPlayerState{
     }
 
     /**
-     *
      * @return  le nombre de points obtenus grâce à ses billets.
      */
     public int ticketPoints(){
