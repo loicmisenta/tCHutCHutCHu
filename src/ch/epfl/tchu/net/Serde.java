@@ -69,8 +69,28 @@ interface Serde<T> {
         };
     }
 
-    static <X extends Comparable<X>> Serde<SortedBag<X>> listOf(Serde<X> serde, String stringDelimit){
+    static <X extends Comparable<X>> Serde<SortedBag<X>> bagOf(Serde<X> serde, String stringDelimit){
+        return new Serde <> () {
+            @Override
+            public String serialize(SortedBag<X> serde) {
+                String[] serdeString = new String[serde.size()];
+                for (int i = 0 ; i < serde.size(); ++i) {
+                    serdeString[i] += serde.get(i).toString();
+                }
+                List<String> l = Arrays.asList(serdeString);
+                return String.join(stringDelimit, l);
+            }
 
+            @Override
+            public SortedBag<X> deserialize(String string) {
+                String[] stringOfDes = string.split(Pattern.quote(stringDelimit), -1);
+                List<X> liste = new ArrayList<>();
+                for (String s: stringOfDes) {
+                    liste.add(serde.deserialize(s));
+                }
+                return SortedBag.of(liste);
+            }
+        };
 
     }
 
