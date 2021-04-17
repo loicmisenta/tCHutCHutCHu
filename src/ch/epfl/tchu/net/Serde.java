@@ -36,9 +36,9 @@ interface Serde<T> {
 
     static <T> Serde<T> oneOf(List<T> listEnum){
         Preconditions.checkArgument(!listEnum.isEmpty());
-        //Function<X, String> f = (X t) -> String.valueOf(listEnum.indexOf(t));
-        //Function<String, X> f2 = (X t) -> listEnum.indexOf(t);
-        return Serde.of(i -> Integer.toString(listEnum.indexOf(i)), Integer::parseInt);
+        //Function<T, String> f = (T t) -> String.valueOf(listEnum.indexOf(t));
+        //Function<String, T> f2 = (T t) -> listEnum;
+        return Serde.of(i -> Integer.toString(listEnum.indexOf(i)), i -> listEnum.get(Integer.parseInt(i)));
     }
 
 
