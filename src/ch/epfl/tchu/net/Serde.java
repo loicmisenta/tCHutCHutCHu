@@ -1,7 +1,13 @@
 package ch.epfl.tchu.net;
 
+import ch.epfl.tchu.Preconditions;
+import ch.epfl.tchu.SortedBag;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * @author loicmisenta
@@ -13,25 +19,59 @@ interface Serde<T> {
 
     T deserialize(String string);
 
-    static <X> Serde<X> of(Function<X, String> serialization, Function<String, X> deserialization){
+    static <T> Serde<T> of(Function<T, String> serialization, Function<String, T> deserialization){
         return new Serde<>() {
             @Override
-            public String serialize(X object) {
+            public String serialize(T object) {
                 return serialization.apply(object);
             }
 
             @Override
-            public X deserialize(String string) {
+            public T deserialize(String string) {
                 return deserialization.apply(string);
             }
         };
     }
 
 
-    static <X> Serde<X> oneOf(List<X> listEnum){
-        Function<X, String> f = (X t) -> String.valueOf(listEnum.indexOf(t));
-        Function<String, X> f2 = (X t) -> listEnum.indexOf(t);
-        return Serde.of(f)
+    static <T> Serde<T> oneOf(List<T> listEnum){
+        Preconditions.checkArgument(!listEnum.isEmpty());
+        //Function<X, String> f = (X t) -> String.valueOf(listEnum.indexOf(t));
+        //Function<String, X> f2 = (X t) -> listEnum.indexOf(t);
+        return Serde.of(i -> Integer.toString(listEnum.indexOf(i)), Integer::parseInt);
+    }
+
+
+
+
+
+    static <X> Serde<List<X>> listOf(Serde<X> serde, String stringDelimit){
+        return new Serde <> () {
+            @Override
+            public String serialize(List<X> serde) {
+                String[] serdeString = new String[serde.size()];
+                for (X el: serde) {
+                    serdeString[serde.indexOf(el)] += el.toString();
+                }
+                List<String> l = Arrays.asList(serdeString);
+                return String.join(stringDelimit, l);
+            }
+
+            @Override
+            public List<X> deserialize(String string) {
+                String[] stringOfDes = string.split(Pattern.quote(stringDelimit), -1);
+                List<X> liste = new ArrayList<>();
+                for (String s: stringOfDes) {
+                    liste.add(serde.deserialize(s));
+                }
+                return liste;
+            }
+        };
+    }
+
+    static <X extends Comparable<X>> Serde<SortedBag<X>> listOf(Serde<X> serde, String stringDelimit){
+
+
     }
 
 }
