@@ -8,13 +8,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public final class Serdes {
-
-    public static final Serde<Integer> intSerde = Serde.of(
-            i -> Integer.toString(i),
-            Integer::parseInt);
-    public static final Serde<String> stringSerde = Serde.of(
-            i -> Base64.getEncoder().encodeToString(String.getBytes(StandardCharsets.UTF_8)),
-            Integer::parseInt);
+    public static final Serde<Integer> intSerde = Serde.of(i -> Integer.toString(i), Integer::parseInt);
+    public static final Serde<String> stringSerde = Serde.of(i -> Base64.getEncoder().encodeToString(String.getBytes(StandardCharsets.UTF_8)), Integer::parseInt);
     public static final Serde<PlayerId> playerIdSerde = Serde.oneOf(PlayerId.ALL);
     public static final Serde<Player.TurnKind> turnKindSerde = Serde.oneOf(Player.TurnKind.ALL);
     public static final Serde<Card> cardSerde = Serde.oneOf(Card.ALL);
@@ -30,7 +25,7 @@ public final class Serdes {
     //TODO QUE METTRE DANS LES PARANTHESES ?!?!?!
     public static final Serde<PublicCardState> publicCardStateSerde = Serde.of(String.join(";", listCardSerde.serialize(), intSerde.serialize(), intSerde.serialize()), stringToPublicCardState());
     public static final Serde<PublicPlayerState> publicPlayerStateSerde = Serde.of(String.join(";", intSerde.serialize(), intSerde.serialize(), listRouteSerde.serialize()), stringToPublicPlayerState());
-    public static final Serde<PlayerState> playerStateSerde = Serde.of(String.join(";", sortedBagOfTicketSerde.serialize(), sortedBagOfCardSerde.serialize(), listRouteSerde.serialize()), stringToPlayerState())
+    public static final Serde<PlayerState> playerStateSerde = Serde.of(String.join(";", sortedBagOfTicketSerde.serialize(), sortedBagOfCardSerde.serialize(), listRouteSerde.serialize()), stringToPlayerState());
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(String.join(":", intSerde.serialize(), publicCardStateSerde.serialize(), playerIdSerde.serialize(), playerStateSerde.serialize(), playerStateSerde.serialize() , playerIdSerde.serialize()), stringToPublicGameState());
 
     private static PublicGameState stringToPublicGameState(String string){
@@ -102,4 +97,6 @@ public final class Serdes {
         Collections.addAll(liste, stringOfDes);
         return liste;
     }
+
+    
 }
