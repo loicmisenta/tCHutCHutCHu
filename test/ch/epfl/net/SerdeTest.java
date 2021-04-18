@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
  * @author loicmisenta
  * @author lagutovaalexandra
  */
-public class Serde {
+public class SerdeTest {
 
     @Test
     void listOfCartes(){
-        Serde<Card> intSerde = Serde.of();
+        SerdeTest<Card> intSerde = SerdeTest.of();
     }
 
+
+    @Test
 
 }
