@@ -70,8 +70,10 @@ public interface Serde<T> {
             public List<X> deserialize(String string) {
                 String[] stringOfDes = string.split(Pattern.quote(stringDelimit), -1);
                 List<X> liste = new ArrayList<>();
+
                 for (String s: stringOfDes) {
                     liste.add(serde.deserialize(s));
+
                 }
                 return liste;
             }

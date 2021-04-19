@@ -30,51 +30,38 @@ public final class Serdes {
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> String.join(Constants.DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()), playerIdSerde.serialize(i.currentPlayerId()),publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_1)), publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_2)) , playerIdSerde.serialize(i.lastPlayer())), Serdes::stringToPublicGameState);
 
     private static PublicGameState stringToPublicGameState(String string){
-        List<String> listeString = stringSplit(string,":");
-        int ticketsCount = intSerde.deserialize(listeString.get(0));
-        PublicCardState cardState = stringToPublicCardState(listeString.get(1));
-        PlayerId currentPlayerId = playerIdSerde.deserialize(listeString.get(2));
-        Map<PlayerId, PublicPlayerState> mapPlayerState = new EnumMap<PlayerId, PublicPlayerState>(PlayerId.class);
-        PublicPlayerState playerState1 = stringToPlayerState(listeString.get(3));
-        PublicPlayerState playerState2 = stringToPlayerState(listeString.get(4));
+        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_DEUX_POINTS), -1);
+        int ticketsCount = intSerde.deserialize(listeString[0]);
+        PublicCardState cardState = stringToPublicCardState(listeString[1]);
+        PlayerId currentPlayerId = playerIdSerde.deserialize(listeString[2]);
+        Map<PlayerId, PublicPlayerState> mapPlayerState = new EnumMap<>(PlayerId.class);
+        PublicPlayerState playerState1 = stringToPublicPlayerState(listeString[3]);
+        PublicPlayerState playerState2 = stringToPublicPlayerState(listeString[4]);
         mapPlayerState.put(PlayerId.PLAYER_1, playerState1);
         mapPlayerState.put(PlayerId.PLAYER_2, playerState2);
-        PlayerId lastPlayer = playerIdSerde.deserialize(listeString.get(5));
+        PlayerId lastPlayer;
+        if(listeString[5].length() == 0){
+            lastPlayer = null;
+        } else {
+            lastPlayer = playerIdSerde.deserialize(listeString[5]);}
         return new PublicGameState(ticketsCount, cardState, currentPlayerId, mapPlayerState, lastPlayer);
     }
 
 
     private static PlayerState stringToPlayerState(String string){
-        List<String> listeString = stringSplit(string,";");
-        List<String> listeTicketsString = stringSplit(listeString.get(0), ",");
-        List<Ticket> tickets = new ArrayList<>();
-        //TODO comment simplifier ??
-        for (String t: listeTicketsString) {
-            tickets.add(ticketSerde.deserialize(t));
-        }
-        List<String> listeCardString = stringSplit(listeString.get(1), ",");
-        List<Card> cards = new ArrayList<>();
-        for (String c: listeCardString) {
-            cards.add(cardSerde.deserialize(c));
-        }
-        List<String> listeRouteString = stringSplit(listeString.get(2), ",");
-        List<Route> routes = new ArrayList<>();
-        for (String s: listeRouteString) {
-            routes.add(routeSerde.deserialize(s));
-        }
-        return new PlayerState(SortedBag.of(tickets), SortedBag.of(cards), routes);
+        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_POINT_VIRGULE), -1);
+        SortedBag<Ticket> tickets = sortedBagOfTicketSerde.deserialize(listeString[0]);
+        SortedBag<Card> cards = sortedBagOfCardSerde.deserialize(listeString[1]);
+        List<Route> routes = listRouteSerde.deserialize(listeString[2]);
+        return new PlayerState(tickets, cards, routes);
 
     }
 
     private static PublicPlayerState stringToPublicPlayerState(String string){
-        List<String> listeString = stringSplit(string,";");
-        List<String> listeRouteString = stringSplit(listeString.get(2), ",");
-        List<Route> routes = new ArrayList<>();
-        for (String s: listeRouteString) {
-            routes.add(routeSerde.deserialize(s));
-        }
-        int ticketCount = intSerde.deserialize(listeString.get(0));
-        int cardCount = intSerde.deserialize(listeString.get(1));
+        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_POINT_VIRGULE), -1);
+        int ticketCount = intSerde.deserialize(listeString[0]);
+        int cardCount = intSerde.deserialize(listeString[1]);
+        List<Route> routes = listRouteSerde.deserialize(listeString[2]);
         return new PublicPlayerState(ticketCount, cardCount, routes);
 
     }
