@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @author loicmisenta
  * @author lagutovaalexandra
  */
-interface Serde<T> {
+public interface Serde<T> {
 
     String serialize(T object);
 
@@ -33,12 +33,20 @@ interface Serde<T> {
         };
     }
 
-
     static <T> Serde<T> oneOf(List<T> listEnum){
         Preconditions.checkArgument(!listEnum.isEmpty());
-        //Function<T, String> f = (T t) -> String.valueOf(listEnum.indexOf(t));
-        //Function<String, T> f2 = (T t) -> listEnum;
-        return Serde.of(i -> Integer.toString(listEnum.indexOf(i)), i -> listEnum.get(Integer.parseInt(i)));
+        return Serde.of(i ->{
+            if(i == null){
+                return "";
+            }return Integer.toString(listEnum.indexOf(i));
+        }, i ->  {
+            if(i.length() == 0){
+                System.out.println("vide");
+                return listEnum.get(Integer.parseInt(i));
+            }
+            System.out.println(i + " rentre ici ");
+            return listEnum.get(Integer.parseInt(i));
+        });
     }
 
 
@@ -48,10 +56,11 @@ interface Serde<T> {
     static <X> Serde<List<X>> listOf(Serde<X> serde, String stringDelimit){
         return new Serde <> () {
             @Override
-            public String serialize(List<X> serde) {
-                String[] serdeString = new String[serde.size()];
-                for (X el: serde) {
-                    serdeString[serde.indexOf(el)] += el.toString();
+            public String serialize(List<X> liste) { //TODO StringJoiner
+
+                String[] serdeString = new String[liste.size()];
+                for (int i = 0; i < liste.size(); ++i) {
+                    serdeString[i] = serde.serialize(liste.get(i));
                 }
                 List<String> l = Arrays.asList(serdeString);
                 return String.join(stringDelimit, l);
@@ -72,23 +81,13 @@ interface Serde<T> {
     static <X extends Comparable<X>> Serde<SortedBag<X>> bagOf(Serde<X> serde, String stringDelimit){
         return new Serde <> () {
             @Override
-            public String serialize(SortedBag<X> serde) {
-                String[] serdeString = new String[serde.size()];
-                for (int i = 0 ; i < serde.size(); ++i) {
-                    serdeString[i] += serde.get(i).toString();
-                }
-                List<String> l = Arrays.asList(serdeString);
-                return String.join(stringDelimit, l);
+            public String serialize(SortedBag<X> serdeSortedBag) {
+                return listOf(serde, stringDelimit).serialize(serdeSortedBag.toList());
             }
 
             @Override
             public SortedBag<X> deserialize(String string) {
-                String[] stringOfDes = string.split(Pattern.quote(stringDelimit), -1);
-                List<X> liste = new ArrayList<>();
-                for (String s: stringOfDes) {
-                    liste.add(serde.deserialize(s));
-                }
-                return SortedBag.of(liste);
+                return SortedBag.of(Serde.listOf(serde, stringDelimit).deserialize(string));
             }
         };
 
