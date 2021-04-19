@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
+import static ch.epfl.compareComplexTypes.CompareTypes.*;
 import static ch.epfl.tchu.game.Card.*;
 import static ch.epfl.tchu.game.PlayerId.*;
 import static ch.epfl.tchu.net.Serdes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author loicmisenta
@@ -35,8 +37,8 @@ public class SerdeTest {
         PublicCardState cs = new PublicCardState(fu, 30, 31);
         var expectedValue = "6,7,2,0,6;30;31";
         assertEquals(expectedValue, publicCardStateSerde.serialize(cs));
-        assertEquals(cs, publicCardStateSerde.deserialize(publicCardStateSerde.serialize(cs)));
-        assertEquals(cs, publicCardStateSerde.deserialize(expectedValue));
+        assertTrue(comparePublicCardState(cs, publicCardStateSerde.deserialize(publicCardStateSerde.serialize(cs))));
+        assertTrue(comparePublicCardState(cs, publicCardStateSerde.deserialize(expectedValue)));
     }
 
     @Test
@@ -51,7 +53,7 @@ public class SerdeTest {
                 new PublicGameState(40, cs, PLAYER_2, ps, null);
         var expectedValue = "40:6,7,2,0,6;30;31:1:10;11;0,1:20;21;:";
         assertEquals(expectedValue, publicGameStateSerde.serialize(gs));
-        assertEquals(gs, publicGameStateSerde.deserialize(publicGameStateSerde.serialize(gs)));
+        assertTrue(comparePublicGameState(gs, publicGameStateSerde.deserialize(publicGameStateSerde.serialize(gs))));
     }
 
 
@@ -74,7 +76,7 @@ public class SerdeTest {
         PlayerState playerState = new PlayerState(tickets, cards, rs1);
         var expectedValue = "0,1;6,6,7,7;0,1";
         assertEquals(expectedValue, playerStateSerde.serialize(playerState));
-        assertEquals(playerStateSerde.deserialize(expectedValue), playerState);
+        assertTrue(comparePlayerState(playerStateSerde.deserialize(expectedValue), playerState));
     }
 
 
@@ -125,8 +127,8 @@ public class SerdeTest {
         PublicPlayerState ps = new PublicPlayerState(10, 11, rs1);
         var expectedValue = "10;11;0,1";
         assertEquals(expectedValue, publicPlayerStateSerde.serialize(ps));
-        assertEquals(ps, publicPlayerStateSerde.deserialize(expectedValue));
-        assertEquals(ps, publicPlayerStateSerde.deserialize(publicPlayerStateSerde.serialize(ps)));
+        assertTrue(comparePublicPlayerState(ps, publicPlayerStateSerde.deserialize(expectedValue)));
+        assertTrue(comparePublicPlayerState(ps, publicPlayerStateSerde.deserialize(publicPlayerStateSerde.serialize(ps))));
     }
 
 }
