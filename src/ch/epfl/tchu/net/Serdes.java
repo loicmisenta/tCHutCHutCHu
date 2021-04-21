@@ -40,9 +40,10 @@ public final class Serdes {
         mapPlayerState.put(PlayerId.PLAYER_1, playerState1);
         mapPlayerState.put(PlayerId.PLAYER_2, playerState2);
         PlayerId lastPlayer;
-        if(listeString[5].length() == 0){
+        if(listeString[5].length() == 0){ //TODO cas quand lastPLayer == null
             lastPlayer = null;
         } else {
+            System.out.println(listeString[5].length());
             lastPlayer = playerIdSerde.deserialize(listeString[5]);}
         return new PublicGameState(ticketsCount, cardState, currentPlayerId, mapPlayerState, lastPlayer);
     }

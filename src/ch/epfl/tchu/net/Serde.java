@@ -38,15 +38,10 @@ public interface Serde<T> {
         return Serde.of(i ->{
             if(i == null){
                 return "";
-            }return Integer.toString(listEnum.indexOf(i));
-        }, i ->  {
-            if(i.length() == 0){
-                System.out.println("vide");
-                return listEnum.get(Integer.parseInt(i));
-            }
-            System.out.println(i + " rentre ici ");
-            return listEnum.get(Integer.parseInt(i));
-        });
+            } return Integer.toString(listEnum.indexOf(i));
+        }, i ->   //TODO cas pour desirialize ??  pour i ""
+             listEnum.get(Integer.parseInt(i)));
+
     }
 
 
@@ -68,6 +63,9 @@ public interface Serde<T> {
 
             @Override
             public List<X> deserialize(String string) {
+                if (string.length() == 0){
+                    return List.of();
+                }
                 String[] stringOfDes = string.split(Pattern.quote(stringDelimit), -1);
                 List<X> liste = new ArrayList<>();
 
