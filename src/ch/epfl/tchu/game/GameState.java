@@ -25,8 +25,8 @@ public final class GameState extends PublicGameState{
      * @param lastPlayer      l'identité du dernier joueur
      * @param tickets         le deck de ticket
      */
-    private GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
-                      Deck<Ticket> tickets) {
+    public GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
+                     Deck<Ticket> tickets) {
         super(tickets.size(), cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
         this.tickets = tickets;
         this.cardState = cardState;
