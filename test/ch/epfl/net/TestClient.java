@@ -50,11 +50,15 @@ public final class TestClient {
 
         @Override
         public TurnKind nextTurn() {
+            /*
             if(i == 5){
                 System.out.println("CLAIMED_ROUTE");
                 return TurnKind.CLAIM_ROUTE;
             }
+
+             */
             System.out.println("DRAWN_CARDS");
+            i++;
             return TurnKind.DRAW_CARDS;
         }
 

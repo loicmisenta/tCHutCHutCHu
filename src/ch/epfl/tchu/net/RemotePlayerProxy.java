@@ -55,7 +55,7 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        sendMessage(MessageId.UPDATE_STATE, playerStateSerde.serialize(ownState));
+        sendMessage(MessageId.UPDATE_STATE, String.join(" ", publicGameStateSerde.serialize(newState), playerStateSerde.serialize(ownState)));
     }
 
     @Override

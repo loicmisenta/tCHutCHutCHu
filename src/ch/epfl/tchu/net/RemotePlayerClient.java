@@ -5,6 +5,7 @@ import ch.epfl.tchu.game.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import static ch.epfl.tchu.net.Serdes.*;
@@ -52,6 +53,7 @@ public class RemotePlayerClient {
                         w.write(sortedBagOfTicketSerde.serialize(player.chooseInitialTickets()));
                         break;
                     case NEXT_TURN:
+                        System.out.println("JE RENTRE MAIS RIEN NE SE PASSSE WHYY??? I DON'T KNOOOWWWW !!");
                         w.write(turnKindSerde.serialize(player.nextTurn()));
                         break;
                     case CHOOSE_TICKETS:
