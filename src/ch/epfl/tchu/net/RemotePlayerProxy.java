@@ -3,40 +3,41 @@ package ch.epfl.tchu.net;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import static java.nio.charset.StandardCharsets.*;
+
+import java.io.*;
 import java.net.*;
 import java.util.List;
 import java.util.Map;
-
 import static ch.epfl.tchu.net.Serdes.*;
 
 public class RemotePlayerProxy implements Player {
-    final Socket socket;
+    private final BufferedReader r;
+    private final BufferedWriter w;
 
-    public RemotePlayerProxy(Socket socket){
-        this.socket = socket;
+    public RemotePlayerProxy(Socket socket) throws IOException {
+        r = new BufferedReader( new InputStreamReader(socket.getInputStream(), US_ASCII));
+        w = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream(), US_ASCII));
     }
 
-    private String readMessage() throws IOException {
-        try(socket) {
-            return null;
-
-
-        }catch (IOException e){
+    private String readMessage() { //TODO sert à qqch?
+        try { return r.readLine();
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
-
         }
     }
 
+    //TODO why MessageId en param ??
     private void sendMessage(MessageId messageId , String string){
-        try(socket) {
-
-
-        }catch (IOException e){
+        try {
+            w.write(String.join(" ", messageId.name(), string));
+            w.write('\n');
+            w.flush();
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
-
         }
+
+
     }
 
     @Override
@@ -47,7 +48,7 @@ public class RemotePlayerProxy implements Player {
     }
 
     @Override
-    public void receiveInfo(String info) {
+    public void receiveInfo(String info)  {
         sendMessage(MessageId.RECEIVE_INFO, stringSerde.serialize(info));
     }
 
