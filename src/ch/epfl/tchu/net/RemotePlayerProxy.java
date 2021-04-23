@@ -44,7 +44,8 @@ public class RemotePlayerProxy implements Player {
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
         String ownIdSerialize = playerIdSerde.serialize(ownId);
         String playerNamesSerialize = listStringSerde.serialize(List.of(playerNames.get(PlayerId.PLAYER_1), playerNames.get(PlayerId.PLAYER_2)));
-        String initPlayerStringSer = String.join(" ", MessageId.INIT_PLAYERS.name() , ownIdSerialize, playerNamesSerialize);
+        String initPlayerStringSer = String.join(" ", ownIdSerialize, playerNamesSerialize);
+        sendMessage(MessageId.INIT_PLAYERS, initPlayerStringSer);
     }
 
     @Override
@@ -54,46 +55,48 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-
+        sendMessage(MessageId.UPDATE_STATE, playerStateSerde.serialize(ownState));
     }
 
     @Override
     public void setInitialTicketChoice(SortedBag<Ticket> tickets) {
-
+        sendMessage(MessageId.SET_INITIAL_TICKETS, sortedBagOfTicketSerde.serialize(tickets));
     }
 
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
-        return null;
+        return sortedBagOfTicketSerde.deserialize(readMessage()); //ToDo exceptions
     }
 
     @Override
     public TurnKind nextTurn() {
-        return null;
+        return turnKindSerde.deserialize(readMessage());
     }
 
     @Override
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
-        return null;
+        sendMessage(MessageId.CHOOSE_TICKETS, sortedBagOfTicketSerde.serialize(options));
+        return sortedBagOfTicketSerde.deserialize(readMessage());
     }
 
     @Override
     public int drawSlot() {
-        return 0;
+        return intSerde.deserialize(readMessage());
     }
 
     @Override
     public Route claimedRoute() {
-        return null;
+        return routeSerde.deserialize(readMessage());
     }
 
     @Override
     public SortedBag<Card> initialClaimCards() {
-        return null;
+        return sortedBagOfCardSerde.deserialize(readMessage());
     }
 
     @Override
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
-        return null;
+        sendMessage(MessageId.CHOOSE_ADDITIONAL_CARDS, listSortedBagOfCard.serialize(options));
+        return sortedBagOfCardSerde.deserialize(readMessage());
     }
 }
