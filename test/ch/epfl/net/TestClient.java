@@ -25,7 +25,7 @@ public final class TestClient {
 
         @Override
         public void receiveInfo(String info) {
-            System.out.println("receive info");
+            System.out.println(info);
         }
 
         @Override

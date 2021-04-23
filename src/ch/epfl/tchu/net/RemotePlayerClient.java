@@ -27,15 +27,16 @@ public class RemotePlayerClient {
              BufferedReader r = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedWriter w = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())))
         {
-            while (r.readLine() != null){
-                String s = r.readLine();
+            String s;
+            while ((s = r.readLine()) != null){
+
                 String[] ls = s.split(" ");
                 switch (MessageId.valueOf(ls[0])){
                     case INIT_PLAYERS:
                         Map<PlayerId, String> mapJoueurs = new EnumMap<>(PlayerId.class);
                         String[] noms = ls[2].split(",");
-                        mapJoueurs.put(PlayerId.PLAYER_1, noms[0]);
-                        mapJoueurs.put(PlayerId.PLAYER_2, noms[1]);
+                        mapJoueurs.put(PlayerId.PLAYER_1, stringSerde.deserialize(noms[0]));
+                        mapJoueurs.put(PlayerId.PLAYER_2, stringSerde.deserialize(noms[1]));
                         player.initPlayers(playerIdSerde.deserialize(ls[1]), mapJoueurs);
                         break;
                     case RECEIVE_INFO:
