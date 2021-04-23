@@ -1,6 +1,7 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.game.*;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.*;
 import java.net.Socket;
@@ -30,7 +31,7 @@ public class RemotePlayerClient {
         {
             String s;
             while ((s = r.readLine()) != null){
-
+                System.out.println(s);
                 String[] ls = s.split(" ");
                 switch (MessageId.valueOf(ls[0])){
                     case INIT_PLAYERS:

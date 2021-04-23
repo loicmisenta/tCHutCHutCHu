@@ -70,6 +70,7 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public TurnKind nextTurn() {
+        sendMessage(MessageId.NEXT_TURN, " ");
         return turnKindSerde.deserialize(readMessage());
     }
 
@@ -81,6 +82,7 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public int drawSlot() {
+        sendMessage(MessageId.DRAW_SLOT, " ");
         return intSerde.deserialize(readMessage());
     }
 
