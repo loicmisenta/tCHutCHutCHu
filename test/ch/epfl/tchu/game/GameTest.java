@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import static ch.epfl.tchu.game.GameTest.PlayerMethod.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameTest {
+public class GameTest {
     enum PlayerMethod {
         INIT_PLAYERS,
         RECEIVE_INFO,
@@ -249,7 +249,7 @@ class GameTest {
         }
     }
 
-    private static List<TestPlayer> playRandomGame(long randomSeed) {
+    public static List<TestPlayer> playRandomGame(long randomSeed) {
         var rng = new Random(randomSeed);
         var routes = ChMap.ALL_ROUTES;
         var tickets = ChMap.ALL_TICKETS;

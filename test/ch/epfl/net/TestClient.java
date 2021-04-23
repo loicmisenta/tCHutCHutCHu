@@ -35,17 +35,20 @@ public final class TestClient {
 
         @Override
         public void setInitialTicketChoice(SortedBag<Ticket> tickets) {
-
+            System.out.println("Set initial ticket choice : " + tickets.toString());
         }
 
         @Override
         public SortedBag<Ticket> chooseInitialTickets() {
-            return null;
+            List<Ticket> listTicket = List.of(ChMap.tickets().get(0), ChMap.tickets().get(1), ChMap.tickets().get(2));
+            System.out.println("Choose Initial Tickets" + listTicket.toString());
+            return SortedBag.of(listTicket);
         }
 
         @Override
         public TurnKind nextTurn() {
-            return null;
+            System.out.println("DRAWN_CARDS");
+            return TurnKind.DRAW_CARDS;
         }
 
         @Override
