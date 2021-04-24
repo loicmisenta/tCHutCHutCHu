@@ -52,25 +52,38 @@ public class RemotePlayerClient {
                         break;
                     case CHOOSE_INITIAL_TICKETS:
                         w.write(sortedBagOfTicketSerde.serialize(player.chooseInitialTickets()));
+                        w.flush();
                         break;
                     case NEXT_TURN:
                         System.out.println("JE RENTRE MAIS RIEN NE SE PASSSE WHYY??? I DON'T KNOOOWWWW !!");
                         w.write(turnKindSerde.serialize(player.nextTurn()));
+                        w.write('\n');
+                        w.flush();
                         break;
                     case CHOOSE_TICKETS:
                         w.write(sortedBagOfTicketSerde.serialize(player.chooseTickets(sortedBagOfTicketSerde.deserialize(ls[1]))));
+                        w.write('\n');
+                        w.flush();
                         break;
                     case DRAW_SLOT:
                         w.write(intSerde.serialize(player.drawSlot()));
+                        w.write('\n');
+                        w.flush();
                         break;
                     case ROUTE:
                         w.write(routeSerde.serialize(player.claimedRoute()));
+                        w.write('\n');
+                        w.flush();
                         break;
                     case CARDS:
                         w.write(sortedBagOfCardSerde.serialize(player.initialClaimCards()));
+                        w.write('\n');
+                        w.flush();
                         break;
                     case CHOOSE_ADDITIONAL_CARDS:
                         w.write(sortedBagOfCardSerde.serialize(player.chooseAdditionalCards(listSortedBagOfCard.deserialize(ls[1]))));
+                        w.write('\n');
+                        w.flush();
                         break;
                 }
         }} catch(IOException e){
