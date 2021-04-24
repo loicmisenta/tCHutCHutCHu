@@ -78,7 +78,7 @@ public final class TestClient {
         public Route claimedRoute() {
             Route zeRoute = new Route("DE5_STG_1", new Station(38, "Allemagne"), new Station(27, "Saint-Gall"), 2, Route.Level.OVERGROUND, null);
             System.out.println("CLAIMED_ROUTE : " + zeRoute);
-            return null;
+            return zeRoute;
         }
 
         @Override

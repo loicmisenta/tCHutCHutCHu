@@ -31,7 +31,6 @@ public class RemotePlayerClient {
         {
             String s;
             while ((s = r.readLine()) != null){
-                System.out.println(s);
                 String[] ls = s.split(" ");
                 switch (MessageId.valueOf(ls[0])){
                     case INIT_PLAYERS:
