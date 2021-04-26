@@ -59,6 +59,7 @@ public final class TestClient {
              */
             System.out.println("DRAWN_CARDS");
             i++;
+
             return TurnKind.DRAW_CARDS;
         }
 
