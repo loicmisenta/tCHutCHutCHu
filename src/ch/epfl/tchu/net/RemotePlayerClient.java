@@ -54,7 +54,7 @@ public class RemotePlayerClient {
                         w.flush();
                         break;
                     case NEXT_TURN:
-                        System.out.println("JE RENTRE MAIS RIEN NE SE PASSSE WHYY??? I DON'T KNOOOWWWW !!");
+                        player.nextTurn();
                         w.write(turnKindSerde.serialize(player.nextTurn()));
                         w.write('\n');
                         w.flush();

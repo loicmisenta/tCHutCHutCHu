@@ -33,6 +33,7 @@ public interface Serde<T> {
         };
     }
 
+    //TODO possiblement faux
     static <T> Serde<T> oneOf(List<T> listEnum){
         Preconditions.checkArgument(!listEnum.isEmpty());
         return Serde.of(i ->{

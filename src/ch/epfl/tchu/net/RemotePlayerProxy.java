@@ -66,6 +66,7 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
+        sendMessage(MessageId.CHOOSE_INITIAL_TICKETS, " ");
         return sortedBagOfTicketSerde.deserialize(readMessage()); //ToDo exceptions
     }
 
@@ -89,11 +90,15 @@ public class RemotePlayerProxy implements Player {
 
     @Override
     public Route claimedRoute() {
-        return routeSerde.deserialize(readMessage());
+        sendMessage(MessageId.ROUTE, " ");
+        String s = readMessage();
+        System.out.println(s +  " owezs");
+        return routeSerde.deserialize(s);
     }
 
     @Override
     public SortedBag<Card> initialClaimCards() {
+        sendMessage(MessageId.CARDS, " ");
         return sortedBagOfCardSerde.deserialize(readMessage());
     }
 

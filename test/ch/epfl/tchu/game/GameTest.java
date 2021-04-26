@@ -268,17 +268,17 @@ public class GameTest {
     private static final class TooManyCallsError extends Error {
     }
 
-    private static final class TestPlayer implements Player {
-        private static final int CALLS_LIMIT = 10_000;
-        private static final int MIN_CARD_COUNT = 16;
-        private static final int DRAW_TICKETS_ODDS = 15;
-        private static final int ABANDON_TUNNEL_ODDS = 10;
-        private static final int DRAW_ALL_TICKETS_TURN = 30;
+    public static final class TestPlayer implements Player {
+        public static final int CALLS_LIMIT = 10_000;
+        public static final int MIN_CARD_COUNT = 16;
+        public static final int DRAW_TICKETS_ODDS = 15;
+        public static final int ABANDON_TUNNEL_ODDS = 10;
+        public static final int DRAW_ALL_TICKETS_TURN = 30;
 
-        private final Random rng;
-        private final List<Route> allRoutes;
+        public final Random rng;
+        public final List<Route> allRoutes;
 
-        private final Deque<PlayerMethod> calls = new ArrayDeque<>();
+        public final Deque<PlayerMethod> calls = new ArrayDeque<>();
 
         private final Deque<TurnKind> allTurns = new ArrayDeque<>();
         private final Deque<String> allInfos = new ArrayDeque<>();
@@ -435,7 +435,7 @@ public class GameTest {
     }
 
     // Simplified Swiss map (only single routes)
-    private static final class ChMap {
+    public static final class ChMap {
         private ChMap() {
         }
 
@@ -501,7 +501,7 @@ public class GameTest {
         private static final List<Station> FR = List.of(FR1, FR2, FR3, FR4);
 
         // Routes (without double routes!)
-        private static final List<Route> ALL_ROUTES = List.of(
+        public static final List<Route> ALL_ROUTES = List.of(
                 new Route("AT1_STG_1", AT1, STG, 4, Route.Level.UNDERGROUND, null),
                 new Route("AT2_VAD_1", AT2, VAD, 1, Route.Level.UNDERGROUND, Color.RED),
                 new Route("BAD_BAL_1", BAD, BAL, 3, Route.Level.UNDERGROUND, Color.RED),
