@@ -50,8 +50,9 @@ public final class TestServer {
             playerProxy.nextTurn();
             playerProxy.initialClaimCards();
             playerProxy.nextTurn();
-            playerProxy.chooseTickets(SortedBag.of(ChMap.tickets().subList(0, 9)));
-            playerProxy.claimedRoute();
+            SortedBag<Ticket> tickets = playerProxy.chooseTickets(SortedBag.of(ChMap.tickets().subList(0, 9)));
+            playerProxy.chooseInitialTickets(); //TODO boucle infinie ?
+            playerProxy.claimedRoute(); //TODO sort bcp trop tôt
             System.out.println("FINI !");
             playerProxy.initialClaimCards();
             playerProxy.nextTurn();

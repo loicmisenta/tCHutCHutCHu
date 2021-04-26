@@ -21,14 +21,13 @@ public class RemotePlayerProxy implements Player {
         w = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream(), US_ASCII));
     }
 
-    private String readMessage() { //TODO sert à qqch?
+    private String readMessage() { 
         try { return r.readLine();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    //TODO why MessageId en param ??
     private void sendMessage(MessageId messageId , String string){
         try {
             w.write(String.join(" ", messageId.name(), string));
@@ -67,7 +66,7 @@ public class RemotePlayerProxy implements Player {
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
         sendMessage(MessageId.CHOOSE_INITIAL_TICKETS, " ");
-        return sortedBagOfTicketSerde.deserialize(readMessage()); //ToDo exceptions
+        return sortedBagOfTicketSerde.deserialize(readMessage());
     }
 
     @Override
@@ -92,7 +91,7 @@ public class RemotePlayerProxy implements Player {
     public Route claimedRoute() {
         sendMessage(MessageId.ROUTE, " ");
         String s = readMessage();
-        System.out.println(s +  " owezs");
+        System.out.println(s +  " route négative");
         return routeSerde.deserialize(s);
     }
 

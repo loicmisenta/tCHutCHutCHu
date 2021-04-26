@@ -1,12 +1,9 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.game.*;
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 import static ch.epfl.tchu.net.Serdes.*;
@@ -51,10 +48,10 @@ public class RemotePlayerClient {
                         break;
                     case CHOOSE_INITIAL_TICKETS:
                         w.write(sortedBagOfTicketSerde.serialize(player.chooseInitialTickets()));
+                        w.write('\n');
                         w.flush();
                         break;
                     case NEXT_TURN:
-                        player.nextTurn();
                         w.write(turnKindSerde.serialize(player.nextTurn()));
                         w.write('\n');
                         w.flush();
@@ -70,7 +67,9 @@ public class RemotePlayerClient {
                         w.flush();
                         break;
                     case ROUTE:
-                        w.write(routeSerde.serialize(player.claimedRoute()));
+                        Route route = player.claimedRoute();
+                        System.out.println("route " + route.toString());
+                        w.write(routeSerde.serialize(route));
                         w.write('\n');
                         w.flush();
                         break;

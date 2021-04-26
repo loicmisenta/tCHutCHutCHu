@@ -18,7 +18,7 @@ public final class TestClient {
     }
 
     private final static class TestPlayer implements Player {
-        private int i = 0;
+
 
         @Override
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> names) {
@@ -44,21 +44,14 @@ public final class TestClient {
         @Override
         public SortedBag<Ticket> chooseInitialTickets() {
             List<Ticket> listTicket = List.of(ChMap.tickets().get(0), ChMap.tickets().get(1), ChMap.tickets().get(2));
-            System.out.println("Choose Initial Tickets" + listTicket);
+            System.out.println("Choose Initial Tickets" + listTicket); //TODO comment vérifier l'affichage ?
             return SortedBag.of(listTicket);
         }
 
         @Override
         public TurnKind nextTurn() {
-            /*
-            if(i == 5){
-                System.out.println("CLAIMED_ROUTE");
-                return TurnKind.CLAIM_ROUTE;
-            }
-
-             */
+            System.out.println("NEXT_TURN");
             System.out.println("DRAWN_CARDS");
-            i++;
 
             return TurnKind.DRAW_CARDS;
         }
@@ -77,7 +70,7 @@ public final class TestClient {
 
         @Override
         public Route claimedRoute() {
-            Route zeRoute = new Route("DE5_STG_1", new Station(38, "Allemagne"), new Station(27, "Saint-Gall"), 2, Route.Level.OVERGROUND, null);
+            Route zeRoute = ChMap.routes().get(0);
             System.out.println("CLAIMED_ROUTE : " + zeRoute);
             return zeRoute;
 

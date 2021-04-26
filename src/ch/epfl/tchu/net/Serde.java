@@ -40,8 +40,7 @@ public interface Serde<T> {
             if(i == null){
                 return "";
             } return Integer.toString(listEnum.indexOf(i));
-        }, i ->   //TODO cas pour desirialize ??  pour i ""
-             listEnum.get(Integer.parseInt(i)));
+        }, i -> listEnum.get(Integer.parseInt(i)));
 
     }
 
