@@ -11,6 +11,7 @@ public class ObservableGameState {
     private PlayerState playerState;
 
 
+    //TODO comment mettre null ou 0 par défaut ?
     //groupe1
     private final ReadOnlyIntegerProperty percentageTicketsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.ticketsCount()/ (double) ChMap.ALL_TICKETS.size()) * 100));
     private final ReadOnlyIntegerProperty percentageCardsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.cardState().deckSize()/(double)Constants.TOTAL_CARDS_COUNT) * 100));
