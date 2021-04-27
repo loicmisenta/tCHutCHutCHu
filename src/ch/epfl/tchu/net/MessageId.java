@@ -6,7 +6,7 @@ package ch.epfl.tchu.net;
  */
 
 /**
- *
+ * Type énuméré composé des messages que le serveur peut envoyer aux clients
  */
 public enum MessageId {
     INIT_PLAYERS, RECEIVE_INFO, UPDATE_STATE, SET_INITIAL_TICKETS,

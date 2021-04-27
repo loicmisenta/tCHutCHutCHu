@@ -2,7 +2,6 @@ package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import org.w3c.dom.ls.LSOutput;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;

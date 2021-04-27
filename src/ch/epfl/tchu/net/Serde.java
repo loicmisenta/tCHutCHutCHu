@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 /**
  * @author loicmisenta
  * @author lagutovaalexandra
+ * Interface qui représente un serde (de serializer-deserializer)
+ * un objet capable de sérialiser et désérialiser des valeurs
  */
 public interface Serde<T> {
 
@@ -19,6 +21,13 @@ public interface Serde<T> {
 
     T deserialize(String string);
 
+    /**
+     *
+    * @param serialization fonction de sérialisation
+    * @param deserialization fonction de desérialisation
+    * @param <T> type de serde
+    * @return le serde
+     */
     static <T> Serde<T> of(Function<T, String> serialization, Function<String, T> deserialization){
         return new Serde<>() {
             @Override
@@ -33,7 +42,12 @@ public interface Serde<T> {
         };
     }
 
-    //TODO possiblement faux
+    /**
+     *
+    * @param listEnum liste des valeuts
+    * @param <T> type de serde
+    * @return le serde
+     */
     static <T> Serde<T> oneOf(List<T> listEnum){
         Preconditions.checkArgument(!listEnum.isEmpty());
         return Serde.of(i ->{
@@ -45,8 +59,13 @@ public interface Serde<T> {
     }
 
 
-
-
+    /**
+    *
+    * @param serde serde
+    * @param stringDelimit un caractère de séparatoin
+    * @param <X> type de la serde
+    * @return serde serialisant et desérisalisant les listes
+     */
 
     static <X> Serde<List<X>> listOf(Serde<X> serde, String stringDelimit){
         return new Serde <> () {
@@ -78,6 +97,13 @@ public interface Serde<T> {
         };
     }
 
+    /**
+     *
+    * @param serde serde
+    * @param  stringDelimit un caractère de séparatoin
+    * @param <X> type de la serde
+    * @return serde serialisant et desérisalisant les sortedBag
+     */
     static <X extends Comparable<X>> Serde<SortedBag<X>> bagOf(Serde<X> serde, String stringDelimit){
         return new Serde <> () {
             @Override
