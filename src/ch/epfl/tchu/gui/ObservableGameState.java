@@ -13,11 +13,11 @@ public class ObservableGameState {
 
     //TODO comment mettre null ou 0 par défaut ?
     //groupe1
-    private final ReadOnlyIntegerProperty percentageTicketsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.ticketsCount()/ (double) ChMap.ALL_TICKETS.size()) * 100));
-    private final ReadOnlyIntegerProperty percentageCardsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.cardState().deckSize()/(double)Constants.TOTAL_CARDS_COUNT) * 100));
+    private final IntegerProperty percentageTicketsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.ticketsCount()/ (double) ChMap.ALL_TICKETS.size()) * 100));
+    private final IntegerProperty percentageCardsLeft = new SimpleIntegerProperty((int)(((double)publicGameState.cardState().deckSize()/(double)Constants.TOTAL_CARDS_COUNT) * 100));
     private final List<ObjectProperty<Card>> faceUpCards = createFaceUpCards();
-    private final Map<ObjectProperty<Route>, ObjectProperty<PlayerId>> ownedRoutes = createOwnedRoutes();
-
+    private final Map<Route, ObjectProperty<PlayerId>> ownedRoutes = createOwnedRoutes();
+        //TODO enlever Obj à Route
     //groupe2
 
 
@@ -60,15 +60,15 @@ public class ObservableGameState {
         return faceUpCards;
     }
 
-    private Map<ObjectProperty<Route>, ObjectProperty<PlayerId>> createOwnedRoutes(){
-        Map<ObjectProperty<Route>, ObjectProperty<PlayerId>> ownedRoutes = new HashMap<>(ChMap.routes().size());
+    private Map<Route, ObjectProperty<PlayerId>> createOwnedRoutes(){
+        Map<Route, ObjectProperty<PlayerId>> ownedRoutes = new HashMap<>(ChMap.routes().size());
         for (Route r: ChMap.routes()) {
             if(publicGameState.playerState(PlayerId.PLAYER_1).routes().contains(r)){
-                ownedRoutes.put(new SimpleObjectProperty<>(r), new SimpleObjectProperty<>(PlayerId.PLAYER_1));
+                ownedRoutes.put(r, new SimpleObjectProperty<>(PlayerId.PLAYER_1));
             } else if (publicGameState.playerState(PlayerId.PLAYER_2).routes().contains(r)){
-                ownedRoutes.put(new SimpleObjectProperty<>(r), new SimpleObjectProperty<>(PlayerId.PLAYER_2));
+                ownedRoutes.put(r, new SimpleObjectProperty<>(PlayerId.PLAYER_2));
             } else{
-                ownedRoutes.put(new SimpleObjectProperty<>(r), null);
+                ownedRoutes.put(r, null);
             }
         }
         return ownedRoutes;
