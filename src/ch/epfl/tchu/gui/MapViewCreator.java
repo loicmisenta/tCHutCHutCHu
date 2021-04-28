@@ -30,6 +30,8 @@ class MapViewCreator {
 
         for (Route route: ChMap.routes()) {
             groupRoutes.setId(route.id());
+            groupRoutes.getStyleClass(route.level());
+
         }
 
     }
