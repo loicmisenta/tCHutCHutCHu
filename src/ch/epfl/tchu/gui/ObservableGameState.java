@@ -50,22 +50,22 @@ public class ObservableGameState {
         return new SimpleIntegerProperty((int) (((double) publicGameState.ticketsCount() / (double) ChMap.ALL_TICKETS.size()) * 100));
     }
 
-    private List<ObjectProperty<Card>> createFaceUpCards(){
+    private List<ObjectProperty<Card>> createFaceUpCards() {
         List<ObjectProperty<Card>> faceUpCards = new ArrayList<>();
-        for (Card c: publicGameState.cardState().faceUpCards()) {
+        for (Card c : publicGameState.cardState().faceUpCards()) {
             faceUpCards.add(new SimpleObjectProperty<>(c));
         }
         return faceUpCards;
     }
 
-    private Map<Route, ObjectProperty<PlayerId>> createOwnedRoutes(){
+    private Map<Route, ObjectProperty<PlayerId>> createOwnedRoutes() {
         Map<Route, ObjectProperty<PlayerId>> ownedRoutes = new HashMap<>(ChMap.routes().size());
-        for (Route r: ChMap.routes()) {
-            if(publicGameState.playerState(PlayerId.PLAYER_1).routes().contains(r)){
+        for (Route r : ChMap.routes()) {
+            if (publicGameState.playerState(PlayerId.PLAYER_1).routes().contains(r)) {
                 ownedRoutes.put(r, new SimpleObjectProperty<>(PlayerId.PLAYER_1));
-            } else if (publicGameState.playerState(PlayerId.PLAYER_2).routes().contains(r)){
+            } else if (publicGameState.playerState(PlayerId.PLAYER_2).routes().contains(r)) {
                 ownedRoutes.put(r, new SimpleObjectProperty<>(PlayerId.PLAYER_2));
-            } else{
+            } else {
                 ownedRoutes.put(r, null);
             }
         }
@@ -134,6 +134,5 @@ public class ObservableGameState {
 
     //TODO FIN 3.2 (avant exemple 3.2.1)
     //TODO correspondent directement à des méthodes de PublicGameState ou PlayerState, et qui ne font rien d'autre que de les appeler sur l'état courant
-
 
 }
