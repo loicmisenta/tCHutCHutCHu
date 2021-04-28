@@ -40,7 +40,7 @@ public interface ActionHandlers {
          * @param route route donnée
          * @param cartes  cartes données
          */
-       void onCliamRouteHandler(Route route, SortedBag<Card> cartes);
+        void onCliamRouteHandler(Route route, SortedBag<Card> cartes);
     }
 
     @FunctionalInterface
