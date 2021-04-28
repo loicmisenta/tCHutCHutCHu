@@ -20,6 +20,8 @@ public class ObservableGameState {
 
     //groupe2
 
+
+
     //groupe3
     private List<ObjectProperty<Ticket>> ticketList = createListTickets();//TODO Object ou ReadOnly
     private List<IntegerProperty> nbTypeCarte = createNbTypeCarte();
