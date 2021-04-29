@@ -8,19 +8,36 @@ import java.util.Map;
 
 import static ch.epfl.tchu.net.Serdes.*;
 
+/**
+ *@author loicmisenta
+ *@author lagutovaalexandra
+ * classe qui represente représente un client de joueur distant
+ */
 public class RemotePlayerClient {
     private final Player player;
     private final String nom;
     private final int port;
 
-
+    /**
+     * constructeur
+     * @param player le joueur
+     * @param nom    le nom
+     * @param port   le port pour se connecter au mandataire
+     */
     public RemotePlayerClient(Player player, String nom, int port) {
         this.player = player;
         this.nom = nom;
         this.port = port;
     }
 
-
+    /**
+     * cette méthode attend un message en provenance du mandataire,
+     * le découpe,
+     * détermine le type du message,
+     * en fonction de ce type de message, désérialise les arguments,
+     * appelle la méthode correspondante du joueur,
+     * si cette méthode retourne un résultat, le sérialise pour le renvoyer au mandataire en réponse.
+     */
     public void run(){
         try (Socket socket = new Socket(nom,port);
              BufferedReader r = new BufferedReader(new InputStreamReader(socket.getInputStream()));
