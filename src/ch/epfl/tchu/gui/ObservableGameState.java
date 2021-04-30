@@ -11,7 +11,6 @@ public class ObservableGameState {
     private PlayerState playerState;
 
 
-    //TODO comment mettre null ou 0 par défaut ?
     //groupe1
     private IntegerProperty percentageTicketsLeft = createPercentageTicketsLeft();
     private IntegerProperty percentageCardsLeft = createPercentageCardsLeft();
@@ -131,6 +130,8 @@ public class ObservableGameState {
         }
         return claimableRoutes;
     }
+
+    //TODO creer des getters ?
 
     //TODO FIN 3.2 (avant exemple 3.2.1)
     //TODO correspondent directement à des méthodes de PublicGameState ou PlayerState, et qui ne font rien d'autre que de les appeler sur l'état courant

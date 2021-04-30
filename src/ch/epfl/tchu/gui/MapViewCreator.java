@@ -13,25 +13,28 @@ import java.util.List;
 
 
 class MapViewCreator {
-    ObservableGameState observGameState;
+    //TODO Est-ce que tout doit être dans play?
 
     //TODO type de retour ??????
     public MapViewCreator createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> gestionnaireActions, CardChooser cardChooser){
-        observGameState = observGameState;
+
         Image image = new Image("map.png");
         Node fond = new ImageView(); //TODO imageView du fond  comment mettre la reference ?
         Pane pane = new Pane(); // TODO ?
         Group groupRoutes = new Group(); //Mettre les classes de style associées ? Classes de
 
+
+        fond.setImage();
         pane.getChildren().add(fond);
         pane.getChildren().add(groupRoutes);
         pane.getStylesheets().add("map.css");
         pane.getStylesheets().add("colors.css");
 
+
+        //TODO Route
         for (Route route: ChMap.routes()) {
             groupRoutes.setId(route.id());
             groupRoutes.getStyleClass(route.level());
-
         }
 
     }
