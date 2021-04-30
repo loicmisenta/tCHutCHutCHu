@@ -15,7 +15,7 @@ public class ObservableGameState {
     private PublicGameState publicGameState;
     private PlayerState playerState;
 
-
+    //
     //groupe1
     private final IntegerProperty percentageTicketsLeft = createPercentageTicketsLeft();
     private final IntegerProperty percentageCardsLeft = createPercentageCardsLeft();
@@ -29,9 +29,25 @@ public class ObservableGameState {
     private final Map<PlayerId, IntegerProperty> ownedConstructPoints = createOwnedConstructPoints();
 
     //groupe3
-    private List<ObjectProperty<Ticket>> ticketList = createListTickets(); //TODO bien une liste ?
-    private List<IntegerProperty> nbTypeCarte = createNbTypeCarte();
-    private Map<Route, BooleanProperty> claimableRoutes = createClaimableRoutes();
+    private final ObservableList<Ticket> ticketList = createListTickets();
+    private final Map<Card, IntegerProperty> nbTypeCarte = createNbTypeCarte();
+    private final Map<Route, BooleanProperty> claimableRoutes = createClaimableRoutes();
+
+
+    public ReadOnlyIntegerProperty percentageTicketsReadOnly(){ return percentageTicketsLeft;}
+    public ReadOnlyIntegerProperty percentageCardsLeftReadOnly(){ return percentageCardsLeft; }
+    public ReadOnlyObjectProperty<Card> faceUpCardsReadOnly(int slot){ return faceUpCards.get(slot); }
+    public ReadOnlyObjectProperty<PlayerId> ownedRoutesReadOnly(Route route){ return ownedRoutes.get(route);}
+
+
+    public ReadOnlyIntegerProperty ownedTicketsReadOnly(PlayerId playerId){ return ownedTickets.get(playerId); }
+    public ReadOnlyIntegerProperty ownedCardReadOnly(PlayerId playerId){ return ownedCard.get(playerId); }
+    public ReadOnlyIntegerProperty ownedCarsReadOnly(PlayerId playerId){ return ownedCars.get(playerId); }
+    public ReadOnlyIntegerProperty ownedConstructPointsReadOnly(PlayerId playerId){ return ownedConstructPoints.get(playerId); }
+
+    public ObservableList<Ticket> ticketListReadOnly(){ return FXCollections.unmodifiableObservableList(ticketList);}
+    public ReadOnlyIntegerProperty nbTypeCarteReadOnly(Card c){ return nbTypeCarte.get(c); }
+    public ReadOnlyBooleanProperty claimableRoute(Route route){ return claimableRoutes.get(route); }
 
 
 
@@ -78,15 +94,15 @@ public class ObservableGameState {
     private ObservableList<Ticket> createListTickets() {
         ObservableList<Ticket> listTickets = observableArrayList();
         for (Ticket t : playerState.tickets()) {
-            listTickets.add(new SimpleObjectProperty<>(t));
+            listTickets.add(t);
         }
         return listTickets;
     }
 
-    private List<IntegerProperty> createNbTypeCarte () {
-        List<IntegerProperty> nbTypeCarte = new ArrayList<>();
+    private Map<Card, IntegerProperty> createNbTypeCarte () {
+        Map<Card, IntegerProperty> nbTypeCarte = new HashMap<>();
         for (Card c : Card.ALL) {
-            nbTypeCarte.add(new SimpleIntegerProperty(playerState.cards().countOf(c)));
+            nbTypeCarte.put(c, new SimpleIntegerProperty(playerState.cards().countOf(c)));
         }
         return nbTypeCarte;
     }

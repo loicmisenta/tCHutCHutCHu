@@ -18,15 +18,17 @@ import java.awt.*;
 import java.util.List;
 
 
-class MapViewCreator {
-    //TODO Est-ce que tout doit être dans play?
+public class MapViewCreator {
 
-    //TODO type de retour ??????
-    public MapViewCreator createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> gestionnaireActions, CardChooser cardChooser){
+    public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> gestionnaireActions, CardChooser cardChooser){
+        int RECT_LARGEUR = 36;
+        int RECT_LONG = 12;
+        int RAYON_CERCLE = 3;
+        int DIST_CERCLE = 6;
 
-        Image image = new Image("map.png");
-        Node fond = new ImageView(); //TODO imageView du fond  comment mettre la reference ?
-        Pane pane = new Pane(); // TODO ?
+        Pane pane = new Pane();
+        Node fond = new ImageView();
+        fond.getStyleClass().add("ImageView");
         Group groupRoutes = new Group(); //Mettre les classes de style associées ? Classes de
 
 
