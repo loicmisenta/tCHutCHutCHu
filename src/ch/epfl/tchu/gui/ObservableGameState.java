@@ -51,15 +51,6 @@ public class ObservableGameState {
 
 
 
-    public ObservableGameState(PlayerId playerId){
-        this.playerId = playerId;
-    }
-
-    public void setState(PublicGameState publicGameState, PlayerState playerState){
-        this.publicGameState = publicGameState;
-        this.playerState = playerState;
-    }
-
     private IntegerProperty createPercentageCardsLeft() {
         return new SimpleIntegerProperty((int) (((double) publicGameState.cardState().deckSize() / (double) Constants.TOTAL_CARDS_COUNT) * 100));
     }
