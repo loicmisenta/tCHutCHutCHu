@@ -1,9 +1,14 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.*;
+import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.*;
+
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class ObservableGameState {
     private final PlayerId playerId;
@@ -12,19 +17,17 @@ public class ObservableGameState {
 
 
     //groupe1
-    private IntegerProperty percentageTicketsLeft = createPercentageTicketsLeft();
-    private IntegerProperty percentageCardsLeft = createPercentageCardsLeft();
-    private List<ObjectProperty<Card>> faceUpCards = createFaceUpCards();
-    private Map<Route, ObjectProperty<PlayerId>> ownedRoutes = createOwnedRoutes();
+    private final IntegerProperty percentageTicketsLeft = createPercentageTicketsLeft();
+    private final IntegerProperty percentageCardsLeft = createPercentageCardsLeft();
+    private final List<ObjectProperty<Card>> faceUpCards = createFaceUpCards();
+    private final Map<Route, ObjectProperty<PlayerId>> ownedRoutes = createOwnedRoutes();
 
     //groupe2
-    private Map<PlayerId, IntegerProperty> ownedTickets = createOwnedTickets();
-    private Map<PlayerId, IntegerProperty> ownedCard = createOwnedCard();
-    private Map<PlayerId, IntegerProperty> ownedCars = createOwnedCars();
-    private Map<PlayerId, IntegerProperty> ownedConstructPoints = createOwnedConstructPoints();
+    private final Map<PlayerId, IntegerProperty> ownedTickets = createOwnedTickets();
+    private final Map<PlayerId, IntegerProperty> ownedCard = createOwnedCard();
+    private final Map<PlayerId, IntegerProperty> ownedCars = createOwnedCars();
+    private final Map<PlayerId, IntegerProperty> ownedConstructPoints = createOwnedConstructPoints();
 
-
-    //TODO Object ou readonly ?
     //groupe3
     private List<ObjectProperty<Ticket>> ticketList = createListTickets(); //TODO bien une liste ?
     private List<IntegerProperty> nbTypeCarte = createNbTypeCarte();
@@ -72,8 +75,8 @@ public class ObservableGameState {
     }
 
 
-    private List<ObjectProperty<Ticket>> createListTickets() {
-        List<ObjectProperty<Ticket>> listTickets = new ArrayList<>();
+    private ObservableList<Ticket> createListTickets() {
+        ObservableList<Ticket> listTickets = observableArrayList();
         for (Ticket t : playerState.tickets()) {
             listTickets.add(new SimpleObjectProperty<>(t));
         }
@@ -130,10 +133,5 @@ public class ObservableGameState {
         }
         return claimableRoutes;
     }
-
-    //TODO creer des getters ?
-
-    //TODO FIN 3.2 (avant exemple 3.2.1)
-    //TODO correspondent directement à des méthodes de PublicGameState ou PlayerState, et qui ne font rien d'autre que de les appeler sur l'état courant
 
 }

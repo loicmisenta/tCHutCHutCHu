@@ -1,5 +1,23 @@
 package ch.epfl.gui;
 
+import ch.epfl.tchu.SortedBag;
+import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.*;
+import ch.epfl.tchu.gui.ObservableGameState;
+import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.Map;
+
+import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
+import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
+
 public final class Stage9Test extends Application {
     public static void main(String[] args) { launch(args); }
 
@@ -7,11 +25,11 @@ public final class Stage9Test extends Application {
     public void start(Stage primaryStage) {
         ObservableGameState gameState = new ObservableGameState(PLAYER_1);
 
-        ObjectProperty<ClaimRouteHandler> claimRoute =
+        ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRoute =
                 new SimpleObjectProperty<>(Stage9Test::claimRoute);
-        ObjectProperty<DrawTicketsHandler> drawTickets =
+        ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTickets =
                 new SimpleObjectProperty<>(Stage9Test::drawTickets);
-        ObjectProperty<DrawCardHandler> drawCard =
+        ObjectProperty<ActionHandlers.DrawCardHandler> drawCard =
                 new SimpleObjectProperty<>(Stage9Test::drawCard);
 
         Node mapView = MapViewCreator
@@ -53,7 +71,7 @@ public final class Stage9Test extends Application {
     }
 
     private static void chooseCards(List<SortedBag<Card>> options,
-                                    ChooseCardsHandler chooser) {
+                                    ActionHandlers.ChooseCardsHandler chooser) {
         chooser.onChooseCards(options.get(0));
     }
 
