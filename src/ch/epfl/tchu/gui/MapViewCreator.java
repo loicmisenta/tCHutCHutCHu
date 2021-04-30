@@ -55,14 +55,24 @@ public class MapViewCreator {
             pane.getChildren().add(group);
 
 
+            /*
             //TODO ACTIONS ?
             ReadOnlyBooleanProperty claimRouteHP = observGameState.claimableRoute(route);
-            group.disableProperty().bind(claimRouteHP.isNull().or(gameState.claimable(route).not()));
+            group.disableProperty().bind(gestionnaireActions.isNull().or(gameState.claimable(route).not()));
+            List<SortedBag<Card>> possibleClaimCards =route.possibleClaimCards();
+            ActionHandlers.ClaimRouteHandler claimRouteH = ;
+            ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> claimRouteH.onClaimRoute(route, chosenCards);
+            cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
+
             group.setOnMouseClicked(e-> {
-                if(route.possibleClaimCards().size() != 0){
+                if(possibleClaimCards.size() != 0){
                     // faire set la route à Claimed ?
                 }
             });
+
+
+             */
+
 
             //Case
             for (int i = 0; i < route.length(); i++) {
