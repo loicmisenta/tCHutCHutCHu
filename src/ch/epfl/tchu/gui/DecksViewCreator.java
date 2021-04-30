@@ -109,6 +109,7 @@ public class DecksViewCreator {
         //TODO besoin de getChildren ou set graphic suffit ?
         buttonBillet.setGraphic(group);
         buttonCarte.setGraphic(group);
+
         return vbox;
     }
 

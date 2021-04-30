@@ -15,7 +15,17 @@ public class ObservableGameState {
     private PublicGameState publicGameState;
     private PlayerState playerState;
 
-    //
+    public ObservableGameState(PlayerId playerId){
+        System.out.println("non");
+        this.playerId = playerId;
+    }
+
+    public void setState(PublicGameState publicGameState, PlayerState playerState){
+        this.publicGameState = publicGameState;
+        this.playerState = playerState;
+    }
+
+
     //groupe1
     private final IntegerProperty percentageTicketsLeft = createPercentageTicketsLeft();
     private final IntegerProperty percentageCardsLeft = createPercentageCardsLeft();
