@@ -1,9 +1,7 @@
-package ch.epfl.gui;
+package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import ch.epfl.tchu.gui.*;
-import ch.epfl.tchu.gui.ObservableGameState;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
