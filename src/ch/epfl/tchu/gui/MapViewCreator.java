@@ -64,7 +64,7 @@ public class MapViewCreator {
             //Case
             for (int i = 0; i < route.length(); i++) {
                 Group groupCase = new Group();
-                groupCase.setId(route.id() + "_" + (i+1));
+                groupCase.setId(route.id() + "_" + (i+1)); //TODO CONSTANTE MAYBE?????????
                 group.getChildren().add(groupCase);
 
                 //Voie
