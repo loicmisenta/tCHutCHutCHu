@@ -1,5 +1,6 @@
 package ch.epfl.tchu.gui;
 
+import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -172,4 +173,15 @@ public class ObservableGameState {
         return claimableRoutes;
     }
 
+    private boolean canDrawTickets(){
+        return publicGameState.canDrawTickets();
+    }
+
+    private boolean canDrawCards(){
+        return publicGameState.canDrawCards();
+    }
+
+    private List<SortedBag<Card>> possibleClaimCards(Route route){
+        return playerState.possibleClaimCards(route);
+    }
 }

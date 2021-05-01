@@ -1,10 +1,11 @@
 package ch.epfl.tchu.gui;
-
+import ch.epfl.tchu.gui.ActionHandlers;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MapViewCreator {
@@ -40,48 +42,42 @@ public class MapViewCreator {
         for (Route route: ChMap.routes()) {
             Group group = new Group();
             group.setId(route.id());
-            String color;
-            if (route.color() == null) {
-                color = "NEUTRAL";
-            }else {
-                color = route.color().toString();
-            }
-            group.getStyleClass().addAll("route", route.level().name(), color);
+            group.getStyleClass().addAll("route", route.level().name(), route.color() == null? "NEUTRAL" : route.color().toString());
+
             pane.getChildren().add(group);
 
 
-            /*
-            //TODO ACTIONS ?
+            //Placer les noeuds
             ReadOnlyBooleanProperty claimRouteHP = observGameState.claimableRoute(route);
-            group.disableProperty().bind(gestionnaireActions.isNull().or(gameState.claimable(route).not()));
-            List<SortedBag<Card>> possibleClaimCards =route.possibleClaimCards();
-            ActionHandlers.ClaimRouteHandler claimRouteH;
-            ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> claimRouteH.onClaimRoute(route, chosenCards);
-            cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
+            group.disableProperty().bind(gestionnaireActions.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
 
-            group.setOnMouseClicked(e-> {
-                if(possibleClaimCards.size() != 0){
-                    // faire set la route à Claimed ?
-                }
+
+            List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
+            ActionHandlers.ClaimRouteHandler routeHandler = gestionnaireActions.get();
+            ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
+            RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
+            group.setOnMouseClicked(e -> {
+                ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> routeHandler.onCliamRouteHandler(route, chosenCards);
+                cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
+
             });
 
-             */
 
             //Case
             for (int i = 0; i < route.length(); i++) {
                 Group groupCase = new Group();
-                groupCase.setId(route.id() + "_" + (i+1));//TODO UNDERSCORE CONSTANTE?
+                groupCase.setId(route.id() + "_" + (i+1));
                 group.getChildren().add(groupCase);
 
                 //Voie
                 Rectangle r = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 r.getStyleClass().addAll("track", "filled");
-                groupCase.getChildren().add(r);
+                group.getChildren().add(r);
 
                 //Wagon
                 Group groupWagons = new Group();
                 groupWagons.getStyleClass().add("car");
-                groupCase.getChildren().add(groupWagons);
+                group.getChildren().add(groupWagons);
                 Rectangle rect = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 rect.getStyleClass().add("filled");
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);
