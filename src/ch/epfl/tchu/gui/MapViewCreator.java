@@ -43,7 +43,6 @@ public class MapViewCreator {
             Group group = new Group();
             group.setId(route.id());
             group.getStyleClass().addAll("route", route.level().name(), route.color() == null? "NEUTRAL" : route.color().toString());
-
             pane.getChildren().add(group);
 
 
@@ -59,7 +58,6 @@ public class MapViewCreator {
             group.setOnMouseClicked(e -> {
                 ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> routeHandler.onCliamRouteHandler(route, chosenCards);
                 cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
-
             });
 
 
@@ -72,12 +70,12 @@ public class MapViewCreator {
                 //Voie
                 Rectangle r = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 r.getStyleClass().addAll("track", "filled");
-                group.getChildren().add(r);
+                groupCase.getChildren().add(r);
 
                 //Wagon
                 Group groupWagons = new Group();
                 groupWagons.getStyleClass().add("car");
-                group.getChildren().add(groupWagons);
+                groupCase.getChildren().add(groupWagons);
                 Rectangle rect = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 rect.getStyleClass().add("filled");
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);

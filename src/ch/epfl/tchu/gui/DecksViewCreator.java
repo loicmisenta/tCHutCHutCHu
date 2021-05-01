@@ -4,6 +4,7 @@ import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Group;
@@ -30,6 +31,7 @@ public class DecksViewCreator {
         HBox hBoxView = new HBox();
         Node billets = new ListView<>(observableGameState.ticketListReadOnly());
         billets.setId("tickets");
+        //Ajouter un listner et
 
         hBoxView.getChildren().add(billets);
         hBoxView.getStylesheets().addAll("decks.css", "colors.css");
@@ -48,8 +50,10 @@ public class DecksViewCreator {
             else{
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
-
             hboxHandPane.getChildren().add(stackPane);
+
+            //Ajouter un listener
+            //Ajouter un SetOnMouseClicked à StackPane
 
             //Carte
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
@@ -64,9 +68,9 @@ public class DecksViewCreator {
             text.getStyleClass().add("count");
 
 
-
             ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
             text.visibleProperty().bind(Bindings.greaterThan(count, 1));
+
 
 
         }
@@ -85,6 +89,7 @@ public class DecksViewCreator {
         vbox.getStylesheets().addAll("decks.css", "colors.css");
         vbox.setId("card-pane");
 
+
         //Pioche Billet
         Button buttonBillet = new Button(StringsFr.TICKETS);
         buttonBillet.getStyleClass().add("gauged");
@@ -93,13 +98,13 @@ public class DecksViewCreator {
 
         //jaugeBiller
         Group group = new Group();
-        Rectangle rect_background = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        Rectangle rect_foreground = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        group.getChildren().addAll(rect_background, rect_foreground);
+        Rectangle rect_backgroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        Rectangle rect_foregroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        group.getChildren().addAll(rect_backgroundB, rect_foregroundB);
         buttonBillet.setGraphic(group);
 
         ReadOnlyIntegerProperty pctPropertyTickets = observableGameState.percentageTicketsReadOnly();
-        rect_foreground.widthProperty().bind(pctPropertyTickets.multiply(50).divide(100));
+        rect_foregroundB.widthProperty().bind(pctPropertyTickets.multiply(50).divide(100));
 
 
         //Cartes
@@ -108,8 +113,10 @@ public class DecksViewCreator {
             stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(i).toString(), "card");
             vbox.getChildren().add(stackPane);
             ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(i);
+            //stackPane.disableProperty().bind(observableGameState.canDrawCards().not());
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
+            //ajouter un setOnMouseClicked !
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
             r_Ext.getStyleClass().add("outside");
@@ -119,19 +126,23 @@ public class DecksViewCreator {
             r_Train_Image.getStyleClass().add("train-image");
             stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
         }
+
+
         //PiocheCarte
         Button buttonCarte = new Button(StringsFr.CARDS);
         buttonCarte.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonCarte);
         //jauge
         Group group2 = new Group();
-        Rectangle rect_background2 = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        Rectangle rect_foreground2 = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        group2.getChildren().addAll(rect_background2, rect_foreground2);
+        Rectangle rect_backgroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        Rectangle rect_foregroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        group2.getChildren().addAll(rect_backgroundC, rect_foregroundC);
         buttonCarte.setGraphic(group2);
 
         ReadOnlyIntegerProperty pctPropertyCards = observableGameState.percentageCardsLeftReadOnly();
-        rect_foreground.widthProperty().bind(pctPropertyCards.multiply(50).divide(100));
+        rect_foregroundC.widthProperty().bind(pctPropertyCards.multiply(50).divide(100));
+
+
 
         return vbox;
     }

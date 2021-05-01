@@ -173,15 +173,17 @@ public class ObservableGameState {
         return claimableRoutes;
     }
 
-    private boolean canDrawTickets(){
-        return publicGameState.canDrawTickets();
+    private boolean canDrawTickets;
+
+    public ReadOnlyBooleanProperty canDrawTickets(){
+        return new SimpleBooleanProperty(publicGameState.canDrawTickets());
     }
 
-    private boolean canDrawCards(){
-        return publicGameState.canDrawCards();
+    public ReadOnlyBooleanProperty canDrawCards(){
+        return new SimpleBooleanProperty(publicGameState.canDrawCards());
     }
 
-    private List<SortedBag<Card>> possibleClaimCards(Route route){
+    public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }
 }
