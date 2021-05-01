@@ -41,7 +41,13 @@ public class DecksViewCreator {
         //TODO juste la boucle ?
         for (Card card: Card.ALL) {
             StackPane stackPane = new StackPane();
-            stackPane.getStyleClass().addAll(card.color().toString(), "card");
+            if (card.equals(Card.LOCOMOTIVE)){
+                stackPane.getStyleClass().addAll("NEUTRAL", "card");
+            }
+            else{
+                stackPane.getStyleClass().addAll(card.color().toString(), "card");
+            }
+
             hboxHandPane.getChildren().add(stackPane);
 
             //Carte
@@ -78,14 +84,17 @@ public class DecksViewCreator {
         vbox.setId("card-pane");
 
         //Pioche Billet
-        Button buttonBillet = new Button();
+        Button buttonBillet = new Button(StringsFr.TICKETS);
         buttonBillet.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonBillet);
+        //jaugeBiller
+        Group group = new Group();
+        Rectangle rect_background = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        Rectangle rect_foreground = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        group.getChildren().addAll(rect_background, rect_foreground);
+        buttonBillet.setGraphic(group);
 
-        //PiocheCarte
-        Button buttonCarte = new Button();
-        buttonCarte.getStyleClass().add("gauged");
-        vbox.getChildren().add(buttonCarte);
+
 
         //Cartes
         for (int i = 0; i < Constants.FACE_UP_CARD_SLOTS.size(); i++) {
@@ -101,14 +110,16 @@ public class DecksViewCreator {
             r_Train_Image.getStyleClass().add("train-image");
             stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
         }
+        //PiocheCarte
+        Button buttonCarte = new Button(StringsFr.CARDS);
+        buttonCarte.getStyleClass().add("gauged");
+        vbox.getChildren().add(buttonCarte);
         //jauge
-        Group group = new Group();
-        Rectangle rect_background = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        Rectangle rect_foreground = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        group.getChildren().addAll(rect_background, rect_foreground);
-        //TODO besoin de getChildren ou set graphic suffit ?
-        buttonBillet.setGraphic(group);
-        buttonCarte.setGraphic(group);
+        Group group2 = new Group();
+        Rectangle rect_background2 = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        Rectangle rect_foreground2 = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        group2.getChildren().addAll(rect_background2, rect_foreground2);
+        buttonCarte.setGraphic(group2);
 
         return vbox;
     }
