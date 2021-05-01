@@ -46,6 +46,9 @@ public class ObservableGameState {
         ticketList = observableArrayList();
         nbTypeCarte = createNbTypeCarte();
         claimableRoutes = createClaimableRoutes();
+
+        //canDrawCards = canDrawCards();
+        //canDrawTickets = canDrawTickets();
     }
 
     public void setState(PublicGameState publicGameState, PlayerState playerState){
@@ -173,13 +176,24 @@ public class ObservableGameState {
         return claimableRoutes;
     }
 
-    private boolean canDrawTickets;
 
-    public ReadOnlyBooleanProperty canDrawTickets(){
+
+    //TODO pas sûre pour ces méthodes!!!!!!!!!!!!!
+    private BooleanProperty canDrawTickets;
+    private BooleanProperty canDrawCards;
+
+
+    private BooleanProperty canDrawTickets(){
         return new SimpleBooleanProperty(publicGameState.canDrawTickets());
     }
+    public ReadOnlyBooleanProperty canDrawTicketsReadOnly(){
+        return canDrawTickets;
+    }
+    public ReadOnlyBooleanProperty canDrawCardsReadOnly(){
+        return canDrawTickets;
+    }
 
-    public ReadOnlyBooleanProperty canDrawCards(){
+    private BooleanProperty canDrawCards(){
         return new SimpleBooleanProperty(publicGameState.canDrawCards());
     }
 

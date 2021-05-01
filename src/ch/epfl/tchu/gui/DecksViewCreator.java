@@ -2,11 +2,14 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
+import ch.epfl.tchu.game.PlayerId;
+import ch.epfl.tchu.game.Ticket;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -94,6 +97,12 @@ public class DecksViewCreator {
         Button buttonBillet = new Button(StringsFr.TICKETS);
         buttonBillet.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonBillet);
+        buttonBillet.disableProperty().bind(chooseTicketsHandler.isNull());
+
+        ObservableList<Ticket> tickets = observableGameState.ticketListReadOnly();
+        //Ajouter un listner
+        //TODO ne peut pas ajouter de lambda ?  pour le listner ? ?  add nV de String MAIS PAS POSSIBLE CAR LISTE
+        //tickets.addListener((o, oV, nV) ->  buttonBillet.getStyleClass().add(nV));
 
 
         //jaugeBiller
@@ -103,7 +112,10 @@ public class DecksViewCreator {
         group.getChildren().addAll(rect_backgroundB, rect_foregroundB);
         buttonBillet.setGraphic(group);
 
+
+        //TODO n'ajoute pas le pourcentage ?
         ReadOnlyIntegerProperty pctPropertyTickets = observableGameState.percentageTicketsReadOnly();
+        pctPropertyTickets.addListener((o, oV, nV) ->  rect_foregroundB.getStyleClass().add(String.valueOf(nV)));
         rect_foregroundB.widthProperty().bind(pctPropertyTickets.multiply(50).divide(100));
 
 
@@ -113,9 +125,10 @@ public class DecksViewCreator {
             stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(i).toString(), "card");
             vbox.getChildren().add(stackPane);
             ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(i);
-            //stackPane.disableProperty().bind(observableGameState.canDrawCards().not());
+            stackPane.disableProperty().bind(chooseCardsHandler.isNull());
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
+            //stackPane.setOnMouseClicked();
             //ajouter un setOnMouseClicked !
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
@@ -132,6 +145,11 @@ public class DecksViewCreator {
         Button buttonCarte = new Button(StringsFr.CARDS);
         buttonCarte.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonCarte);
+        buttonCarte.disableProperty().bind(chooseCardsHandler.isNull());
+
+
+
+
         //jauge
         Group group2 = new Group();
         Rectangle rect_backgroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
@@ -139,7 +157,9 @@ public class DecksViewCreator {
         group2.getChildren().addAll(rect_backgroundC, rect_foregroundC);
         buttonCarte.setGraphic(group2);
 
+        //TODO ne marche pas ?
         ReadOnlyIntegerProperty pctPropertyCards = observableGameState.percentageCardsLeftReadOnly();
+        pctPropertyCards.addListener((o, oV, nV) ->  rect_foregroundC.getStyleClass().add(String.valueOf(nV)));
         rect_foregroundC.widthProperty().bind(pctPropertyCards.multiply(50).divide(100));
 
 
