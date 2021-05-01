@@ -72,12 +72,12 @@ public class MapViewCreator {
                 //Voie
                 Rectangle r = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 r.getStyleClass().addAll("track", "filled");
-                group.getChildren().add(r);
+                groupCase.getChildren().add(r);
 
                 //Wagon
                 Group groupWagons = new Group();
                 groupWagons.getStyleClass().add("car");
-                group.getChildren().add(groupWagons);
+                groupCase.getChildren().add(groupWagons);
                 Rectangle rect = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 rect.getStyleClass().add("filled");
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);
