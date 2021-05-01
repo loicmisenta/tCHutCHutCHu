@@ -70,18 +70,18 @@ public class MapViewCreator {
             //Case
             for (int i = 0; i < route.length(); i++) {
                 Group groupCase = new Group();
-                groupCase.setId(route.id());
+                groupCase.setId(route.id() + "_" + (i+1));//TODO UNDERSCORE CONSTANTE?
                 group.getChildren().add(groupCase);
 
                 //Voie
                 Rectangle r = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 r.getStyleClass().addAll("track", "filled");
-                group.getChildren().add(r);
+                groupCase.getChildren().add(r);
 
                 //Wagon
                 Group groupWagons = new Group();
                 groupWagons.getStyleClass().add("car");
-                group.getChildren().add(groupWagons);
+                groupCase.getChildren().add(groupWagons);
                 Rectangle rect = new Rectangle(RECT_LARGEUR, RECT_LONG);
                 rect.getStyleClass().add("filled");
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);
