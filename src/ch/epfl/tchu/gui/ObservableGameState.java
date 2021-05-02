@@ -178,7 +178,7 @@ public class ObservableGameState {
 
 
 
-    //TODO pas sûre pour ces méthodes!!!!!!!!!!!!!
+    //TODO pas sûre pour ces méthodes!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!!!!!!
     private BooleanProperty canDrawTickets;
     private BooleanProperty canDrawCards;
 
@@ -200,4 +200,5 @@ public class ObservableGameState {
     public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }
+    //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

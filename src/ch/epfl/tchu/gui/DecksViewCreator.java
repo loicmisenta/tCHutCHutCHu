@@ -106,7 +106,7 @@ public class DecksViewCreator {
         buttonBillet.setGraphic(group);
 
 
-        //TODO n'ajoute pas le pourcentage ?
+        //TODO n'ajoute pas le pourcentage ?????
         ReadOnlyIntegerProperty pctPropertyTickets = observableGameState.percentageTicketsReadOnly();
         pctPropertyTickets.addListener((o, oV, nV) ->  rect_foregroundB.getStyleClass().add(String.valueOf(nV)));
         //rect_foregroundB.visibleProperty().bind();
@@ -124,9 +124,11 @@ public class DecksViewCreator {
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
             //TODO choisir l'index
-            stackPane.setOnMouseClicked( e -> {
-                //TODO sur quoi appeler onChooseCards(  ) qu'on va passer à onDrawCard ?
-                //ActionHandlers.ChooseCardsHandler choosenCard = card -> chooseCardsHandler.get().onDrawCard(  );
+            //TODO retirer sûrement de la boucle ?
+            int finalI = i;
+            stackPane.setOnMouseClicked(e -> {
+                //TODO ????????????????????????????????? index ????????????
+                ActionHandlers.ChooseCardsHandler choosenCard = card -> chooseCardsHandler.get().onDrawCard(finalI);
                     }
             );
             //ajouter un setOnMouseClicked ! TODO ? not sure
