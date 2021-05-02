@@ -52,7 +52,6 @@ public class DecksViewCreator {
             } else {
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
-
             hboxHandPane.getChildren().add(stackPane);
 
 
@@ -110,7 +109,9 @@ public class DecksViewCreator {
         //TODO n'ajoute pas le pourcentage ?
         ReadOnlyIntegerProperty pctPropertyTickets = observableGameState.percentageTicketsReadOnly();
         pctPropertyTickets.addListener((o, oV, nV) ->  rect_foregroundB.getStyleClass().add(String.valueOf(nV)));
+        //rect_foregroundB.visibleProperty().bind();
         rect_foregroundB.widthProperty().bind(pctPropertyTickets.multiply(50).divide(100));
+
 
 
         //Cartes

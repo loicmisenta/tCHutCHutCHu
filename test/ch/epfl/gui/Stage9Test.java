@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.util.List;
 import java.util.Map;
 
