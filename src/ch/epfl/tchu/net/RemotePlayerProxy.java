@@ -145,9 +145,7 @@ public class RemotePlayerProxy implements Player {
     @Override
     public Route claimedRoute() {
         sendMessage(MessageId.ROUTE, " ");
-        String s = readMessage();
-        System.out.println(s +  " route négative");
-        return routeSerde.deserialize(s);
+        return routeSerde.deserialize(readMessage());
     }
 
     /**

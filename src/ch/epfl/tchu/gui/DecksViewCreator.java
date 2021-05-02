@@ -47,12 +47,12 @@ public class DecksViewCreator {
 
         for (Card card: Card.ALL) {
             StackPane stackPane = new StackPane();
-            if (card.equals(Card.LOCOMOTIVE)){
+            if (card.equals(Card.LOCOMOTIVE)) {
                 stackPane.getStyleClass().addAll("NEUTRAL", "card");
-            }
-            else{
+            } else {
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
+
             hboxHandPane.getChildren().add(stackPane);
 
 
@@ -124,7 +124,8 @@ public class DecksViewCreator {
 
             //TODO choisir l'index
             stackPane.setOnMouseClicked( e -> {
-                ActionHandlers.ChooseCardsHandler choosenCard = card -> chooseCardsHandler.get().onDrawCard(card);
+                //TODO sur quoi appeler onChooseCards(  ) qu'on va passer à onDrawCard ?
+                //ActionHandlers.ChooseCardsHandler choosenCard = card -> chooseCardsHandler.get().onDrawCard(  );
                     }
             );
             //ajouter un setOnMouseClicked ! TODO ? not sure
