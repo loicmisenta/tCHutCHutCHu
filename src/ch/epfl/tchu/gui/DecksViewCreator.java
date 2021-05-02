@@ -56,7 +56,7 @@ public class DecksViewCreator {
             hboxHandPane.getChildren().add(stackPane);
 
             //Ajouter un listener
-            //Ajouter un SetOnMouseClicked à StackPane
+            //Ajouter un SetOnMouseClicked à StackPane TODO not sure?
 
             //Carte
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
@@ -102,7 +102,7 @@ public class DecksViewCreator {
         ObservableList<Ticket> tickets = observableGameState.ticketListReadOnly();
         //Ajouter un listner
         //TODO ne peut pas ajouter de lambda ?  pour le listner ? ?  add nV de String MAIS PAS POSSIBLE CAR LISTE
-        //tickets.addListener((o, oV, nV) ->  buttonBillet.getStyleClass().add(nV));
+        tickets.addListener((o, oV, nV) ->  buttonBillet.getStyleClass().add(nV)); //TODO not sure
 
 
         //jaugeBiller
@@ -128,8 +128,10 @@ public class DecksViewCreator {
             stackPane.disableProperty().bind(chooseCardsHandler.isNull());
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
-            //stackPane.setOnMouseClicked();
-            //ajouter un setOnMouseClicked !
+            //TODO choisir l'index
+            ActionHandlers.ChooseCardsHandler chooseFaceUpCard = chosenCard -> chooseCardsHandler.get().onDrawCard(chosenCard.);
+            stackPane.setOnMouseClicked();
+            //ajouter un setOnMouseClicked ! TODO ? not sure
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
             r_Ext.getStyleClass().add("outside");
@@ -146,6 +148,7 @@ public class DecksViewCreator {
         buttonCarte.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonCarte);
         buttonCarte.disableProperty().bind(chooseCardsHandler.isNull());
+
 
 
 
