@@ -10,8 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
-
-import java.awt.*;
 import java.util.List;
 
 
@@ -52,11 +50,18 @@ public class MapViewCreator {
             ActionHandlers.ClaimRouteHandler routeHandler = gestionnaireActions.get();
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
-            group.setOnMouseClicked(e -> {
-                ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> routeHandler.onCliamRouteHandler(route, chosenCards);
-                cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
-            });
 
+
+
+
+            ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> routeHandler.onClaimRoute(route, chosenCards);
+            group.setOnMouseClicked(e -> {
+                if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
+                    routeHandler.onClaimRoute(route, possibleClaimCards.get(0));
+                } else{
+                    cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
+                }
+            });
 
             //Case
             for (int i = 0; i < route.length(); i++) {

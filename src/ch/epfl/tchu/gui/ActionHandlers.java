@@ -49,7 +49,7 @@ public interface ActionHandlers {
          * Appelée lorsque le joueur a choisi de garder les billets donnés suite à un tirage de billets
          * @param tickets billets
          */
-        void onChooseTicktes(SortedBag<Ticket> tickets);
+        void onChooseTickets(SortedBag<Ticket> tickets);
     }
 
     @FunctionalInterface

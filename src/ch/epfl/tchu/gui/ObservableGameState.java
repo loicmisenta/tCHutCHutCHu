@@ -178,27 +178,15 @@ public class ObservableGameState {
 
 
 
-    //TODO pas sûre pour ces méthodes!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!!!!!!
-    private BooleanProperty canDrawTickets;
-    private BooleanProperty canDrawCards;
-
-
-    private BooleanProperty canDrawTickets(){
-        return new SimpleBooleanProperty(publicGameState.canDrawTickets());
-    }
-    public ReadOnlyBooleanProperty canDrawTicketsReadOnly(){
-        return canDrawTickets;
-    }
-    public ReadOnlyBooleanProperty canDrawCardsReadOnly(){
-        return canDrawTickets;
+    private boolean canDrawTickets(){
+        return publicGameState.canDrawTickets();
     }
 
-    private BooleanProperty canDrawCards(){
-        return new SimpleBooleanProperty(publicGameState.canDrawCards());
+    private boolean canDrawCards(){
+        return publicGameState.canDrawCards();
     }
 
     public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }
-    //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

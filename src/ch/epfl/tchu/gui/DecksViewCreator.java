@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
 
 import java.awt.*;
 
-public class DecksViewCreator {
+public class DecksViewCreator { //TODO package private ?
 
     public static Node createHandView(ObservableGameState observableGameState ){
         int EXT_CARD_WIDTH = 60;
@@ -53,6 +53,7 @@ public class DecksViewCreator {
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
             hboxHandPane.getChildren().add(stackPane);
+            //stackPane.setOnMouseClicked();
 
 
             //Carte
@@ -66,6 +67,7 @@ public class DecksViewCreator {
             //Compteur
             Text text = new Text();
             text.getStyleClass().add("count");
+
 
 
             ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
@@ -93,30 +95,25 @@ public class DecksViewCreator {
         buttonBillet.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonBillet);
         buttonBillet.disableProperty().bind(chooseTicketsHandler.isNull());
-
-        ObservableList<Ticket> tickets = observableGameState.ticketListReadOnly();
+        buttonBillet.setOnAction(e -> chooseTicketsHandler.get().onDrawTickets());
 
         //jaugeBiller
         createGaugedButton(buttonBillet, observableGameState, observableGameState.percentageTicketsReadOnly());
 
         //Cartes
-        for (int i = 0; i < Constants.FACE_UP_CARD_SLOTS.size(); i++) {
+        for(int index: Constants.FACE_UP_CARD_SLOTS){
+
             StackPane stackPane = new StackPane();
-            stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(i).toString(), "card");
+            stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(index).toString(), "card");
             vbox.getChildren().add(stackPane);
-            ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(i);
+            ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(index);
             stackPane.disableProperty().bind(chooseCardsHandler.isNull());
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
-            //TODO choisir l'index
-            //TODO retirer sûrement de la boucle ?
-            int finalI = i;
-            stackPane.setOnMouseClicked(e -> {
-                //TODO ????????????????????????????????? index ????????????
-                ActionHandlers.ChooseCardsHandler choosenCard = card -> chooseCardsHandler.get().onDrawCard(finalI);
-                    }
+
+            stackPane.setOnMouseClicked(e -> { chooseCardsHandler.get().onDrawCard(index); }
             );
-            //ajouter un setOnMouseClicked ! TODO ? not sure
+
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
             r_Ext.getStyleClass().add("outside");

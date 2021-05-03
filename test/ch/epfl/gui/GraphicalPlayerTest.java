@@ -18,10 +18,11 @@ import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
+/*
+public class GraphicalPlayerTest extends Application{
 
-public final class Stage9Test extends Application {
     public static void main(String[] args) { launch(args); }
-    //*
+
     @Override
     public void start(Stage primaryStage) {
         ObservableGameState gameState = new ObservableGameState(PLAYER_1);
@@ -64,7 +65,6 @@ public final class Stage9Test extends Application {
         PublicGameState publicGameState =
                 new PublicGameState(36, cardState, PLAYER_1, pubPlayerStates, null);
         gameState.setState(publicGameState, p1State);
-        //player.setState(publicGameState, p1State);
     }
 
     private static void claimRoute(Route route, SortedBag<Card> cards) {
@@ -85,3 +85,5 @@ public final class Stage9Test extends Application {
         System.out.printf("Tirage de cartes (emplacement %s)!\n", slot);
     }
 }
+
+ */
