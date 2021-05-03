@@ -1,8 +1,6 @@
 package ch.epfl.tchu.gui;
-import ch.epfl.tchu.gui.ActionHandlers;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -10,14 +8,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.*;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MapViewCreator {
@@ -44,6 +39,8 @@ public class MapViewCreator {
             group.setId(route.id());
             group.getStyleClass().addAll("route", route.level().name(), route.color() == null? "NEUTRAL" : route.color().toString());
             pane.getChildren().add(group);
+
+
 
 
             //Placer les noeuds

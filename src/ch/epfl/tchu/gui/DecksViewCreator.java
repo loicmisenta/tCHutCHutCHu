@@ -82,8 +82,6 @@ public class DecksViewCreator {
         int EXT_CARD_HEIGHT = 90;
         int INT_CARD_WIDTH = 40;
         int INT_CARD_HEIGHT = 70;
-        int RECT_INI_WIDTH = 50;
-        int RECT_INIT_HEIGHT = 5;
 
         VBox vbox = new VBox();
         vbox.getStylesheets().addAll("decks.css", "colors.css");
@@ -99,22 +97,7 @@ public class DecksViewCreator {
         ObservableList<Ticket> tickets = observableGameState.ticketListReadOnly();
 
         //jaugeBiller
-        Group group = new Group();
-        Rectangle rect_backgroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        Rectangle rect_foregroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        rect_backgroundB.getStyleClass().add("background");
-        rect_foregroundB.getStyleClass().add("foreground");
-        group.getChildren().addAll(rect_backgroundB, rect_foregroundB);
-        buttonBillet.setGraphic(group);
-
-
-        //TODO n'ajoute pas le pourcentage ?????
-        ReadOnlyIntegerProperty pctPropertyTickets = observableGameState.percentageTicketsReadOnly();
-        pctPropertyTickets.addListener((o, oV, nV) ->  rect_foregroundB.getStyleClass().add(String.valueOf(nV)));
-        //rect_foregroundB.visibleProperty().bind();
-        rect_foregroundB.widthProperty().bind(pctPropertyTickets.multiply(50).divide(100));
-
-
+        createGaugedButton(buttonBillet, observableGameState, observableGameState.percentageTicketsReadOnly());
 
         //Cartes
         for (int i = 0; i < Constants.FACE_UP_CARD_SLOTS.size(); i++) {
@@ -150,28 +133,27 @@ public class DecksViewCreator {
         buttonCarte.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonCarte);
         buttonCarte.disableProperty().bind(chooseCardsHandler.isNull());
-
-
-
-
-
+        buttonCarte.setOnAction(e -> chooseCardsHandler.get().onDrawCard(-1));
         //jauge
-        Group group2 = new Group();
-        Rectangle rect_backgroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        Rectangle rect_foregroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
-        rect_backgroundC.getStyleClass().add("background");
-        rect_foregroundC.getStyleClass().add("foreground");
-        group2.getChildren().addAll(rect_backgroundC, rect_foregroundC);
-        buttonCarte.setGraphic(group2);
-
-        //TODO ne marche pas ?
-        ReadOnlyIntegerProperty pctPropertyCards = observableGameState.percentageCardsLeftReadOnly();
-        pctPropertyCards.addListener((o, oV, nV) ->  rect_foregroundC.getStyleClass().add(String.valueOf(nV)));
-        rect_foregroundC.widthProperty().bind(pctPropertyCards.multiply(50).divide(100));
-
-
-
+        createGaugedButton(buttonCarte, observableGameState, observableGameState.percentageCardsLeftReadOnly());
         return vbox;
+    }
+
+    private static void createGaugedButton (Button button, ObservableGameState observableGameState, ReadOnlyIntegerProperty pctProperty){
+
+        int RECT_INI_WIDTH = 50;
+        int RECT_INIT_HEIGHT = 5;
+
+        Group group = new Group();
+        Rectangle rect_background = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        Rectangle rect_foreground = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        rect_background.getStyleClass().add("background");
+        rect_foreground.getStyleClass().add("foreground");
+        group.getChildren().addAll(rect_background, rect_foreground);
+        button.setGraphic(group);
+
+        pctProperty.addListener((o, oV, nV) ->  rect_foreground.getStyleClass().add(String.valueOf(nV)));
+        rect_foreground.widthProperty().bind(pctProperty.multiply(50).divide(100));
     }
 
 

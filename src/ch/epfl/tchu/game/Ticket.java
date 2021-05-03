@@ -102,8 +102,10 @@ public final class Ticket implements Comparable<Ticket>{
         return thisText.compareTo(thatText);
     }
 
+    //TODO Pour les tests?
     @Override
     public String toString() {
-        return "billet :  '" + billetText + "'";
+        return billetText;
     }
+
 }
