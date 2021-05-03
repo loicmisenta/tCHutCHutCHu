@@ -102,6 +102,8 @@ public class DecksViewCreator {
         Group group = new Group();
         Rectangle rect_backgroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
         Rectangle rect_foregroundB = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        rect_backgroundB.getStyleClass().add("background");
+        rect_foregroundB.getStyleClass().add("foreground");
         group.getChildren().addAll(rect_backgroundB, rect_foregroundB);
         buttonBillet.setGraphic(group);
 
@@ -155,6 +157,8 @@ public class DecksViewCreator {
         Group group2 = new Group();
         Rectangle rect_backgroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
         Rectangle rect_foregroundC = new Rectangle(RECT_INI_WIDTH, RECT_INIT_HEIGHT);
+        rect_backgroundC.getStyleClass().add("background");
+        rect_foregroundC.getStyleClass().add("foreground");
         group2.getChildren().addAll(rect_backgroundC, rect_foregroundC);
         buttonCarte.setGraphic(group2);
 
