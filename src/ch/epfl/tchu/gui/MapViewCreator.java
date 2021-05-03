@@ -39,20 +39,14 @@ public class MapViewCreator {
             pane.getChildren().add(group);
 
 
-
-
             //Placer les noeuds
             ReadOnlyBooleanProperty claimRouteHP = observGameState.claimableRoute(route);
             group.disableProperty().bind(gestionnaireActions.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
-
 
             List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
             ActionHandlers.ClaimRouteHandler routeHandler = gestionnaireActions.get();
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
-
-
-
 
             ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> routeHandler.onClaimRoute(route, chosenCards);
             group.setOnMouseClicked(e -> {

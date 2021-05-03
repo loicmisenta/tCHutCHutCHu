@@ -2,16 +2,16 @@ package ch.epfl.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import ch.epfl.tchu.gui.ActionHandlers;
-import ch.epfl.tchu.gui.DecksViewCreator;
-import ch.epfl.tchu.gui.MapViewCreator;
-import ch.epfl.tchu.gui.ObservableGameState;
+import ch.epfl.tchu.gui.*;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 
-public final class Stage9Test extends Application {
+public final class Stage10Test extends Application {
     public static void main(String[] args) { launch(args); }
     //*
     @Override
@@ -34,16 +34,28 @@ public final class Stage9Test extends Application {
                 new SimpleObjectProperty<>(Stage9Test::drawCard);
 
         Node mapView = MapViewCreator
-                .createMapView(gameState, claimRoute, Stage9Test::chooseCards);
+                .createMapView(gameState, claimRoute, Stage10Test::chooseCards);
         Node cardsView = DecksViewCreator
                 .createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator
                 .createHandView(gameState);
 
+
+        Map<PlayerId, String> playerNames =
+                Map.of(PLAYER_1, "Ada", PLAYER_2, "Charles");
+        ObservableList<Text> infos = FXCollections.observableArrayList(
+                new Text("Première information.\n"),
+                new Text("\nSeconde information.\n"));
+        Node infoView = InfoViewCreator
+                .createInfoView(PLAYER_1, playerNames, gameState, infos);
+
         BorderPane mainPane =
-                new BorderPane(mapView, null, cardsView, handView, null);
+                new BorderPane(mapView, null, cardsView, handView, infoView);
+
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.show();
+
+
 
         setState(gameState);
     }

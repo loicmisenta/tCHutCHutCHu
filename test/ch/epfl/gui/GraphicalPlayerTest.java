@@ -2,10 +2,7 @@ package ch.epfl.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import ch.epfl.tchu.gui.ActionHandlers;
-import ch.epfl.tchu.gui.DecksViewCreator;
-import ch.epfl.tchu.gui.MapViewCreator;
-import ch.epfl.tchu.gui.ObservableGameState;
+import ch.epfl.tchu.gui.*;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -84,6 +81,6 @@ public class GraphicalPlayerTest extends Application{
     private static void drawCard(int slot) {
         System.out.printf("Tirage de cartes (emplacement %s)!\n", slot);
     }
-}
 
- */
+
+}     */

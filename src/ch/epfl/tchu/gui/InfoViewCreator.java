@@ -13,7 +13,9 @@ import javafx.scene.text.TextFlow;
 import java.util.List;
 import java.util.Map;
 
-class InfoViewCreator {
+
+//PAS PUBLIC JE CROIS (POUR TEST)
+public class InfoViewCreator {
     //TODO instances de text
 
     private final int CERCLE_RAYON = 5;
@@ -38,7 +40,7 @@ class InfoViewCreator {
         textFlow.setId("game-info");
         vbox.getChildren().add(textFlow);
 
-
+        /*
         //TODO afficher 4 messages maxà chaque fois???????
         for (String string: text) {
             Text textMessage = new Text(string);
@@ -46,6 +48,8 @@ class InfoViewCreator {
         }
         //TODO ne possede aucun fils?
 
+
+         */
 
         VBox vboxPlayerStats = new VBox();
         vboxPlayerStats.setId("player-stats");
