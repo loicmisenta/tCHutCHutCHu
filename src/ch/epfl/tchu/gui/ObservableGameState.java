@@ -47,8 +47,6 @@ public class ObservableGameState {
         nbTypeCarte = createNbTypeCarte();
         claimableRoutes = createClaimableRoutes();
 
-        //canDrawCards = canDrawCards();
-        //canDrawTickets = canDrawTickets();
     }
 
     public void setState(PublicGameState publicGameState, PlayerState playerState){
@@ -178,11 +176,11 @@ public class ObservableGameState {
 
 
 
-    private boolean canDrawTickets(){
+    public boolean canDrawTickets(){
         return publicGameState.canDrawTickets();
     }
 
-    private boolean canDrawCards(){
+    public boolean canDrawCards(){
         return publicGameState.canDrawCards();
     }
 
