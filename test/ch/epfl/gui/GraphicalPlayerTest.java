@@ -22,28 +22,22 @@ public class GraphicalPlayerTest extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        ObservableGameState gameState = new ObservableGameState(PLAYER_1);
+        Map<PlayerId, String> playerNames =
+                Map.of(PLAYER_1, "Ada", PLAYER_2, "Charles");
+        GraphicalPlayer p = new GraphicalPlayer(PLAYER_1, playerNames);
+        setState(p);
 
-        ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRoute =
-                new SimpleObjectProperty<>(Stage9Test::claimRoute);
-        ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTickets =
-                new SimpleObjectProperty<>(Stage9Test::drawTickets);
-        ObjectProperty<ActionHandlers.DrawCardHandler> drawCard =
-                new SimpleObjectProperty<>(Stage9Test::drawCard);
+        ActionHandlers.DrawTicketsHandler drawTicketsH =
+                () -> p.receiveInfo("Je tire des billets !");
+        ActionHandlers.DrawCardHandler drawCardH =
+                s -> p.receiveInfo(String.format("Je tire une carte de %s !", s));
+        ActionHandlers.ClaimRouteHandler claimRouteH =
+                (r, cs) -> {
+                    String rn = r.station1() + " - " + r.station2();
+                    p.receiveInfo(String.format("Je m'empare de %s avec %s", rn, cs));
+                };
 
-        Node mapView = MapViewCreator
-                .createMapView(gameState, claimRoute, Stage9Test::chooseCards);
-        Node cardsView = DecksViewCreator
-                .createCardsView(gameState, drawTickets, drawCard);
-        Node handView = DecksViewCreator
-                .createHandView(gameState);
-
-        BorderPane mainPane =
-                new BorderPane(mapView, null, cardsView, handView, null);
-        primaryStage.setScene(new Scene(mainPane));
-        primaryStage.show();
-
-        setState(gameState);
+        p.startTurn(drawTicketsH, drawCardH, claimRouteH);
     }
 
     private void setState(ObservableGameState gameState) {
