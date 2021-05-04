@@ -3,6 +3,9 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.ObjectProperty;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,10 @@ public class GraphicalPlayer {
         this.playerId = playerId;
         this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
+        Stage stage = new Stage();
+        BorderPane borderPane = new BorderPane();
+        Scene scene = new Scene(borderPane);
+
     }
 
     public void setState(PublicGameState publicGameState, PlayerState playerState){
@@ -42,10 +49,7 @@ public class GraphicalPlayer {
         }else{
             drawTicketsHandlerProperty.set(null);
         }
-        if(observableGameState.possibleClaimCards(route)){ //TODO doit tjrs être remplie ????
-
-
-        }
+        claimRouteHandlerProperty.set(claimRouteHandler); //TODO doit tjrs être remplie ????
     }
 
     public void chooseTickets(SortedBag<Ticket> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
@@ -59,9 +63,15 @@ public class GraphicalPlayer {
      *
      */
 
-
+    // TODO   Le gestionnaire qu'elle stocke vide toutes les propriétés contenant des gestionnaires
+    // TODO   dès que le joueur aura choisi la carte à tirer
     public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
 
+        if(observableGameState.canDrawCards()){
+            drawCardHandlerProperty.set(drawCardHandler);
+        } else {
+            drawCardHandlerProperty.set(null);
+        }
     }
 
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
