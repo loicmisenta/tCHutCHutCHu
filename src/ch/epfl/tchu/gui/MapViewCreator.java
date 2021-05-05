@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MapViewCreator {
 
-    public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> gestionnaireActions, CardChooser cardChooser){
+    public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteH, CardChooser cardChooser){
         int RECT_LARGEUR = 36;
         int RECT_LONG = 12;
         int RAYON_CERCLE = 3;
@@ -41,10 +41,10 @@ public class MapViewCreator {
 
             //Placer les noeuds
             ReadOnlyBooleanProperty claimRouteHP = observGameState.claimableRoute(route);
-            group.disableProperty().bind(gestionnaireActions.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
+            group.disableProperty().bind(claimRouteH.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
 
             List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
-            ActionHandlers.ClaimRouteHandler routeHandler = gestionnaireActions.get();
+            ActionHandlers.ClaimRouteHandler routeHandler = claimRouteH.get();
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 

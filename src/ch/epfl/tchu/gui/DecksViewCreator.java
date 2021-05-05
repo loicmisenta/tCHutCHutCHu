@@ -79,7 +79,7 @@ public class DecksViewCreator { //TODO package private ?
         return hBoxView;
     }
 
-    public static Node createCardsView(ObservableGameState observableGameState, ObjectProperty<ActionHandlers.DrawTicketsHandler> chooseTicketsHandler, ObjectProperty<ActionHandlers.DrawCardHandler> chooseCardsHandler){
+    public static Node createCardsView(ObservableGameState observableGameState, ObjectProperty<ActionHandlers.DrawTicketsHandler> chooseTicketsH, ObjectProperty<ActionHandlers.DrawCardHandler> chooseCardsH){
         int EXT_CARD_WIDTH = 60;
         int EXT_CARD_HEIGHT = 90;
         int INT_CARD_WIDTH = 40;
@@ -96,9 +96,9 @@ public class DecksViewCreator { //TODO package private ?
         Button buttonBillet = new Button(StringsFr.TICKETS);
         buttonBillet.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonBillet);
-        buttonBillet.disableProperty().bind(chooseTicketsHandler.isNull());
+        buttonBillet.disableProperty().bind(chooseTicketsH.isNull());
         //SET ON ACtion
-        buttonBillet.setOnAction(e -> chooseTicketsHandler.get().onDrawTickets());
+        buttonBillet.setOnAction(e -> chooseTicketsH.get().onDrawTickets());
 
         //jaugeBiller
         createGaugedButton(buttonBillet, observableGameState, observableGameState.percentageTicketsReadOnly());
@@ -110,11 +110,11 @@ public class DecksViewCreator { //TODO package private ?
             stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(index).toString(), "card");
             vbox.getChildren().add(stackPane);
             ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(index);
-            stackPane.disableProperty().bind(chooseCardsHandler.isNull());
+            stackPane.disableProperty().bind(chooseCardsH.isNull());
             faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
 
 
-            stackPane.setOnMouseClicked(e -> { chooseCardsHandler.get().onDrawCard(index); }
+            stackPane.setOnMouseClicked(e -> { chooseCardsH.get().onDrawCard(index); }
             );
 
 
@@ -132,8 +132,8 @@ public class DecksViewCreator { //TODO package private ?
         Button buttonCarte = new Button(StringsFr.CARDS);
         buttonCarte.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonCarte);
-        buttonCarte.disableProperty().bind(chooseCardsHandler.isNull());
-        buttonCarte.setOnAction(e -> chooseCardsHandler.get().onDrawCard(-1));
+        buttonCarte.disableProperty().bind(chooseCardsH.isNull());
+        buttonCarte.setOnAction(e -> chooseCardsH.get().onDrawCard(-1));
         //jauge
         createGaugedButton(buttonCarte, observableGameState, observableGameState.percentageCardsLeftReadOnly());
         return vbox;

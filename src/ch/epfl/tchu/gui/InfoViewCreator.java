@@ -18,6 +18,7 @@ import java.util.Map;
 //PAS PUBLIC JE CROIS (POUR TEST)
 public class InfoViewCreator {
     //TODO instances de text
+    static VBox vbox;
 
     private static final int CERCLE_RAYON = 5;
     /**
@@ -31,7 +32,7 @@ public class InfoViewCreator {
      */
     //TODO pourquoi on utilise pas playerId
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, List<Text> text){
-        VBox vbox = new VBox();
+        vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
 
         VBox vboxPlayerStats = new VBox();
@@ -39,18 +40,13 @@ public class InfoViewCreator {
         vbox.getChildren().add(vboxPlayerStats);
 
         //statistique joueur
-
+        //TODO mettre dans une méthode ++ parcourir le playerId + next()
+        //TODO parcourir le playerId en premier  !!!!!! avec Map
         for (PlayerId id: PlayerId.values()) {
-            TextFlow statistiquesJoueur = new TextFlow();
-            statistiquesJoueur.setId(id.toString());
-            vboxPlayerStats.getChildren().add(statistiquesJoueur);
-
-            Circle circle = new Circle(CERCLE_RAYON);
-            Text text1 = new Text();
-            circle.getStyleClass().add("filled"); //TODO affiche pas la couleur
-            statistiquesJoueur.getChildren().addAll(circle, text1);
-            text1.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playerIdStringMap.get(id) ,obsGS.ownedTicketsReadOnly(id), obsGS.ownedCardReadOnly(id), obsGS.ownedCarsReadOnly(id), obsGS.ownedConstructPointsReadOnly(id))); //TODO doit le bind à une Valeur observée !!!
-        }
+            createPlayerInt(playerId, vboxPlayerStats, playerIdStringMap, obsGS);
+            if (id == playerId) continue;
+            createPlayerInt(id, vboxPlayerStats, playerIdStringMap, obsGS);
+            }
         Separator separator = new Separator(Orientation.HORIZONTAL);//TODO autre chose?
         vbox.getChildren().add(separator);
 
@@ -67,5 +63,23 @@ public class InfoViewCreator {
         }
 
         return vbox;
+    }
+
+    private static void createPlayerInt(PlayerId id, VBox vboxPlayerStats, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS){
+        TextFlow statistiquesJoueur = new TextFlow();
+        statistiquesJoueur.setId(id.toString());
+        vboxPlayerStats.getChildren().add(statistiquesJoueur);
+
+        Circle circle = new Circle(CERCLE_RAYON);
+        Text text1 = new Text();
+        circle.getStyleClass().add("filled"); //TODO affiche pas la couleur
+        statistiquesJoueur.getChildren().addAll(circle, text1);
+        text1.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
+                playerIdStringMap.get(id),
+                obsGS.ownedTicketsReadOnly(id),
+                obsGS.ownedCardReadOnly(id),
+                obsGS.ownedCarsReadOnly(id),
+                obsGS.ownedConstructPointsReadOnly(id)));
+
     }
 }
