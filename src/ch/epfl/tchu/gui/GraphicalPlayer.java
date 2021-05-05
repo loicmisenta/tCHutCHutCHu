@@ -63,6 +63,8 @@ public class GraphicalPlayer {
      *
      */
 
+    // .show()
+
     // TODO   Le gestionnaire qu'elle stocke vide toutes les propriétés contenant des gestionnaires
     // TODO   dès que le joueur aura choisi la carte à tirer
     public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
@@ -75,7 +77,7 @@ public class GraphicalPlayer {
     }
 
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
-
+        //observableGameState.canDrawCards()
 
     }
 
