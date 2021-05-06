@@ -25,13 +25,13 @@ public class GraphicalPlayer {
     ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
     ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
     ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
-    final Window window;
+    final Window mainPane;
     
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs){
         this.playerId = playerId;
         this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
-        this.window = new Stage(StageStyle.UTILITY);
+        this.mainPane = new Stage(StageStyle.UTILITY);
         BorderPane borderPane = new BorderPane();
 
 
@@ -48,8 +48,11 @@ public class GraphicalPlayer {
         observableGameState.setState(publicGameState, playerState);
     }
     
-    public void receiveInfo(String message){  //5 derniers messages
-        //TODO IDK
+    public void receiveInfo(Text message){  //5 derniers messages
+        //observableGameState.
+        //créer une propriété receive info
+        //faire une sublist ?
+        // TODO IDK
     }
 
 
@@ -106,7 +109,7 @@ public class GraphicalPlayer {
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
         VBox vbox = new VBox();
-        stage.initOwner(window); //TODO fenêtre princip de l'interface
+        stage.initOwner(mainPane); //TODO fenêtre princip de l'interface
         stage.initModality(Modality.WINDOW_MODAL);
 
 
