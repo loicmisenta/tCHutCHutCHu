@@ -90,9 +90,7 @@ public class ObservableGameState {
             nbTypeCarte.get(c).set(playerState.cards().countOf(c));
         }
         //claimableroute
-        for (Route r : ChMap.routes()) {
-            claimableRoutes.get(r).set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r) == null) && (playerState.canClaimRoute(r)));
-        }
+        claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(publicGameState.claimedRoutes().contains(r)) && playerState.canClaimRoute(r)));// && (ownedRoutes.get(r) == null) }
 
     }
 
@@ -171,7 +169,7 @@ public class ObservableGameState {
         for (Route r : ChMap.routes()) {
             claimableRoutes.put(r, new SimpleBooleanProperty());
         }
-        return claimableRoutes;
+        return claimableRoutes; //TODO non  modifiable
     }
 
 

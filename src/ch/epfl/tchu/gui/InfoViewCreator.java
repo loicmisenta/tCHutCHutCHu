@@ -21,15 +21,7 @@ public class InfoViewCreator {
     static VBox vbox;
 
     private static final int CERCLE_RAYON = 5;
-    /**
-     * Appelée avant le début de la partie
-     * Va être liée au graphe de scène
-     * @param playerId
-     * @param playerIdStringMap
-     * @param obsGS
-     * @param text
-     * @return
-     */
+
     //TODO pourquoi on utilise pas playerId
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, List<Text> text){
         vbox = new VBox();
@@ -40,14 +32,12 @@ public class InfoViewCreator {
         vbox.getChildren().add(vboxPlayerStats);
 
         //statistique joueur
-        //TODO mettre dans une méthode ++ parcourir le playerId + next()
-        //TODO parcourir le playerId en premier  !!!!!! avec Map
         createPlayerInt(playerId, vboxPlayerStats, playerIdStringMap, obsGS);
         for (PlayerId id: PlayerId.values()) {
             if (id == playerId) continue;
             createPlayerInt(id, vboxPlayerStats, playerIdStringMap, obsGS);
         }
-        Separator separator = new Separator(Orientation.HORIZONTAL);//TODO autre chose?
+        Separator separator = new Separator(Orientation.HORIZONTAL);
         vbox.getChildren().add(separator);
 
 
@@ -66,14 +56,14 @@ public class InfoViewCreator {
     }
 
     private static void createPlayerInt(PlayerId id, VBox vboxPlayerStats, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS){
-        TextFlow statistiquesJoueur = new TextFlow();
-        statistiquesJoueur.setId(id.toString());
-        vboxPlayerStats.getChildren().add(statistiquesJoueur);
+        TextFlow statPlayer = new TextFlow();
+        statPlayer.setId(id.name());
+        vboxPlayerStats.getChildren().add(statPlayer);
 
         Circle circle = new Circle(CERCLE_RAYON);
         Text text1 = new Text();
         circle.getStyleClass().add("filled"); //TODO affiche pas la couleur
-        statistiquesJoueur.getChildren().addAll(circle, text1);
+        statPlayer.getChildren().addAll(circle, text1);
         text1.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
                 playerIdStringMap.get(id),
                 obsGS.ownedTicketsReadOnly(id),

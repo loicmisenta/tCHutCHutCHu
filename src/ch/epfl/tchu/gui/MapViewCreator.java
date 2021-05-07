@@ -52,7 +52,7 @@ public class MapViewCreator {
             group.setOnMouseClicked(e -> {
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     routeHandler.onClaimRoute(route, possibleClaimCards.get(0));
-                } else{
+                } else {
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
                 }
             });

@@ -34,7 +34,7 @@ public class GraphicalPlayer {
     ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty; //TODO final ?
     ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
     ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
-    final Window mainPane;
+    final Stage mainPane;
     
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs){
         if (! isFxApplicationThread()) throw new AssertionError();
@@ -49,7 +49,6 @@ public class GraphicalPlayer {
         //BorderPane mainPane = new BorderPane(mapView, null, cardsView, handView, null);
         //window.setScene(new Scene(borderPane));
         //window.show();
-
         //setState(gameState);
 
     }
@@ -59,9 +58,8 @@ public class GraphicalPlayer {
         observableGameState.setState(publicGameState, playerState);
     }
     
-    public void receiveInfo(Text message){  //5 derniers messages
+    public void receiveInfo(String message){  //5 derniers messages
         if (! isFxApplicationThread()) throw new AssertionError();
-        //obeservableGameState
         //créer une propriété receive info
         //faire une sublist ?
         // TODO IDK
@@ -83,6 +81,8 @@ public class GraphicalPlayer {
         claimRouteHandlerProperty.set(claimRouteHandler); //TODO doit tjrs être remplie ????
     }
 
+
+    //TODO difference entre 2.2.1 et 2.2.2 CHOIX INITIAL / TIRAGE DES BILLETS
     public void chooseTickets(ObservableList<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         if (! isFxApplicationThread()) throw new AssertionError();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
@@ -134,6 +134,7 @@ public class GraphicalPlayer {
 
 
     private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textIntro, ListView<SortedBag<T>> listView, BooleanProperty booleanProperty){
+
         Stage stage = new Stage(StageStyle.UTILITY);
         Text textTitre = new Text(titre);
         BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
@@ -151,7 +152,8 @@ public class GraphicalPlayer {
         vbox.getChildren().addAll(listView, textFlow, button);
         textFlow.getChildren().add(text);
         //TODO CellFactory pourquoi erreur ?
-        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
+
+        listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());
 
         stage.setOnCloseRequest(Event::consume);
