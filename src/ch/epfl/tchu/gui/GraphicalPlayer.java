@@ -8,12 +8,14 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -45,8 +47,7 @@ public class GraphicalPlayer {
         this.mainPane = new Stage(StageStyle.UTILITY);
         BorderPane borderPane = new BorderPane();
 
-
-        //TODO graphe de scene ?????
+        Node mapView = MapViewCreator.createMapView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
         //BorderPane mainPane = new BorderPane(mapView, null, cardsView, handView, null);
         //window.setScene(new Scene(borderPane));
         //window.show();
@@ -146,7 +147,7 @@ public class GraphicalPlayer {
         stage.initOwner(mainPane); //TODO fenêtre princip de l'interface
         stage.initModality(Modality.WINDOW_MODAL);
 
-
+        //TODO mettre tout cela dans chaque méthode !
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(textIntro);
@@ -154,7 +155,7 @@ public class GraphicalPlayer {
         textFlow.getChildren().add(text);
         //TODO CellFactory pourquoi erreur ?
 
-        listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
+        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());
 
         stage.setOnCloseRequest(Event::consume);
