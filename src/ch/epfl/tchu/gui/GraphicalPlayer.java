@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
 
 import java.util.Map;
 
@@ -159,8 +160,8 @@ public class GraphicalPlayer {
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            //TODO appeler le Handler specifique ? 
-            chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
+            //TODO appeler le Handler specifique ?
+            // chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
         });
         return stage;
     }
