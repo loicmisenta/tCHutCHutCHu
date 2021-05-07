@@ -5,6 +5,7 @@ import ch.epfl.tchu.game.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -94,7 +95,7 @@ public class GraphicalPlayer {
 
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         //observableGameState.canDrawCards()
-        Stage stage = fenetreDeSelect("");
+        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, new ListView<SortedBag<Card>>(initialCards)); //TODO VERIFIER
 
     }
 
@@ -102,7 +103,8 @@ public class GraphicalPlayer {
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
     }
 
-    private  Stage fenetreDeSelect(String titre, String textIntro, ListView<SortedBag<T>> listView){
+    //TODO COMAPARBALE?? COMMENT AVOIR LE TYPE T ??
+    private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textIntro, ListView<SortedBag<T>> listView){
         Stage stage = new Stage(StageStyle.UTILITY);
         BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);
@@ -115,11 +117,11 @@ public class GraphicalPlayer {
 
         TextFlow textFlow = new TextFlow();
         vbox.getChildren().add(textFlow);
-        Text text = new Text(text);  // TODO remplir avec ? ? ?
+        Text text = new Text(textIntro);  // TODO remplir avec ? ? ? -> normalement c'est bon
 
         vbox.getChildren().addAll(text);
 
-        ListView<> list; // TODO init with what ?
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE); // TODO init with what ? -> peut etre bon ?!
 
         /*
         A mon avis vous avez avantage a mettre le code commun dans une méthode privée,
