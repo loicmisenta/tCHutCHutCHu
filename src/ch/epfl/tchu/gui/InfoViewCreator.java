@@ -42,11 +42,11 @@ public class InfoViewCreator {
         //statistique joueur
         //TODO mettre dans une méthode ++ parcourir le playerId + next()
         //TODO parcourir le playerId en premier  !!!!!! avec Map
+        createPlayerInt(playerId, vboxPlayerStats, playerIdStringMap, obsGS);
         for (PlayerId id: PlayerId.values()) {
-            createPlayerInt(playerId, vboxPlayerStats, playerIdStringMap, obsGS);
             if (id == playerId) continue;
             createPlayerInt(id, vboxPlayerStats, playerIdStringMap, obsGS);
-            }
+        }
         Separator separator = new Separator(Orientation.HORIZONTAL);//TODO autre chose?
         vbox.getChildren().add(separator);
 

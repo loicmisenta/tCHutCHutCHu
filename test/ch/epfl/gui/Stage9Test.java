@@ -68,6 +68,7 @@ public final class Stage9Test extends Application {
         //player.setState(publicGameState, p1State);
     }
 
+
     static void claimRoute(Route route, SortedBag<Card> cards) {
         System.out.printf("Prise de possession d'une route : %s - %s %s%n",
                 route.station1(), route.station2(), cards);
