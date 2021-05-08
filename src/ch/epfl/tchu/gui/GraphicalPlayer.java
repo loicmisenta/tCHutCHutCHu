@@ -6,6 +6,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.Node;
@@ -25,33 +27,42 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class GraphicalPlayer {
 
     final PlayerId playerId;
     final Map<PlayerId, String> nomsJoueurs;
     final ObservableGameState observableGameState;
-    ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty; //TODO final ?
+    ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
     ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
     ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
+    ObservableList<Text> observableList;
     final Stage mainPane;
     
-    public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs){
-        if (! isFxApplicationThread()) throw new AssertionError();
+    public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
+        if (!isFxApplicationThread()) throw new AssertionError();
         this.playerId = playerId;
         this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
         this.mainPane = new Stage(StageStyle.UTILITY);
-        BorderPane borderPane = new BorderPane();
 
-        Node mapView = MapViewCreator.createMapView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
-        //BorderPane mainPane = new BorderPane(mapView, null, cardsView, handView, null);
-        //window.setScene(new Scene(borderPane));
+
+        BorderPane borderPane = new BorderPane();
+        Node handView = DecksViewCreator.createHandView(observableGameState);
+        Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
+        Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
+        BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, null);
+        this.observableList = observableArrayList();
+        Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList); //TODO listText ?
+
+        mainPane.setScene(new Scene(borderPane)); //TODO appeler setScene dessus ?
         //window.show();
-        //setState(gameState);
+        //setState(gameState, playerstate); //TODO où avoir ce playerState ?
 
     }
 
@@ -60,11 +71,13 @@ public class GraphicalPlayer {
         observableGameState.setState(publicGameState, playerState);
     }
     
-    public void receiveInfo(String message){  //5 derniers messages
+    public void receiveInfo(String message){  //TODO  5 derniers messages
         if (! isFxApplicationThread()) throw new AssertionError();
-        //créer une propriété receive info
-        //faire une sublist ?
-        // TODO IDK
+        if (observableList.size() == 5){
+            observableList.remove( 0 , 1 );
+        }
+        observableList.add(new Text(message));
+
     }
 
 
@@ -80,18 +93,21 @@ public class GraphicalPlayer {
         }else{
             drawTicketsHandlerProperty.set(null);
         }
-        claimRouteHandlerProperty.set(claimRouteHandler); //TODO doit tjrs être remplie ????
+        claimRouteHandlerProperty.set(claimRouteHandler);
     }
 
 
-    //TODO difference entre 2.2.1 et 2.2.2 CHOIX INITIAL / TIRAGE DES BILLETS
-    public void chooseTickets(ObservableList<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
+    public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         if (! isFxApplicationThread()) throw new AssertionError();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
-        ListView<SortedBag<Ticket>> listView = new ListView<>(ticketsOption);
+        ListView<SortedBag<Ticket>> listView = new ListView<>(FXCollections.observableList(ticketsOption));
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= ticketsOption.size()-2);
+        // TODO Bindings.size()  + Obsv List
+        //
         Stage stage = fenetreDeSelect(StringsFr.TICKETS_CHOICE, message, listView, booleanProperty);
+
+
         stage.show();
     }
 
@@ -100,9 +116,7 @@ public class GraphicalPlayer {
      * @param drawCardHandler gestionnaire de tirage de cartes
      */
 
-    //
-    // TODO   Le gestionnaire qu'elle stocke vide toutes les propriétés contenant des gestionnaires
-    // TODO   dès que le joueur aura choisi la carte à tirer
+
     public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
         if (! isFxApplicationThread()) throw new AssertionError();
         if(observableGameState.canDrawCards()){
@@ -110,17 +124,14 @@ public class GraphicalPlayer {
         } else {
             drawCardHandlerProperty.set(null);
         }
-        drawTicketsHandlerProperty.set(null); //TODO doit les set à null?
+        drawTicketsHandlerProperty.set(null);
         claimRouteHandlerProperty.set(null);
     }
 
-    public void chooseClaimCards(ObservableList<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
+    public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         if (! isFxApplicationThread()) throw new AssertionError();
-        //TODO possible de mettre un observable list des  cartes init?
-        //observableGameState.canDrawCards()
-        ListView<SortedBag<Card>> listView = new ListView<>(initialCards);
+        ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
-        //TODO item.size() ?
         Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, listView, booleanProperty);
         stage.show();
     }
@@ -144,8 +155,9 @@ public class GraphicalPlayer {
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
         VBox vbox = new VBox();
-        stage.initOwner(mainPane); //TODO fenêtre princip de l'interface
+        stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
+
 
         //TODO mettre tout cela dans chaque méthode !
         TextFlow textFlow = new TextFlow();
@@ -153,7 +165,7 @@ public class GraphicalPlayer {
         Text text = new Text(textIntro);
         vbox.getChildren().addAll(listView, textFlow, button);
         textFlow.getChildren().add(text);
-        //TODO CellFactory pourquoi erreur ?
+
 
         //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());

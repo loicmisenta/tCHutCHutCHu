@@ -6,6 +6,8 @@ import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Ticket;
 
 /**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * L'intérface contenant les cinq interfaces fonctionelles imbriquées
  * Qui eux répresnetent un "gestionnaire d'actions"
  */

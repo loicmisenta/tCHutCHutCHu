@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Classe représentant l'état des cartes wagon et/ou locomotive qui ne sont pas en main des joueurs.
  *
  */
@@ -48,11 +48,10 @@ public final class CardState extends PublicCardState{
      * la première carte de la pioche
      */
     public CardState withDrawnFaceUpCard(int slot){
-        Preconditions.checkArgument(!deck.isEmpty());
+        Preconditions.checkArgument(!isDeckEmpty());
         if((slot < 0) || (slot >= Constants.FACE_UP_CARDS_COUNT)) throw new IndexOutOfBoundsException();
         List<Card> piocheModifie = new ArrayList<>(List.copyOf(faceUpCards()));
-        piocheModifie.remove(slot);
-        piocheModifie.add(slot, topDeckCard());
+        piocheModifie.set(slot, topDeckCard());
 
         return new CardState(piocheModifie,  deck.withoutTopCard(), discards);
     }
@@ -62,7 +61,7 @@ public final class CardState extends PublicCardState{
      * @return la carte se trouvant au sommet de la pioche.
      */
     public Card topDeckCard(){
-        Preconditions.checkArgument(!deck.isEmpty());
+        Preconditions.checkArgument(!isDeckEmpty());
         return deck.topCard();
     }
 
@@ -71,7 +70,7 @@ public final class CardState extends PublicCardState{
      * @return CardState identique mais sans la prmière carte du tas.
      */
     public CardState withoutTopDeckCard(){
-        Preconditions.checkArgument(!deck.isEmpty());
+        Preconditions.checkArgument(!isDeckEmpty());
         return new CardState(faceUpCards(),  deck.withoutTopCard(), discards);
     }
 
@@ -81,7 +80,7 @@ public final class CardState extends PublicCardState{
      * @return melange la pioche pour recreer un nouveau deck.
      */
     public CardState withDeckRecreatedFromDiscards(Random rng){
-        Preconditions.checkArgument(deckSize() == 0);
+        Preconditions.checkArgument(isDeckEmpty());
         Deck<Card> pioche = Deck.of(discards, rng);
         return new CardState(faceUpCards(), pioche, SortedBag.of());
     }

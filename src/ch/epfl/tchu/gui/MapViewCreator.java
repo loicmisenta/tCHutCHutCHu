@@ -41,10 +41,12 @@ public class MapViewCreator {
 
             //Placer les noeuds
             ReadOnlyBooleanProperty claimRouteHP = observGameState.claimableRoute(route);
+
             group.disableProperty().bind(claimRouteH.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
 
             List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
             ActionHandlers.ClaimRouteHandler routeHandler = claimRouteH.get();
+
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 
@@ -52,6 +54,7 @@ public class MapViewCreator {
             group.setOnMouseClicked(e -> {
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     routeHandler.onClaimRoute(route, possibleClaimCards.get(0));
+
                 } else {
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
                 }

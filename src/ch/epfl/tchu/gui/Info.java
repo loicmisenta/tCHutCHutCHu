@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Classe contenant les méthodes qui générent les textes
  * décrivant le déroulement d'une partie
  */
@@ -32,15 +32,15 @@ public final class Info {
      */
     public static String cardName(Card card, int count){
         switch (card){
-            case BLACK: return StringsFr.BLACK_CARD + StringsFr.plural(count);
-            case YELLOW: return StringsFr.YELLOW_CARD + StringsFr.plural(count);
-            case RED: return StringsFr.RED_CARD + StringsFr.plural(count);
-            case GREEN: return StringsFr.GREEN_CARD + StringsFr.plural(count);
-            case WHITE: return StringsFr.WHITE_CARD + StringsFr.plural(count);
-            case ORANGE: return StringsFr.ORANGE_CARD + StringsFr.plural(count);
-            case VIOLET: return StringsFr.VIOLET_CARD + StringsFr.plural(count);
-            case BLUE: return StringsFr.BLUE_CARD + StringsFr.plural(count);
-            case LOCOMOTIVE: return StringsFr.LOCOMOTIVE_CARD + StringsFr.plural(count);
+            case BLACK: return cardNameReturn(StringsFr.BLACK_CARD, count);
+            case YELLOW: return cardNameReturn(StringsFr.YELLOW_CARD, count);
+            case RED: return cardNameReturn(StringsFr.RED_CARD, count);
+            case GREEN: return cardNameReturn(StringsFr.GREEN_CARD, count);
+            case WHITE: return cardNameReturn(StringsFr.WHITE_CARD, count);
+            case ORANGE: return cardNameReturn(StringsFr.ORANGE_CARD, count);
+            case VIOLET: return cardNameReturn(StringsFr.VIOLET_CARD, count);
+            case BLUE: return cardNameReturn(StringsFr.BLUE_CARD, count);
+            case LOCOMOTIVE: return cardNameReturn(StringsFr.LOCOMOTIVE_CARD, count);
             default: return "";
         }
     }
@@ -205,6 +205,16 @@ public final class Info {
             cardsString += StringsFr.AND_SEPARATOR + listString.get(listString.size() - 1);
         }
         return cardsString;
+    }
+
+    /**
+     * utilisée pour optimser la méthode de cardName
+     * @param string prends le StringFr de la couleur
+     * @param count le nombre de carte
+     * @return le string correspondant
+     */
+    private static String cardNameReturn(String string, int count){
+        return string + StringsFr.plural(count);
     }
 
 }

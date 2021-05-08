@@ -8,8 +8,8 @@ import java.util.Objects;
 
 /**
  *
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  *
  * Une classe representant les trajets
  */
@@ -29,12 +29,7 @@ public final class Trip {
      * @throw IllegalArgumentException (avec Preconditions.checkArgument)
      */
     public Trip(Station from, Station to, int points) {
-        if(from == null || to == null){
-            throw new NullPointerException("Une des deux gares est nulle");
-        }
         Preconditions.checkArgument(points>0);
-
-
         this.from = Objects.requireNonNull(from);
         this.to = Objects.requireNonNull(to);
         this.points = points;
@@ -50,9 +45,8 @@ public final class Trip {
      *                                  négatifs
      */
     public static List<Trip> all(List<Station> from, List<Station> to, int points){
-        if ((from.isEmpty() || to.isEmpty()) || points <= 0){
-            throw new IllegalArgumentException();
-        }
+
+        Preconditions.checkArgument(!((from.isEmpty() && to.isEmpty()) && points <= 0));
         List<Trip> trajet = new ArrayList<>();
         for (Station f: from) {
             for (Station t: to) {
@@ -90,9 +84,9 @@ public final class Trip {
      */
     public int points(StationConnectivity connectivity){
         if(connectivity.connected(from(), to())){
-            return points();
+            return this.points;
         } else{
-            return -1 * points();
+            return -this.points;
         }
 
     }

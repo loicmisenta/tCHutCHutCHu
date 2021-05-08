@@ -1,8 +1,8 @@
 package ch.epfl.tchu.net;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  */
 
 /**
