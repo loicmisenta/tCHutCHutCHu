@@ -88,6 +88,7 @@ public class ObservableGameState {
         //nbtypecard
         for (Card c : Card.ALL) {
             nbTypeCarte.get(c).set(playerState.cards().countOf(c));
+            System.out.println(playerState.cards().countOf(c));
         }
         //claimableroute
 

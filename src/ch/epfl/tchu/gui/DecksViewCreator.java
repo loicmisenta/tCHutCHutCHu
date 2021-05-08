@@ -63,14 +63,18 @@ public class DecksViewCreator { //TODO package private ?
             r_Int.getStyleClass().addAll("filled", "inside");
             Rectangle r_Train_Image = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
             r_Train_Image.getStyleClass().add("train-image");
-            stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
             //Compteur
+            ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
+            count.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.toString()));
             Text text = new Text();
             text.getStyleClass().add("count");
+            text.textProperty().bind(Bindings.convert(count));
+            stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image, text);
 
+            stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
 
-
-            ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
+            System.out.println(count);
+            System.out.println(card);
             text.visibleProperty().bind(Bindings.greaterThan(count, 1));
 
 
