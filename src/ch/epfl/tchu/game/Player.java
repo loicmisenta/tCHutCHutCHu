@@ -22,7 +22,7 @@ public interface Player {
      */
     enum TurnKind {
         DRAW_TICKETS, DRAW_CARDS, CLAIM_ROUTE;
-        public static List<TurnKind> ALL = List.of(TurnKind.values());
+        public final static List<TurnKind> ALL = List.of(TurnKind.values());
     }
 
     /**

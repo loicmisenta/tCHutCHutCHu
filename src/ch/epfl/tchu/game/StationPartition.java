@@ -10,7 +10,7 @@ import ch.epfl.tchu.Preconditions;
 */
 public final class StationPartition implements StationConnectivity  {
     private final int[] liens;
-
+    //TODO pas de copie du tableau des représentants des partitions du builder dans le constructeur StationPartition
     /**
      * Constructeur de la partition
      * @param liens tableau d'entiers contenant les liens

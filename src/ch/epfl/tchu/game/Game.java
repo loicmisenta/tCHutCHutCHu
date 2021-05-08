@@ -12,6 +12,10 @@ import java.util.*;
  */
 public final class Game {
 
+    private Game(){
+        //CONSTRUCTEUR PRIVÉ PAS INSTANCIABLE
+    }
+
     /**
      * Fait jouer une partie
      * @param players     joueurs
@@ -19,6 +23,7 @@ public final class Game {
      * @param tickets     les billets dissponibles
      * @param rng         générateur aléatoire de nombres
      */
+
 
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument((players.size() == PlayerId.COUNT) && (playerNames.size() == PlayerId.COUNT));
@@ -52,7 +57,7 @@ public final class Game {
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
         }
 
-        receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
+        receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());  /// TODO L'identité du premier joueur doit être annoncée avant de dire aux joueurs quels sont leurs 5 billets initiaux
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
         return gameState;
@@ -98,14 +103,14 @@ public final class Game {
                     SortedBag<Card> claimCards = joueurCourant.initialClaimCards();
                     if ((claimRoute.level() == Route.Level.UNDERGROUND)) {
                         receiveInfo(players, infoMap.get(currentId).attemptsTunnelClaim(claimRoute, claimCards));
-                        SortedBag.Builder<Card> listecartebuilder = new SortedBag.Builder<>();
+                        SortedBag.Builder<Card> listCardBuild = new SortedBag.Builder<>();
                         SortedBag<Card> listCartePioche;
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
                             gameState = gameState.withCardsDeckRecreatedIfNeeded(rng); //redefnir si vide
-                            listecartebuilder.add(gameState.topCard());
+                            listCardBuild.add(gameState.topCard());
                             gameState = gameState.withoutTopCard();
                         }
-                        listCartePioche = listecartebuilder.build();
+                        listCartePioche = listCardBuild.build();
                         int nbCarteAdd = claimRoute.additionalClaimCardsCount(claimCards, listCartePioche);
                         receiveInfo(players, infoMap.get(currentId).drewAdditionalCards(listCartePioche, nbCarteAdd));
                         if (nbCarteAdd != 0) {
@@ -117,8 +122,9 @@ public final class Game {
                                 if (carteAddChoisi.isEmpty()) {
                                     receiveInfo(players, infoMap.get(currentId).didNotClaimRoute(claimRoute));
                                 } else {
-                                    gameState = gameState.withClaimedRoute(claimRoute, claimCards.union(carteAddChoisi));
-                                    receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, claimCards.union(carteAddChoisi)));
+                                    SortedBag<Card> cardsUnion = claimCards.union(carteAddChoisi);
+                                    gameState = gameState.withClaimedRoute(claimRoute, cardsUnion);
+                                    receiveInfo(players, infoMap.get(currentId).claimedRoute(claimRoute, cardsUnion));
                                 }
                             }
                         } else {
@@ -169,11 +175,10 @@ public final class Game {
             if (listLongestTrail.contains(joueur)) {
                 pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;
             }
-
             if (pointsFinaux == maxPoints) {
                 playerNamesWon.add(joueur);
-            } else if (gameState.playerState(joueur).finalPoints() > maxPoints) {
-                maxPoints = gameState.playerState(joueur).finalPoints();
+            } else if (pointsFinaux > maxPoints) {
+                maxPoints = pointsFinaux;
                 playerNamesWon.clear();
                 playerNamesWon.add(joueur);
             }
@@ -190,31 +195,32 @@ public final class Game {
         receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
 
         updateState(players, gameState);
+
+
+        PlayerId joueurGagnant = playerNamesWon.get(0);
+        int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
+        int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
+
+        if (listLongestTrail.contains(joueurGagnant)) {
+            finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
+        }
+        if (listLongestTrail.contains(joueurGagnant.next())) {
+            otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
+        }
+
+        int finalPoints1 = finalPoints;
+        int finalOtherPoints = otherPoints;
         players.forEach(((playerId, player) -> {
 
             if (playerNamesWon.size() >= 2) {
-
+                //TODO dit qu'on doit faire ça List<String> playerNamesString =List.copyOf(playerNames.values());
                 List<String> playerNamesString = new ArrayList<>();
                 for (PlayerId joueur : playerNamesWon) {
                     playerNamesString.add(joueur.name());
                 }
-
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));
-
             } else {
-
-                PlayerId joueurGagnant = playerNamesWon.get(0);
-                int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
-                int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
-
-                if (listLongestTrail.contains(joueurGagnant)) {
-                    finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
-                }
-                if (listLongestTrail.contains(joueurGagnant.next())) {
-                    otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
-                }
-
-                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints, otherPoints));
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints1, finalOtherPoints));
             }
 
         }));

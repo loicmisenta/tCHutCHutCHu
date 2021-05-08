@@ -5,6 +5,7 @@ import ch.epfl.tchu.SortedBag;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -28,9 +29,9 @@ public final class GameState extends PublicGameState{
     public GameState(CardState cardState, PlayerId currentPlayerId, Map<PlayerId, PlayerState> playerState, PlayerId lastPlayer,
                      Deck<Ticket> tickets) {
         super(tickets.size(), cardState, currentPlayerId, Map.copyOf(playerState), lastPlayer);
-        this.tickets = tickets;
-        this.cardState = cardState;
-        this.playerState = playerState;
+        this.tickets = Objects.requireNonNull(tickets);
+        this.cardState = Objects.requireNonNull(cardState);
+        this.playerState = Map.copyOf(playerState);
     }
 
     /**
@@ -57,7 +58,7 @@ public final class GameState extends PublicGameState{
      * @param count l'indice des premiers tickets
      */
     public SortedBag<Ticket> topTickets(int count){
-        Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
+        Preconditions.checkArgument(( 0 <= count ) && (count <= ticketsCount()));
         return tickets.topCards(count);
     }
 
@@ -67,7 +68,7 @@ public final class GameState extends PublicGameState{
      * @param count billets du sommet de la pioche
      */
     public GameState withoutTopTickets(int count){
-        Preconditions.checkArgument((count >= 0 ) && (count <= ticketsCount()));
+        Preconditions.checkArgument(( 0 <= count  ) && (count <= ticketsCount()));
         return new GameState( cardState, currentPlayerId(), playerState, lastPlayer(),  tickets.withoutTopCards(count));
     }
 
@@ -117,8 +118,8 @@ public final class GameState extends PublicGameState{
      * @param playerId donné
      */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
-        Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
-        return new GameState( cardState, currentPlayerId(), mapChange(playerId, playerState.get(playerId).withAddedTickets(chosenTickets)), lastPlayer(), tickets );
+        Preconditions.checkArgument(currentPlayerState().tickets().isEmpty());
+        return new GameState( cardState, currentPlayerId(), mapChange(playerId, currentPlayerState().withAddedTickets(chosenTickets)), lastPlayer(), tickets );
     }
 
     /**
@@ -204,7 +205,8 @@ public final class GameState extends PublicGameState{
      * modifié et égale à
      * @param playerstate l'état du joueur
      */
-    private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){
+    private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){  //TODO à généraliser pour multi
+        //TODO                                             à plus de 2 joueurs (en ayant recours au constructeur de copie d'EnumMap).
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
         newPlayerState.put(playerId.next(), playerState.get(playerId.next()));

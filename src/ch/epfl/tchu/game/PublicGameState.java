@@ -18,7 +18,7 @@ public class PublicGameState {
     private final PlayerId currentPlayerId;
     private final Map<PlayerId, PublicPlayerState> playerState;
     private final PlayerId lastPlayer;
-
+    private final int CAN_DRAW_TICKETS = 0;
 
     /**
      * Constructeur public de la partie publique de l'état de partie
@@ -29,12 +29,12 @@ public class PublicGameState {
      * @param lastPlayer  l'identité du dernier joueur
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
-        Preconditions.checkArgument((ticketsCount >= 0 ) && (playerState.size() == PlayerId.COUNT));
-        if((cardState == null)|| (currentPlayerId == null)){ throw new NullPointerException();}
+        Preconditions.checkArgument((ticketsCount >= CAN_DRAW_TICKETS ) && (playerState.size() == PlayerId.COUNT));
+        if((cardState == null)|| (currentPlayerId == null)) throw new NullPointerException();
         this.ticketsCount = ticketsCount;
         this.cardState = Objects.requireNonNull(cardState);
         this.currentPlayerId = Objects.requireNonNull(currentPlayerId);
-        this.playerState = Objects.requireNonNull(playerState);
+        this.playerState = Map.copyOf(Objects.requireNonNull(playerState));
         this.lastPlayer = lastPlayer;
     }
 
@@ -49,7 +49,7 @@ public class PublicGameState {
      * @return vrai si il est encore possible de tirer des billets
      */
     public boolean canDrawTickets(){
-        return ticketsCount != 0;
+        return ticketsCount != CAN_DRAW_TICKETS;
     }
 
     /**
