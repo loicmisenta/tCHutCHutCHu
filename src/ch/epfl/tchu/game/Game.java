@@ -7,8 +7,8 @@ import ch.epfl.tchu.gui.Info;
 import java.util.*;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  */
 public final class Game {
 

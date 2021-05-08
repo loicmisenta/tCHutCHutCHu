@@ -3,6 +3,7 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.game.PlayerId;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Separator;

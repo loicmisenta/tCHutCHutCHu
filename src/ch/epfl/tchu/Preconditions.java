@@ -2,8 +2,8 @@ package ch.epfl.tchu;
 
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  *
  * Cette méthode contrôle que l'appel de la méthode ne se fait
  * qu'avec des arguments valides.

@@ -3,10 +3,11 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Classe représenant une partie de l'état des cartes wagon ou/et locomotive qui
  * donc les 5 cartes visibles à côté du plateau, ceux dans la pioche,
  * ceux dans la défausse
@@ -54,6 +55,7 @@ public class PublicCardState {
      */
     public Card faceUpCard(int slot){
         if ((slot < 0) || (slot >= Constants.FACE_UP_CARDS_COUNT)) throw new IndexOutOfBoundsException();
+        Objects.checkIndex(slot, Constants.FACE_UP_CARDS_COUNT);
         return faceUpCards.get(slot);
     }
 

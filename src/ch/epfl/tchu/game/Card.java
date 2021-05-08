@@ -2,8 +2,9 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- @author loicmisenta
- @author lagutovaalexandra
+ /**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  Cette classe représente les différents types de cartes du jeu,
  donc les huit types de cartes wagon (chacun avec une couleur associé),
  et le type de carte locomotive.

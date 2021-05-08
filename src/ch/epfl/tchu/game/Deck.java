@@ -10,8 +10,8 @@ import java.util.Random;
 
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Représentant un tas de cartes
  */
 public final class Deck<C extends Comparable<C>>  {
@@ -37,22 +37,17 @@ public final class Deck<C extends Comparable<C>>  {
         return new Deck<>( cardArray);
     }
 
-
-    private List<C> getCards(){
-        return cards;
-    }
-
     /**
      * @return la taille du tas
      */
     public int size(){
-        return getCards().size();
+        return cards.size();
     }
     /**
      * @return vrai si le tas est vide
      */
     public boolean isEmpty(){
-        return getCards().isEmpty();
+        return cards.isEmpty();
     }
 
     /**
@@ -61,7 +56,7 @@ public final class Deck<C extends Comparable<C>>  {
      */
     public C topCard(){
         Preconditions.checkArgument(!isEmpty());
-        return getCards().get(0);
+        return cards.get(0);
     }
 
 

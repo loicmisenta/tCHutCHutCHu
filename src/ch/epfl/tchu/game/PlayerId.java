@@ -3,8 +3,8 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Type énuméré representant l'identité d'un joueur
  */
 public enum PlayerId {

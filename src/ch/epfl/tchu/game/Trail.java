@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  *
  * La classe représentant un chemin dans le réseau
  * fait à partir des routes qui lui sont donnés et contennant:
@@ -17,7 +17,11 @@ public final class Trail {
     private final Station station1;
     private final Station station2;
     private final List<Route> routes;
+    private static Trail longest;
 
+
+    //TODO   -3 pts
+    //TODO NullPointerException dans le cadre d'une utilisation normale du programme (toString du trail vide)
     private Trail (List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
@@ -33,7 +37,7 @@ public final class Trail {
         this.station1 = station1;
         this.station2 = station2;
         this.length = length;
-        this.routes = List.copyOf(routes);
+        this.routes = routes;
     }
 
 
@@ -70,7 +74,7 @@ public final class Trail {
 
     public static Trail longest(List<Route> routes){
 
-        Trail longest = new Trail(null, null, 0 , List.of());
+        longest = new Trail(null, null, 0 , List.of());
 
         //le cas si la route passée en paramètre est vide
         if (routes == null ) {

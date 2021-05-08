@@ -8,8 +8,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Une classe representant l'état complet d'un joueur.
  */
 

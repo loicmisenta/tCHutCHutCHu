@@ -4,8 +4,8 @@ import ch.epfl.tchu.Preconditions;
 
 
 /**
-*@author loicmisenta
-*@author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * classe qui represente une partition (aplatie) des gares
 */
 public class StationPartition implements StationConnectivity  {
@@ -20,6 +20,19 @@ public class StationPartition implements StationConnectivity  {
         this.liens = liens;
     }
 
+    /**
+     * Verifie si les deux gares:
+     * @param s1 gare 1
+     * @param s2 gare 2
+     * sont connectée / les mêmes representant
+     * @return True si c'est le cas.
+     */
+    @Override
+    public boolean connected(Station s1, Station s2) {
+        if ( (s1.id() < liens.length) && (s2.id() < liens.length) ){
+            return liens[s1.id()] == liens[s2.id()];
+        } else return s1.id() == s2.id();
+    }
 
 
     /**
@@ -83,19 +96,6 @@ public class StationPartition implements StationConnectivity  {
 
     }
 
-    /**
-     * Verifie si les deux gares:
-     * @param s1 gare 1
-     * @param s2 gare 2
-     * sont connectée / les mêmes representant
-     * @return True si c'est le cas.
-     */
-    @Override
-    public boolean connected(Station s1, Station s2) {
-        if ( (s1.id() < liens.length) && (s2.id() < liens.length) ){
-            return liens[s1.id()] == liens[s2.id()];
-        } else return s1.id() == s2.id();
-    }
 
 
 }

@@ -3,7 +3,8 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 /**
-
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  Cette classe représente les stations du jeu
  avec leur identifications unique et leur nom
  et comportant le nombre total de stations

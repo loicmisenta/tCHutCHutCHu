@@ -5,8 +5,8 @@ import ch.epfl.tchu.Preconditions;
 import java.util.List;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  *
  * La classe représentant la partie publique de l'état d'un joueur
  * le nombre de billets, de cartes et de wagons qu'il possède,

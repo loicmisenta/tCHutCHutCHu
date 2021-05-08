@@ -10,8 +10,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Interface qui représente un serde (de serializer-deserializer)
  * un objet capable de sérialiser et désérialiser des valeurs
  */

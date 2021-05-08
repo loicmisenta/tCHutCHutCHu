@@ -7,8 +7,8 @@ import ch.epfl.tchu.SortedBag;
 import java.util.*;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Une classe representant une route qui va lier deux gares entre elles et ses caractéristiques
  */
 public final class Route {
@@ -33,12 +33,8 @@ public final class Route {
      * @throws IllegalArgumentException dans Preconditions
      * si les deux stations sont égales ou que la longeur de la route n'est pas comprise
      * entre l'intervalle donnée
-     * @throws NullPointerException si une des stations ou/et l'identifiant sont nulls
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
-        if (id == null || station1 == null || station2 == null) {
-            throw new NullPointerException();
-        }
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH && length >= Constants.MIN_ROUTE_LENGTH);
 
         this.id = Objects.requireNonNull(id);
@@ -180,8 +176,8 @@ public final class Route {
 
         Preconditions.checkArgument(level().equals(Level.UNDERGROUND) && drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
         int count = 0;
-        for (int i = 0; i < drawnCards.size(); i++) {
-            if (drawnCards.get(i).equals(claimCards.get(0)) || drawnCards.get(i).equals(Card.LOCOMOTIVE)){
+        for (Card c: drawnCards) {
+            if (c.equals(claimCards.get(0)) || c.equals(Card.LOCOMOTIVE)){
                 count += 1;
             }
         }

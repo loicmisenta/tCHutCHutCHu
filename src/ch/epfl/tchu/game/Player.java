@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Interface contenent les méthodes qui doivent communiquer des informations concernant
  * le déroulement de partie
  */

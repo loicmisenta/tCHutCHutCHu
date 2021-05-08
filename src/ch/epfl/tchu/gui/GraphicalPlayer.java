@@ -28,6 +28,7 @@ import javafx.util.StringConverter;
 import java.util.Map;
 
 import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class GraphicalPlayer {
 
@@ -46,10 +47,14 @@ public class GraphicalPlayer {
         this.observableGameState = new ObservableGameState(playerId);
         this.mainPane = new Stage(StageStyle.UTILITY);
         BorderPane borderPane = new BorderPane();
+        Node handView = DecksViewCreator.createHandView(observableGameState);
+        Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
+        Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
+        BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, null);
+        this.observableList = observableArrayList();
+        Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList); //TODO listText ?
 
-        Node mapView = MapViewCreator.createMapView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
-        //BorderPane mainPane = new BorderPane(mapView, null, cardsView, handView, null);
-        //window.setScene(new Scene(borderPane));
+        mainPane.setScene(new Scene(borderPane)); //TODO appeler setScene dessus ?
         //window.show();
         //setState(gameState);
 

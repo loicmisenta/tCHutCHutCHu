@@ -6,8 +6,8 @@ import java.util.TreeSet;
 
 
 /**
- * @author loicmisenta
- * @author lagutovaalexandra
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  *
  * Une classe represantant un ticket
  */
@@ -20,14 +20,11 @@ public final class Ticket implements Comparable<Ticket>{
      * @param trips les trajets
      */
     public Ticket(List<Trip> trips) {
-        boolean allSameFrom = true;
+        Preconditions.checkArgument(!trips.isEmpty());
+
         for (int i = 1; i < trips.size(); i++) {
-            if (!(trips.get(0).from().name().equals(trips.get(i).from().name()))){
-                System.out.println(trips.get(0).from().toString() + "     " + trips.get(i).from().toString());
-                allSameFrom = false;
-            }
+            Preconditions.checkArgument((trips.get(0).from().name().equals(trips.get(i).from().name())));
         }
-        Preconditions.checkArgument(!(trips.isEmpty())|| !allSameFrom);
 
         this.trips = List.copyOf(trips);
         billetText = computeText(trips);
