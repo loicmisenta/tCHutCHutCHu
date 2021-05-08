@@ -24,7 +24,7 @@ public class InfoViewCreator {
     private static final int CERCLE_RAYON = 5;
 
     //TODO pourquoi on utilise pas playerId
-    public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, List<Text> text){
+    public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, ObservableList<Text> text){
         vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
 
@@ -58,10 +58,10 @@ public class InfoViewCreator {
 
     private static void createPlayerInt(PlayerId id, VBox vboxPlayerStats, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS){
         TextFlow statPlayer = new TextFlow();
-        statPlayer.setId(id.name());
         vboxPlayerStats.getChildren().add(statPlayer);
 
         Circle circle = new Circle(CERCLE_RAYON);
+        statPlayer.getStyleClass().add(id.name());
         Text text1 = new Text();
         circle.getStyleClass().add("filled"); //TODO affiche pas la couleur
         statPlayer.getChildren().addAll(circle, text1);

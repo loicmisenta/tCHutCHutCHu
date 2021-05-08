@@ -8,8 +8,7 @@ import ch.epfl.tchu.Preconditions;
  * @author lagutovaalexandra (324449)
  * classe qui represente une partition (aplatie) des gares
 */
-public class StationPartition implements StationConnectivity  {
-
+public final class StationPartition implements StationConnectivity  {
     private final int[] liens;
 
     /**
