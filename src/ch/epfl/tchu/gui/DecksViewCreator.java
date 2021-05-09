@@ -53,7 +53,6 @@ public class DecksViewCreator { //TODO package private ?
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
             hboxHandPane.getChildren().add(stackPane);
-            //stackPane.setOnMouseClicked();
 
 
             //Carte
@@ -72,9 +71,6 @@ public class DecksViewCreator { //TODO package private ?
             stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image, text);
 
             stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
-
-            System.out.println(count);
-            System.out.println(card);
             text.visibleProperty().bind(Bindings.greaterThan(count, 1));
 
 

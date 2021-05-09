@@ -27,6 +27,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -158,7 +159,35 @@ public class GraphicalPlayer {
         if (! isFxApplicationThread()) throw new AssertionError();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
-        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, listView, booleanProperty);
+
+        Stage stage = new Stage(StageStyle.UTILITY);
+        Text textTitre = new Text(StringsFr.CARDS_CHOICE);
+        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        scene.getStylesheets().add("chooser.css");
+        VBox vbox = new VBox();
+        stage.initOwner(mainPane);
+        stage.initModality(Modality.WINDOW_MODAL);
+
+
+        //TODO mettre tout cela dans chaque méthode !
+        TextFlow textFlow = new TextFlow();
+        Button button = new Button(StringsFr.CHOOSE);
+        Text text = new Text(StringsFr.CHOOSE_CARDS);
+        vbox.getChildren().addAll(listView, textFlow, button);
+        textFlow.getChildren().add(text);
+
+
+        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
+        button.disableProperty().bind(booleanProperty.not());
+
+        stage.setOnCloseRequest(Event::consume);
+        button.setOnAction(e ->{
+            stage.hide();
+            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0)); //TODO pas sûre de ça !
+        });
+
 
 
         stage.show();
@@ -211,8 +240,20 @@ public class GraphicalPlayer {
 
     private static class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
         @Override
-        public String toString(SortedBag<Card> cardSortedBag) {
-            return null; //TODO Info.cardToString fait exactement ça !
+        public String toString(SortedBag<Card> cards) { //TODO je ne sais pas si c'est le plus simple ?
+            String cardsString = "";
+            List<String> listString = new ArrayList<>();
+
+            for (Card card: cards) {
+                listString.add(cards.countOf(card) + " " + card.name());
+            }
+            //Affichage des cartes
+            if(listString.size() == 1){
+                cardsString += listString.get(0);
+            } else {
+                cardsString += String.join(StringsFr.AND_SEPARATOR, listString.get(0), listString.get(1));
+            }
+            return cardsString;
         }
 
         @Override
