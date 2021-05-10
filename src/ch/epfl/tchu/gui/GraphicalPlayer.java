@@ -129,13 +129,11 @@ public class GraphicalPlayer {
 
 
         //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not()); //TODO
+        button.disableProperty().bind(booleanProperty.not()); //TODO disable
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            //TODO appeler le Handler specifique ?
-            //button.disableProperty().bind(listView.getSelectionModel().getSelectedItems());
-            //chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
+            chooseTickets(listView.getSelectionModel().getSelectedItems(), chooseTicketsHandler);
         });
         stage.show();
     }
