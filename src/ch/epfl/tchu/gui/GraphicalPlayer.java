@@ -3,10 +3,7 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -41,9 +38,9 @@ public class GraphicalPlayer {
     final PlayerId playerId;
     final Map<PlayerId, String> nomsJoueurs;
     final ObservableGameState observableGameState;
-    ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
-    ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
-    ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
+    final ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
+    final ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
+    final ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
     ObservableList<Text> observableList;
     final Stage mainPane;
     
@@ -55,7 +52,11 @@ public class GraphicalPlayer {
         this.mainPane = new Stage(StageStyle.UTILITY);
 
 
-        BorderPane borderPane = new BorderPane();
+
+        drawTicketsHandlerProperty = new SimpleObjectProperty<>();
+        drawCardHandlerProperty = new SimpleObjectProperty<>();
+        claimRouteHandlerProperty = new SimpleObjectProperty<>();
+
         Node handView = DecksViewCreator.createHandView(observableGameState);
         Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
         Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
@@ -63,9 +64,9 @@ public class GraphicalPlayer {
         this.observableList = observableArrayList();
         Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList); //TODO listText ?
 
-        mainPane.setScene(new Scene(borderPane)); //TODO appeler setScene dessus ?
-        //window.show();
-        //setState(gameState, playerstate); //TODO où avoir ce playerState ?
+        mainPane.setScene(new Scene(mainPaneBorder)); //TODO appeler setScene dessus ?
+        mainPane.show();
+
 
     }
 
@@ -75,7 +76,7 @@ public class GraphicalPlayer {
     }
     
     public void receiveInfo(String message){  //TODO  5 derniers messages
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         if (observableList.size() == 5){
             observableList.remove( 0 , 1 );
         }
@@ -128,12 +129,11 @@ public class GraphicalPlayer {
         textFlow.getChildren().add(text);
 
 
-        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not()); //TODO disable
+        button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseTickets(listView.getSelectionModel().getSelectedItems(), chooseTicketsHandler);
+            chooseTicketsHandler.onChooseTickets(listView.getSelectionModel().getSelectedItem());
         });
         stage.show();
     }
@@ -185,7 +185,7 @@ public class GraphicalPlayer {
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0)); //TODO pas sûre de ça !
+            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0)); //TODO pas sûre de ça !!!
         });
 
         stage.show();

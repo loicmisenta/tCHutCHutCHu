@@ -136,6 +136,7 @@ public class DecksViewCreator { //TODO package private ?
         buttonCarte.setOnAction(e -> chooseCardsH.get().onDrawCard(-1));
         //jauge
         createGaugedButton(buttonCarte, observableGameState, observableGameState.percentageCardsLeftReadOnly());
+
         return vbox;
     }
 
@@ -153,6 +154,7 @@ public class DecksViewCreator { //TODO package private ?
         button.setGraphic(group);
 
         pctProperty.addListener((o, oV, nV) ->  rect_foreground.getStyleClass().add(String.valueOf(nV)));
+        System.out.println("  prop " + pctProperty);
         rect_foreground.widthProperty().bind(pctProperty.multiply(50).divide(100));
     }
 

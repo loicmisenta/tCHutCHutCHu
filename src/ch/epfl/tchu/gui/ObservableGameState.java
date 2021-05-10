@@ -52,8 +52,9 @@ public class ObservableGameState {
     public void setState(PublicGameState publicGameState, PlayerState playerState){
         this.publicGameState = publicGameState;
         this.playerState = playerState;
-        percentageTicketsLeft.set((int) (((double) publicGameState.cardState().deckSize() / (double) Constants.TOTAL_CARDS_COUNT)) * 100);
-        percentageCardsLeft.set((int) (((double) publicGameState.ticketsCount() / (double) ChMap.ALL_TICKETS.size()) * 100));
+        percentageTicketsLeft.set((int) (( (double) publicGameState.ticketsCount() / (double) ChMap.ALL_TICKETS.size()) * 100));
+        percentageCardsLeft.set( (int)(( (double) publicGameState.cardState().deckSize() / (double) Constants.TOTAL_CARDS_COUNT) * 100));
+
         //faceupcard
         for (int slot : Constants.FACE_UP_CARD_SLOTS) {
             Card newCard = publicGameState.cardState().faceUpCard(slot);
