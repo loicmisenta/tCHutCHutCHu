@@ -38,11 +38,26 @@ public class GraphicalPlayerTest extends Application{
             });
                 };
         ActionHandlers.DrawCardHandler drawCardH =
-                s -> p.receiveInfo(String.format("Je tire une carte de %s !", s));
+                s -> {
+            p.receiveInfo(String.format("Je tire une carte de %s !", s));
+            p.drawCard(new ActionHandlers.DrawCardHandler() {
+                @Override
+                public void onDrawCard(int emplacement) {
+                    System.out.println("choisi draw card a " + emplacement);
+                }
+            });
+
+                };
         ActionHandlers.ClaimRouteHandler claimRouteH =
                 (r, cs) -> {
                     String rn = r.station1() + " - " + r.station2();
                     p.receiveInfo(String.format("Je m'empare de %s avec %s", rn, cs));
+                    p.chooseClaimCards(List.of(SortedBag.of(1, Card.BLUE, 1, Card.RED), SortedBag.of(1, Card.GREEN, 1, Card.BLACK)), new ActionHandlers.ChooseCardsHandler() {
+                        @Override
+                        public void onChooseCards(SortedBag<Card> cartes) {
+                            System.out.println("choisi carte");
+                        }
+                    });
                 };
 
         p.startTurn(drawTicketsH, drawCardH, claimRouteH);

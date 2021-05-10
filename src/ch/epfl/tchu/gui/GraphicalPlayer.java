@@ -127,9 +127,8 @@ public class GraphicalPlayer {
         // TODO Bindings.size()  + Obsv List
 
         Stage stage = new Stage(StageStyle.UTILITY);
-        Text textTitre = new Text(StringsFr.TICKETS_CHOICE);
-
-        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        stage.setTitle(StringsFr.TICKETS_CHOICE);
+        BorderPane borderPane = new BorderPane(); //TODO titre?
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
@@ -141,7 +140,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(message);
-        vbox.getChildren().addAll(listView, textFlow, button);
+        vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
 
 
@@ -160,8 +159,8 @@ public class GraphicalPlayer {
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
         Stage stage = new Stage(StageStyle.UTILITY);
-        Text textTitre = new Text(StringsFr.CARDS_CHOICE);
-        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        stage.setTitle(StringsFr.CARDS_CHOICE);
+        BorderPane borderPane = new BorderPane(); //TODO titre?
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
@@ -175,7 +174,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(StringsFr.CHOOSE_CARDS);
-        vbox.getChildren().addAll(listView, textFlow, button);
+        vbox.getChildren().addAll(textFlow, listView, button);
         textFlow.getChildren().add(text);
 
 
@@ -198,8 +197,8 @@ public class GraphicalPlayer {
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
 
         Stage stage = new Stage(StageStyle.UTILITY);
-        Text textTitre = new Text(StringsFr.CARDS_CHOICE);
-        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        stage.setTitle(StringsFr.CARDS_CHOICE);
+        BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
@@ -213,7 +212,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
-        vbox.getChildren().addAll(listView, textFlow, button);
+        vbox.getChildren().addAll(textFlow, listView, button);
         textFlow.getChildren().add(text);
 
 
@@ -237,6 +236,7 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
+        borderPane.setLeft(vbox);
         return stage;
     }
 
