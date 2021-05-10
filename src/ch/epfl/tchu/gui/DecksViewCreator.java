@@ -84,8 +84,6 @@ public class DecksViewCreator { //TODO package private ?
         int EXT_CARD_HEIGHT = 90;
         int INT_CARD_WIDTH = 40;
         int INT_CARD_HEIGHT = 70;
-        int RECT_INI_WIDTH = 50;
-        int RECT_INIT_HEIGHT = 5;
 
         VBox vbox = new VBox();
         vbox.getStylesheets().addAll("decks.css", "colors.css");
@@ -101,7 +99,7 @@ public class DecksViewCreator { //TODO package private ?
         buttonBillet.setOnAction(e -> chooseTicketsH.get().onDrawTickets());
 
         //jaugeBiller
-        createGaugedButton(buttonBillet, observableGameState, observableGameState.percentageTicketsReadOnly());
+        createGaugedButton(buttonBillet, observableGameState.percentageTicketsReadOnly());
 
         //Cartes
         for(int index: Constants.FACE_UP_CARD_SLOTS){
