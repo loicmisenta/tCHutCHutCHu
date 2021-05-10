@@ -129,14 +129,14 @@ public class GraphicalPlayer {
 
 
         //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not());
+        button.disableProperty().bind(booleanProperty.not()); //TODO
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
             //TODO appeler le Handler specifique ?
-            // chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
+            //button.disableProperty().bind(listView.getSelectionModel().getSelectedItems());
+            //chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
         });
-        //TODO faut-il le lier avec handview
         stage.show();
     }
 
@@ -181,7 +181,7 @@ public class GraphicalPlayer {
         textFlow.getChildren().add(text);
 
 
-        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
+        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());
 
         stage.setOnCloseRequest(Event::consume);
@@ -189,8 +189,6 @@ public class GraphicalPlayer {
             stage.hide();
             chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0)); //TODO pas sûre de ça !
         });
-
-
 
         stage.show();
 
@@ -201,7 +199,6 @@ public class GraphicalPlayer {
         assert isFxApplicationThread();
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
-        BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
         Stage stage = new Stage(StageStyle.UTILITY);
         Text textTitre = new Text(StringsFr.CARDS_CHOICE);
@@ -222,17 +219,12 @@ public class GraphicalPlayer {
 
 
         //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
             chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0));//TODO PAS SUR NON PLUS !
         });
         //TODO faut-il le lier avec handview
-        stage.show();
-
-
-
 
         stage.show();
     }
@@ -249,25 +241,6 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
-
-
-        //TODO mettre tout cela dans chaque méthode !
-        TextFlow textFlow = new TextFlow();
-        Button button = new Button(StringsFr.CHOOSE);
-        Text text = new Text(textIntro);
-        vbox.getChildren().addAll(listView, textFlow, button);
-        textFlow.getChildren().add(text);
-
-
-        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not());
-
-        stage.setOnCloseRequest(Event::consume);
-        button.setOnAction(e ->{
-            stage.hide();
-            //TODO appeler le Handler specifique ?
-            // chooseTickets(listView.getSelectionModel().getSelectedItems(), ActionHandlers.ChooseTicketsHandler);
-        });
         return stage;
     }
 
