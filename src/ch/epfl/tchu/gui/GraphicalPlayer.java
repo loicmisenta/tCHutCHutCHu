@@ -41,7 +41,7 @@ public class GraphicalPlayer {
     final ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
     final ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
     final ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
-    ObservableList<Text> observableList;
+    final ObservableList<Text> observableList;
     final Stage mainPane;
     
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
@@ -56,15 +56,17 @@ public class GraphicalPlayer {
         drawTicketsHandlerProperty = new SimpleObjectProperty<>();
         drawCardHandlerProperty = new SimpleObjectProperty<>();
         claimRouteHandlerProperty = new SimpleObjectProperty<>();
+        observableList = observableArrayList();
 
         Node handView = DecksViewCreator.createHandView(observableGameState);
         Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
         Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
-        BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, null);
-        this.observableList = observableArrayList();
         Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList); //TODO listText ?
+        BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, infoView);
 
-        mainPane.setScene(new Scene(mainPaneBorder)); //TODO appeler setScene dessus ?
+        //TODO infoView jamais liée + Player
+
+        mainPane.setScene(new Scene(mainPaneBorder));
         mainPane.show();
 
 
@@ -75,7 +77,7 @@ public class GraphicalPlayer {
         observableGameState.setState(publicGameState, playerState);
     }
     
-    public void receiveInfo(String message){  //TODO  5 derniers messages
+    public void receiveInfo(String message){
         assert isFxApplicationThread();
         if (observableList.size() == 5){
             observableList.remove( 0 , 1 );
@@ -100,6 +102,21 @@ public class GraphicalPlayer {
         claimRouteHandlerProperty.set(claimRouteHandler);
     }
 
+    /**
+     * Utilisée quand le joueur va tirer sa deuxième carte
+     * @param drawCardHandler gestionnaire de tirage de cartes
+     */
+    public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){ //TODO doit être appelée où?
+        assert isFxApplicationThread();
+        if(observableGameState.canDrawCards()){
+            drawCardHandlerProperty.set(drawCardHandler);
+        } else {
+            drawCardHandlerProperty.set(null);
+        }
+        drawTicketsHandlerProperty.set(null);
+        claimRouteHandlerProperty.set(null);
+    }
+
 
     public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
@@ -119,9 +136,8 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
+        borderPane.setLeft(vbox);
 
-
-        //TODO mettre tout cela dans chaque méthode !
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(message);
@@ -138,23 +154,6 @@ public class GraphicalPlayer {
         stage.show();
     }
 
-    /**
-     * Utilisée quand le joueur va tirer sa deuxième carte
-     * @param drawCardHandler gestionnaire de tirage de cartes
-     */
-
-
-    public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
-        assert isFxApplicationThread();
-        if(observableGameState.canDrawCards()){
-            drawCardHandlerProperty.set(drawCardHandler);
-        } else {
-            drawCardHandlerProperty.set(null);
-        }
-        drawTicketsHandlerProperty.set(null);
-        claimRouteHandlerProperty.set(null);
-    }
-
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
@@ -169,6 +168,7 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
+        borderPane.setLeft(vbox);
 
 
         //TODO mettre tout cela dans chaque méthode !
@@ -190,7 +190,6 @@ public class GraphicalPlayer {
 
         stage.show();
 
-
     }
 
     public void chooseAdditionalCards(List<SortedBag<Card>> cartesAddit, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
@@ -207,8 +206,10 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
+        borderPane.setLeft(vbox);
 
-        //TODO mettre tout cela dans chaque méthode !
+
+
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
@@ -216,14 +217,11 @@ public class GraphicalPlayer {
         textFlow.getChildren().add(text);
 
 
-        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
             chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0));//TODO PAS SUR NON PLUS !
         });
-        //TODO faut-il le lier avec handview
-
         stage.show();
     }
 
@@ -232,7 +230,7 @@ public class GraphicalPlayer {
 
         Stage stage = new Stage(StageStyle.UTILITY);
         Text textTitre = new Text(titre);
-        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        BorderPane borderPane = new BorderPane(textTitre);
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");

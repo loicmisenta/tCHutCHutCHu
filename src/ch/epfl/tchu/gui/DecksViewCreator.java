@@ -135,12 +135,12 @@ public class DecksViewCreator { //TODO package private ?
         buttonCarte.disableProperty().bind(chooseCardsH.isNull());
         buttonCarte.setOnAction(e -> chooseCardsH.get().onDrawCard(-1));
         //jauge
-        createGaugedButton(buttonCarte, observableGameState, observableGameState.percentageCardsLeftReadOnly());
+        createGaugedButton(buttonCarte, observableGameState.percentageCardsLeftReadOnly());
 
         return vbox;
     }
 
-    private static void createGaugedButton (Button button, ObservableGameState observableGameState, ReadOnlyIntegerProperty pctProperty){
+    private static void createGaugedButton (Button button, ReadOnlyIntegerProperty pctProperty){
 
         int RECT_INI_WIDTH = 50;
         int RECT_INIT_HEIGHT = 5;
