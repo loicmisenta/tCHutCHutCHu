@@ -140,6 +140,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(message);
+        text.setStyle("-fx-font-weight: bold");
         vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
 
@@ -174,6 +175,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(StringsFr.CHOOSE_CARDS);
+        text.setStyle("-fx-font-weight: bold");
         vbox.getChildren().addAll(textFlow, listView, button);
         textFlow.getChildren().add(text);
 
@@ -212,6 +214,7 @@ public class GraphicalPlayer {
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Text text = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
+        text.setStyle("-fx-font-weight: bold");
         vbox.getChildren().addAll(textFlow, listView, button);
         textFlow.getChildren().add(text);
 
