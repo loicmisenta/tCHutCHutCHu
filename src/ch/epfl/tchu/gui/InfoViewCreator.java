@@ -25,6 +25,7 @@ public class InfoViewCreator {
 
     //TODO pourquoi on utilise pas playerId
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, ObservableList<Text> text){
+
         vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
 
@@ -45,11 +46,11 @@ public class InfoViewCreator {
         //message
         TextFlow textFlow = new TextFlow();
         textFlow.setId("game-info");
+        
         vbox.getChildren().add(textFlow);
-        List <Text> listText = text.size() > 5? text.subList(text.size()-6, text.size()-2) : text;
-
-        for (Text string: listText) {
-            Text textMessage = new Text(string.getText());
+        List<Text> listText = text.size() > 5? text.subList(text.size()-6, text.size()-2) : text;
+        for (Text textList: listText) {
+            Text textMessage = new Text(textList.getText());
             textFlow.getChildren().addAll(textMessage);
         }
 
