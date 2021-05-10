@@ -118,8 +118,8 @@ public final class GameState extends PublicGameState{
      * @param playerId donné
      */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets){
-        Preconditions.checkArgument(currentPlayerState().tickets().isEmpty());
-        return new GameState( cardState, currentPlayerId(), mapChange(playerId, currentPlayerState().withAddedTickets(chosenTickets)), lastPlayer(), tickets );
+        Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
+        return new GameState( cardState, currentPlayerId(), mapChange(playerId, playerState.get(playerId).withAddedTickets(chosenTickets)), lastPlayer(), tickets );
     }
 
     /**

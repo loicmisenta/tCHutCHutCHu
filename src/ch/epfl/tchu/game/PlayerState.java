@@ -65,14 +65,6 @@ public final class PlayerState extends PublicPlayerState{
         return new PlayerState(tickets().union(newTickets), cards(), routes());
     }
 
-    /**
-     *
-     * @param additionalCards cartes à ajouter.
-     * @return un état identique au récepteur avec les cartes ajoutés.
-     */
-    public PlayerState withAddedCards(SortedBag<Card> additionalCards){
-        return new PlayerState(tickets(), cards().union(SortedBag.of(additionalCards)), routes());
-    }
 
     /**
      *
@@ -80,7 +72,7 @@ public final class PlayerState extends PublicPlayerState{
      * @return un état identique au récepteur avec la carte ajouté.
      */
     public PlayerState withAddedCard(Card card){
-        return this.withAddedCards(SortedBag.of(card));
+        return new PlayerState(tickets(), cards().union(SortedBag.of(card)), routes());
     }
 
     /**

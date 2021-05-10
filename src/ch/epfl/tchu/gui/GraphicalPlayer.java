@@ -142,7 +142,7 @@ public class GraphicalPlayer {
         Text text = new Text(message);
         vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
-
+        //Bindings.bindContent(text);
 
         button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);

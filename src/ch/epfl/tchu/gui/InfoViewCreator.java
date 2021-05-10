@@ -49,6 +49,7 @@ public class InfoViewCreator {
         List <Text> listText = text.size() > 5? text.subList(text.size()-6, text.size()-2) : text;
 
         for (Text string: listText) {
+            //TODO bind comment ? Bindings.bindContent(listText, text);
             Text textMessage = new Text(string.getText());
             textFlow.getChildren().addAll(textMessage);
         }
