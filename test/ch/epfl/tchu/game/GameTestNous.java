@@ -125,7 +125,7 @@ class GameTestNous {
             System.out.println(" --- > nb de carte de la pioche : " + gameState.cardState().deckSize() + " < --- ");
             System.out.println(" --- > cartes face visible : " + gameState.cardState().faceUpCards() + " < --- ");
             System.out.println(" --- > nb de carte de la défausse : " + gameState.cardState().discardsSize() + " < --- ");
-            System.out.println(" --- > nb de carte total pas en main du joueur : " + gameState.cardState().totalSize() + " < --- ");
+            //System.out.println(" --- > nb de carte total pas en main du joueur : " + gameState.cardState().totalSize() + " < --- ");
 
             System.out.println(" --- > nb de route prise au total : " + (88 - preClaimableRoutes.size()) + " < --- ");
             System.out.println(" --- > size claimableRoutes & allRoutes -->   " + claimableRoutes.size() + "    " + allRoutes.size() + " < --- ");

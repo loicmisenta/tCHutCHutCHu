@@ -53,6 +53,7 @@ public class GraphicalPlayerAdapter implements Player {
 
     @Override
     public TurnKind nextTurn() {
+
         return null;
     }
 

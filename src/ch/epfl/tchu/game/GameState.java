@@ -138,7 +138,6 @@ public final class GameState extends PublicGameState{
      * @param slot l'indice a été placée dans la main du joueur courant, et remplacée par celle au sommet de la pioche
      */
     public GameState withDrawnFaceUpCard(int slot){
-        Preconditions.checkArgument(canDrawCards());
         return new GameState(cardState.withDrawnFaceUpCard(slot), currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withAddedCard(cardState.faceUpCard(slot))), lastPlayer(), tickets);
     }
 
@@ -146,7 +145,6 @@ public final class GameState extends PublicGameState{
      * @return un état identique au récepteur si ce n'est que la carte du sommet de la pioche a été placée dans la main du joueur courant
      */
     public GameState withBlindlyDrawnCard(){
-        Preconditions.checkArgument(canDrawCards());
         return new GameState( cardState.withoutTopDeckCard(), currentPlayerId(), mapChange(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard())), lastPlayer(), tickets);
     }
 

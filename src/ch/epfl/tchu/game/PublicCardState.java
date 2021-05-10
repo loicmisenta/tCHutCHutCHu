@@ -33,12 +33,6 @@ public class PublicCardState {
         this.discardsSize = discardsSize;
     }
 
-    /**
-     * @return le nombre total de cartes qui ne sont pas en main des joueur
-     */
-    public int totalSize(){
-        return Constants.FACE_UP_CARDS_COUNT + deckSize() + discardsSize();
-    }
 
     /**
      * @return les 5 cartes face visible, sous la forme d'une liste comportant
