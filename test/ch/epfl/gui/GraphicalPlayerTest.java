@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
-/*
+
 public class GraphicalPlayerTest extends Application{
 
     public static void main(String[] args) { launch(args); }
@@ -40,7 +40,7 @@ public class GraphicalPlayerTest extends Application{
         p.startTurn(drawTicketsH, drawCardH, claimRouteH);
     }
 
-    private void setState(ObservableGameState gameState) {
+    private void setState(GraphicalPlayer graphicalPlayer) {
         PlayerState p1State =
                 new PlayerState(SortedBag.of(ChMap.tickets().subList(0, 3)),
                         SortedBag.of(1, Card.WHITE, 3, Card.RED),
@@ -55,7 +55,7 @@ public class GraphicalPlayerTest extends Application{
                 new PublicCardState(Card.ALL.subList(0, 5), 110 - 2 * 4 - 5, 0);
         PublicGameState publicGameState =
                 new PublicGameState(36, cardState, PLAYER_1, pubPlayerStates, null);
-        gameState.setState(publicGameState, p1State);
+        graphicalPlayer.setState(publicGameState, p1State);
     }
 
     private static void claimRoute(Route route, SortedBag<Card> cards) {
@@ -77,4 +77,4 @@ public class GraphicalPlayerTest extends Application{
     }
 
 
-}     */
+}

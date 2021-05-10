@@ -28,8 +28,10 @@ import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
 import static javafx.collections.FXCollections.observableArrayList;
@@ -46,7 +48,7 @@ public class GraphicalPlayer {
     final Stage mainPane;
     
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
-        if (!isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         this.playerId = playerId;
         this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
@@ -68,7 +70,7 @@ public class GraphicalPlayer {
     }
 
     public void setState(PublicGameState publicGameState, PlayerState playerState){
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         observableGameState.setState(publicGameState, playerState);
     }
     
@@ -83,7 +85,7 @@ public class GraphicalPlayer {
 
 
     public void startTurn(ActionHandlers.DrawTicketsHandler drawTicketsHandler, ActionHandlers.DrawCardHandler drawCardHandler, ActionHandlers.ClaimRouteHandler claimRouteHandler){
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         if(observableGameState.canDrawCards()){
             drawCardHandlerProperty.set(drawCardHandler);
         } else {
@@ -99,7 +101,7 @@ public class GraphicalPlayer {
 
 
     public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
         ListView<SortedBag<Ticket>> listView = new ListView<>(FXCollections.observableList(ticketsOption));
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -145,7 +147,7 @@ public class GraphicalPlayer {
 
 
     public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         if(observableGameState.canDrawCards()){
             drawCardHandlerProperty.set(drawCardHandler);
         } else {
@@ -156,7 +158,7 @@ public class GraphicalPlayer {
     }
 
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
-        if (! isFxApplicationThread()) throw new AssertionError();
+        assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
@@ -195,12 +197,43 @@ public class GraphicalPlayer {
 
     }
 
-    public void chooseAdditionalCards(ObservableList<SortedBag<Card>> cartesAddit, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
-        if (! isFxApplicationThread()) throw new AssertionError();
+    public void chooseAdditionalCards(List<SortedBag<Card>> cartesAddit, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
+        assert isFxApplicationThread();
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
-        ListView<SortedBag<Card>> listView = new ListView<>(cartesAddit);
+        ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
-        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_ADDITIONAL_CARDS,listView , booleanProperty);
+
+        Stage stage = new Stage(StageStyle.UTILITY);
+        Text textTitre = new Text(StringsFr.CARDS_CHOICE);
+        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        scene.getStylesheets().add("chooser.css");
+        VBox vbox = new VBox();
+        stage.initOwner(mainPane);
+        stage.initModality(Modality.WINDOW_MODAL);
+
+        //TODO mettre tout cela dans chaque méthode !
+        TextFlow textFlow = new TextFlow();
+        Button button = new Button(StringsFr.CHOOSE);
+        Text text = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
+        vbox.getChildren().addAll(listView, textFlow, button);
+        textFlow.getChildren().add(text);
+
+
+        //listView.setCellFactory(v -> new TextFieldListCell<SortedBag<T>>(new CardBagStringConverter()));
+        button.disableProperty().bind(booleanProperty.not());
+        stage.setOnCloseRequest(Event::consume);
+        button.setOnAction(e ->{
+            stage.hide();
+            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0));//TODO PAS SUR NON PLUS !
+        });
+        //TODO faut-il le lier avec handview
+        stage.show();
+
+
+
+
         stage.show();
     }
 
