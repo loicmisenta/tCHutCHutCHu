@@ -127,9 +127,8 @@ public class GraphicalPlayer {
         // TODO Bindings.size()  + Obsv List
 
         Stage stage = new Stage(StageStyle.UTILITY);
-        Text textTitre = new Text(StringsFr.TICKETS_CHOICE);
-
-        BorderPane borderPane = new BorderPane(textTitre); //TODO titre?
+        stage.setTitle(StringsFr.TICKETS_CHOICE);
+        BorderPane borderPane = new BorderPane(); //TODO titre?
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
