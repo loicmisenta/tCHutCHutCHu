@@ -52,12 +52,13 @@ public class GraphicalPlayerTest extends Application{
                 (r, cs) -> {
                     String rn = r.station1() + " - " + r.station2();
                     p.receiveInfo(String.format("Je m'empare de %s avec %s", rn, cs));
-                    p.chooseClaimCards(List.of(SortedBag.of(1, Card.BLUE, 1, Card.RED), SortedBag.of(1, Card.GREEN, 1, Card.BLACK)), new ActionHandlers.ChooseCardsHandler() {
+                    p.chooseClaimCards(List.of(SortedBag.of( 3, Card.RED), SortedBag.of(2, Card.GREEN, 1, Card.BLACK)), new ActionHandlers.ChooseCardsHandler() {
                         @Override
                         public void onChooseCards(SortedBag<Card> cartes) {
                             System.out.println("choisi carte");
                         }
                     });
+
                 };
 
         p.startTurn(drawTicketsH, drawCardH, claimRouteH);

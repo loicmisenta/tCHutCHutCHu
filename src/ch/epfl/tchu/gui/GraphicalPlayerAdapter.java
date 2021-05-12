@@ -42,9 +42,9 @@ public class GraphicalPlayerAdapter implements Player {
 
         //TODO put et take peuvent lever l'exception InterruptedException, qui est de type checked.
         // Il faut donc entourer les appels par des blocs try/catch
-
+        /*
         BlockingQueue<SortedBag<Ticket>> q = new ArrayBlockingQueue<>(1);
-        runLater(() -> graphicalPlayer.chooseTickets(tickets, new ChooseTicketsHandler() {
+        //runLater(() -> graphicalPlayer.chooseTickets(tickets, new ChooseTicketsHandler() {
             @Override
             public void onChooseTickets(SortedBag<Ticket> tickets) {
                 //TODO JSP QUOI
@@ -60,6 +60,8 @@ public class GraphicalPlayerAdapter implements Player {
         runLater(() -> graphicalPlayer.chooseTickets(List.of(tickets), q);
         //TODO sur le fil JavaFX, la méthode chooseTickets du joueur graphique, pour lui demander de choisir ses billets initiaux,
         // en lui passant un gestionnaire de choix qui stocke le choix du joueur dans une file bloquante
+
+         */
     }
 
     @Override
@@ -71,7 +73,7 @@ public class GraphicalPlayerAdapter implements Player {
 
     @Override
     public TurnKind nextTurn() {
-        runLater(() -> graphicalPlayer.startTurn();
+        //runLater(() -> graphicalPlayer.startTurn();
         return null;
     }
 
@@ -85,8 +87,8 @@ public class GraphicalPlayerAdapter implements Player {
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
 
 
-        runLater(() -> graphicalPlayer.chooseTickets(options, ???));
-        return ???;
+        //runLater(() -> graphicalPlayer.chooseTickets(options, ???));
+        return null;
     }
 
 
@@ -96,7 +98,7 @@ public class GraphicalPlayerAdapter implements Player {
         ArrayBlockingQueue<Integer> fileBloqEmplacement = new ArrayBlockingQueue<Integer>(1);
 
         //méthode qui est appelée seulement la deuxième fois, pour le deuxième appel
-        runLater(() -> graphicalPlayer.drawCard();
+        //runLater(() -> graphicalPlayer.drawCard();
         return 0;
     }
 
