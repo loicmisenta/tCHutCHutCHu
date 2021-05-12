@@ -13,12 +13,21 @@ import static javafx.application.Platform.runLater;
 
 public class GraphicalPlayerAdapter implements Player {
 
-    private final ArrayBlockingQueue<Object> blockingQueue; //TODO PAS SUR
+    private final ArrayBlockingQueue<Integer> blockingIntegerDrawSlotQueue; //TODO PAS SUR
+    private final ArrayBlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
+    private final ArrayBlockingQueue<SortedBag<Card>> blockingCardsQueue;
+    private final ArrayBlockingQueue<Route> blockingRouteQueue;
+    private final ArrayBlockingQueue<TurnKind> blockingTurnKindQueue;
+
     GraphicalPlayer graphicalPlayer;
 
 
     public GraphicalPlayerAdapter(){
-        blockingQueue = new ArrayBlockingQueue<>(1);
+        blockingIntegerDrawSlotQueue = new ArrayBlockingQueue<>(1);
+        blockingTicketsQueue =  new ArrayBlockingQueue<>(1);
+        blockingCardsQueue = new ArrayBlockingQueue<>(1);
+        blockingRouteQueue = new ArrayBlockingQueue<>(1);
+        blockingTurnKindQueue = new ArrayBlockingQueue<>(1);
 
     }
 
@@ -40,80 +49,135 @@ public class GraphicalPlayerAdapter implements Player {
     @Override
     public void setInitialTicketChoice(SortedBag<Ticket> tickets) {
 
-        //TODO put et take peuvent lever l'exception InterruptedException, qui est de type checked.
-        // Il faut donc entourer les appels par des blocs try/catch
-        /*
-        BlockingQueue<SortedBag<Ticket>> q = new ArrayBlockingQueue<>(1);
-        //runLater(() -> graphicalPlayer.chooseTickets(tickets, new ChooseTicketsHandler() {
-            @Override
-            public void onChooseTickets(SortedBag<Ticket> tickets) {
-                //TODO JSP QUOI
+        ChooseTicketsHandler chooseTicketsHandler = tickets1 -> new Thread( ()-> {
+            try {
+                blockingTicketsQueue.put(tickets1);
+            } catch (InterruptedException e) {
+                throw new Error();
             }
-        });
-
-        try {
-            new Thread( ()-> q.put()).start(); //mettre les actions ?
-        } catch (Exception e){
-            System.out.println("InterruptedException ne devrait jamais être levée");
-        }
-
-        runLater(() -> graphicalPlayer.chooseTickets(List.of(tickets), q);
-        //TODO sur le fil JavaFX, la méthode chooseTickets du joueur graphique, pour lui demander de choisir ses billets initiaux,
-        // en lui passant un gestionnaire de choix qui stocke le choix du joueur dans une file bloquante
-
-         */
+        }).start();
+        runLater(() -> graphicalPlayer.chooseTickets(List.of(tickets), chooseTicketsHandler));
     }
 
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
-        //TODO retourne la val de la file bloquante de la méthode d'avant ? ???
-
-        return null;
+        try {
+            return blockingTicketsQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
     @Override
-    public TurnKind nextTurn() {
-        //runLater(() -> graphicalPlayer.startTurn();
-        return null;
+    public TurnKind nextTurn() {  //TODO comment gérer les cas 1 ou 2 ou 3 ? ? ?
+
+        DrawTicketsHandler drawTicketsHandler = () -> {
+            try {
+                blockingTurnKindQueue.put(TurnKind.DRAW_TICKETS); //TODO quel ticket mettre dedans ?
+            } catch (InterruptedException e) {
+                throw new Error();
+            }
+        };
+
+        DrawCardHandler drawCardHandler = emplacement -> {
+            try {
+                blockingTurnKindQueue.put(TurnKind.DRAW_TICKETS);
+                blockingIntegerDrawSlotQueue.put(emplacement);
+            } catch (InterruptedException e) {
+                throw new Error();
+            }
+        };
+
+        ClaimRouteHandler claimRouteHandler = (route, cartes) -> {
+            try {
+                blockingTurnKindQueue.put(TurnKind.CLAIM_ROUTE);
+                blockingRouteQueue.put(route);
+                blockingCardsQueue.put(cartes);
+            } catch (InterruptedException e) {
+                throw new Error();
+
+            }
+        };
+
+        runLater(() -> graphicalPlayer.startTurn(drawTicketsHandler, drawCardHandler, claimRouteHandler));
+        try {
+            return blockingTurnKindQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
-
-    // chooseTickets est la concatenation de SetInitialTicketChoice et ChooseInitialTickets
-    // conseille de le dupliquer. En particulier, essayer d’appeler ces deux méthodes depuis chooseTickets me
-    // semble être une très mauvaise idée, car le code est alors très troublant à lire (pourquoi est-ce que chooseTickets,
-    // destinée à être utilisée en cours de partie, appellerait-elle setInitialTicketChoice, destinée à être utilisée au début de la partie,
 
     @Override
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
-
-
-        //runLater(() -> graphicalPlayer.chooseTickets(options, ???));
-        return null;
+        ChooseTicketsHandler chooseTicketsHandler = tickets -> {
+            try {
+                blockingTicketsQueue.put(tickets);
+            } catch (InterruptedException e) {
+                throw new Error();
+            }
+        };
+        runLater(() -> graphicalPlayer.chooseTickets(List.of(options), chooseTicketsHandler));
+        try {
+            return blockingTicketsQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
 
-    //sans bloquer !
     @Override
     public int drawSlot() {
-        ArrayBlockingQueue<Integer> fileBloqEmplacement = new ArrayBlockingQueue<Integer>(1);
+        if (blockingIntegerDrawSlotQueue.isEmpty()){
+            DrawCardHandler drawCardHandler = empl -> {
+                try {
+                    blockingIntegerDrawSlotQueue.put(empl);
+                } catch (InterruptedException e) {
+                    throw new Error();
+                }
+            };
+            runLater(() -> graphicalPlayer.drawCard(drawCardHandler));
+        }
 
-        //méthode qui est appelée seulement la deuxième fois, pour le deuxième appel
-        //runLater(() -> graphicalPlayer.drawCard();
-        return 0;
-    }
+        try {
+            return blockingIntegerDrawSlotQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
+    };
 
     @Override
     public Route claimedRoute() {
-        return null;
+        try {
+            return blockingRouteQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
     @Override
     public SortedBag<Card> initialClaimCards() {
-        return null;
+        try {
+            return blockingCardsQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
     @Override
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
-        return null;
+        ChooseCardsHandler chooseCardsHandler = cartes -> {
+            try {
+                blockingCardsQueue.put(cartes);
+            } catch (InterruptedException e) {
+                throw new Error();
+            }
+        };
+        runLater(() -> graphicalPlayer.chooseAdditionalCards(options, chooseCardsHandler));
+        try {
+            return blockingCardsQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 }

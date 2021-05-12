@@ -118,6 +118,7 @@ public class GraphicalPlayer {
     }
 
 
+    //TODO peut être simplement un SortedBag ? ? ? et non pas une liste ?
     public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
