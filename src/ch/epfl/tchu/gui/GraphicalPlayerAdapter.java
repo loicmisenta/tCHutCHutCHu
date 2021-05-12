@@ -13,7 +13,7 @@ import static javafx.application.Platform.runLater;
 
 public class GraphicalPlayerAdapter implements Player {
 
-    private final ArrayBlockingQueue<Object> blockingQueue;
+    private final ArrayBlockingQueue<Object> blockingQueue; //TODO PAS SUR
     GraphicalPlayer graphicalPlayer;
 
 
@@ -44,7 +44,12 @@ public class GraphicalPlayerAdapter implements Player {
         // Il faut donc entourer les appels par des blocs try/catch
 
         BlockingQueue<SortedBag<Ticket>> q = new ArrayBlockingQueue<>(1);
-        runLater(() -> graphicalPlayer.chooseTickets(tickets, );
+        runLater(() -> graphicalPlayer.chooseTickets(tickets, new ChooseTicketsHandler() {
+            @Override
+            public void onChooseTickets(SortedBag<Ticket> tickets) {
+                //TODO JSP QUOI
+            }
+        });
 
         try {
             new Thread( ()-> q.put()).start(); //mettre les actions ?
