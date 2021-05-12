@@ -46,19 +46,27 @@ public class GraphicalPlayerAdapter implements Player {
         BlockingQueue<SortedBag<Ticket>> q = new ArrayBlockingQueue<>(1);
         runLater(() -> graphicalPlayer.chooseTickets(tickets, );
 
-        //runLater(() -> graphicalPlayer.chooseTickets(tickets, );
-        //sur le fil JavaFX, la méthode chooseTickets du joueur graphique, pour lui demander de choisir ses billets initiaux,
+        try {
+            new Thread( ()-> q.put()).start(); //mettre les actions ?
+        } catch (Exception e){
+            System.out.println("InterruptedException ne devrait jamais être levée");
+        }
+
+        runLater(() -> graphicalPlayer.chooseTickets(List.of(tickets), q);
+        //TODO sur le fil JavaFX, la méthode chooseTickets du joueur graphique, pour lui demander de choisir ses billets initiaux,
         // en lui passant un gestionnaire de choix qui stocke le choix du joueur dans une file bloquante
     }
 
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
+        //TODO retourne la val de la file bloquante de la méthode d'avant ? ???
+
         return null;
     }
 
     @Override
     public TurnKind nextTurn() {
-
+        runLater(() -> graphicalPlayer.startTurn();
         return null;
     }
 
@@ -76,8 +84,14 @@ public class GraphicalPlayerAdapter implements Player {
         return ???;
     }
 
+
+    //sans bloquer !
     @Override
     public int drawSlot() {
+        ArrayBlockingQueue<Integer> fileBloqEmplacement = new ArrayBlockingQueue<Integer>(1);
+
+        //méthode qui est appelée seulement la deuxième fois, pour le deuxième appel
+        runLater(() -> graphicalPlayer.drawCard();
         return 0;
     }
 
