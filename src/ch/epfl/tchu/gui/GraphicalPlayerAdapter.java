@@ -2,6 +2,7 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.ActionHandlers.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,12 @@ import static javafx.application.Platform.runLater;
 
 public class GraphicalPlayerAdapter implements Player {
 
+    private final ArrayBlockingQueue<Object> blockingQueue;
     GraphicalPlayer graphicalPlayer;
 
+
     public GraphicalPlayerAdapter(){
+        blockingQueue = new ArrayBlockingQueue<>(1);
 
     }
 
@@ -40,6 +44,7 @@ public class GraphicalPlayerAdapter implements Player {
         // Il faut donc entourer les appels par des blocs try/catch
 
         BlockingQueue<SortedBag<Ticket>> q = new ArrayBlockingQueue<>(1);
+        runLater(() -> graphicalPlayer.chooseTickets(tickets, );
 
         //runLater(() -> graphicalPlayer.chooseTickets(tickets, );
         //sur le fil JavaFX, la méthode chooseTickets du joueur graphique, pour lui demander de choisir ses billets initiaux,
@@ -65,7 +70,10 @@ public class GraphicalPlayerAdapter implements Player {
 
     @Override
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
-        return null;
+
+
+        runLater(() -> graphicalPlayer.chooseTickets(options, ???));
+        return ???;
     }
 
     @Override

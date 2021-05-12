@@ -157,6 +157,7 @@ public class GraphicalPlayer {
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
+        System.out.println(initialCards); //TODO POURQUOI [{BLUE, RED}, {BLACK, GREEN}] ???????
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
         Stage stage = new Stage(StageStyle.UTILITY);
