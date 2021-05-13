@@ -10,6 +10,12 @@ import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Cette classe représente l'état observable d'une partie de tCHu
+ */
+
 public class ObservableGameState {
     private final PlayerId playerId;
     private PublicGameState publicGameState;
@@ -32,6 +38,10 @@ public class ObservableGameState {
     private final Map<Card, IntegerProperty> nbTypeCarte;
     private final Map<Route, BooleanProperty> claimableRoutes;
 
+    /**
+     * Constructeur de la classe ObservableGameState qui aura comme paramètres:
+     * @param playerId l'id du joueur
+     */
     public ObservableGameState(PlayerId playerId){
         this.playerId = playerId;
 
@@ -49,6 +59,11 @@ public class ObservableGameState {
 
     }
 
+    /**
+     *  Cette méthode met à jour la totalité des propriétés décrites ci-dessus en fonction de ces deux états.
+     * @param publicGameState la partie publique de l'état d'une partie
+     * @param playerState l'état complet d'un joueur.
+     */
     public void setState(PublicGameState publicGameState, PlayerState playerState){
         this.publicGameState = publicGameState;
         this.playerState = playerState;
@@ -102,20 +117,65 @@ public class ObservableGameState {
 
     }
 
-
+    /**
+     * @return la propriété contenant le pourcentage de ticket restant
+     */
     public ReadOnlyIntegerProperty percentageTicketsReadOnly(){ return percentageTicketsLeft;}
+
+    /**
+     * @return la propriété contenant le pourcentage de carte restant
+     */
     public ReadOnlyIntegerProperty percentageCardsLeftReadOnly(){ return percentageCardsLeft; }
+
+    /**
+     * @return la propriété contenant  la carte retournée a l'index donné
+     * @param slot l'index contenant  la carte
+     */
     public ReadOnlyObjectProperty<Card> faceUpCardsReadOnly(int slot){ return faceUpCards.get(slot); }
+
+    /**
+     * @return la propriété contenant le playerId du joueur possédant la carte donnée
+     * @param route route donnée
+     */
     public ReadOnlyObjectProperty<PlayerId> ownedRoutesReadOnly(Route route){ return ownedRoutes.get(route);}
 
-
+    /**
+     * @return la propriété contenant le nombre de ticket possedé par le joueur.
+     * @param playerId id du joueur du quel on veut savoir son nombre de ticket
+     */
     public ReadOnlyIntegerProperty ownedTicketsReadOnly(PlayerId playerId){ return ownedTickets.get(playerId); }
+
+    /**
+     * @return la propriété contenant le nombre de cartes possedé par le joueur.
+     * @param playerId id du joueur du quel on veut savoir son nombre de carte
+     */
     public ReadOnlyIntegerProperty ownedCardReadOnly(PlayerId playerId){ return ownedCards.get(playerId); }
+
+    /**
+     * @return la propriété contenant le nombre de wagon possedé par le joueur.
+     * @param playerId id du joueur du quel on veut savoir son nombre de wagon
+     */
     public ReadOnlyIntegerProperty ownedCarsReadOnly(PlayerId playerId){ return ownedCars.get(playerId); }
+    /**
+     * @return la propriété contenant le nombre de point de constructions possedé par le joueur.
+     * @param playerId id du joueur du quel on veut savoir son nombre de points de constructions
+     */
     public ReadOnlyIntegerProperty ownedConstructPointsReadOnly(PlayerId playerId){ return ownedConstructPoints.get(playerId); }
 
+    /**
+     * @return la propriété contenant le nombre de ticket possedé par le joueur auquel l'instance de ObservableGameState correspond.
+     */
     public ObservableList<Ticket> ticketListReadOnly(){ return FXCollections.unmodifiableObservableList(ticketList);}
+
+    /**
+     * @return la propriété contenant le nombre de type de carte possedé par le joueur auquel l'instance de ObservableGameState correspond.
+     */
     public ReadOnlyIntegerProperty nbTypeCarteReadOnly(Card c){ return nbTypeCarte.get(c); }
+
+    /**
+     * @return la propriété contenant vrai si la route est claimable.
+     * @param route route passée en paramètre
+     */
     public ReadOnlyBooleanProperty claimableRoute(Route route){ return claimableRoutes.get(route); }
 
 
@@ -181,15 +241,24 @@ public class ObservableGameState {
     }
 
 
-
+    /**
+     * @return vrai si il est encore possible de tirer des billets
+     */
     public boolean canDrawTickets(){
         return publicGameState.canDrawTickets();
     }
 
+    /**
+     * @return  vrai si il est encore possible de tirer des cartes
+     */
     public boolean canDrawCards(){
         return publicGameState.canDrawCards();
     }
 
+    /**
+     * @return la liste de tous les ensembles de cartes que le joueur pourrait utiliser
+     * pour prendre possession de @param route.
+     */
     public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }

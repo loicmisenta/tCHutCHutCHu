@@ -33,6 +33,11 @@ import java.util.stream.Collectors;
 import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Classe représente l'interface graphique d'un joueur de tCHu.
+ */
 public class GraphicalPlayer {
 
     final PlayerId playerId;
@@ -43,15 +48,18 @@ public class GraphicalPlayer {
     final ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
     final ObservableList<Text> observableList;
     final Stage mainPane;
-    
+
+    /**
+     * Constructeur de la classe GraphiquePlayer qui aura en parametre:
+     * @param playerId l'identité du player
+     * @param nomsJoueurs map du nom des joueur
+     */
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
         assert isFxApplicationThread();
         this.playerId = playerId;
         this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
         this.mainPane = new Stage(StageStyle.UTILITY);
-
-
 
         drawTicketsHandlerProperty = new SimpleObjectProperty<>();
         drawCardHandlerProperty = new SimpleObjectProperty<>();
@@ -69,14 +77,23 @@ public class GraphicalPlayer {
         mainPane.setScene(new Scene(mainPaneBorder));
         mainPane.show();
 
-
     }
 
+    /**
+     * Appeler setState sur l'état observable du joueur,
+     * @param publicGameState l'état public de la partie
+     * @param playerState l'état du joueur complet
+     */
     public void setState(PublicGameState publicGameState, PlayerState playerState){
         assert isFxApplicationThread();
         observableGameState.setState(publicGameState, playerState);
     }
-    
+
+    /**
+     * Prenant un
+     * @param message de type String
+     * et l'ajoutant au bas des informations sur le déroulement de la partie,
+     */
     public void receiveInfo(String message){
         assert isFxApplicationThread();
         if (observableList.size() == 5){
@@ -87,6 +104,12 @@ public class GraphicalPlayer {
     }
 
 
+    /**
+     * Qui prend en arguments trois gestionnaires d'action, et qui permet au joueur d'en effectuer une
+     * @param drawTicketsHandler gestionnaires d'action du tirage de ticket
+     * @param drawCardHandler gestionnaires d'action du tirage de carte
+     * @param claimRouteHandler gestionnaires d'action lors de la prise d'une route
+     */
     public void startTurn(ActionHandlers.DrawTicketsHandler drawTicketsHandler, ActionHandlers.DrawCardHandler drawCardHandler, ActionHandlers.ClaimRouteHandler claimRouteHandler){
         assert isFxApplicationThread();
         if(observableGameState.canDrawCards()){
@@ -119,6 +142,12 @@ public class GraphicalPlayer {
 
 
     //TODO peut être simplement un SortedBag ? ? ? et non pas une liste ?
+
+    /**
+     * Utilisée quand le joueur va choisir un billet
+     * @param ticketsOption bilet a choisir
+     * @param chooseTicketsHandler gestionnaire de choix de billet
+     */
     public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
@@ -155,6 +184,11 @@ public class GraphicalPlayer {
         stage.show();
     }
 
+    /**
+     * Utilisée quand le joueur va choisir un carte a claim
+     * @param initialCards cartes initiales
+     * @param chooseCardsHandler gestionnaire de choix de cartes
+     */
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
@@ -195,6 +229,11 @@ public class GraphicalPlayer {
 
     }
 
+    /**
+     * Utilisée quand le joueur va choisir un carte additionnelles
+     * @param cartesAddit cartes additionelles
+     * @param chooseCardsHandler gestionnaire de choix de cartes
+     */
     public void chooseAdditionalCards(List<SortedBag<Card>> cartesAddit, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.

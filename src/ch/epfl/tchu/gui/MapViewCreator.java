@@ -12,9 +12,20 @@ import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import java.util.List;
 
-
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Classe permettant de créer la vue de la carte
+ */
 public class MapViewCreator {
 
+    /**
+     * méthode qui crée la vue de la carte etant donné trois arguments:
+     * @param observGameState l'état du jeu observable
+     * @param claimRouteH la propriété contenant le gestionnaire d'action à utiliser lorsque le joueur désire s'emparer d'une route
+     * @param cardChooser un "sélectionneur de cartes"
+     * @return un Pane de la vue de la carte
+     */
     public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteH, CardChooser cardChooser){
         int RECT_LARGEUR = 36;
         int RECT_LONG = 12;
@@ -91,6 +102,11 @@ public class MapViewCreator {
 
 
     // DERNIERE LIGNE APPEL
+
+    /**
+     * interface fonctionelle ayant une méthode appelée lorsque
+     * le joueur doit choisir les cartes qu'il désire utiliser pour s'emparer d'une route.
+     */
     @FunctionalInterface
     public interface CardChooser {
         void chooseCards(List<SortedBag<Card>> options, ActionHandlers.ChooseCardsHandler handler);

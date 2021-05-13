@@ -23,8 +23,19 @@ import javafx.scene.text.Text;
 
 import java.awt.*;
 
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Classe contenant les méthodes qui crée la represntation graphique des decks
+ */
+
 public class DecksViewCreator { //TODO package private ?
 
+    /**
+     * Méthode prenant en argument l'état du jeu observable et retourne la vue de la main,
+     * @param observableGameState état du jeu observable
+     * @return la vue de la main
+     */
     public static Node createHandView(ObservableGameState observableGameState ){
         int EXT_CARD_WIDTH = 60;
         int EXT_CARD_HEIGHT = 90;
@@ -79,6 +90,11 @@ public class DecksViewCreator { //TODO package private ?
         return hBoxView;
     }
 
+    /**
+     * Méthode prenant en argument l'état du jeu observable et retourne la vue des cartes en jeu
+     * @param observableGameState état du jeu observable
+     * @return la vue des cartes en jeu
+     */
     public static Node createCardsView(ObservableGameState observableGameState, ObjectProperty<ActionHandlers.DrawTicketsHandler> chooseTicketsH, ObjectProperty<ActionHandlers.DrawCardHandler> chooseCardsH){
         int EXT_CARD_WIDTH = 60;
         int EXT_CARD_HEIGHT = 90;

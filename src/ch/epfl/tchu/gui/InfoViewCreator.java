@@ -16,14 +16,25 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Cette classe (non instanciable) représente l'interface graphique de la vue des informations
+ */
 //PAS PUBLIC JE CROIS (POUR TEST)
 public class InfoViewCreator {
-    //TODO instances de text
     static VBox vbox;
 
     private static final int CERCLE_RAYON = 5;
 
-    //TODO pourquoi on utilise pas playerId
+    /**
+     * permettant de créer la vue des informations.
+     * @param playerId l'identité du joueur auquel l'interface correspond
+     * @param playerIdStringMap la table associative des noms des joueurs
+     * @param obsGS l'état de jeu observable,
+     * @param text une liste (observable) contenant les informations sur le déroulement de la partie, sous la forme d'instances de Text.
+     * @return un Node de la vue des informations
+     */
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, ObservableList<Text> text){
         vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
