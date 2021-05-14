@@ -37,6 +37,8 @@ public class GraphicalPlayerTest extends Application{
                     System.out.println("choisi ticket");
                 }
             });
+
+             */
                 };
         ActionHandlers.DrawCardHandler drawCardH =
                 s -> {

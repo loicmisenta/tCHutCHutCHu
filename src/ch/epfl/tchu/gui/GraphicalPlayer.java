@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
@@ -162,14 +163,16 @@ public final class GraphicalPlayer { //TODO FINAL
      */
     public void chooseTickets(SortedBag<Ticket>ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
+
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
         ListView<Ticket> listView = new ListView<>(FXCollections.observableList(ticketsOption.toList()));
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= ticketsOption.size()-2);
+        MultipleSelectionModel<Ticket> listViewGetSelectModel = listView.getSelectionModel();
+        listViewGetSelectModel.setSelectionMode(SelectionMode.MULTIPLE);
+        BooleanProperty booleanProperty = new SimpleBooleanProperty(listViewGetSelectModel.getSelectedItems().size() >= ticketsOption.size()-2);
 
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.setTitle(StringsFr.TICKETS_CHOICE);
-        BorderPane borderPane = new BorderPane(); //TODO titre?
+        BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
@@ -190,7 +193,7 @@ public final class GraphicalPlayer { //TODO FINAL
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseTicketsHandler.onChooseTickets(SortedBag.of(listView.getSelectionModel().getSelectedItems())); //TODO getSelectedItemS
+            chooseTicketsHandler.onChooseTickets(SortedBag.of(listViewGetSelectModel.getSelectedItems())); //TODO getSelectedItemS
         });
         stage.show();
     }

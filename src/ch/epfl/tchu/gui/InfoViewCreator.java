@@ -22,7 +22,7 @@ import java.util.Map;
  * Cette classe (non instanciable) représente l'interface graphique de la vue des informations
  */
 //PAS PUBLIC JE CROIS (POUR TEST)
-public class InfoViewCreator {
+public final class InfoViewCreator {
     static VBox vbox;
     private static final int CERCLE_RAYON = 5;
 

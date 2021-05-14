@@ -29,8 +29,9 @@ import java.awt.*;
  * Classe contenant les méthodes qui crée la represntation graphique des decks
  */
 
-final public class DecksViewCreator { //TODO package private ? NON INSTANSIABLE ! + FINAL
+public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE ! + FINAL
 
+    private DecksViewCreator(){}
     /**
      * Méthode prenant en argument l'état du jeu observable et retourne la vue de la main,
      * @param observableGameState état du jeu observable
@@ -125,8 +126,13 @@ final public class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             vbox.getChildren().add(stackPane);
             ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(index);
             stackPane.disableProperty().bind(chooseCardsH.isNull());
-            faceUpCard.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.name())); //Ajout d'un listener à la faceUpCard
-            //TODO considerer le cas si null !!
+            faceUpCard.addListener((o, oV, nV) -> {
+                if (nV.equals(Card.LOCOMOTIVE)){
+                    stackPane.getStyleClass().add("NEUTRAL");
+                } else{
+                    stackPane.getStyleClass().add(nV.name());
+                }
+            }); //Ajout d'un listener à la faceUpCard
 
             stackPane.setOnMouseClicked(e -> { chooseCardsH.get().onDrawCard(index); }
             );
