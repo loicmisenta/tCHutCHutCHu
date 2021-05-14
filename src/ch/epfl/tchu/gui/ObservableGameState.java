@@ -98,9 +98,7 @@ public class ObservableGameState {
         ownedConstructPoints.get(PlayerId.PLAYER_1).set(publicGameState.playerState(PlayerId.PLAYER_1).claimPoints());
         ownedConstructPoints.get(PlayerId.PLAYER_2).set(publicGameState.playerState(PlayerId.PLAYER_2).claimPoints());
         //ticketlist
-        for (Ticket t : playerState.tickets()) {
-            ticketList.add(t);
-        }
+        ticketList.setAll(playerState.tickets().toList());
         //nbtypecard
         for (Card c : Card.ALL) {
             nbTypeCarte.get(c).set(playerState.cards().countOf(c));

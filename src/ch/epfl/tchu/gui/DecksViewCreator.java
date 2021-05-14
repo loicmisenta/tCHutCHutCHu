@@ -121,19 +121,19 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
         for(int index: Constants.FACE_UP_CARD_SLOTS){
 
             StackPane stackPane = new StackPane();
-            stackPane.getStyleClass().addAll(observableGameState.faceUpCardsReadOnly(index).toString(), "card");
+            stackPane.getStyleClass().addAll("", "card");
             vbox.getChildren().add(stackPane);
             ReadOnlyObjectProperty<Card> faceUpCard = observableGameState.faceUpCardsReadOnly(index);
             stackPane.disableProperty().bind(chooseCardsH.isNull());
             faceUpCard.addListener((o, oV, nV) -> {
                 if (nV.equals(Card.LOCOMOTIVE)){
-                    stackPane.getStyleClass().add("NEUTRAL");
+                    stackPane.getStyleClass().set(0, "NEUTRAL");
                 } else{
-                    stackPane.getStyleClass().add(nV.name());
+                    stackPane.getStyleClass().set(0, nV.name());
                 }
             }); //Ajout d'un listener à la faceUpCard
 
-            stackPane.setOnMouseClicked(e -> { chooseCardsH.get().onDrawCard(index); });
+            stackPane.setOnMouseClicked(e -> chooseCardsH.get().onDrawCard(index));
 
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
