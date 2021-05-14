@@ -16,8 +16,9 @@ public class ClientMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
         List<String> list = this.getParameters().getRaw();
-        RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, list.get(0), );
-        playerClient.run();
+        RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, list.get(0), Integer.parseInt(list.get(1)));
+        new Thread(playerClient::run).start();
+        //playerClient.run();
 
 
         System.out.println(list);
