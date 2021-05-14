@@ -39,7 +39,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  * @author lagutovaalexandra (324449)
  * Classe représente l'interface graphique d'un joueur de tCHu.
  */
-public class GraphicalPlayer {
+public class GraphicalPlayer { //TODO FINAL
 
     final PlayerId playerId;
     final Map<PlayerId, String> nomsJoueurs;
@@ -113,17 +113,31 @@ public class GraphicalPlayer {
      */
     public void startTurn(ActionHandlers.DrawTicketsHandler drawTicketsHandler, ActionHandlers.DrawCardHandler drawCardHandler, ActionHandlers.ClaimRouteHandler claimRouteHandler){
         assert isFxApplicationThread();
+
         if(observableGameState.canDrawCards()){
-            drawCardHandlerProperty.set(drawCardHandler);
+            drawCardHandlerProperty.set(card -> {
+                drawTicketsHandlerProperty.set(null);
+                claimRouteHandlerProperty.set(null);
+                drawCardHandler.onDrawCard(card);
+            });
         } else {
             drawCardHandlerProperty.set(null);
         }
         if(observableGameState.canDrawTickets()){
-            drawTicketsHandlerProperty.set(drawTicketsHandler);
+            drawTicketsHandlerProperty.set(() -> {
+                drawCardHandlerProperty.set(null);
+                claimRouteHandlerProperty.set(null);
+                drawTicketsHandler.onDrawTickets();
+            });
         }else{
             drawTicketsHandlerProperty.set(null);
         }
-        claimRouteHandlerProperty.set(claimRouteHandler);
+
+        claimRouteHandlerProperty.set((route, cartes) -> {
+            drawTicketsHandlerProperty.set(null);
+            drawCardHandlerProperty.set(null);
+            claimRouteHandler.onClaimRoute(route, cartes);
+        });
     }
 
     /**
@@ -132,13 +146,11 @@ public class GraphicalPlayer {
      */
     public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){ //TODO doit être appelée où?
         assert isFxApplicationThread();
-        if(observableGameState.canDrawCards()){
-            drawCardHandlerProperty.set(drawCardHandler);
-        } else {
-            drawCardHandlerProperty.set(null);
-        }
-        drawTicketsHandlerProperty.set(null);
-        claimRouteHandlerProperty.set(null);
+        drawCardHandlerProperty.set(card -> {
+            drawTicketsHandlerProperty.set(null);
+            claimRouteHandlerProperty.set(null);
+            drawCardHandler.onDrawCard(card);
+        });
     }
 
 
@@ -149,13 +161,13 @@ public class GraphicalPlayer {
      * @param ticketsOption bilet a choisir
      * @param chooseTicketsHandler gestionnaire de choix de billet
      */
-    public void chooseTickets(List<SortedBag<Ticket>> ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
+    //TODO List de Sorted Bag ???? Car pas de CellFactory ?
+    public void chooseTickets(SortedBag<Ticket>ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
-        ListView<SortedBag<Ticket>> listView = new ListView<>(FXCollections.observableList(ticketsOption));
+        ListView<Ticket> listView = new ListView<>(FXCollections.observableList(ticketsOption.toList()));
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= ticketsOption.size()-2);
-        // TODO Bindings.size()  + Obsv List
 
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.setTitle(StringsFr.TICKETS_CHOICE);
@@ -175,11 +187,12 @@ public class GraphicalPlayer {
         vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
 
+
         button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseTicketsHandler.onChooseTickets(listView.getSelectionModel().getSelectedItem());
+            chooseTicketsHandler.onChooseTickets(SortedBag.of(listView.getSelectionModel().getSelectedItems())); //TODO getSelectedItemS
         });
         stage.show();
     }

@@ -74,7 +74,7 @@ public class GraphicalPlayerAdapter implements Player {
                 throw new Error();
             }
         }).start();
-        runLater(() -> graphicalPlayer.chooseTickets(List.of(tickets), chooseTicketsHandler));
+        runLater(() -> graphicalPlayer.chooseTickets(tickets, chooseTicketsHandler));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class GraphicalPlayerAdapter implements Player {
 
         DrawCardHandler drawCardHandler = emplacement -> {
             try {
-                blockingTurnKindQueue.put(TurnKind.DRAW_TICKETS);
+                blockingTurnKindQueue.put(TurnKind.DRAW_CARDS);
                 blockingIntegerDrawSlotQueue.put(emplacement);
             } catch (InterruptedException e) {
                 throw new Error();
@@ -135,7 +135,7 @@ public class GraphicalPlayerAdapter implements Player {
                 throw new Error();
             }
         };
-        runLater(() -> graphicalPlayer.chooseTickets(List.of(options), chooseTicketsHandler));
+        runLater(() -> graphicalPlayer.chooseTickets(options, chooseTicketsHandler));
         try {
             return blockingTicketsQueue.take();
         } catch (InterruptedException e) {

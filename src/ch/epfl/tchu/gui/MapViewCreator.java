@@ -62,11 +62,10 @@ public class MapViewCreator {
 
 
             group.setOnMouseClicked(e -> {
-                List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
+                List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();  //TODO pas lié avec les cartes que le joueur
 
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));
-
                 } else {
                     System.out.println("pcc " + possibleClaimCards);
                     ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> claimRouteH.getValue().onClaimRoute(route, chosenCards);
