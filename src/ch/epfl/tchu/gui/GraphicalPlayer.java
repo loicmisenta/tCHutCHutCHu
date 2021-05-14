@@ -171,9 +171,11 @@ public final class GraphicalPlayer { //TODO FINAL
 
         listViewGetSelectModel.setSelectionMode(SelectionMode.MULTIPLE);
 
-        //stage = fenetreDeSelect(StringsFr.TICKETS_CHOICE, message, textFlow, listView, button);
+        TextFlow textFlow = new TextFlow();
+        Button button = new Button(StringsFr.CHOOSE);
+        Stage stage = fenetreDeSelect(StringsFr.TICKETS_CHOICE, message, textFlow, listView, button);
 
-        button.disableProperty().bind(booleanProperty.not());
+        button.disableProperty().bind(Bindings.size(listViewGetSelectModel.getSelectedItems()).lessThan(ticketsOption.size()-2));
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
@@ -190,20 +192,19 @@ public final class GraphicalPlayer { //TODO FINAL
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
-        BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
-
+        MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, textFlow, listView, button);
 
 
         listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
-        button.disableProperty().bind(booleanProperty.not());
+        button.disableProperty().bind(listViewGetSelectModel.selectedItemProperty().isNull()); //TODO laisser la disable
 
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0)); //TODO pas sûre de ça !!!
+            chooseCardsHandler.onChooseCards(listViewGetSelectModel.getSelectedItem()); //TODO pas sûre de ça !!!
         });
 
         stage.show();
@@ -219,7 +220,8 @@ public final class GraphicalPlayer { //TODO FINAL
         assert isFxApplicationThread();
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
-
+        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
+        MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_ADDITIONAL_CARDS, textFlow, listView, button);
@@ -227,13 +229,13 @@ public final class GraphicalPlayer { //TODO FINAL
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseCardsHandler.onChooseCards(listView.getSelectionModel().getSelectedItems().get(0));//TODO PAS SUR NON PLUS !
+            chooseCardsHandler.onChooseCards(listViewGetSelectModel.getSelectedItem());
         });
         stage.show();
     }
 
 
-    private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textAction, TextFlow textFlow, ListView<SortedBag<T>> listView, Button button ){
+    private <T> Stage fenetreDeSelect(String titre, String textAction, TextFlow textFlow, ListView<T> listView, Button button ){
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.setTitle(titre);
         BorderPane borderPane = new BorderPane();
