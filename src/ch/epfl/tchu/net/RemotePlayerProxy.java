@@ -27,6 +27,7 @@ public class RemotePlayerProxy implements Player {
      * @throws IOException
      */
     public RemotePlayerProxy(Socket socket) throws IOException {
+        System.out.println("proxy lancé ");
         r = new BufferedReader( new InputStreamReader(socket.getInputStream(), US_ASCII));
         w = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream(), US_ASCII));
     }

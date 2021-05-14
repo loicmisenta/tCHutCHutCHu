@@ -66,7 +66,6 @@ public final class InfoViewCreator {
         for (Text string: listText) {
             Text textMessage = new Text(string.getText());
             textFlow.getChildren().addAll(textMessage);
-            
         }
         Bindings.bindContent(textFlow.getChildren(), text);
 

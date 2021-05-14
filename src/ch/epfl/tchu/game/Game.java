@@ -48,8 +48,7 @@ public final class Game {
             infoMap.put(playerId, new Info(playerNames.get(playerId)));
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
-            updateState(players, gameState);
-        }
+        } updateState(players, gameState);
 
         for (PlayerId playerId : PlayerId.ALL) {
             SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();

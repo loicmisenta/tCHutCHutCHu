@@ -25,6 +25,7 @@ public class RemotePlayerClient {
      * @param port   le port pour se connecter au mandataire
      */
     public RemotePlayerClient(Player player, String nom, int port) {
+        System.out.println("client lancé");
         this.player = player;
         this.nom = nom;
         this.port = port;

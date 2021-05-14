@@ -167,6 +167,7 @@ public final class GraphicalPlayer { //TODO FINAL
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));
         ListView<Ticket> listView = new ListView<>(FXCollections.observableList(ticketsOption.toList()));
         MultipleSelectionModel<Ticket> listViewGetSelectModel = listView.getSelectionModel();
+
         listViewGetSelectModel.setSelectionMode(SelectionMode.MULTIPLE);
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listViewGetSelectModel.getSelectedItems().size() >= ticketsOption.size()-2);
         booleanProperty.addListener((o, oV, nV)-> System.out.println("sel >= 2 ? : " + nV));
@@ -262,7 +263,6 @@ public final class GraphicalPlayer { //TODO FINAL
         stage.initModality(Modality.WINDOW_MODAL);
         borderPane.setLeft(vbox);
         Text text = new Text(textAction);
-        text.setStyle("-fx-font-weight: bold");
         textFlow.getChildren().add(text);
         vbox.getChildren().addAll(textFlow, listView, button);
         return stage;
@@ -270,7 +270,7 @@ public final class GraphicalPlayer { //TODO FINAL
 
     private static class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
         @Override
-        public String toString(SortedBag<Card> cards) { //TODO je ne sais pas si c'est le plus simple ?
+        public String toString(SortedBag<Card> cards) {
             String cardsString = "";
             List<String> listString = new ArrayList<>();
 

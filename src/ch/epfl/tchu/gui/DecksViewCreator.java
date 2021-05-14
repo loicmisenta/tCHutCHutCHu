@@ -46,7 +46,6 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
         HBox hBoxView = new HBox();
         Node billets = new ListView<>(observableGameState.ticketListReadOnly());
         billets.setId("tickets");
-        //Ajouter un listner et
 
         hBoxView.getChildren().add(billets);
         hBoxView.getStylesheets().addAll("decks.css", "colors.css");
@@ -134,8 +133,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
                 }
             }); //Ajout d'un listener à la faceUpCard
 
-            stackPane.setOnMouseClicked(e -> { chooseCardsH.get().onDrawCard(index); }
-            );
+            stackPane.setOnMouseClicked(e -> { chooseCardsH.get().onDrawCard(index); });
 
 
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
