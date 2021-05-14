@@ -18,10 +18,6 @@ public class ClientMain extends Application {
         List<String> list = this.getParameters().getRaw();
         RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, list.get(0), Integer.parseInt(list.get(1)));
         new Thread(playerClient::run).start();
-        //playerClient.run();
-
-
-        System.out.println(list);
 
     }
 }
