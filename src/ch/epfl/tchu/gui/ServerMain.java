@@ -33,9 +33,7 @@ public class ServerMain extends Application {
 
             GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
             Player remotePlayerProxy = new RemotePlayerProxy(socket);
-            Player playerProxy = new RemotePlayerProxy(socket);
 
-            RemotePlayerClient playerClient = new RemotePlayerClient(playerProxy, list.get(1), 5108);
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
             mapPlayer.put(PlayerId.PLAYER_2, remotePlayerProxy);
