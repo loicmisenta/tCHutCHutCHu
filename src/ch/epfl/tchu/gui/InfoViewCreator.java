@@ -35,6 +35,8 @@ public class InfoViewCreator {
      * @param text une liste (observable) contenant les informations sur le déroulement de la partie, sous la forme d'instances de Text.
      * @return un Node de la vue des informations
      */
+
+
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, ObservableList<Text> text){
         vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
