@@ -57,7 +57,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        runLater(() -> graphicalPlayer.setState(newState, ownState));
+        runLater(() -> graphicalPlayer.setState(newState, ownState)); //TODO can be null
     }
 
     /**
@@ -87,11 +87,11 @@ public final class GraphicalPlayerAdapter implements Player {
     }
 
     @Override
-    public TurnKind nextTurn() {  //TODO comment gérer les cas 1 ou 2 ou 3 ? ? ?
+    public TurnKind nextTurn() {
 
         DrawTicketsHandler drawTicketsHandler = () -> {
             try {
-                blockingTurnKindQueue.put(TurnKind.DRAW_TICKETS); //TODO quel ticket mettre dedans ?
+                blockingTurnKindQueue.put(TurnKind.DRAW_TICKETS);
             } catch (InterruptedException e) {
                 throw new Error();
             }

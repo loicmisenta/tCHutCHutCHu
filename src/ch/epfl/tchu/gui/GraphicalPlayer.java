@@ -188,6 +188,7 @@ public final class GraphicalPlayer { //TODO FINAL
         vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
 
+        //stage = fenetreDeSelect(StringsFr.TICKETS_CHOICE, message, textFlow, listView, button);
 
         button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);
@@ -208,26 +209,9 @@ public final class GraphicalPlayer { //TODO FINAL
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
-        Stage stage = new Stage(StageStyle.UTILITY);
-        stage.setTitle(StringsFr.CARDS_CHOICE);
-        BorderPane borderPane = new BorderPane(); //TODO titre?
-        Scene scene = new Scene(borderPane);
-        stage.setScene(scene);
-        scene.getStylesheets().add("chooser.css");
-        VBox vbox = new VBox();
-        stage.initOwner(mainPane);
-        stage.initModality(Modality.WINDOW_MODAL);
-        borderPane.setLeft(vbox); //TODO comment get la vBox si on met tout dans une méthode ?
-
-
-        //TODO mettre tout cela dans chaque méthode !
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
-        Text text = new Text(StringsFr.CHOOSE_CARDS);
-        text.setStyle("-fx-font-weight: bold");
-        vbox.getChildren().addAll(textFlow, listView, button);
-        textFlow.getChildren().add(text);
-
+        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, textFlow, listView, button);
 
         listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());
@@ -252,26 +236,9 @@ public final class GraphicalPlayer { //TODO FINAL
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
 
-        Stage stage = new Stage(StageStyle.UTILITY);
-        stage.setTitle(StringsFr.CARDS_CHOICE);
-        BorderPane borderPane = new BorderPane();
-        Scene scene = new Scene(borderPane);
-        stage.setScene(scene);
-        scene.getStylesheets().add("chooser.css");
-        VBox vbox = new VBox();
-        stage.initOwner(mainPane);
-        stage.initModality(Modality.WINDOW_MODAL);
-        borderPane.setLeft(vbox);
-
-
-
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
-        Text text = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
-        text.setStyle("-fx-font-weight: bold");
-        vbox.getChildren().addAll(textFlow, listView, button);
-        textFlow.getChildren().add(text);
-
+        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_ADDITIONAL_CARDS, textFlow, listView, button);
 
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
@@ -282,8 +249,7 @@ public final class GraphicalPlayer { //TODO FINAL
     }
 
 
-    private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textIntro, ListView<SortedBag<T>> listView, BooleanProperty booleanProperty){
-
+    private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textAction, TextFlow textFlow, ListView<SortedBag<T>> listView, Button button ){
         Stage stage = new Stage(StageStyle.UTILITY);
         Text textTitre = new Text(titre);
         BorderPane borderPane = new BorderPane(textTitre);
@@ -294,6 +260,10 @@ public final class GraphicalPlayer { //TODO FINAL
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
         borderPane.setLeft(vbox);
+        Text text = new Text(textAction);
+        text.setStyle("-fx-font-weight: bold");
+        textFlow.getChildren().add(text);
+        vbox.getChildren().addAll(textFlow, listView, button);
         return stage;
     }
 
