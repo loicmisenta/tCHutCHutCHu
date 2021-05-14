@@ -169,6 +169,7 @@ public final class GraphicalPlayer { //TODO FINAL
         MultipleSelectionModel<Ticket> listViewGetSelectModel = listView.getSelectionModel();
         listViewGetSelectModel.setSelectionMode(SelectionMode.MULTIPLE);
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listViewGetSelectModel.getSelectedItems().size() >= ticketsOption.size()-2);
+        booleanProperty.addListener((o, oV, nV)-> System.out.println("sel >= 2 ? : " + nV));
 
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.setTitle(StringsFr.TICKETS_CHOICE);
