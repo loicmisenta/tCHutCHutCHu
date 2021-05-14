@@ -17,7 +17,8 @@ import java.util.List;
  * @author lagutovaalexandra (324449)
  * Classe permettant de créer la vue de la carte
  */
-public class MapViewCreator {
+public final class MapViewCreator {
+    private MapViewCreator(){}
 
     /**
      * méthode qui crée la vue de la carte etant donné trois arguments:
@@ -62,8 +63,7 @@ public class MapViewCreator {
 
 
             group.setOnMouseClicked(e -> {
-                List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();  //TODO pas lié avec les cartes que le joueur
-
+                List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);  //TODO pas lié avec les cartes que le joueur
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));
                 } else {

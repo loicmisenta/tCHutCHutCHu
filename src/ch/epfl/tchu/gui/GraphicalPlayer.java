@@ -39,7 +39,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  * @author lagutovaalexandra (324449)
  * Classe représente l'interface graphique d'un joueur de tCHu.
  */
-public class GraphicalPlayer { //TODO FINAL
+public final class GraphicalPlayer { //TODO FINAL
 
     final PlayerId playerId;
     final Map<PlayerId, String> nomsJoueurs;
@@ -144,7 +144,7 @@ public class GraphicalPlayer { //TODO FINAL
      * Utilisée quand le joueur va tirer sa deuxième carte
      * @param drawCardHandler gestionnaire de tirage de cartes
      */
-    public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){ //TODO doit être appelée où?
+    public void drawCard(ActionHandlers.DrawCardHandler drawCardHandler){
         assert isFxApplicationThread();
         drawCardHandlerProperty.set(card -> {
             drawTicketsHandlerProperty.set(null);
@@ -154,14 +154,12 @@ public class GraphicalPlayer { //TODO FINAL
     }
 
 
-    //TODO peut être simplement un SortedBag ? ? ? et non pas une liste ?
 
     /**
      * Utilisée quand le joueur va choisir un billet
      * @param ticketsOption bilet a choisir
      * @param chooseTicketsHandler gestionnaire de choix de billet
      */
-    //TODO List de Sorted Bag ???? Car pas de CellFactory ?
     public void chooseTickets(SortedBag<Ticket>ticketsOption, ActionHandlers.ChooseTicketsHandler chooseTicketsHandler){
         assert isFxApplicationThread();
         String message = String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, StringsFr.plural(Constants.IN_GAME_TICKETS_COUNT));

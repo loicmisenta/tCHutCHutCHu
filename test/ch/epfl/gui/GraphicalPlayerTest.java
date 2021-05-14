@@ -30,7 +30,8 @@ public class GraphicalPlayerTest extends Application{
         ActionHandlers.DrawTicketsHandler drawTicketsH =
                 () -> {
             p.receiveInfo("Je tire des billets !");
-            p.chooseTickets(List.of(SortedBag.of(1, ChMap.tickets().get(0), 1, ChMap.tickets().get(1)), SortedBag.of(1, ChMap.tickets().get(0), 1, ChMap.tickets().get(1))), new ActionHandlers.ChooseTicketsHandler() {
+            /*
+            p.chooseTickets(SortedBag.of(1, ChMap.tickets().get(0), 1, ChMap.tickets().get(1)), SortedBag.of(1, ChMap.tickets().get(0), 1, ChMap.tickets().get(1)), new ActionHandlers.ChooseTicketsHandler() {
                 @Override
                 public void onChooseTickets(SortedBag<Ticket> tickets) {
                     System.out.println("choisi ticket");

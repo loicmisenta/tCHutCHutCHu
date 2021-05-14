@@ -196,7 +196,6 @@ public final class Info {
                 i += nombreCartes - 1;
             }
         }
-
         //Affichage des cartes
         if(listString.size() == 1){
             cardsString += listString.get(0);

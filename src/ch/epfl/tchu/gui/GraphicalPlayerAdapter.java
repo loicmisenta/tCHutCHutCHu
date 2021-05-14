@@ -11,9 +11,9 @@ import java.util.concurrent.BlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
-public class GraphicalPlayerAdapter implements Player {
+public final class GraphicalPlayerAdapter implements Player {
 
-    private final BlockingQueue<Integer> blockingIntegerDrawSlotQueue; //TODO PAS SUR
+    private final BlockingQueue<Integer> blockingIntegerDrawSlotQueue;
     private final BlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
     private final BlockingQueue<SortedBag<Card>> blockingCardsQueue;
     private final BlockingQueue<Route> blockingRouteQueue;

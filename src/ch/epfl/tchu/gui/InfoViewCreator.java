@@ -24,8 +24,9 @@ import java.util.Map;
 //PAS PUBLIC JE CROIS (POUR TEST)
 public class InfoViewCreator {
     static VBox vbox;
-
     private static final int CERCLE_RAYON = 5;
+
+    private InfoViewCreator(){}
 
     /**
      * permettant de créer la vue des informations.
