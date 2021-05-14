@@ -124,6 +124,7 @@ public final class GraphicalPlayer { //TODO FINAL
         } else {
             drawCardHandlerProperty.set(null);
         }
+
         if(observableGameState.canDrawTickets()){
             drawTicketsHandlerProperty.set(() -> {
                 drawCardHandlerProperty.set(null);
@@ -169,26 +170,6 @@ public final class GraphicalPlayer { //TODO FINAL
         MultipleSelectionModel<Ticket> listViewGetSelectModel = listView.getSelectionModel();
 
         listViewGetSelectModel.setSelectionMode(SelectionMode.MULTIPLE);
-        BooleanProperty booleanProperty = new SimpleBooleanProperty(listViewGetSelectModel.getSelectedItems().size() >= ticketsOption.size()-2);
-        booleanProperty.addListener((o, oV, nV)-> System.out.println("sel >= 2 ? : " + nV));
-
-        Stage stage = new Stage(StageStyle.UTILITY);
-        stage.setTitle(StringsFr.TICKETS_CHOICE);
-        BorderPane borderPane = new BorderPane();
-        Scene scene = new Scene(borderPane);
-        stage.setScene(scene);
-        scene.getStylesheets().add("chooser.css");
-        VBox vbox = new VBox();
-        stage.initOwner(mainPane);
-        stage.initModality(Modality.WINDOW_MODAL);
-        borderPane.setLeft(vbox);
-
-        TextFlow textFlow = new TextFlow();
-        Button button = new Button(StringsFr.CHOOSE);
-        Text text = new Text(message);
-        text.setStyle("-fx-font-weight: bold");
-        vbox.getChildren().addAll( textFlow, listView, button);
-        textFlow.getChildren().add(text);
 
         //stage = fenetreDeSelect(StringsFr.TICKETS_CHOICE, message, textFlow, listView, button);
 
@@ -214,6 +195,7 @@ public final class GraphicalPlayer { //TODO FINAL
         TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
         Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, textFlow, listView, button);
+
 
         listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         button.disableProperty().bind(booleanProperty.not());
@@ -253,8 +235,8 @@ public final class GraphicalPlayer { //TODO FINAL
 
     private <T extends Comparable<T>> Stage fenetreDeSelect(String titre, String textAction, TextFlow textFlow, ListView<SortedBag<T>> listView, Button button ){
         Stage stage = new Stage(StageStyle.UTILITY);
-        Text textTitre = new Text(titre);
-        BorderPane borderPane = new BorderPane(textTitre);
+        stage.setTitle(titre);
+        BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         scene.getStylesheets().add("chooser.css");
