@@ -192,7 +192,6 @@ public class GraphicalPlayer {
     public void chooseClaimCards(List<SortedBag<Card>> initialCards, ActionHandlers.ChooseCardsHandler chooseCardsHandler){
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
-        System.out.println(initialCards); //TODO POURQUOI [{BLUE, RED}, {BLACK, GREEN}] ???????
         BooleanProperty booleanProperty = new SimpleBooleanProperty(listView.getSelectionModel().getSelectedItems().size() >= 1);
 
         Stage stage = new Stage(StageStyle.UTILITY);
@@ -204,7 +203,7 @@ public class GraphicalPlayer {
         VBox vbox = new VBox();
         stage.initOwner(mainPane);
         stage.initModality(Modality.WINDOW_MODAL);
-        borderPane.setLeft(vbox);
+        borderPane.setLeft(vbox); //TODO comment get la vBox si on met tout dans une méthode ?
 
 
         //TODO mettre tout cela dans chaque méthode !

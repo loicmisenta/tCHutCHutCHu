@@ -13,15 +13,16 @@ import static javafx.application.Platform.runLater;
 
 public class GraphicalPlayerAdapter implements Player {
 
-    private final ArrayBlockingQueue<Integer> blockingIntegerDrawSlotQueue; //TODO PAS SUR
-    private final ArrayBlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
-    private final ArrayBlockingQueue<SortedBag<Card>> blockingCardsQueue;
-    private final ArrayBlockingQueue<Route> blockingRouteQueue;
-    private final ArrayBlockingQueue<TurnKind> blockingTurnKindQueue;
-
+    private final BlockingQueue<Integer> blockingIntegerDrawSlotQueue; //TODO PAS SUR
+    private final BlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
+    private final BlockingQueue<SortedBag<Card>> blockingCardsQueue;
+    private final BlockingQueue<Route> blockingRouteQueue;
+    private final BlockingQueue<TurnKind> blockingTurnKindQueue;
     GraphicalPlayer graphicalPlayer;
 
-
+    /**
+     * Constructeur de GraphicalPlayerAdapter qui se charge d'initialiser les files bloquantes
+     */
     public GraphicalPlayerAdapter(){
         blockingIntegerDrawSlotQueue = new ArrayBlockingQueue<>(1);
         blockingTicketsQueue =  new ArrayBlockingQueue<>(1);
@@ -31,21 +32,39 @@ public class GraphicalPlayerAdapter implements Player {
 
     }
 
+    /**
+     * Initialise le GraphicalPlayer
+     * @param ownId l'identité du joueur
+     * @param playerNames noms des joueurs
+     */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
         this.graphicalPlayer = new GraphicalPlayer(ownId, playerNames);
     }
 
+    /**
+     * Appelle la méthode receiveInfo sur le GraphicalPlayer
+     * @param info l'information
+     */
     @Override
     public void receiveInfo(String info) {
         runLater(() -> graphicalPlayer.receiveInfo(info));
     }
 
+    /**
+     * Appelle la méthode updateState sur le GraphicalPlayer
+     * @param newState nouvel état de la partie
+     * @param ownState l'état propre du joueur
+     */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
         runLater(() -> graphicalPlayer.setState(newState, ownState));
     }
 
+    /**
+     * Appelle la méthode chooseTickets sur le GraphicalPlayer sur la file bloquante
+     * @param tickets  les cinq billets qui lui ont été distribués
+     */
     @Override
     public void setInitialTicketChoice(SortedBag<Ticket> tickets) {
 

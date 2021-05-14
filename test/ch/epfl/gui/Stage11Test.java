@@ -3,15 +3,13 @@ package ch.epfl.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import ch.epfl.tchu.gui.GraphicalPlayerAdapter;
+import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.util.Map;
 import java.util.Random;
-
 import static ch.epfl.tchu.game.PlayerId.*;
-import static javafx.application.Application.launch;
 
-public class Stage11Test {
+public class Stage11Test extends Application {
 
     public static void main(String[] args) { launch(args); }
 
