@@ -65,6 +65,7 @@ public class InfoViewCreator {
             textFlow.getChildren().addAll(textMessage);
             
         }
+        Bindings.bindContent(textFlow.getChildren(), text);
 
         return vbox;
     }

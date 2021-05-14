@@ -63,7 +63,6 @@ public class MapViewCreator {
 
             group.setOnMouseClicked(e -> {
                 List<SortedBag<Card>> possibleClaimCards = route.possibleClaimCards();
-                System.out.println("poss.." + possibleClaimCards + " taille : " + possibleClaimCards.size());
 
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));
