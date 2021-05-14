@@ -76,7 +76,6 @@ public final class Stage10Test extends Application {
         PublicGameState publicGameState =
                 new PublicGameState(36, cardState, PLAYER_1, pubPlayerStates, null);
         gameState.setState(publicGameState, p1State);
-        //player.setState(publicGameState, p1State);
     }
 
     static void claimRoute(Route route, SortedBag<Card> cards) {
