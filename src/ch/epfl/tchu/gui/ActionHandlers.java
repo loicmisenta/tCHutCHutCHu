@@ -26,7 +26,6 @@ public interface ActionHandlers {
 
     @FunctionalInterface
     interface DrawCardHandler{
-        //TODO type de retour
 
         /**
          * ppelée lorsque le joueur désire tirer une carte à l'emplacement donné

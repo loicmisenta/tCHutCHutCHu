@@ -29,7 +29,6 @@ public class GraphicalPlayerAdapter implements Player {
         blockingCardsQueue = new ArrayBlockingQueue<>(1);
         blockingRouteQueue = new ArrayBlockingQueue<>(1);
         blockingTurnKindQueue = new ArrayBlockingQueue<>(1);
-
     }
 
     /**

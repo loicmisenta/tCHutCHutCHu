@@ -173,7 +173,6 @@ public class GraphicalPlayer {
         text.setStyle("-fx-font-weight: bold");
         vbox.getChildren().addAll( textFlow, listView, button);
         textFlow.getChildren().add(text);
-        //Bindings.bindContent(text);
 
         button.disableProperty().bind(booleanProperty.not());
         stage.setOnCloseRequest(Event::consume);
@@ -289,14 +288,25 @@ public class GraphicalPlayer {
             String cardsString = "";
             List<String> listString = new ArrayList<>();
 
-            for (Card card: cards) {
-                listString.add(cards.countOf(card) + " " + card.name());
+            //Cas spécial dans lequel cards est composé d'un seul élement
+            if (cards.size() == 1){
+                int nombreCarte = cards.countOf(cards.get(0));
+                listString.add( nombreCarte + " " + Info.cardName(cards.get(0), nombreCarte));
+            } else {
+                //Boucle principale, crée les cartes
+                for (int i = 0; i < cards.size() ; i++) {
+                    int nombreCartes = cards.countOf(cards.get(i));
+                    listString.add( nombreCartes + " " + Info.cardName(cards.get(i), nombreCartes));
+                    i += nombreCartes - 1;
+                }
             }
+
             //Affichage des cartes
             if(listString.size() == 1){
                 cardsString += listString.get(0);
             } else {
-                cardsString += String.join(StringsFr.AND_SEPARATOR, listString.get(0), listString.get(1));
+                cardsString += String.join(", ", listString.subList(0, listString.size() - 1));
+                cardsString += StringsFr.AND_SEPARATOR + listString.get(listString.size() - 1);
             }
             return cardsString;
         }
