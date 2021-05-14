@@ -152,6 +152,7 @@ public final class GraphicalPlayer { //TODO FINAL
             drawTicketsHandlerProperty.set(null);
             claimRouteHandlerProperty.set(null);
             drawCardHandler.onDrawCard(card);
+            drawCardHandlerProperty.set(null);
         });
     }
 

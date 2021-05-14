@@ -155,9 +155,7 @@ public final class GraphicalPlayerAdapter implements Player {
                 }
             };
             runLater(() -> graphicalPlayer.drawCard(drawCardHandler));
-        }
-
-        try {
+        }try {
             return blockingIntegerDrawSlotQueue.take();
         } catch (InterruptedException e) {
             throw new Error();
