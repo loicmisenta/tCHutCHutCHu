@@ -184,7 +184,6 @@ public final class GraphicalPlayer { //TODO FINAL
         });
         stage.show();
     }
-
     /**
      * Utilisée quand le joueur va choisir un carte a claim
      * @param initialCards cartes initiales
@@ -194,21 +193,9 @@ public final class GraphicalPlayer { //TODO FINAL
         assert isFxApplicationThread();
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
-        TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
-        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_CARDS, textFlow, listView, button);
-
-
-        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         button.disableProperty().bind(listViewGetSelectModel.selectedItemProperty().isNull()); //TODO laisser la disable
-
-        stage.setOnCloseRequest(Event::consume);
-        button.setOnAction(e ->{
-            stage.hide();
-            chooseCardsHandler.onChooseCards(listViewGetSelectModel.getSelectedItem()); //TODO pas sûre de ça !!!
-        });
-
-        stage.show();
+        cardChoice(initialCards, chooseCardsHandler, StringsFr.CHOOSE_CARDS, button, listViewGetSelectModel, listView);
 
     }
 
@@ -221,11 +208,16 @@ public final class GraphicalPlayer { //TODO FINAL
         assert isFxApplicationThread();
         //Appeler le gestionnaire de choix avec le choix du joueur en argument.
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
-        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
-        TextFlow textFlow = new TextFlow();
         Button button = new Button(StringsFr.CHOOSE);
-        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, StringsFr.CHOOSE_ADDITIONAL_CARDS, textFlow, listView, button);
+        cardChoice(cartesAddit, chooseCardsHandler, StringsFr.CHOOSE_ADDITIONAL_CARDS, button, listViewGetSelectModel, listView);
+    }
+
+
+    private void cardChoice(List<SortedBag<Card>> cartes, ActionHandlers.ChooseCardsHandler chooseCardsHandler, String choice, Button button, MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel, ListView<SortedBag<Card>> listView){
+        listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
+        TextFlow textFlow = new TextFlow();
+        Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, choice, textFlow, listView, button);
 
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
@@ -233,6 +225,10 @@ public final class GraphicalPlayer { //TODO FINAL
             chooseCardsHandler.onChooseCards(listViewGetSelectModel.getSelectedItem());
         });
         stage.show();
+
+
+
+
     }
 
 
