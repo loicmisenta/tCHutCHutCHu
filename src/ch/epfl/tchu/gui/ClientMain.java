@@ -14,9 +14,20 @@ public class ClientMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        String adress;
+        int socket;
         GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
-        List<String> list = this.getParameters().getRaw();
-        RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, list.get(0), Integer.parseInt(list.get(1)));
+        List<String> arguments = this.getParameters().getRaw();
+        if (arguments.isEmpty()){
+            adress = "localhost";
+            socket = 5108;
+        } else {
+            adress = arguments.get(0);
+            System.out.println(adress);
+            socket = Integer.parseInt(arguments.get(1));
+        }
+
+        RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, adress, socket);
         new Thread(playerClient::run).start();
 
     }

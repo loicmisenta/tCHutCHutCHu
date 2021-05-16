@@ -73,13 +73,12 @@ public final class Game {
             switch (joueurCourant.nextTurn()) {
 
                 case DRAW_TICKETS:
-                    receiveInfo(players, infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT));//info tire des billets
+                    receiveInfo(players, infoMap.get(currentId).drewTickets(Constants.IN_GAME_TICKETS_COUNT)); //info tire des billets
                     SortedBag<Ticket> drawnTickets = gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT);
                     SortedBag<Ticket> ticketsChoisis = joueurCourant.chooseTickets(drawnTickets);
                     gameState = gameState.withChosenAdditionalTickets(drawnTickets, ticketsChoisis);
-                    receiveInfo(players, infoMap.get(currentId).keptTickets(ticketsChoisis.size()));//info tickets choisis
+                    receiveInfo(players, infoMap.get(currentId).keptTickets(ticketsChoisis.size())); //info tickets choisis
                     break;
-
                 case DRAW_CARDS:
                     for (int i = 0; i < 2; i++) {
                         int cartePioche = joueurCourant.drawSlot();
@@ -94,7 +93,6 @@ public final class Game {
                         if (i == 0) {
                             updateState(players, gameState);
                         }
-
                     }
                     break;
                 case CLAIM_ROUTE:

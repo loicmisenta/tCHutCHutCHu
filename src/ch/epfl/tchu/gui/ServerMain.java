@@ -23,10 +23,9 @@ public class ServerMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //TODO il faut prendre le m Socket
+
         List<String> list = this.getParameters().getRaw();
-        try (ServerSocket serverSocket = new ServerSocket(5108);
-             ) {
+        try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
             map.put(PlayerId.PLAYER_1, list.get(0));

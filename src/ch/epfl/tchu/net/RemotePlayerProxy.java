@@ -53,8 +53,6 @@ public class RemotePlayerProxy implements Player {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-
-
     }
 
     /**
