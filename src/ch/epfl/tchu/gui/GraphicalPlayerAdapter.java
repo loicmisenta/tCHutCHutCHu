@@ -180,12 +180,13 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     }
 
+    //TODO NULL POINTER ICI QUAND JE CHOISI PAS UNE CARTE ADDITIONNELLE
     @Override
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
         ChooseCardsHandler chooseCardsHandler = cartes -> {
             try {
                 blockingCardsQueue.put(cartes);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) {      //TODO ICI
                 throw new Error();
             }
         };
