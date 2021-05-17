@@ -207,7 +207,11 @@ public final class GameState extends PublicGameState{
         //TODO                                             à plus de 2 joueurs (en ayant recours au constructeur de copie d'EnumMap).
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
-        newPlayerState.put(playerId.next(), playerState.get(playerId.next()));
+        for (PlayerId pId: PlayerId.ALL) {
+            if (pId == playerId) continue;
+            newPlayerState.put(pId, playerState.get(pId));
+        }
+        //newPlayerState.put(playerId.next(), playerState.get(playerId.next()));
         return newPlayerState;
     }
 
