@@ -237,7 +237,9 @@ public final class Game {
         }));
 
 
-        players.forEach(((playerId, player) -> {
+
+            players.forEach(((playerId, player) -> {
+
 
         }));
 
