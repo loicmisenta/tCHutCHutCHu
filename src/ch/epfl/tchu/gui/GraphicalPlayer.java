@@ -40,7 +40,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  * @author lagutovaalexandra (324449)
  * Classe représente l'interface graphique d'un joueur de tCHu.
  */
-public final class GraphicalPlayer { //TODO FINAL
+public final class GraphicalPlayer { 
 
     final PlayerId playerId;
     final Map<PlayerId, String> nomsJoueurs;

@@ -170,7 +170,7 @@ public final class Info {
      * @param loserPoints points de l'adversaire
      * @return un message déclarant le nom du gagnant
      */
-    public String won(int points, int loserPoints){
+    public String won(int points, int loserPoints){ //TODO readapter pour 3 joueurs ?
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 

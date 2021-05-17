@@ -218,6 +218,7 @@ public final class Game {
                 }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));
             } else {
+                //TODO
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints1, finalOtherPoints));
             }
 

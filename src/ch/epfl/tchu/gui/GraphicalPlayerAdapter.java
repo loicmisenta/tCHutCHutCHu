@@ -57,7 +57,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        runLater(() -> graphicalPlayer.setState(newState, ownState)); //TODO can be null
+        runLater(() -> graphicalPlayer.setState(newState, ownState));
     }
 
     /**
