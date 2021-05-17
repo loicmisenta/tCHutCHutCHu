@@ -104,12 +104,18 @@ public final class Constants {
      * Nombre de points bonus obtenus par le(s) joueur(s) disposant du plus long chemin.
      */
     public static final int LONGEST_TRAIL_BONUS_POINTS = 10;
-    
-    
+
+    /**
+     * Caractère point-virgule
+     */
     public static final String DELIMITER_POINT_VIRGULE = ";";
-
+    /**
+     * Caractère virgule
+     */
     public static final String DELIMITER_VIRGULE = ",";
-
+    /**
+     * Caractère deux-points
+     */
     public static final String DELIMITER_DEUX_POINTS = ":";
 
 

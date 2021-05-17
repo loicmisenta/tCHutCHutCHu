@@ -85,18 +85,18 @@ public class ObservableGameState {
                 ownedRoutes.get(r).set(null);
             }
         }
-        //ownedtickets
-        ownedTickets.get(PlayerId.PLAYER_1).set(publicGameState.playerState(PlayerId.PLAYER_1).ticketCount());
-        ownedTickets.get(PlayerId.PLAYER_2).set(publicGameState.playerState(PlayerId.PLAYER_2).ticketCount());
-        //ownedcards
-        ownedCards.get(PlayerId.PLAYER_1).set(publicGameState.playerState(PlayerId.PLAYER_1).cardCount());
-        ownedCards.get(PlayerId.PLAYER_2).set(publicGameState.playerState(PlayerId.PLAYER_2).cardCount());
-        //ownedcars
-        ownedCars.get(PlayerId.PLAYER_1).set(publicGameState.playerState(PlayerId.PLAYER_1).carCount());
-        ownedCars.get(PlayerId.PLAYER_2).set(publicGameState.playerState(PlayerId.PLAYER_2).carCount());
-        //ownedconstructpoints
-        ownedConstructPoints.get(PlayerId.PLAYER_1).set(publicGameState.playerState(PlayerId.PLAYER_1).claimPoints());
-        ownedConstructPoints.get(PlayerId.PLAYER_2).set(publicGameState.playerState(PlayerId.PLAYER_2).claimPoints());
+
+        for (PlayerId playerId : PlayerId.ALL) {
+            //ownedtickets
+            ownedTickets.get(playerId).set(publicGameState.playerState(playerId).ticketCount());
+            //ownedcards
+            ownedCards.get(playerId).set(publicGameState.playerState(playerId).cardCount());
+            //ownedcars
+            ownedCars.get(playerId).set(publicGameState.playerState(playerId).carCount());
+            //ownedconstructpoints
+            ownedConstructPoints.get(playerId).set(publicGameState.playerState(playerId).claimPoints());
+        }
+
         //ticketlist
         ticketList.setAll(playerState.tickets().toList());
         //nbtypecard

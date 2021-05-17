@@ -194,6 +194,7 @@ public final class Game {
         updateState(players, gameState);
 
 
+
         PlayerId joueurGagnant = playerNamesWon.get(0);
         int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
         int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
