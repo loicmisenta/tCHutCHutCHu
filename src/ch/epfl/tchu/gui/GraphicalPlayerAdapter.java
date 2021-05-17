@@ -66,7 +66,6 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public void setInitialTicketChoice(SortedBag<Ticket> tickets) {
-
         ChooseTicketsHandler chooseTicketsHandler = tickets1 -> new Thread( ()-> {
             try {
                 blockingTicketsQueue.put(tickets1);

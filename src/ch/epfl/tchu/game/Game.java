@@ -231,7 +231,7 @@ public final class Game {
         players.forEach(((playerId, player) -> {
 
             if (playerNamesWon.size() >= 2) {
-                //TODO dit qu'on doit faire ça List<String> playerNamesString =List.copyOf(playerNames.values());
+
                 List<String> playerNamesString = new ArrayList<>();
                 for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));

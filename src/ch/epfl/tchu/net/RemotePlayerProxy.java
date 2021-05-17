@@ -8,6 +8,7 @@ import static java.nio.charset.StandardCharsets.*;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import static ch.epfl.tchu.net.Serdes.*;
@@ -62,8 +63,12 @@ public class RemotePlayerProxy implements Player {
      */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
-        String ownIdSerialize = playerIdSerde.serialize(ownId);
-        String playerNamesSerialize = listStringSerde.serialize(List.of(playerNames.get(PlayerId.PLAYER_1), playerNames.get(PlayerId.PLAYER_2)));
+        String ownIdSerialize = playerIdSerde.serialize(ownId);   //TODO
+        List<String> listPlayerNames = new ArrayList<>();
+        for (PlayerId playerId: PlayerId.ALL) {
+            listPlayerNames.add(playerNames.get(playerId));
+        }
+        String playerNamesSerialize = listStringSerde.serialize(listPlayerNames);
         String initPlayerStringSer = String.join(" ", ownIdSerialize, playerNamesSerialize);
         sendMessage(MessageId.INIT_PLAYERS, initPlayerStringSer);
     }
