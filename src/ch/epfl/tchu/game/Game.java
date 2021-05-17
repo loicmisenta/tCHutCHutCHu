@@ -157,29 +157,32 @@ public final class Game {
         List<PlayerId> listLongestTrail = new ArrayList<>();
         List<PlayerId> playerNamesWon = new ArrayList<>();
         Map<PlayerId, Integer> mapPlayerPoints = new EnumMap<>(PlayerId.class);
-        for (PlayerId joueur : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL) {
 
-            Trail longest = Trail.longest(gameState.playerState(joueur).routes());
+            Trail longest = Trail.longest(gameState.playerState(playerId).routes());
             if (longest.length() == maxLength) {
-                listLongestTrail.add(joueur);
+                listLongestTrail.add(playerId);
             } else if (longest.length() > maxLength) {
                 maxLength = longest.length();
                 listLongestTrail.clear();
-                listLongestTrail.add(joueur);
+                listLongestTrail.add(playerId);
             }
 
 
-            int pointsFinaux = gameState.playerState(joueur).finalPoints();
-            if (listLongestTrail.contains(joueur)) {
+            int pointsFinaux = gameState.playerState(playerId).finalPoints();
+            System.out.println("points finaux avant le bonus" + pointsFinaux);
+            System.out.println("listLongestTrail du " + playerId +  " contains? " + listLongestTrail.contains(playerId));
+            if (listLongestTrail.contains(playerId)) {
                 pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;
             }
-            mapPlayerPoints.put(joueur, pointsFinaux);
+            mapPlayerPoints.put(playerId, pointsFinaux);
+            System.out.println("points dans la map : playerId : " + playerId + " points : " + pointsFinaux);
             if (pointsFinaux == maxPoints) {
-                playerNamesWon.add(joueur);
+                playerNamesWon.add(playerId);
             } else if (pointsFinaux > maxPoints) {
                 maxPoints = pointsFinaux;
                 playerNamesWon.clear();
-                playerNamesWon.add(joueur);
+                playerNamesWon.add(playerId);
             }
         }
 
@@ -247,6 +250,8 @@ public final class Game {
                 for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
+                System.out.println(mapPlayerPoints.get(joueurGagnant) + " joueur gagnant ");
+                System.out.println(mapPlayerPoints.get(joueurGagnant.next()) + " joueur qui n'a pas gagné");
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next())));
             }
         }));
