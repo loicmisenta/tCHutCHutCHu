@@ -191,56 +191,8 @@ public final class Game {
             receiveInfo(players, infoMap.get(playerId).getsLongestTrailBonus(longestTrail));
         }
 
-
-        /*
-        int finalMaxPoints = maxPoints;
-
-        PlayerId plrLongestTr = listLongestTrail.get(0);
-        //if dans le cas où il y a deux routes de même longueur
-        //Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr).routes());
-        if (listLongestTrail.size() > 1) {
-            System.out.println(listLongestTrail.size() + "size > 1");
-            receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(longestTrail));
-        }
-        System.out.println("longestTrail : " + longestTrail.toString());
-        System.out.println("longestTrail sans next" + Trail.longest(gameState.playerState(plrLongestTr).routes()).toString());
-
-        receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
-        */
-
-
-
         updateState(players, gameState);
 
-
-/*
-
-        PlayerId joueurGagnant = playerNamesWon.get(0);
-        int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
-        int otherPoints = gameState.playerState(joueurGagnant.next()).finalPoints();
-
-        if (listLongestTrail.contains(joueurGagnant)) {
-            finalPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
-        }
-        if (listLongestTrail.contains(joueurGagnant.next())) {
-            otherPoints += Constants.LONGEST_TRAIL_BONUS_POINTS;
-        }
-
-        int finalPoints1 = finalPoints;
-        int finalOtherPoints = otherPoints;
-        players.forEach(((playerId, player) -> {
-
-            if (playerNamesWon.size() >= 2) {
-
-                List<String> playerNamesString = new ArrayList<>();
-                for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
-                players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));
-            } else {
-                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints1, finalOtherPoints));
-            }
-        }));
-
-*/
         PlayerId joueurGagnant = playerNamesWon.get(0);
         players.forEach(((playerId, player) -> {
 

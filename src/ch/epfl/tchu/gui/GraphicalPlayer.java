@@ -23,14 +23,10 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 import javafx.util.StringConverter;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
 import static javafx.collections.FXCollections.observableArrayList;
@@ -71,10 +67,8 @@ public final class GraphicalPlayer {
         Node handView = DecksViewCreator.createHandView(observableGameState);
         Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
         Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
-        Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList); //TODO listText ?
+        Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList);
         BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, infoView);
-
-        //TODO infoView jamais liée + Player
 
         mainPane.setScene(new Scene(mainPaneBorder));
         mainPane.show();
@@ -199,7 +193,7 @@ public final class GraphicalPlayer {
         MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
         Button button = new Button(StringsFr.CHOOSE);
         button.disableProperty().bind(listViewGetSelectModel.selectedItemProperty().isNull()); //TODO laisser la disable
-        cardChoice(initialCards, chooseCardsHandler, StringsFr.CHOOSE_CARDS, button, listViewGetSelectModel, listView);
+        cardChoice( chooseCardsHandler, StringsFr.CHOOSE_CARDS, button, listViewGetSelectModel, listView);
 
     }
 
@@ -214,11 +208,11 @@ public final class GraphicalPlayer {
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(cartesAddit));
         MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
         Button button = new Button(StringsFr.CHOOSE);
-        cardChoice(cartesAddit, chooseCardsHandler, StringsFr.CHOOSE_ADDITIONAL_CARDS, button, listViewGetSelectModel, listView);
+        cardChoice(chooseCardsHandler, StringsFr.CHOOSE_ADDITIONAL_CARDS, button, listViewGetSelectModel, listView);
     }
 
 
-    private void cardChoice(List<SortedBag<Card>> cartes, ActionHandlers.ChooseCardsHandler chooseCardsHandler, String choice, Button button, MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel, ListView<SortedBag<Card>> listView){
+    private void cardChoice( ActionHandlers.ChooseCardsHandler chooseCardsHandler, String choice, Button button, MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel, ListView<SortedBag<Card>> listView){
         listView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
         TextFlow textFlow = new TextFlow();
         Stage stage = fenetreDeSelect(StringsFr.CARDS_CHOICE, choice, textFlow, listView, button);

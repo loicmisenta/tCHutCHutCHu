@@ -5,7 +5,6 @@ import ch.epfl.tchu.game.ChMap;
 import ch.epfl.tchu.game.Game;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
-import ch.epfl.tchu.net.RemotePlayerClient;
 import ch.epfl.tchu.net.RemotePlayerProxy;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,6 +17,8 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Classe qui va créer le serveur pour lancer le jeu
  */
 public class ServerMain extends Application {

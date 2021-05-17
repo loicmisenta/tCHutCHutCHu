@@ -76,7 +76,7 @@ public class ObservableGameState {
             faceUpCards.get(slot).set(newCard);
         }
         //ownedroute
-        for (Route r : ChMap.routes()) {
+        for (Route r : ChMap.routes()) {  //TODO FAIRE UNE FOREACH
             if (publicGameState.playerState(PlayerId.PLAYER_1).routes().contains(r)) {
                 ownedRoutes.get(r).set(PlayerId.PLAYER_1);
             } else if (publicGameState.playerState(PlayerId.PLAYER_2).routes().contains(r)) {
@@ -97,19 +97,19 @@ public class ObservableGameState {
             ownedConstructPoints.get(playerId).set(publicGameState.playerState(playerId).claimPoints());
         }
 
-        //ticketlist
+        //tickeLlist
         ticketList.setAll(playerState.tickets().toList());
+
         //nbtypecard
         for (Card c : Card.ALL) {
             nbTypeCarte.get(c).set(playerState.cards().countOf(c));
         }
-        //claimableroute
 
-        List<List<Station>> stationList = new ArrayList<>();
-        for (Route r: publicGameState.claimedRoutes()) {
+        //claimableRoute
+        List<List<Station>> stationList = new ArrayList<>(); //Création de liste d'opposées de stations
+        for (Route r: publicGameState.claimedRoutes()) {       //TODO à readapter en fnct du PlayerId.ALL.size()
             stationList.add(r.stations());
         }
-
         claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));// && (ownedRoutes.get(r) == null) }
 
     }
@@ -201,7 +201,7 @@ public class ObservableGameState {
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedTickets() {
-        Map<PlayerId, IntegerProperty> ownedTickets = new EnumMap<>(PlayerId.class);
+        Map<PlayerId, IntegerProperty> ownedTickets = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
         ownedTickets.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
         ownedTickets.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
         return ownedTickets;
@@ -209,21 +209,21 @@ public class ObservableGameState {
 
 
     private Map<PlayerId, IntegerProperty> createOwnedCards() {
-        Map<PlayerId, IntegerProperty> ownedCards = new EnumMap<>(PlayerId.class);
+        Map<PlayerId, IntegerProperty> ownedCards = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
         ownedCards.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
         ownedCards.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
         return ownedCards;
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedCars() {
-        Map<PlayerId, IntegerProperty> ownedCars = new EnumMap<>(PlayerId.class);
+        Map<PlayerId, IntegerProperty> ownedCars = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
         ownedCars.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
         ownedCars.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
         return ownedCars;
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedConstructPoints() {
-        Map<PlayerId, IntegerProperty> ownedConstructPoints = new EnumMap<>(PlayerId.class);
+        Map<PlayerId, IntegerProperty> ownedConstructPoints = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
         ownedConstructPoints.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
         ownedConstructPoints.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
         return ownedConstructPoints;

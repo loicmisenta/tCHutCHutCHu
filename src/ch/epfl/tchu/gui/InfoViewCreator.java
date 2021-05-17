@@ -1,6 +1,5 @@
 package ch.epfl.tchu.gui;
 
-import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.game.PlayerId;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
@@ -11,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +19,7 @@ import java.util.Map;
  * @author lagutovaalexandra (324449)
  * Cette classe (non instanciable) représente l'interface graphique de la vue des informations
  */
-//PAS PUBLIC JE CROIS (POUR TEST)
+//TODO PAS PUBLIC JE CROIS (POUR TEST)
 public final class InfoViewCreator {
     static VBox vbox;
     private static final int CERCLE_RAYON = 5;

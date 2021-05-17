@@ -11,6 +11,13 @@ import java.util.concurrent.BlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
+
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * Classe GraphicalPlayerAdapter implementant player qui va implementer player et va construire
+ * elle-même l'instance de la classe qu'elle adapte
+ */
 public final class GraphicalPlayerAdapter implements Player {
 
     private final BlockingQueue<Integer> blockingIntegerDrawSlotQueue;
@@ -76,6 +83,9 @@ public final class GraphicalPlayerAdapter implements Player {
         runLater(() -> graphicalPlayer.chooseTickets(tickets, chooseTicketsHandler));
     }
 
+    /**
+     * @return la valeur des tickets contenus dans la file bloquante
+     */
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
         try {
@@ -85,6 +95,10 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     }
 
+    /**
+     * Méthode qui va remplir les files bloquantes en fonction des gestionaires d'action
+     * @return le type de l'action qui a lieu pendant le tour suivant
+     */
     @Override
     public TurnKind nextTurn() {
 
@@ -124,7 +138,11 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     }
 
-
+    /**
+     * Méthode qui laisse le joueur choisir les tickets et attend sa réponse
+     * @param options les billets tirés
+     * @return les billets choisis par le joueur
+     */
     @Override
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
         ChooseTicketsHandler chooseTicketsHandler = tickets -> {
@@ -142,7 +160,10 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     }
 
-
+    /**
+     * Méthode qui va laisser le joueur piocher une carte dans le cas si la queue bloquante est vide
+     * @return l'indice de la carte piochée
+     */
     @Override
     public int drawSlot() {
         if (blockingIntegerDrawSlotQueue.isEmpty()){
@@ -161,6 +182,10 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     };
 
+    /**
+     * Méthode qui va
+     * @return la route que le joueur décide de prendre une route
+     */
     @Override
     public Route claimedRoute() {
         try {
@@ -170,27 +195,35 @@ public final class GraphicalPlayerAdapter implements Player {
         }
     }
 
+    /**
+     * Méthode qui va
+     * @return un SortedBag de cartes initiales avec lesquelles le joueur prend une route
+     */
     @Override
     public SortedBag<Card> initialClaimCards() {
-        try {
+        try {   //TODO peut-être créer des méthodes privées car les mêmes
             return blockingCardsQueue.take();
         } catch (InterruptedException e) {
             throw new Error();
         }
     }
 
-    //TODO NULL POINTER ICI QUAND JE CHOISI PAS UNE CARTE ADDITIONNELLE
+    /**
+     * Méthode qui fait choisir au joueur les cartes additionnelles
+     * @param options les possibilités des cartes additionnelles
+     * @return un SortedBag de cartes choisies
+     */
     @Override
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
         ChooseCardsHandler chooseCardsHandler = cartes -> {
             try {
                 blockingCardsQueue.put(cartes);
-            } catch (InterruptedException e) {      //TODO ICI
+            } catch (InterruptedException e) {
                 throw new Error();
             }
         };
         runLater(() -> graphicalPlayer.chooseAdditionalCards(options, chooseCardsHandler));
-        try {
+        try { //TODO peut-être créer des méthodes privées car les mêmes
             return blockingCardsQueue.take();
         } catch (InterruptedException e) {
             throw new Error();

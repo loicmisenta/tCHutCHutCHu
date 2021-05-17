@@ -2,14 +2,10 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
-import ch.epfl.tchu.game.PlayerId;
-import ch.epfl.tchu.game.Ticket;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -17,11 +13,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.awt.*;
 
 /**
  * @author loicmisenta (330593)
@@ -78,9 +72,6 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
 
             stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
             text.visibleProperty().bind(Bindings.greaterThan(count, 1));
-
-
-
         }
         return hBoxView;
     }
@@ -103,9 +94,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
         buttonBillet.getStyleClass().add("gauged");
         vbox.getChildren().add(buttonBillet);
         buttonBillet.disableProperty().bind(chooseTicketsH.isNull());
-        //SET ON ACtion
         buttonBillet.setOnAction(e -> chooseTicketsH.get().onDrawTickets());
-
         //jaugeBiller
         createGaugedButton(buttonBillet, observableGameState.percentageTicketsReadOnly());
 
@@ -123,7 +112,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
                 } else{
                     stackPane.getStyleClass().set(0, nV.name());
                 }
-            }); //Ajout d'un listener à la faceUpCard
+            });
 
             stackPane.setOnMouseClicked(e -> chooseCardsH.get().onDrawCard(index));
             createCard(stackPane);

@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import java.util.List;
 
 /**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
  * Classe qui va créer le client pour lancer le jeu
  */
 public class ClientMain extends Application {
@@ -26,7 +28,7 @@ public class ClientMain extends Application {
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception { //TODO exception qu'on va jamais throw
         String adress;
         int socket;
         GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();

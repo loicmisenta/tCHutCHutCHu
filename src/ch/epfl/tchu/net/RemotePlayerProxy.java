@@ -2,7 +2,6 @@ package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import static java.nio.charset.StandardCharsets.*;
 
