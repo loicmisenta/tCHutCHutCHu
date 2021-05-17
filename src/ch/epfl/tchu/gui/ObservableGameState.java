@@ -178,7 +178,7 @@ public class ObservableGameState {
 
     private List<ObjectProperty<Card>> createFaceUpCards() {
         List<ObjectProperty<Card>> faceUpCards = new ArrayList<>();
-        for (int i : Constants.FACE_UP_CARD_SLOTS) {
+        for (int ignored : Constants.FACE_UP_CARD_SLOTS) {
             faceUpCards.add(new SimpleObjectProperty<>());
         }
         return faceUpCards;

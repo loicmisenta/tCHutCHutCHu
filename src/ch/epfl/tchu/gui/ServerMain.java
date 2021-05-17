@@ -17,20 +17,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-//TODO 3 joueurs
-
+/**
+ * Classe qui va créer le serveur pour lancer le jeu
+ */
 public class ServerMain extends Application {
 
+    /**
+     * Méthode main qui ... ?
+     * @param args les arguments de la méthode
+     */
     public static void main(String[] args) { launch(args);}
 
+    /**
+     * Méthode qui va commencer la partie
+     * @param primaryStage le stage principal
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        List<String> list = this.getParameters().getRaw();
+        List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
-            map.put(PlayerId.PLAYER_1, list.get(0));
-            map.put(PlayerId.PLAYER_2, list.get(1));
+
+            if (arguments.isEmpty()){
+                map.put(PlayerId.PLAYER_1, "Ada");
+                map.put(PlayerId.PLAYER_2, "Charles");
+            } else{
+                int i = 0;
+                for (PlayerId playerId: PlayerId.ALL) {
+                    map.put(playerId, arguments.get(i++));
+                }
+            }
+
 
             GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
             Player remotePlayerProxy = new RemotePlayerProxy(socket);

@@ -31,6 +31,11 @@ import java.awt.*;
 
 public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE ! + FINAL
 
+    final static int EXT_CARD_WIDTH = 60;
+    final static int EXT_CARD_HEIGHT = 90;
+    final static int INT_CARD_WIDTH = 40;
+    final static int INT_CARD_HEIGHT = 70;
+
     private DecksViewCreator(){}
     /**
      * Méthode prenant en argument l'état du jeu observable et retourne la vue de la main,
@@ -38,10 +43,6 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
      * @return la vue de la main
      */
     public static Node createHandView(ObservableGameState observableGameState ){
-        int EXT_CARD_WIDTH = 60;
-        int EXT_CARD_HEIGHT = 90;
-        int INT_CARD_WIDTH = 40;
-        int INT_CARD_HEIGHT = 70;
 
         HBox hBoxView = new HBox();
         Node billets = new ListView<>(observableGameState.ticketListReadOnly());
@@ -64,14 +65,8 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
                 stackPane.getStyleClass().addAll(card.color().toString(), "card");
             }
             hboxHandPane.getChildren().add(stackPane);
+            createCard(stackPane);
 
-            //Carte
-            Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
-            r_Ext.getStyleClass().add("outside");
-            Rectangle r_Int = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
-            r_Int.getStyleClass().addAll("filled", "inside");
-            Rectangle r_Train_Image = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
-            r_Train_Image.getStyleClass().add("train-image");
 
             //Compteur
             ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
@@ -79,7 +74,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             Text text = new Text();
             text.getStyleClass().add("count");
             text.textProperty().bind(Bindings.convert(count));
-            stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image, text);
+            stackPane.getChildren().add(text);
 
             stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
             text.visibleProperty().bind(Bindings.greaterThan(count, 1));
@@ -90,16 +85,13 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
         return hBoxView;
     }
 
+
     /**
      * Méthode prenant en argument l'état du jeu observable et retourne la vue des cartes en jeu
      * @param observableGameState état du jeu observable
      * @return la vue des cartes en jeu
      */
     public static Node createCardsView(ObservableGameState observableGameState, ObjectProperty<ActionHandlers.DrawTicketsHandler> chooseTicketsH, ObjectProperty<ActionHandlers.DrawCardHandler> chooseCardsH){
-        int EXT_CARD_WIDTH = 60;
-        int EXT_CARD_HEIGHT = 90;
-        int INT_CARD_WIDTH = 40;
-        int INT_CARD_HEIGHT = 70;
 
         VBox vbox = new VBox();
         vbox.getStylesheets().addAll("decks.css", "colors.css");
@@ -134,15 +126,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             }); //Ajout d'un listener à la faceUpCard
 
             stackPane.setOnMouseClicked(e -> chooseCardsH.get().onDrawCard(index));
-
-
-            Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
-            r_Ext.getStyleClass().add("outside");
-            Rectangle r_Int = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
-            r_Int.getStyleClass().addAll("filled", "inside");
-            Rectangle r_Train_Image = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
-            r_Train_Image.getStyleClass().add("train-image");
-            stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
+            createCard(stackPane);
         }
 
         //PiocheCarte
@@ -155,6 +139,17 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
         createGaugedButton(buttonCarte, observableGameState.percentageCardsLeftReadOnly());
 
         return vbox;
+    }
+
+
+    private static void createCard(StackPane stackPane){
+        Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
+        r_Ext.getStyleClass().add("outside");
+        Rectangle r_Int = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
+        r_Int.getStyleClass().addAll("filled", "inside");
+        Rectangle r_Train_Image = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
+        r_Train_Image.getStyleClass().add("train-image");
+        stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
     }
 
     private static void createGaugedButton (Button button, ReadOnlyIntegerProperty pctProperty){

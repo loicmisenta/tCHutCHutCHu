@@ -8,10 +8,23 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Classe qui va créer le client pour lancer le jeu
+ */
 public class ClientMain extends Application {
 
+    /**
+     * La méthode main qui va ??????
+     * @param args les arguments
+     */
     public static void main(String[] args) { launch(args);}
 
+
+    /**
+     * Méthode qui va commencer la partie
+     * @param primaryStage le stage principal
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         String adress;

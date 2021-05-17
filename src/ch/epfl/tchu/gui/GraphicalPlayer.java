@@ -226,7 +226,8 @@ public final class GraphicalPlayer {
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseCardsHandler.onChooseCards(listViewGetSelectModel.getSelectedItem() == null ? SortedBag.of() : listViewGetSelectModel.getSelectedItem());
+            SortedBag<Card> selectedModel = listViewGetSelectModel.getSelectedItem();
+            chooseCardsHandler.onChooseCards(selectedModel == null ? SortedBag.of() : selectedModel);
         });
         stage.show();
 
@@ -251,7 +252,7 @@ public final class GraphicalPlayer {
     }
 
     private static class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
-        @Override
+        @Override //TODO à simplifier !!!!!
         public String toString(SortedBag<Card> cards) {
             String cardsString = "";
             List<String> listString = new ArrayList<>();
@@ -268,8 +269,7 @@ public final class GraphicalPlayer {
                     i += nombreCartes - 1;
                 }
             }
-
-            //Affichage des cartes
+            //Affiche les cartes
             if(listString.size() == 1){
                 cardsString += listString.get(0);
             } else {
