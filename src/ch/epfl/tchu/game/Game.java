@@ -183,11 +183,16 @@ public final class Game {
             }
         }
 
+        Trail longestTrail = Trail.longest(gameState.playerState(listLongestTrail.get(0)).routes());
+        for (PlayerId playerId: listLongestTrail) {
+            receiveInfo(players, infoMap.get(playerId).getsLongestTrailBonus(longestTrail));
+        }
 
         int finalMaxPoints = maxPoints;
+        /*
         PlayerId plrLongestTr = listLongestTrail.get(0);
         //if dans le cas où il y a deux routes de même longueur
-        Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr.next()).routes());
+        //Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr).routes());
         if (listLongestTrail.size() > 1) {
             System.out.println(listLongestTrail.size() + "size > 1");
             receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(longestTrail));
@@ -196,8 +201,9 @@ public final class Game {
         System.out.println("longestTrail sans next" + Trail.longest(gameState.playerState(plrLongestTr).routes()).toString());
 
         receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
-
+        */
         updateState(players, gameState);
+
 
 
 
@@ -227,6 +233,11 @@ public final class Game {
                 //TODO
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints1, finalOtherPoints));
             }
+
+        }));
+
+
+        players.forEach(((playerId, player) -> {
 
         }));
 

@@ -30,30 +30,30 @@ public final class Serdes {
     public static final Serde<Route> routeSerde = Serde.oneOf(ChMap.routes());
     public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets());
 
-    public static final Serde<List<String>> listStringSerde = Serde.listOf( stringSerde, Constants.DELIMITER_VIRGULE);
-    public static final Serde<List<Card>> listCardSerde = Serde.listOf(cardSerde, Constants.DELIMITER_VIRGULE);
-    public static final Serde<List<Route>> listRouteSerde = Serde.listOf(routeSerde, Constants.DELIMITER_VIRGULE);
-    public static final Serde<SortedBag<Card>> sortedBagOfCardSerde = Serde.bagOf(cardSerde, Constants.DELIMITER_VIRGULE);
-    public static final Serde<SortedBag<Ticket>> sortedBagOfTicketSerde = Serde.bagOf(ticketSerde, Constants.DELIMITER_VIRGULE);
-    public static final Serde<List<SortedBag<Card>>> listSortedBagOfCard = Serde.listOf(sortedBagOfCardSerde, Constants.DELIMITER_POINT_VIRGULE);
+    public static final Serde<List<String>> listStringSerde = Serde.listOf( stringSerde, DELIMITER_VIRGULE);
+    public static final Serde<List<Card>> listCardSerde = Serde.listOf(cardSerde, DELIMITER_VIRGULE);
+    public static final Serde<List<Route>> listRouteSerde = Serde.listOf(routeSerde, DELIMITER_VIRGULE);
+    public static final Serde<SortedBag<Card>> sortedBagOfCardSerde = Serde.bagOf(cardSerde, DELIMITER_VIRGULE);
+    public static final Serde<SortedBag<Ticket>> sortedBagOfTicketSerde = Serde.bagOf(ticketSerde, DELIMITER_VIRGULE);
+    public static final Serde<List<SortedBag<Card>>> listSortedBagOfCard = Serde.listOf(sortedBagOfCardSerde, DELIMITER_POINT_VIRGULE);
 
-    public static final Serde<PublicCardState> publicCardStateSerde = Serde.of(i -> String.join(Constants.DELIMITER_POINT_VIRGULE, listCardSerde.serialize(i.faceUpCards()), intSerde.serialize(i.deckSize()), intSerde.serialize(i.discardsSize())), Serdes::stringToPublicCardState);
-    public static final Serde<PublicPlayerState> publicPlayerStateSerde = Serde.of(i -> String.join(Constants.DELIMITER_POINT_VIRGULE, intSerde.serialize(i.ticketCount()), intSerde.serialize(i.cardCount()), listRouteSerde.serialize(i.routes())), Serdes::stringToPublicPlayerState);
-    public static final Serde<PlayerState> playerStateSerde = Serde.of(i -> String.join(Constants.DELIMITER_POINT_VIRGULE, sortedBagOfTicketSerde.serialize(i.tickets()), sortedBagOfCardSerde.serialize(i.cards()), listRouteSerde.serialize(i.routes())), Serdes::stringToPlayerState);
-    public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> String.join(Constants.DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()), playerIdSerde.serialize(i.currentPlayerId()),publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_1)), publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_2)) , playerIdSerde.serialize(i.lastPlayer())), Serdes::stringToPublicGameState);
+    public static final Serde<PublicCardState> publicCardStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, listCardSerde.serialize(i.faceUpCards()), intSerde.serialize(i.deckSize()), intSerde.serialize(i.discardsSize())), Serdes::stringToPublicCardState);
+    public static final Serde<PublicPlayerState> publicPlayerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, intSerde.serialize(i.ticketCount()), intSerde.serialize(i.cardCount()), listRouteSerde.serialize(i.routes())), Serdes::stringToPublicPlayerState);
+    public static final Serde<PlayerState> playerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, sortedBagOfTicketSerde.serialize(i.tickets()), sortedBagOfCardSerde.serialize(i.cards()), listRouteSerde.serialize(i.routes())), Serdes::stringToPlayerState);
+    public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()), playerIdSerde.serialize(i.currentPlayerId()),publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_1)), publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_2)) , playerIdSerde.serialize(i.lastPlayer())), Serdes::stringToPublicGameState);
 
     private Serdes(){}
 
     private static PublicGameState stringToPublicGameState(String string){
         System.out.println("HEEEEYYYYYY SALUT TOI");
-        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_DEUX_POINTS), -1);
+        String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1);
         int ticketsCount = intSerde.deserialize(listeString[0]);
         PublicCardState cardState = stringToPublicCardState(listeString[1]);
         PlayerId currentPlayerId = playerIdSerde.deserialize(listeString[2]);
         Map<PlayerId, PublicPlayerState> mapPlayerState = new EnumMap<>(PlayerId.class);
         PublicPlayerState playerState1 = stringToPublicPlayerState(listeString[3]);
         PublicPlayerState playerState2 = stringToPublicPlayerState(listeString[4]);
-        mapPlayerState.put(PlayerId.PLAYER_1, playerState1);
+        mapPlayerState.put(PlayerId.PLAYER_1, playerState1);  //TODO readapter ?????
         mapPlayerState.put(PlayerId.PLAYER_2, playerState2);
         PlayerId lastPlayer;
         if(listeString[5].length() == 0){ //TODO cas quand lastPLayer == null
@@ -66,7 +66,7 @@ public final class Serdes {
 
 
     private static PlayerState stringToPlayerState(String string){
-        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_POINT_VIRGULE), -1);
+        String[] listeString = string.split(Pattern.quote(DELIMITER_POINT_VIRGULE), -1);
         SortedBag<Ticket> tickets = sortedBagOfTicketSerde.deserialize(listeString[0]);
         SortedBag<Card> cards = sortedBagOfCardSerde.deserialize(listeString[1]);
         List<Route> routes = listRouteSerde.deserialize(listeString[2]);
@@ -75,7 +75,7 @@ public final class Serdes {
     }
 
     private static PublicPlayerState stringToPublicPlayerState(String string){
-        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_POINT_VIRGULE), -1);
+        String[] listeString = string.split(Pattern.quote(DELIMITER_POINT_VIRGULE), -1);
         int ticketCount = intSerde.deserialize(listeString[0]);
         int cardCount = intSerde.deserialize(listeString[1]);
         List<Route> routes = listRouteSerde.deserialize(listeString[2]);
@@ -85,7 +85,7 @@ public final class Serdes {
 
 
     private static PublicCardState stringToPublicCardState(String string){
-        String[] listeString = string.split(Pattern.quote(Constants.DELIMITER_POINT_VIRGULE), -1);
+        String[] listeString = string.split(Pattern.quote(DELIMITER_POINT_VIRGULE), -1);
         List<Card> faceUpCards = listCardSerde.deserialize(listeString[0]);
         int decksize = intSerde.deserialize(listeString[1]);
         int discardsize = intSerde.deserialize(listeString[2]);
