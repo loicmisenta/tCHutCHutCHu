@@ -41,16 +41,13 @@ public final class Serdes {
     public static final Serde<PublicPlayerState> publicPlayerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, intSerde.serialize(i.ticketCount()), intSerde.serialize(i.cardCount()), listRouteSerde.serialize(i.routes())), Serdes::stringToPublicPlayerState);
     public static final Serde<PlayerState> playerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, sortedBagOfTicketSerde.serialize(i.tickets()), sortedBagOfCardSerde.serialize(i.cards()), listRouteSerde.serialize(i.routes())), Serdes::stringToPlayerState);
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> {
-
-        String string = "";
+        String stringSerializeMapPlayer = "";
         for (PlayerId playerId : PlayerId.ALL) {
-            string = String.join(DELIMITER_DEUX_POINTS, publicPlayerStateSerde.serialize(i.playerState(playerId)), string);
+            stringSerializeMapPlayer = String.join(DELIMITER_DEUX_POINTS, publicPlayerStateSerde.serialize(i.playerState(playerId)), stringSerializeMapPlayer);
         }
-
-        return String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()), playerIdSerde.serialize(i.currentPlayerId()),
-                string,
-                playerIdSerde.serialize(i.lastPlayer()));
-    }, Serdes::stringToPublicGameState);
+        return String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()),
+                playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
+        }, Serdes::stringToPublicGameState);
 
     private Serdes(){}
 
