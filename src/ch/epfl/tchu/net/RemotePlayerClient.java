@@ -55,8 +55,6 @@ public class RemotePlayerClient {
                         for (PlayerId playerId: PlayerId.ALL) {
                             mapJoueurs.put(playerId, stringSerde.deserialize(noms[i++]));
                         }
-                        //mapJoueurs.put(PlayerId.PLAYER_1, stringSerde.deserialize(noms[0]));
-                        //mapJoueurs.put(PlayerId.PLAYER_2, stringSerde.deserialize(noms[1]));
                         player.initPlayers(playerIdSerde.deserialize(ls[1]), mapJoueurs);
                         break;
                     case RECEIVE_INFO:
