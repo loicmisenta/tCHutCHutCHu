@@ -120,6 +120,7 @@ public final class GraphicalPlayer {
                 drawTicketsHandlerProperty.set(null);
                 claimRouteHandlerProperty.set(null);
                 drawCardHandler.onDrawCard(card);
+                drawCardHandlerProperty.set(null);
             });
         } else {
             drawCardHandlerProperty.set(null);
@@ -130,6 +131,8 @@ public final class GraphicalPlayer {
                 drawCardHandlerProperty.set(null);
                 claimRouteHandlerProperty.set(null);
                 drawTicketsHandler.onDrawTickets();
+                drawTicketsHandlerProperty.set(null);
+
             });
         }else{
             drawTicketsHandlerProperty.set(null);
