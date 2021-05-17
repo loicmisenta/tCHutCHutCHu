@@ -23,7 +23,6 @@ public class ClientMain extends Application {
             socket = 5108;
         } else {
             adress = arguments.get(0);
-            System.out.println(adress);
             socket = Integer.parseInt(arguments.get(1));
         }
 

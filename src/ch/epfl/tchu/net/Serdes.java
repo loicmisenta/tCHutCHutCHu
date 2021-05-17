@@ -47,7 +47,6 @@ public final class Serdes {
     private Serdes(){}
 
     private static PublicGameState stringToPublicGameState(String string){
-        System.out.println("HEEEEYYYYYY SALUT TOI");
         String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1);
         int ticketsCount = intSerde.deserialize(listeString[0]);
         PublicCardState cardState = stringToPublicCardState(listeString[1]);
@@ -61,7 +60,6 @@ public final class Serdes {
         if(listeString[5].length() == 0){ //TODO cas quand lastPLayer == null
             lastPlayer = null;
         } else {
-            System.out.println(listeString[5].length());
             lastPlayer = playerIdSerde.deserialize(listeString[5]);}
         return new PublicGameState(ticketsCount, cardState, currentPlayerId, mapPlayerState, lastPlayer);
     }

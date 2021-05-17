@@ -86,7 +86,6 @@ public class RemotePlayerClient {
                         break;
                     case ROUTE:
                         Route route = player.claimedRoute();
-                        System.out.println("route " + route.toString());
                         w.write(routeSerde.serialize(route));
                         w.write('\n');
                         w.flush();

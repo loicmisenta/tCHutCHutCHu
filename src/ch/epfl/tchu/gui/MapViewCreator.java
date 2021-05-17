@@ -67,7 +67,6 @@ public final class MapViewCreator {
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));
                 } else {
-                    System.out.println("pcc " + possibleClaimCards);
                     ActionHandlers.ChooseCardsHandler chooseCardsH = chosenCards -> claimRouteH.getValue().onClaimRoute(route, chosenCards);
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
                 }
