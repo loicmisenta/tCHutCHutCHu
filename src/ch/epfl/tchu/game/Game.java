@@ -191,6 +191,9 @@ public final class Game {
         if (listLongestTrail.size() > 1) {
             receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(longestTrail));
         }
+        System.out.println("longestTrail : " + longestTrail.toString());
+        System.out.println("longestTrail sans next" + Trail.longest(gameState.playerState(plrLongestTr).routes()).toString());
+
         receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
 
         updateState(players, gameState);
