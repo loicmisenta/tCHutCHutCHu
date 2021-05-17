@@ -156,6 +156,7 @@ public final class Game {
         int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail = new ArrayList<>();
         List<PlayerId> playerNamesWon = new ArrayList<>();
+        Map<PlayerId, Integer> mapPlayerPoints = new EnumMap<>(PlayerId.class);
         for (PlayerId joueur : PlayerId.ALL) {
 
             Trail longest = Trail.longest(gameState.playerState(joueur).routes());
@@ -172,6 +173,7 @@ public final class Game {
             if (listLongestTrail.contains(joueur)) {
                 pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;
             }
+            mapPlayerPoints.put(joueur, pointsFinaux);
             if (pointsFinaux == maxPoints) {
                 playerNamesWon.add(joueur);
             } else if (pointsFinaux > maxPoints) {
