@@ -52,15 +52,16 @@ public final class Serdes {
         PublicCardState cardState = stringToPublicCardState(listeString[1]);
         PlayerId currentPlayerId = playerIdSerde.deserialize(listeString[2]);
         Map<PlayerId, PublicPlayerState> mapPlayerState = new EnumMap<>(PlayerId.class);
-        PublicPlayerState playerState1 = stringToPublicPlayerState(listeString[3]);
-        PublicPlayerState playerState2 = stringToPublicPlayerState(listeString[4]);
-        mapPlayerState.put(PlayerId.PLAYER_1, playerState1);  //TODO readapter ?????
-        mapPlayerState.put(PlayerId.PLAYER_2, playerState2);
+
+        int i = 3;
+        for (PlayerId playerId: PlayerId.ALL) {
+            mapPlayerState.put(playerId, stringToPublicPlayerState(listeString[i++]));
+        }
         PlayerId lastPlayer;
-        if(listeString[5].length() == 0){ //TODO cas quand lastPLayer == null
+        if(listeString[listeString.length-1].length() == 0){ //TODO cas quand lastPLayer == null
             lastPlayer = null;
         } else {
-            lastPlayer = playerIdSerde.deserialize(listeString[5]);}
+            lastPlayer = playerIdSerde.deserialize(listeString[listeString.length-1]);}
         return new PublicGameState(ticketsCount, cardState, currentPlayerId, mapPlayerState, lastPlayer);
     }
 

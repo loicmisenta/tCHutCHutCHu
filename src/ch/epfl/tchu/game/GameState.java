@@ -203,15 +203,13 @@ public final class GameState extends PublicGameState{
      * modifié et égale à
      * @param playerstate l'état du joueur
      */
-    private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){  //TODO à généraliser pour multi
-        //TODO                                             à plus de 2 joueurs (en ayant recours au constructeur de copie d'EnumMap).
+    private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
         for (PlayerId pId: PlayerId.ALL) {
             if (pId == playerId) continue;
             newPlayerState.put(pId, playerState.get(pId));
         }
-        //newPlayerState.put(playerId.next(), playerState.get(playerId.next()));
         return newPlayerState;
     }
 
