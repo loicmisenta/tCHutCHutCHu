@@ -23,7 +23,6 @@ public class ServerMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         List<String> list = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();

@@ -65,7 +65,6 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             }
             hboxHandPane.getChildren().add(stackPane);
 
-
             //Carte
             Rectangle r_Ext = new Rectangle(EXT_CARD_WIDTH, EXT_CARD_HEIGHT);
             r_Ext.getStyleClass().add("outside");
@@ -73,6 +72,7 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             r_Int.getStyleClass().addAll("filled", "inside");
             Rectangle r_Train_Image = new Rectangle(INT_CARD_WIDTH, INT_CARD_HEIGHT);
             r_Train_Image.getStyleClass().add("train-image");
+
             //Compteur
             ReadOnlyIntegerProperty count = observableGameState.nbTypeCarteReadOnly(card);
             count.addListener((o, oV, nV) -> stackPane.getStyleClass().add(nV.toString()));
@@ -144,7 +144,6 @@ public final class DecksViewCreator { //TODO package private ? NON INSTANSIABLE 
             r_Train_Image.getStyleClass().add("train-image");
             stackPane.getChildren().addAll(r_Ext, r_Int, r_Train_Image);
         }
-
 
         //PiocheCarte
         Button buttonCarte = new Button(StringsFr.CARDS);
