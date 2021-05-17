@@ -189,6 +189,7 @@ public final class Game {
         //if dans le cas où il y a deux routes de même longueur
         Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr.next()).routes());
         if (listLongestTrail.size() > 1) {
+            System.out.println(listLongestTrail.size() + "size > 1");
             receiveInfo(players, infoMap.get(plrLongestTr.next()).getsLongestTrailBonus(longestTrail));
         }
         System.out.println("longestTrail : " + longestTrail.toString());
