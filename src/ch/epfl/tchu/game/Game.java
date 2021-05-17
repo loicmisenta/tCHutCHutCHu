@@ -202,6 +202,9 @@ public final class Game {
 
         receiveInfo(players, infoMap.get(plrLongestTr).getsLongestTrailBonus(longestTrail));
         */
+
+
+
         updateState(players, gameState);
 
 
