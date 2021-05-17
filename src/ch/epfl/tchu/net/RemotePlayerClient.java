@@ -51,8 +51,12 @@ public class RemotePlayerClient {
                     case INIT_PLAYERS:
                         Map<PlayerId, String> mapJoueurs = new EnumMap<>(PlayerId.class);
                         String[] noms = ls[2].split(",");
-                        mapJoueurs.put(PlayerId.PLAYER_1, stringSerde.deserialize(noms[0]));
-                        mapJoueurs.put(PlayerId.PLAYER_2, stringSerde.deserialize(noms[1]));
+                        int i = 0;
+                        for (PlayerId playerId: PlayerId.ALL) {
+                            mapJoueurs.put(playerId, stringSerde.deserialize(noms[i++]));
+                        }
+                        //mapJoueurs.put(PlayerId.PLAYER_1, stringSerde.deserialize(noms[0]));
+                        //mapJoueurs.put(PlayerId.PLAYER_2, stringSerde.deserialize(noms[1]));
                         player.initPlayers(playerIdSerde.deserialize(ls[1]), mapJoueurs);
                         break;
                     case RECEIVE_INFO:
