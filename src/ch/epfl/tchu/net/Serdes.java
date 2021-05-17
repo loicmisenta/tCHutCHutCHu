@@ -8,6 +8,20 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public final class Serdes {
+
+    /**
+     * Caractère point-virgule
+     */
+    public static final String DELIMITER_POINT_VIRGULE = ";";
+    /**
+     * Caractère virgule
+     */
+    public static final String DELIMITER_VIRGULE = ",";
+    /**
+     * Caractère deux-points
+     */
+    public static final String DELIMITER_DEUX_POINTS = ":";
+
     public static final Serde<Integer> intSerde = Serde.of(i -> Integer.toString(i), Integer::parseInt);
     public static final Serde<String> stringSerde = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)),i -> new String(Base64.getDecoder().decode(i), StandardCharsets.UTF_8));
     public static final Serde<PlayerId> playerIdSerde = Serde.oneOf(PlayerId.ALL);
