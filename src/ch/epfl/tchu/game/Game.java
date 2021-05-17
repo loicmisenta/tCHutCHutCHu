@@ -188,8 +188,10 @@ public final class Game {
             receiveInfo(players, infoMap.get(playerId).getsLongestTrailBonus(longestTrail));
         }
 
-        int finalMaxPoints = maxPoints;
+
         /*
+        int finalMaxPoints = maxPoints;
+
         PlayerId plrLongestTr = listLongestTrail.get(0);
         //if dans le cas où il y a deux routes de même longueur
         //Trail longestTrail = Trail.longest(gameState.playerState(plrLongestTr).routes());
@@ -208,7 +210,7 @@ public final class Game {
         updateState(players, gameState);
 
 
-
+/*
 
         PlayerId joueurGagnant = playerNamesWon.get(0);
         int finalPoints = gameState.playerState(joueurGagnant).finalPoints();
@@ -228,23 +230,27 @@ public final class Game {
             if (playerNamesWon.size() >= 2) {
                 //TODO dit qu'on doit faire ça List<String> playerNamesString =List.copyOf(playerNames.values());
                 List<String> playerNamesString = new ArrayList<>();
-                for (PlayerId joueur : playerNamesWon) {
-                    playerNamesString.add(joueur.name());
-                }
+                for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, finalMaxPoints));
             } else {
-                //TODO
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(finalPoints1, finalOtherPoints));
             }
-
         }));
 
+*/
+        PlayerId joueurGagnant = playerNamesWon.get(0);
+        players.forEach(((playerId, player) -> {
 
-
-            players.forEach(((playerId, player) -> {
-
-
+            if (playerNamesWon.size() >= 2) {
+                //TODO dit qu'on doit faire ça List<String> playerNamesString =List.copyOf(playerNames.values());
+                List<String> playerNamesString = new ArrayList<>();
+                for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
+                players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
+            } else {
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next())));
+            }
         }));
+
 
     }
 
