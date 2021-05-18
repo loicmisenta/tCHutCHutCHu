@@ -1,6 +1,5 @@
 package ch.epfl.tchu.gui;
 
-import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.binding.Bindings;
@@ -16,7 +15,6 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -246,7 +244,7 @@ public final class GraphicalPlayer {
     }
 
     private static class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
-        @Override //TODO à simplifier !!!!!
+        @Override //TODO à simplifier !!!!! appeller la méthode d'info ?
         public String toString(SortedBag<Card> cards) {
             String cardsString = "";
             List<String> listString = new ArrayList<>();

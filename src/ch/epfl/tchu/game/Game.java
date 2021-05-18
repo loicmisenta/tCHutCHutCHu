@@ -170,13 +170,10 @@ public final class Game {
 
 
             int pointsFinaux = gameState.playerState(playerId).finalPoints();
-            System.out.println("points finaux avant le bonus" + pointsFinaux);
-            System.out.println("listLongestTrail du " + playerId +  " contains? " + listLongestTrail.contains(playerId));
             if (listLongestTrail.contains(playerId)) {
                 pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;
             }
             mapPlayerPoints.put(playerId, pointsFinaux);
-            System.out.println("points dans la map : playerId : " + playerId + " points : " + pointsFinaux);
             if (pointsFinaux == maxPoints) {
                 playerNamesWon.add(playerId);
             } else if (pointsFinaux > maxPoints) {
@@ -197,7 +194,6 @@ public final class Game {
         players.forEach(((playerId, player) -> {
 
             if (playerNamesWon.size() >= 2) {
-                //TODO dit qu'on doit faire ça List<String> playerNamesString =List.copyOf(playerNames.values());
                 List<String> playerNamesString = new ArrayList<>();
                 for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
