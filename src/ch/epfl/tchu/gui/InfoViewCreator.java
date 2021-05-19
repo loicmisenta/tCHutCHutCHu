@@ -21,8 +21,8 @@ import java.util.Map;
  */
 //TODO PAS PUBLIC JE CROIS (POUR TEST)
 public final class InfoViewCreator {
-    static VBox vbox;
     private static final int CERCLE_RAYON = 5;
+    private static final int NB_MESSAGES = 5;
 
     private InfoViewCreator(){}
 
@@ -35,7 +35,7 @@ public final class InfoViewCreator {
      * @return un Node de la vue des informations
      */
     public static Node createInfoView(PlayerId playerId, Map<PlayerId, String> playerIdStringMap, ObservableGameState obsGS, ObservableList<Text> text){
-        vbox = new VBox();
+        VBox vbox = new VBox();
         vbox.getStylesheets().addAll("info.css", "colors.css");
 
         VBox vboxPlayerStats = new VBox();
@@ -56,7 +56,7 @@ public final class InfoViewCreator {
         TextFlow textFlow = new TextFlow();
         textFlow.setId("game-info");
         vbox.getChildren().add(textFlow);
-        List <Text> listText = text.size() > 5? text.subList(text.size()-6, text.size()-2) : text;
+        List <Text> listText = text.size() > NB_MESSAGES ? text.subList(text.size()-6, text.size()-2) : text;
 
 
         for (Text string: listText) {

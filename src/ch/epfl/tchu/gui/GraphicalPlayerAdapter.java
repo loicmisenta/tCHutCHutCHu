@@ -88,11 +88,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
-        try {
-            return blockingTicketsQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return getValueFromBTQ();
     }
 
     /**
@@ -153,11 +149,7 @@ public final class GraphicalPlayerAdapter implements Player {
             }
         };
         runLater(() -> graphicalPlayer.chooseTickets(options, chooseTicketsHandler));
-        try {
-            return blockingTicketsQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return getValueFromBTQ();
     }
 
     /**
@@ -201,11 +193,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public SortedBag<Card> initialClaimCards() {
-        try {   //TODO peut-être créer des méthodes privées car les mêmes
-            return blockingCardsQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return getValueFromBCQ();
     }
 
     /**
@@ -223,8 +211,20 @@ public final class GraphicalPlayerAdapter implements Player {
             }
         };
         runLater(() -> graphicalPlayer.chooseAdditionalCards(options, chooseCardsHandler));
-        try { //TODO peut-être créer des méthodes privées car les mêmes
+        return getValueFromBCQ();
+    }
+
+    private SortedBag<Card> getValueFromBCQ(){
+        try {
             return blockingCardsQueue.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
+    }
+
+    private SortedBag<Ticket> getValueFromBTQ(){
+        try {
+            return blockingTicketsQueue.take();
         } catch (InterruptedException e) {
             throw new Error();
         }

@@ -20,7 +20,6 @@ import static ch.epfl.tchu.net.Serdes.*;
 public class RemotePlayerProxy implements Player {
     private final BufferedReader r;
     private final BufferedWriter w;
-
     /**
      * Constructeur du proxy
      * @param socket la "prise"
@@ -62,7 +61,7 @@ public class RemotePlayerProxy implements Player {
      */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
-        String ownIdSerialize = playerIdSerde.serialize(ownId);   //TODO
+        String ownIdSerialize = playerIdSerde.serialize(ownId);
         List<String> listPlayerNames = new ArrayList<>();
         for (PlayerId playerId: PlayerId.ALL) {
             listPlayerNames.add(playerNames.get(playerId));

@@ -34,16 +34,15 @@ import static javafx.collections.FXCollections.observableArrayList;
  * @author lagutovaalexandra (324449)
  * Classe représente l'interface graphique d'un joueur de tCHu.
  */
-public final class GraphicalPlayer { 
+public final class GraphicalPlayer {
 
-    final PlayerId playerId;
-    final Map<PlayerId, String> nomsJoueurs;
-    final ObservableGameState observableGameState;
-    final ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
-    final ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
-    final ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
-    final ObservableList<Text> observableList;
-    final Stage mainPane;
+    final private ObservableGameState observableGameState;
+    final private ObjectProperty<ActionHandlers.DrawTicketsHandler> drawTicketsHandlerProperty;
+    final private ObjectProperty<ActionHandlers.DrawCardHandler> drawCardHandlerProperty;
+    final private ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
+    final private ObservableList<Text> observableList;
+    final private Stage mainPane;
+    final private int NB_MESSAGES = 5;
 
     /**
      * Constructeur de la classe GraphiquePlayer qui aura en parametre:
@@ -52,8 +51,6 @@ public final class GraphicalPlayer {
      */
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
         assert isFxApplicationThread();
-        this.playerId = playerId;
-        this.nomsJoueurs = nomsJoueurs;
         this.observableGameState = new ObservableGameState(playerId);
         this.mainPane = new Stage(StageStyle.UTILITY);
 
@@ -90,7 +87,7 @@ public final class GraphicalPlayer {
      */
     public void receiveInfo(String message){
         assert isFxApplicationThread();
-        if (observableList.size() == 5){
+        if (observableList.size() == NB_MESSAGES){
             observableList.remove( 0 , 1 );
         }
         observableList.add(new Text(message));
@@ -176,7 +173,7 @@ public final class GraphicalPlayer {
         stage.setOnCloseRequest(Event::consume);
         button.setOnAction(e ->{
             stage.hide();
-            chooseTicketsHandler.onChooseTickets(SortedBag.of(listViewGetSelectModel.getSelectedItems())); //TODO getSelectedItemS
+            chooseTicketsHandler.onChooseTickets(SortedBag.of(listViewGetSelectModel.getSelectedItems()));
         });
         stage.show();
     }
@@ -190,7 +187,7 @@ public final class GraphicalPlayer {
         ListView<SortedBag<Card>> listView = new ListView<>(FXCollections.observableList(initialCards));
         MultipleSelectionModel<SortedBag<Card>> listViewGetSelectModel = listView.getSelectionModel();
         Button button = new Button(StringsFr.CHOOSE);
-        button.disableProperty().bind(listViewGetSelectModel.selectedItemProperty().isNull()); //TODO laisser la disable
+        button.disableProperty().bind(listViewGetSelectModel.selectedItemProperty().isNull());
         cardChoice( chooseCardsHandler, StringsFr.CHOOSE_CARDS, button, listViewGetSelectModel, listView);
 
     }

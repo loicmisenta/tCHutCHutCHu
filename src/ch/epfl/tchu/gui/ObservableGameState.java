@@ -76,13 +76,13 @@ public class ObservableGameState {
             faceUpCards.get(slot).set(newCard);
         }
         //ownedroute
-        for (Route r : ChMap.routes()) {  //TODO FAIRE UNE FOREACH
-            if (publicGameState.playerState(PlayerId.PLAYER_1).routes().contains(r)) {
-                ownedRoutes.get(r).set(PlayerId.PLAYER_1);
-            } else if (publicGameState.playerState(PlayerId.PLAYER_2).routes().contains(r)) {
-                ownedRoutes.get(r).set(PlayerId.PLAYER_2);
-            } else {
-                ownedRoutes.get(r).set(null);
+        for (Route r : ChMap.routes()) {
+            for (PlayerId playerId: PlayerId.ALL) {
+                if (publicGameState.playerState(playerId).routes().contains(r)) {
+                    ownedRoutes.get(r).set(playerId);
+                } else {
+                    ownedRoutes.get(r).set(null);
+                }
             }
         }
 
@@ -107,7 +107,7 @@ public class ObservableGameState {
 
         //claimableRoute
         List<List<Station>> stationList = new ArrayList<>(); //Création de liste d'opposées de stations
-        for (Route r: publicGameState.claimedRoutes()) {       //TODO à readapter en fnct du PlayerId.ALL.size()
+        for (Route r: publicGameState.claimedRoutes()) {
             stationList.add(r.stations());
         }
         claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));// && (ownedRoutes.get(r) == null) }

@@ -49,7 +49,7 @@ public final class Serdes {
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
         }, Serdes::stringToPublicGameState);
 
-    private Serdes(){}
+    public Serdes(){}
 
     private static PublicGameState stringToPublicGameState(String string){
         String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1);
@@ -63,7 +63,7 @@ public final class Serdes {
             mapPlayerState.put(playerId, stringToPublicPlayerState(listeString[i++]));
         }
         PlayerId lastPlayer;
-        if(listeString[listeString.length-1].length() == 0){ //TODO cas quand lastPLayer == null
+        if(listeString[listeString.length-1].length() == 0){
             lastPlayer = null;
         } else {
             lastPlayer = playerIdSerde.deserialize(listeString[listeString.length-1]);}

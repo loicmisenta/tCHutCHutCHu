@@ -14,7 +14,8 @@ import java.util.List;
  * Classe qui va créer le client pour lancer le jeu
  */
 public class ClientMain extends Application {
-
+    private final int LOCAL_SOCKET = 5108;
+    private final String LOCAL_IP = "localhost";
     /**
      * La méthode main qui va ??????
      * @param args les arguments
@@ -34,8 +35,8 @@ public class ClientMain extends Application {
         GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
         List<String> arguments = this.getParameters().getRaw();
         if (arguments.isEmpty()){
-            adress = "localhost";
-            socket = 5108;
+            adress = LOCAL_IP;
+            socket = LOCAL_SOCKET;
         } else {
             adress = arguments.get(0);
             socket = Integer.parseInt(arguments.get(1));
