@@ -23,7 +23,7 @@ public final class Serdes {
     public static final String DELIMITER_DEUX_POINTS = ":";
 
     public static final Serde<Integer> intSerde = Serde.of(i -> Integer.toString(i), Integer::parseInt);
-    public static final Serde<String> stringSerde = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)),i -> new String(Base64.getDecoder().decode(i), StandardCharsets.UTF_8));
+    public static final Serde<String> stringSerde = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i), StandardCharsets.UTF_8));
     public static final Serde<PlayerId> playerIdSerde = Serde.oneOf(PlayerId.ALL);
     public static final Serde<Player.TurnKind> turnKindSerde = Serde.oneOf(Player.TurnKind.ALL);
     public static final Serde<Card> cardSerde = Serde.oneOf(Card.ALL);
@@ -52,7 +52,7 @@ public final class Serdes {
     public Serdes(){}
 
     private static PublicGameState stringToPublicGameState(String string){
-        String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1);
+        String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1); //TODO
         int ticketsCount = intSerde.deserialize(listeString[0]);
         PublicCardState cardState = stringToPublicCardState(listeString[1]);
         PlayerId currentPlayerId = playerIdSerde.deserialize(listeString[2]);
@@ -96,7 +96,6 @@ public final class Serdes {
         int decksize = intSerde.deserialize(listeString[1]);
         int discardsize = intSerde.deserialize(listeString[2]);
         return new PublicCardState(faceUpCards, decksize, discardsize);
-
     }
 
     
