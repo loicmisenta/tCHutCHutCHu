@@ -49,7 +49,7 @@ public final class Info {
      *
      * @param playerNames noms des joueurs
      * @param points le nb de point
-     * @return le message qui dit que les joueurs ont terminé la partie ex æqo
+     * @return le message qui dit que les joueurs ont terminé la partie exæqo
      * en ayant chacun remporté le nb de points donné
      */
     public static String draw(List<String> playerNames, int points){

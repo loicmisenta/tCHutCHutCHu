@@ -50,8 +50,6 @@ public class ServerMain extends Application {
                     map.put(playerId, arguments.get(i++));
                 }
             }
-
-
             GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
             Player remotePlayerProxy = new RemotePlayerProxy(socket);
 
