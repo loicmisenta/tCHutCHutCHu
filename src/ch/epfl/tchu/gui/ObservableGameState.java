@@ -201,31 +201,37 @@ public class ObservableGameState {
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedTickets() {
-        Map<PlayerId, IntegerProperty> ownedTickets = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
-        ownedTickets.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
-        ownedTickets.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
+        Map<PlayerId, IntegerProperty> ownedTickets = new EnumMap<>(PlayerId.class);
+        for (PlayerId playerId : PlayerId.ALL) {
+            ownedTickets.put(playerId, new SimpleIntegerProperty());
+        }
+
         return ownedTickets;
     }
 
 
     private Map<PlayerId, IntegerProperty> createOwnedCards() {
-        Map<PlayerId, IntegerProperty> ownedCards = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
-        ownedCards.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
-        ownedCards.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
+        Map<PlayerId, IntegerProperty> ownedCards = new EnumMap<>(PlayerId.class);
+        for (PlayerId playerId : PlayerId.ALL) {
+            ownedCards.put(playerId, new SimpleIntegerProperty());
+        }
+
         return ownedCards;
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedCars() {
-        Map<PlayerId, IntegerProperty> ownedCars = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
-        ownedCars.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
-        ownedCars.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
+        Map<PlayerId, IntegerProperty> ownedCars = new EnumMap<>(PlayerId.class);
+        for (PlayerId playerId : PlayerId.ALL) {
+            ownedCars.put(playerId, new SimpleIntegerProperty());
+        }
         return ownedCars;
     }
 
     private Map<PlayerId, IntegerProperty> createOwnedConstructPoints() {
-        Map<PlayerId, IntegerProperty> ownedConstructPoints = new EnumMap<>(PlayerId.class); //TODO FAIRE UNE FOREACH
-        ownedConstructPoints.put(PlayerId.PLAYER_1, new SimpleIntegerProperty());
-        ownedConstructPoints.put(PlayerId.PLAYER_2, new SimpleIntegerProperty());
+        Map<PlayerId, IntegerProperty> ownedConstructPoints = new EnumMap<>(PlayerId.class);
+        for (PlayerId playerId : PlayerId.ALL) {
+            ownedConstructPoints.put(playerId, new SimpleIntegerProperty());
+        }
         return ownedConstructPoints;
     }
 

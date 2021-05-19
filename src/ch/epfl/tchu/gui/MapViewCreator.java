@@ -17,6 +17,7 @@ import java.util.List;
  * @author lagutovaalexandra (324449)
  * Classe permettant de créer la vue de la carte
  */
+//TODO PACKAGE PRIVATE ??
 public final class MapViewCreator {
     private MapViewCreator(){}
 
