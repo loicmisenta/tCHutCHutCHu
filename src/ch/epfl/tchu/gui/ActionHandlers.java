@@ -13,11 +13,8 @@ import ch.epfl.tchu.game.Ticket;
  */
 public interface ActionHandlers {
 
-
     @FunctionalInterface
     interface DrawTicketsHandler{
-
-        //TODO doit conteneir un gestionnaire valide ? TYPE DE RETOUR ?
         /**
          * Appellée quand le joueur decide de tirer des tickets
          */

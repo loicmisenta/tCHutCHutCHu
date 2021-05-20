@@ -83,9 +83,4 @@ public final class StringsFr {
         return Math.abs(value) == 1 || Math.abs(value) == 0? "" : "s";
     }
 
-    /**
-     * @author loicmisenta
-     * @author lagutovaalexandra
-     */
-
 }

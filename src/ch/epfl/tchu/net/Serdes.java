@@ -7,6 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * @author loicmisenta (330593)
+ * @author lagutovaalexandra (324449)
+ * La classe Serdes contient la totalité des serdes utiles au projet.
+ */
+
 public final class Serdes {
 
     /**

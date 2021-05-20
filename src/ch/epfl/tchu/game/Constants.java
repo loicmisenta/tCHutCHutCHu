@@ -105,6 +105,4 @@ public final class Constants {
      */
     public static final int LONGEST_TRAIL_BONUS_POINTS = 10;
 
-
-
 }

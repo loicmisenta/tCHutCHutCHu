@@ -22,7 +22,6 @@ public final class Deck<C extends Comparable<C>>  {
         this.cards = List.copyOf(cards);
     }
 
-
     /**
      * Une méthode qui mélange:
      * @param cards le tas de cartes

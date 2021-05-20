@@ -129,8 +129,7 @@ public final class Route {
         List<SortedBag<Card>> sortedBagList = new ArrayList<>();
         int nbWagons = length();  // nbWagons = nb de wagons
 
-        //le cas de Overground
-
+        //cas de Overground
         if (level() == Level.OVERGROUND){
             //couleur grise
             if (color() == null){
@@ -140,7 +139,7 @@ public final class Route {
                 sortedBagList.add(SortedBag.of(nbWagons, Card.of(color())));
             }
 
-        //le cas de Underground
+        //cas de Underground
         } else {
             for (int i = 0; i <= length(); i++){ // nb de locomotives
                 //couleur grise

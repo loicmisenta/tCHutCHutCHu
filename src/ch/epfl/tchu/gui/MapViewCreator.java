@@ -64,7 +64,7 @@ public final class MapViewCreator {
 
 
             group.setOnMouseClicked(e -> {
-                List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);  //TODO pas lié avec les cartes que le joueur
+                List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));
                 } else {

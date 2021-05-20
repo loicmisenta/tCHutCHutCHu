@@ -17,7 +17,8 @@ public class ClientMain extends Application {
     private final int LOCAL_SOCKET = 5108;
     private final String LOCAL_IP = "localhost";
     /**
-     * La méthode main qui va ??????
+     * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
+     * puis appelle la méthode start sur ce fil.
      * @param args les arguments
      */
     public static void main(String[] args) { launch(args);}

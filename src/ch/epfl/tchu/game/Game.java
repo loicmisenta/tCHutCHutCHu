@@ -11,10 +11,10 @@ import java.util.*;
  * @author lagutovaalexandra (324449)
  */
 public final class Game {
-
-    private Game(){
-        //CONSTRUCTEUR PRIVÉ PAS INSTANCIABLE
-    }
+    /**
+     * constructeur privé non-instanciable
+     */
+    private Game(){}
 
     /**
      * Fait jouer une partie

@@ -172,7 +172,7 @@ public final class GraphicalPlayerAdapter implements Player {
         } catch (InterruptedException e) {
             throw new Error();
         }
-    };
+    }
 
     /**
      * Méthode qui va

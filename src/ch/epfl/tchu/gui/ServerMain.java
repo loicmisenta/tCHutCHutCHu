@@ -24,7 +24,8 @@ import java.util.Random;
 public class ServerMain extends Application {
 
     /**
-     * Méthode main qui ... ?
+     * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
+     * puis appelle la méthode start sur ce fil.
      * @param args les arguments de la méthode
      */
     public static void main(String[] args) { launch(args);}

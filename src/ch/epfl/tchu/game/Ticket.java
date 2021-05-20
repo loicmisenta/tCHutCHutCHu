@@ -99,7 +99,9 @@ public final class Ticket implements Comparable<Ticket>{
         return thisText.compareTo(thatText);
     }
 
-    //TODO Pour les tests?
+    /**
+     * @return la même valeur que la méthode toText
+     */
     @Override
     public String toString() {
         return billetText;
