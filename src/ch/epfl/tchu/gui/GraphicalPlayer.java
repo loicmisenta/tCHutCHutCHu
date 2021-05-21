@@ -22,7 +22,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

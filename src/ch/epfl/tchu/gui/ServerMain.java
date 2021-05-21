@@ -30,11 +30,14 @@ public class ServerMain extends Application {
      */
     public static void main(String[] args) { launch(args);}
 
+
+
     /**
      * Méthode qui va commencer la partie
      * @param primaryStage le stage principal
-     * @throws Exception
+     * @throws Exception exception
      */
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         List<String> arguments = this.getParameters().getRaw();
