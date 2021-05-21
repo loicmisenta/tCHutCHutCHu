@@ -8,7 +8,7 @@ import java.util.List;
  * Type énuméré representant l'identité d'un joueur
  */
 public enum PlayerId {
-    PLAYER_1, PLAYER_2,PLAYER_3;
+    PLAYER_1, PLAYER_2;
 
 
     public static final List<PlayerId> ALL = List.of(PlayerId.values());  //TODO fonction qui modifie ALL

@@ -19,8 +19,7 @@ import java.util.Map;
  * @author lagutovaalexandra (324449)
  * Cette classe (non instanciable) représente l'interface graphique de la vue des informations
  */
-//TODO PAS PUBLIC JE CROIS (POUR TEST)
-public final class InfoViewCreator {
+final class InfoViewCreator {
     private static final int CERCLE_RAYON = 5;
     private static final int NB_MESSAGES = 5;
 

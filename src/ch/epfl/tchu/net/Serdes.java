@@ -45,13 +45,40 @@ public final class Serdes {
      * Serdes qui serialise et deserialise un player
      */
     public static final Serde<PlayerId> playerIdSerde = Serde.oneOf(PlayerId.ALL);
+
+    /**
+     * Serdes qui serialise et deserialise un turnKind
+     */
     public static final Serde<Player.TurnKind> turnKindSerde = Serde.oneOf(Player.TurnKind.ALL);
+
+    /**
+     * Serdes qui serialise et deserialise une carte
+     */
     public static final Serde<Card> cardSerde = Serde.oneOf(Card.ALL);
+
+    /**
+     * Serdes qui serialise et deserialise une route
+     */
     public static final Serde<Route> routeSerde = Serde.oneOf(ChMap.routes());
+
+    /**
+     * Serdes qui serialise et deserialise un ticket
+     */
     public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets());
 
+    /**
+     * Serdes qui serialise et deserialise une liste de String
+     */
     public static final Serde<List<String>> listStringSerde = Serde.listOf( stringSerde, DELIMITER_VIRGULE);
+
+    /**
+     * Serdes qui serialise et deserialise une liste de carte
+     */
     public static final Serde<List<Card>> listCardSerde = Serde.listOf(cardSerde, DELIMITER_VIRGULE);
+
+    /**
+     * Serdes qui serialise et deserialise une liste de route
+     */
     public static final Serde<List<Route>> listRouteSerde = Serde.listOf(routeSerde, DELIMITER_VIRGULE);
 
     /**
