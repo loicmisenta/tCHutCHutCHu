@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
-
+/**
 public final class Stage10Test extends Application {
     public static void main(String[] args) { launch(args); }
     //*
@@ -95,4 +95,4 @@ public final class Stage10Test extends Application {
     static void drawCard(int slot) {
         System.out.printf("Tirage de cartes (emplacement %s)!\n", slot);
     }
-}
+}**/

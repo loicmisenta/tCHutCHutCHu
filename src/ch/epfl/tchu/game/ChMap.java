@@ -175,10 +175,10 @@ public final class ChMap {
             new Route("WIN_ZUR_1", WIN, ZUR, 1, Level.OVERGROUND, Color.BLUE),
             new Route("WIN_ZUR_2", WIN, ZUR, 1, Level.OVERGROUND, Color.VIOLET),
             new Route("ZOU_ZUR_1", ZOU, ZUR, 1, Level.OVERGROUND, Color.GREEN),
-            new Route("ZOU_ZUR_2", ZOU, ZUR, 1, Level.OVERGROUND, Color.RED));//
+            new Route("ZOU_ZUR_2", ZOU, ZUR, 1, Level.OVERGROUND, Color.RED));
 
     // Tickets
-    public static final Ticket deToNeighbors = ticketToNeighbors(DE, 0, 5, 13, 5); //TODO
+    public static final Ticket deToNeighbors = ticketToNeighbors(DE, 0, 5, 13, 5);
     public static final Ticket atToNeighbors = ticketToNeighbors(AT, 5, 0, 6, 14);
     public static final Ticket itToNeighbors = ticketToNeighbors(IT, 13, 6, 0, 11);
     public static final Ticket frToNeighbors = ticketToNeighbors(FR, 5, 14, 11, 0);

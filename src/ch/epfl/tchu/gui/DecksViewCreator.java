@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
  * Classe contenant les méthodes qui crée la represntation graphique des decks
  */
 
-public final class DecksViewCreator { //TODO package private ?
+final class DecksViewCreator {
 
     final static int EXT_CARD_WIDTH = 60;
     final static int EXT_CARD_HEIGHT = 90;

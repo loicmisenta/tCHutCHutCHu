@@ -40,15 +40,17 @@ public class Stage12Server extends Application{
                 Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
                 List<String> arguments = this.getParameters().getRaw();
 
+                //TODO nb de joueurs
+
+
                 GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
                 mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
                 int i = 0;
                 for (PlayerId id: PlayerId.ALL) {
-                    //map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ?
-                    map.put(id, arguments.get(i++));
+                    map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ? Blocking qeue ?
                     if(id == PlayerId.PLAYER_1) continue;
                     Socket socket = serverSocket.accept();
-                    mapPlayer.put(id, new RemotePlayerProxy(socket));
+                    mapPlayer.put(id, new RemotePlayerProxy(socket)); //TODO nom par defaut  + Remote
                 }
 
                 //TODO comment lancer quand map contient une valeur pour le String  ?

@@ -75,7 +75,7 @@ public final class InfoViewCreator {
         Circle circle = new Circle(CERCLE_RAYON);
         statPlayer.getStyleClass().add(id.name());
         Text text1 = new Text();
-        circle.getStyleClass().add("filled"); //TODO affiche pas la couleur
+        circle.getStyleClass().add("filled");
         statPlayer.getChildren().addAll(circle, text1);
         text1.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
                 playerIdStringMap.get(id),

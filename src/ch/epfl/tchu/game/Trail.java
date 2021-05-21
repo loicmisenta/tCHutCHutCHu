@@ -20,9 +20,7 @@ public final class Trail {
     private static Trail longest;
 
 
-    //TODO   -3 pts
-    //TODO NullPointerException dans le cadre d'une utilisation normale du programme (toString du trail vide)
-    private Trail (List<Route> routes){
+   private Trail (List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
         int temp = 0;
@@ -112,6 +110,8 @@ public final class Trail {
             }
             trails = trailsPrime;
         }
+
+
         return longest;
 
     }
@@ -123,7 +123,7 @@ public final class Trail {
     @Override
     public String toString() {
 
-        if (routes==null){
+        if (routes==null || station1 == null){
             return "route vide";
         }
         List<String> l = new ArrayList<>();

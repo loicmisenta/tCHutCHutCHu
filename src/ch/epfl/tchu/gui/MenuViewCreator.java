@@ -20,8 +20,8 @@ import javafx.stage.Stage;
 public final class MenuViewCreator { //TODO better to create for each player to after show ot in ServerMain ?
                                         // String in this case ?
 
-    private static final StringProperty stringProperty = new SimpleStringProperty(); //TODO utiliser une prop
-    private static Stage primaryStage1; //TODO mettre en final ?
+    private static final StringProperty stringProperty = new SimpleStringProperty();
+    private static Stage primaryStage1;
 
 
     public static String createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
@@ -40,9 +40,9 @@ public final class MenuViewCreator { //TODO better to create for each player to 
 
        pane.getChildren().addAll(fond, play);
        play.setOnAction(e -> enterString());
-       //stringProperty.addListener((o, oV, nV)-> );
+       stringProperty.addListener((o, oV, nV)-> { stringProperty.toString(); });
        primaryStage.show();
-       return stringProperty.toString(); //TODO faire retourner que après le changement
+       return stringProperty.toString(); //TODO faire retourner que après le changement Blocking Qeue
                                             // d'une valeur
     }
 

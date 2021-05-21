@@ -3,8 +3,7 @@ package ch.epfl.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import ch.epfl.tchu.gui.ActionHandlers;
-import ch.epfl.tchu.gui.DecksViewCreator;
-import ch.epfl.tchu.gui.MapViewCreator;
+//import ch.epfl.tchu.gui.DecksViewCreator;
 import ch.epfl.tchu.gui.ObservableGameState;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
@@ -19,7 +18,7 @@ import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
-
+/**
 public final class Stage9Test extends Application {
     public static void main(String[] args) { launch(args); }
     //*
@@ -103,4 +102,4 @@ public final class Stage9Test extends Application {
                 dumpTree(indent + 2, child);
         }
     }
-}
+}**/

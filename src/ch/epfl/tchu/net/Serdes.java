@@ -12,8 +12,11 @@ import java.util.regex.Pattern;
  * @author lagutovaalexandra (324449)
  * La classe Serdes contient la totalité des serdes utiles au projet.
  */
-
 public final class Serdes {
+    /**
+     * Constructeur public de Serdes qui rend cette classe non-instanciable
+     */
+    private Serdes(){}
 
     /**
      * Caractère point-virgule
@@ -28,8 +31,19 @@ public final class Serdes {
      */
     public static final String DELIMITER_DEUX_POINTS = ":";
 
+    /**
+     * serde qui sérialise et déserialise un int
+     */
     public static final Serde<Integer> intSerde = Serde.of(i -> Integer.toString(i), Integer::parseInt);
+
+    /**
+     * Serdes qui serialise et deserialise un String
+     */
     public static final Serde<String> stringSerde = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i), StandardCharsets.UTF_8));
+
+    /**
+     * Serdes qui serialise et deserialise un player
+     */
     public static final Serde<PlayerId> playerIdSerde = Serde.oneOf(PlayerId.ALL);
     public static final Serde<Player.TurnKind> turnKindSerde = Serde.oneOf(Player.TurnKind.ALL);
     public static final Serde<Card> cardSerde = Serde.oneOf(Card.ALL);
@@ -39,13 +53,40 @@ public final class Serdes {
     public static final Serde<List<String>> listStringSerde = Serde.listOf( stringSerde, DELIMITER_VIRGULE);
     public static final Serde<List<Card>> listCardSerde = Serde.listOf(cardSerde, DELIMITER_VIRGULE);
     public static final Serde<List<Route>> listRouteSerde = Serde.listOf(routeSerde, DELIMITER_VIRGULE);
+
+    /**
+     * Serdes qui serialise et deserialise un SortedBag de Cartes
+     */
     public static final Serde<SortedBag<Card>> sortedBagOfCardSerde = Serde.bagOf(cardSerde, DELIMITER_VIRGULE);
+
+    /**
+     * Serdes qui serialise et deserialise un PublicGameState
+     */
     public static final Serde<SortedBag<Ticket>> sortedBagOfTicketSerde = Serde.bagOf(ticketSerde, DELIMITER_VIRGULE);
+
+    /**
+     * Serdes qui serialise et deserialise und Liste de SortedBag de cartes
+     */
     public static final Serde<List<SortedBag<Card>>> listSortedBagOfCard = Serde.listOf(sortedBagOfCardSerde, DELIMITER_POINT_VIRGULE);
 
+    /**
+     * Serdes qui serialise et deserialise un PublicCardState
+     */
     public static final Serde<PublicCardState> publicCardStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, listCardSerde.serialize(i.faceUpCards()), intSerde.serialize(i.deckSize()), intSerde.serialize(i.discardsSize())), Serdes::stringToPublicCardState);
+
+    /**
+     * Serdes qui serialise et deserialise un PublicPlayerState
+     */
     public static final Serde<PublicPlayerState> publicPlayerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, intSerde.serialize(i.ticketCount()), intSerde.serialize(i.cardCount()), listRouteSerde.serialize(i.routes())), Serdes::stringToPublicPlayerState);
+
+    /**
+     * Serdes qui serialise et deserialise un playerState
+     */
     public static final Serde<PlayerState> playerStateSerde = Serde.of(i -> String.join(DELIMITER_POINT_VIRGULE, sortedBagOfTicketSerde.serialize(i.tickets()), sortedBagOfCardSerde.serialize(i.cards()), listRouteSerde.serialize(i.routes())), Serdes::stringToPlayerState);
+
+    /**
+     * Serdes qui serialise et deserialise un PublicGameState
+     */
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> {
         String stringSerializeMapPlayer = "";
         for (PlayerId playerId : PlayerId.ALL) {
@@ -55,10 +96,8 @@ public final class Serdes {
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
         }, Serdes::stringToPublicGameState);
 
-    public Serdes(){}
-
     private static PublicGameState stringToPublicGameState(String string){
-        String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1); //TODO
+        String[] listeString = string.split(Pattern.quote( DELIMITER_DEUX_POINTS), -1);
         int ticketsCount = intSerde.deserialize(listeString[0]);
         PublicCardState cardState = stringToPublicCardState(listeString[1]);
         PlayerId currentPlayerId = playerIdSerde.deserialize(listeString[2]);

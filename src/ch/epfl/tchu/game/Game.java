@@ -45,7 +45,9 @@ public final class Game {
 
         for (PlayerId playerId : PlayerId.ALL) {
             players.get(playerId).initPlayers(playerId, playerNames);
-            infoMap.put(playerId, new Info(playerNames.get(playerId)));
+            infoMap.put(playerId, new Info(playerNames.get(playerId)));}
+        receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
+        for (PlayerId playerId : PlayerId.ALL) {
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
         } updateState(players, gameState);
@@ -56,7 +58,6 @@ public final class Game {
             gameState = gameState.withInitiallyChosenTickets(playerId, mapTicketsChoisis.get(playerId));
         }
 
-        receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());  /// TODO L'identité du premier joueur doit être annoncée avant de dire aux joueurs quels sont leurs 5 billets initiaux
         //info tickets choisis:
         players.forEach(((playerId, player) -> receiveInfo(players, infoMap.get(playerId).keptTickets(mapTicketsChoisis.get(playerId).size()))));
         return gameState;
@@ -187,7 +188,6 @@ public final class Game {
         for (PlayerId playerId: listLongestTrail) {
             receiveInfo(players, infoMap.get(playerId).getsLongestTrailBonus(longestTrail));
         }
-
         updateState(players, gameState);
 
         PlayerId joueurGagnant = playerNamesWon.get(0);

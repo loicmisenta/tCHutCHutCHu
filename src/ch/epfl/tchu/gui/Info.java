@@ -170,7 +170,7 @@ public final class Info {
      * @param loserPoints points de l'adversaire
      * @return un message déclarant le nom du gagnant
      */
-    public String won(int points, int loserPoints){ //TODO readapter pour 3 joueurs ?
+    public String won(int points, int loserPoints){
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 
@@ -180,7 +180,7 @@ public final class Info {
      * @return un string composé des cartes données
      */
 
-    private String cardToString(SortedBag<Card> cards){
+    public static String cardToString(SortedBag<Card> cards){
         String cardsString = "";
         List<String> listString = new ArrayList<>();
 

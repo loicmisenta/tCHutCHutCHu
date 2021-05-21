@@ -44,7 +44,7 @@ public final class TestClient {
         @Override
         public SortedBag<Ticket> chooseInitialTickets() {
             List<Ticket> listTicket = List.of(ChMap.tickets().get(0), ChMap.tickets().get(1), ChMap.tickets().get(2));
-            System.out.println("Choose Initial Tickets" + listTicket); //TODO comment vérifier l'affichage ?
+            System.out.println("Choose Initial Tickets" + listTicket);
             return SortedBag.of(listTicket);
         }
 

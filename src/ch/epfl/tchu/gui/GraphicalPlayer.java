@@ -241,33 +241,10 @@ public final class GraphicalPlayer {
     }
 
     private static class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
-        @Override //TODO à simplifier !!!!! appeller la méthode d'info ?
+        @Override
         public String toString(SortedBag<Card> cards) {
-            String cardsString = "";
-            List<String> listString = new ArrayList<>();
-
-            //Cas spécial dans lequel cards est composé d'un seul élement
-            if (cards.size() == 1){
-                int nombreCarte = cards.countOf(cards.get(0));
-                listString.add( nombreCarte + " " + Info.cardName(cards.get(0), nombreCarte));
-            } else {
-                //Boucle principale, crée les cartes
-                for (int i = 0; i < cards.size() ; i++) {
-                    int nombreCartes = cards.countOf(cards.get(i));
-                    listString.add( nombreCartes + " " + Info.cardName(cards.get(i), nombreCartes));
-                    i += nombreCartes - 1;
-                }
-            }
-            //Affiche les cartes
-            if(listString.size() == 1){
-                cardsString += listString.get(0);
-            } else {
-                cardsString += String.join(", ", listString.subList(0, listString.size() - 1));
-                cardsString += StringsFr.AND_SEPARATOR + listString.get(listString.size() - 1);
-            }
-            return cardsString;
+            return Info.cardToString(cards);
         }
-
         @Override
         public SortedBag<Card> fromString(String string) {
             throw new UnsupportedOperationException();

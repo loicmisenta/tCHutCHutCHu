@@ -80,7 +80,7 @@ public interface Serde<T> {
     static <X> Serde<List<X>> listOf(Serde<X> serde, String stringDelimit){
         return new Serde <> () {
             @Override
-            public String serialize(List<X> liste) { //TODO StringJoiner
+            public String serialize(List<X> liste) {
 
                 String[] serdeString = new String[liste.size()];
                 for (int i = 0; i < liste.size(); ++i) {

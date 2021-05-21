@@ -27,10 +27,11 @@ public class ClientMain extends Application {
     /**
      * Méthode qui va commencer la partie
      * @param primaryStage le stage principal
-     * @throws Exception
      */
+
+
     @Override
-    public void start(Stage primaryStage) throws Exception { //TODO exception qu'on va jamais throw
+    public void start(Stage primaryStage){
         String adress;
         int socket;
         GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
