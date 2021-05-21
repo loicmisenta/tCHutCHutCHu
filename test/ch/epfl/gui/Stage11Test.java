@@ -3,6 +3,7 @@ package ch.epfl.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import ch.epfl.tchu.gui.GraphicalPlayerAdapter;
+import ch.epfl.tchu.gui.MenuViewCreator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -24,8 +25,10 @@ public class Stage11Test extends Application {
                 Map.of(PLAYER_1, new GraphicalPlayerAdapter(),
                         PLAYER_2, new GraphicalPlayerAdapter());
         Random rng = new Random();
-        new Thread(() -> Game.play(players, names, tickets, rng))
-                .start();
+
+        Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
+        String s = MenuViewCreator.createMenuView(primaryStage);
+
     }
 }
 

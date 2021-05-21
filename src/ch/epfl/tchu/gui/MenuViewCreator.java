@@ -47,7 +47,7 @@ public final class MenuViewCreator { //TODO better to create for each player to 
     }
 
 
-    private String enterString(Button play){
+    private static void enterString(){
 
         Stage stage = new Stage();
         GridPane grid = new GridPane();
