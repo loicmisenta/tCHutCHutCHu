@@ -14,6 +14,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+
 
 //TODO creer des actions et l'interface en séparée ?
 //TODO should the class be static ?
@@ -22,6 +25,7 @@ public final class MenuViewCreator { //TODO better to create for each player to 
 
     private static final StringProperty stringProperty = new SimpleStringProperty();
     private static Stage primaryStage1;
+    private BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
 
 
     public static String createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
