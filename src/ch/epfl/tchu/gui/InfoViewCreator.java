@@ -73,16 +73,16 @@ final class InfoViewCreator {
 
         Circle circle = new Circle(CERCLE_RAYON);
         statPlayer.getStyleClass().add(id.name());
-        Text text1 = new Text();
+        Text text = new Text();
         circle.getStyleClass().add("filled");
-        statPlayer.getChildren().addAll(circle, text1);
-        text1.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
+        statPlayer.getChildren().addAll(circle, text);
+        text.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
                 playerIdStringMap.get(id),
                 obsGS.ownedTicketsReadOnly(id),
                 obsGS.ownedCardReadOnly(id),
                 obsGS.ownedCarsReadOnly(id),
                 obsGS.ownedConstructPointsReadOnly(id)));
-        text1.textProperty().addListener((o, no, nV)->System.out.println(id.name() + " -> " + text1.getText()));
+        text.textProperty().addListener((o, no, nV)->System.out.println(id.name() + " -> " + text.getText()));
 
     }
 }
