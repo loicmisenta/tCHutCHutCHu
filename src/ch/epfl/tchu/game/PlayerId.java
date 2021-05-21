@@ -8,7 +8,7 @@ import java.util.List;
  * Type énuméré representant l'identité d'un joueur
  */
 public enum PlayerId {
-    PLAYER_1, PLAYER_2;
+    PLAYER_1, PLAYER_2, PLAYER_3;
 
 
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
@@ -20,7 +20,8 @@ public enum PlayerId {
     public PlayerId next(){
         if (this == PLAYER_1) {
             return PLAYER_2;
-        } else {
+        }
+        elsif(else {
             return PLAYER_1;
         }
     }
