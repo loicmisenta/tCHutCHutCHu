@@ -47,7 +47,7 @@ public class Stage12Server extends Application{
                 mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
                 int i = 0;
                 for (PlayerId id: PlayerId.ALL) {
-                    map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ? Blocking qeue ?
+                    //map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ? Blocking qeue ?
                     map.put(id, arguments.get(i++));
                     if(id == PlayerId.PLAYER_1) continue;
                     Socket socket = serverSocket.accept();

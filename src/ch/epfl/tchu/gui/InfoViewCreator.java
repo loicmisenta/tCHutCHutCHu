@@ -72,7 +72,7 @@ final class InfoViewCreator {
         vboxPlayerStats.getChildren().add(statPlayer);
 
         Circle circle = new Circle(CERCLE_RAYON);
-        System.out.println(id.name());
+        statPlayer.getStyleClass().add(id.name());
         Text text = new Text();
         circle.getStyleClass().add("filled");
         statPlayer.getChildren().addAll(circle, text);
