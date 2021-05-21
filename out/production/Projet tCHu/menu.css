@@ -1,0 +1,12 @@
+#round-red {
+    -fx-background-color: linear-gradient(#ffbf41, #be1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+ImageView {
+    -fx-image: url("map.png");  /* TODO  choisir une image de fond */
+}
