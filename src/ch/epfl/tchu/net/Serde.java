@@ -17,8 +17,18 @@ import java.util.regex.Pattern;
  */
 public interface Serde<T> {
 
+    /**
+     * Méthode statique sérialisant un élément donné
+     * @param object l'objet à sérializer
+     * @return String sérializé
+     */
     String serialize(T object);
 
+    /**
+     * Méthode qui va desérializer un String donné
+     * @param string l'objet à desérializer
+     * @return l'objet
+     */
     T deserialize(String string);
 
     /**

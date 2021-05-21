@@ -40,7 +40,10 @@ public class ServerMain extends Application {
         List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
+
+
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
+
 
             if (arguments.isEmpty()){
                 map.put(PlayerId.PLAYER_1, "Ada");
@@ -61,6 +64,8 @@ public class ServerMain extends Application {
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
 
         }
+
+        //TODO creer un nouveau Socket pour le 3ème joueur
 
     }
 }
