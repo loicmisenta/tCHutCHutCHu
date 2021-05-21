@@ -59,6 +59,7 @@ public class ServerMain extends Application {
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
             mapPlayer.put(PlayerId.PLAYER_2, remotePlayerProxy);
+            mapPlayer.put(PlayerId.PLAYER_3, remotePlayerProxy);
 
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
 
