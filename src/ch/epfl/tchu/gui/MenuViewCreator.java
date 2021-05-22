@@ -2,6 +2,7 @@ package ch.epfl.tchu.gui;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -27,11 +28,32 @@ public final class MenuViewCreator { //TODO better to create for each player to 
 
     private static final StringProperty stringProperty = new SimpleStringProperty();
     private static Stage primaryStage1;
-    private BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
+    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
 
+
+    //TODO à deplacer dans ActionHandlers
+    @FunctionalInterface
+    interface ChooseNameHandler{
+        void onChooseName(String name);
+    }
 
     public static void chooseName(){
-        //runLater(() -> );
+        ChooseNameHandler chooseNameHandler = name -> {
+            try {
+                stringBlockingDeque.put(name);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+        runLater(() -> enterString(chooseNameHandler));
+    }
+
+    public static String getName(){
+        try {
+            return stringBlockingDeque.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
     }
 
     public static String createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
@@ -49,15 +71,14 @@ public final class MenuViewCreator { //TODO better to create for each player to 
        fond.getStyleClass().add("ImageView");
 
        pane.getChildren().addAll(fond, play);
-       play.setOnAction(e -> enterString());
-       stringProperty.addListener((o, oV, nV)-> { stringProperty.toString(); });
+       play.setOnAction(e -> chooseName());
        primaryStage.show();
-       return stringProperty.toString(); //TODO faire retourner que après le changement Blocking Qeue
-                                            // d'une valeur
+       return getName();
+
     }
 
 
-    private static void enterString(){
+    private static void enterString(ChooseNameHandler chooseNameHandler){
 
         Stage stage = new Stage();
         GridPane grid = new GridPane();
@@ -72,10 +93,11 @@ public final class MenuViewCreator { //TODO better to create for each player to 
         Label nameL = new Label("Nom : ");
         Button buttonNom = new Button("Choisir");
 
+        stage.setOnCloseRequest(Event::consume);
         buttonNom.disableProperty().bind(entreeDuNom.textProperty().isEmpty());
         buttonNom.setOnAction(e -> {
             stage.hide();
-            stringProperty.set(entreeDuNom.getText());
+            chooseNameHandler.onChooseName(entreeDuNom.getText()); //TODO not sure if correct ?
         });
 
         grid.addRow(0, titre);
