@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import static com.sun.javafx.application.PlatformImpl.runLater;
+
 
 //TODO creer des actions et l'interface en séparée ?
 //TODO should the class be static ?
@@ -27,6 +29,10 @@ public final class MenuViewCreator { //TODO better to create for each player to 
     private static Stage primaryStage1;
     private BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
 
+
+    public static void chooseName(){
+        //runLater(() -> );
+    }
 
     public static String createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
         // Passer deux val en paramètre et les changer?

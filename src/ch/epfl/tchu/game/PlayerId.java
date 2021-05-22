@@ -14,6 +14,9 @@ public enum PlayerId {
     public static final List<PlayerId> ALL = List.of(PlayerId.values());  //TODO fonction qui modifie ALL
     public static final int COUNT = ALL.size();
 
+    //public static modifyAll(){ TODO on ne peut pas car l'instance n'existe pas
+    //    ALL.add(Player_3)
+    //}
     /**
      * Méthode qui retourne 'identité du joueur qui suit celui auquel on l'applique
      */
