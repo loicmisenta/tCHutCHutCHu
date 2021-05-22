@@ -63,7 +63,6 @@ final class InfoViewCreator {
             textFlow.getChildren().addAll(textMessage);
         }
         Bindings.bindContent(textFlow.getChildren(), text);
-
         return vbox;
     }
 
@@ -83,6 +82,5 @@ final class InfoViewCreator {
                 obsGS.ownedCarsReadOnly(id),
                 obsGS.ownedConstructPointsReadOnly(id)));
         text.textProperty().addListener((o, no, nV)->System.out.println(id.name() + " -> " + text.getText()));
-
     }
 }

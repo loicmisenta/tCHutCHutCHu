@@ -48,18 +48,13 @@ public class ServerMain extends Application {
                 map.put(PlayerId.PLAYER_1, "Ada");
                 map.put(PlayerId.PLAYER_2, "Charles");
             } else{
-                int i = 0;
-                for (PlayerId playerId: PlayerId.ALL) {
-                    map.put(playerId, arguments.get(i++));
-                }
+                map.put(PlayerId.PLAYER_1, arguments.get(0));
+                map.put(PlayerId.PLAYER_2, arguments.get(1));
             }
-            GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
-            Player remotePlayerProxy = new RemotePlayerProxy(socket);
 
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
-            mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
-            mapPlayer.put(PlayerId.PLAYER_2, remotePlayerProxy);
-            mapPlayer.put(PlayerId.PLAYER_3, remotePlayerProxy);
+            mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
+            mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));
 
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
 

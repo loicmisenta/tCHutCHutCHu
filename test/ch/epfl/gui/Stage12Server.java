@@ -42,13 +42,13 @@ public class Stage12Server extends Application{
 
                 //TODO nb de joueurs
 
+                mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
+                map.put(PlayerId.PLAYER_1, arguments.get(0));
+                map.put(PlayerId.PLAYER_2, arguments.get(1));
 
-                GraphicalPlayerAdapter graphicalPlayerAdapter = new GraphicalPlayerAdapter();
-                mapPlayer.put(PlayerId.PLAYER_1, graphicalPlayerAdapter);
-                int i = 0;
+
                 for (PlayerId id: PlayerId.ALL) {
                     //map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ? Blocking qeue ?
-                    map.put(id, arguments.get(i++));
                     if(id == PlayerId.PLAYER_1) continue;
                     Socket socket = serverSocket.accept();
                     mapPlayer.put(id, new RemotePlayerProxy(socket)); //TODO nom par defaut  + Remote

@@ -41,7 +41,6 @@ public class ClientMain extends Application {
             adress = arguments.get(0);
             socket = Integer.parseInt(arguments.get(1));
         }
-
         RemotePlayerClient playerClient = new RemotePlayerClient(graphicalPlayerAdapter, adress, socket);
         new Thread(playerClient::run).start();
 
