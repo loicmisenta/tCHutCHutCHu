@@ -86,15 +86,15 @@ public class ObservableGameState {
             }
         }
 
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playId : PlayerId.ALL) {
             //ownedtickets
-            ownedTickets.get(playerId).set(publicGameState.playerState(playerId).ticketCount());
+            ownedTickets.get(playId).set(publicGameState.playerState(playId).ticketCount());
             //ownedcards
-            ownedCards.get(playerId).set(publicGameState.playerState(playerId).cardCount());
+            ownedCards.get(playId).set(publicGameState.playerState(playId).cardCount());
             //ownedcars
-            ownedCars.get(playerId).set(publicGameState.playerState(playerId).carCount());
+            ownedCars.get(playId).set(publicGameState.playerState(playId).carCount());
             //ownedconstructpoints
-            ownedConstructPoints.get(playerId).set(publicGameState.playerState(playerId).claimPoints());
+            ownedConstructPoints.get(playId).set(publicGameState.playerState(playId).claimPoints());
         }
 
         //tickeLlist

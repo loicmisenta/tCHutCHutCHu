@@ -75,6 +75,7 @@ final class InfoViewCreator {
         Text text = new Text();
         circle.getStyleClass().add("filled");
         statPlayer.getChildren().addAll(circle, text);
+
         text.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS,
                 playerIdStringMap.get(id),
                 obsGS.ownedTicketsReadOnly(id),
