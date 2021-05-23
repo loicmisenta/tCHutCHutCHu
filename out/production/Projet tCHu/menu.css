@@ -8,5 +8,5 @@
 }
 
 ImageView {
-    -fx-image: url("map.png");  /* TODO  choisir une image de fond */
+    -fx-image: url("map.png");
 }

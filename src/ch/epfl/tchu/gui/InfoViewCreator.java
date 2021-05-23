@@ -82,6 +82,5 @@ final class InfoViewCreator {
                 obsGS.ownedCardReadOnly(id),
                 obsGS.ownedCarsReadOnly(id),
                 obsGS.ownedConstructPointsReadOnly(id)));
-        text.textProperty().addListener((o, no, nV)->System.out.println(id.name() + " -> " + text.getText()));
     }
 }
