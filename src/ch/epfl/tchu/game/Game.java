@@ -197,8 +197,6 @@ public final class Game {
                 for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
-                System.out.println(mapPlayerPoints.get(joueurGagnant) + " joueur gagnant ");
-                System.out.println(mapPlayerPoints.get(joueurGagnant.next()) + " joueur qui n'a pas gagné");
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next())));
             }
         }));

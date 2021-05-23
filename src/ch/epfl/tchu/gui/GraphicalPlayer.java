@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
+import static javafx.application.Platform.isFxApplicationThread;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -23,8 +24,6 @@ import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import java.util.List;
 import java.util.Map;
-
-import static com.sun.javafx.application.PlatformImpl.isFxApplicationThread;
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
