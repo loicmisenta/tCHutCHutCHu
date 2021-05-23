@@ -39,9 +39,7 @@ public class Stage12Server extends Application{
                 Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
                 Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
                 List<String> arguments = this.getParameters().getRaw();
-
                 //TODO nb de joueurs
-
                 mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
                 map.put(PlayerId.PLAYER_1, arguments.get(0));
                 map.put(PlayerId.PLAYER_2, arguments.get(1));

@@ -24,7 +24,6 @@ public final class Game {
      * @param rng         générateur aléatoire de nombres
      */
 
-
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument((players.size() == PlayerId.COUNT) && (playerNames.size() == PlayerId.COUNT));
         //Le début de la partie

@@ -81,6 +81,7 @@ public class PublicGameState {
         return playerState.get(playerId);
     }
 
+
     /**
      * @return  la partie publique de l'état du joueur courant
      */

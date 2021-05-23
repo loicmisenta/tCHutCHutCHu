@@ -77,11 +77,9 @@ public final class ObservableGameState {
         }
         //ownedroute
         for (Route r : ChMap.routes()) {
-            for (PlayerId playerId: PlayerId.ALL) {
+            for (PlayerId playerId: PlayerId.ALL) { //sublist de all de taille du gamestate !
                 if (publicGameState.playerState(playerId).routes().contains(r)) {
                     ownedRoutes.get(r).set(playerId);
-                } else {
-                    ownedRoutes.get(r).set(null);
                 }
             }
         }

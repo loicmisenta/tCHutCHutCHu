@@ -30,8 +30,6 @@ public final class ServerMain extends Application {
      */
     public static void main(String[] args) { launch(args);}
 
-
-
     /**
      * Méthode qui va commencer la partie
      * @param primaryStage le stage principal
@@ -51,7 +49,6 @@ public final class ServerMain extends Application {
                 map.put(PlayerId.PLAYER_1, arguments.get(0));
                 map.put(PlayerId.PLAYER_2, arguments.get(1));
             }
-
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));

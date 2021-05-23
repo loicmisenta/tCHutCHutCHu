@@ -3,7 +3,6 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.net.RemotePlayerClient;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.util.List;
 
 /**
