@@ -16,7 +16,7 @@ import static javafx.collections.FXCollections.observableArrayList;
  * Cette classe représente l'état observable d'une partie de tCHu
  */
 
-public class ObservableGameState {
+public final class ObservableGameState {
     private final PlayerId playerId;
     private PublicGameState publicGameState;
     private PlayerState playerState;

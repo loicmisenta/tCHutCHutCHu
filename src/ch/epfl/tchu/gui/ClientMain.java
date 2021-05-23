@@ -11,7 +11,7 @@ import java.util.List;
  * @author lagutovaalexandra (324449)
  * Classe qui va créer le client pour lancer le jeu
  */
-public class ClientMain extends Application {
+public final class ClientMain extends Application {
     private final int LOCAL_SOCKET = 5108;
     private final String LOCAL_IP = "localhost";
     /**

@@ -21,7 +21,7 @@ import java.util.Random;
  * @author lagutovaalexandra (324449)
  * Classe qui va créer le serveur pour lancer le jeu
  */
-public class ServerMain extends Application {
+public final class ServerMain extends Application {
 
     /**
      * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,

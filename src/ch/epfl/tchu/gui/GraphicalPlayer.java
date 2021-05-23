@@ -1,5 +1,4 @@
 package ch.epfl.tchu.gui;
-
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.binding.Bindings;

@@ -13,7 +13,7 @@ import static ch.epfl.tchu.net.Serdes.*;
  * @author lagutovaalexandra (324449)
  * Classe qui represente représente un client de joueur distant
  */
-public class RemotePlayerClient {
+public final class RemotePlayerClient {
     private final Player player;
     private final String nom;
     private final int port;

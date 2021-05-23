@@ -23,8 +23,7 @@ public enum PlayerId {
     public PlayerId next(){ //TODO modulo count !
         if (this == PLAYER_1) {
             return PLAYER_2;
-        }
-        else {
+        } else {
             return PLAYER_1;
         }
     }

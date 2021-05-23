@@ -17,7 +17,7 @@ import static ch.epfl.tchu.net.Serdes.*;
  * @author lagutovaalexandra (324449)
  * classe qui represente représente un proxy de joueur distant
  */
-public class RemotePlayerProxy implements Player {
+public final class RemotePlayerProxy implements Player {
     private final BufferedReader r;
     private final BufferedWriter w;
     /**
