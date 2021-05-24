@@ -172,9 +172,9 @@ public final class GameState extends PublicGameState{
      */
     public GameState forNextTurn(){
         if (lastTurnBegins()){
-            return new GameState( cardState, currentPlayerId().next(), playerState, currentPlayerId(), tickets);
+            return new GameState( cardState, currentPlayerId().next(playerCount()), playerState, currentPlayerId(), tickets);
         }
-        else return new GameState( cardState, currentPlayerId().next(), playerState, lastPlayer(), tickets);
+        else return new GameState( cardState, currentPlayerId().next(playerCount()), playerState, lastPlayer(), tickets);
     }
 
     /**

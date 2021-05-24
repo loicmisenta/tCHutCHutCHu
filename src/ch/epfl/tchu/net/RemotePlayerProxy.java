@@ -62,7 +62,7 @@ public final class RemotePlayerProxy implements Player {
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
         String ownIdSerialize = playerIdSerde.serialize(ownId);
         List<String> listPlayerNames = new ArrayList<>();
-        for (PlayerId playerId: PlayerId.ALL) {
+        for (PlayerId playerId: playerNames.keySet()) {
             listPlayerNames.add(playerNames.get(playerId));
         }
         String playerNamesSerialize = listStringSerde.serialize(listPlayerNames);

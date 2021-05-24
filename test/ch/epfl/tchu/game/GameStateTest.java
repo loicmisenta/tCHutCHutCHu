@@ -11,6 +11,7 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameStateTest {
+    /**
     private static final int INITIAL_CARD_DECK_SIZE =
             (8 * 12 + 14) - 5 - 2 * 4;
 
@@ -454,7 +455,7 @@ class GameStateTest {
             Collections.shuffle(allRoutes, rng);
             var gameState = GameState.initial(SortedBag.of(), rng);
             var testedPlayer = gameState.currentPlayerId();
-            var otherPlayer = testedPlayer.next();
+            //var otherPlayer = testedPlayer.next();
 
             var drawableCardsCount = INITIAL_CARD_DECK_SIZE - 4;
             for (int j = 0; j < drawableCardsCount; j++) {
@@ -739,6 +740,5 @@ class GameStateTest {
             if (fr != 0) trips.addAll(Trip.all(from, FR, fr));
             return new Ticket(trips);
         }
-        //endregion
-    }
+    }**/
 }

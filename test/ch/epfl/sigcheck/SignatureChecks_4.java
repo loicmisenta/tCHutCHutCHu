@@ -25,7 +25,7 @@ final class SignatureChecks_4 {
         v07 = ch.epfl.tchu.game.PlayerId.PLAYER_2;
         v07 = ch.epfl.tchu.game.PlayerId.valueOf(v08);
         v09 = ch.epfl.tchu.game.PlayerId.values();
-        v07 = v07.next();
+        //v07 = v07.next();
     }
 
     void checkPublicPlayerState() {
