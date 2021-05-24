@@ -177,16 +177,21 @@ public final class Info {
 
     public String wonMulti(Map<String, Integer> gagnants, Map<String, Integer> perdants){
         String nomsG = "";
-        List<String> pointsP = new ArrayList<>();
+        String pointsP = "";
         String plurier = "";
         int taille = gagnants.keySet().size();
         int pointsGagnants = (int) gagnants.values().toArray()[0];
         if(taille > 2){
             plurier = "nt";
         }
-        for (Integer points: perdants.values()) {
-            pointsP.add(String.valueOf(points));
+        List<Integer> points = new ArrayList<>(perdants.values());
+        if(points.size() == 1){
+            pointsP = String.valueOf(points.get(0));
+        } else {
+            pointsP += String.join(", ", (CharSequence) points.subList(0, points.size() -1));
+            pointsP += StringsFr.AND_SEPARATOR + points.get(points.size() -1);
         }
+
         List<String> noms = new ArrayList<>(gagnants.keySet());
         if(noms.size() == 1){
             nomsG = noms.get(0);

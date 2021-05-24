@@ -28,7 +28,7 @@ public final class Game {
         //Preconditions.checkArgument((players.size() == PlayerId.COUNT) && (playerNames.size() == PlayerId.COUNT));
         //Le début de la partie
         Map<PlayerId, Info> infoMap = new EnumMap<>(PlayerId.class);
-        GameState gameState = GameState.initial(tickets, rng);
+        GameState gameState = GameState.initial(tickets, rng, players.size());
         Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis = new EnumMap<>(PlayerId.class);
 
         gameState = beginGame(players, playerNames, infoMap, mapTicketsChoisis, gameState);
@@ -44,13 +44,13 @@ public final class Game {
 
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
             players.get(playerId).initPlayers(playerId, playerNames);
-            infoMap.put(playerId, new Info(playerNames.get(playerId)));}
-        System.out.println(PlayerId.ALL.subList(0, players.size()));
+            infoMap.put(playerId, new Info(playerNames.get(playerId))); }
         receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
-        } updateState(players, gameState);
+        }
+        updateState(players, gameState);
 
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
             SortedBag<Ticket> initialticket = players.get(playerId).chooseInitialTickets();
@@ -67,7 +67,6 @@ public final class Game {
         while(true) {
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);
-
             receiveInfo(players, infoMap.get(currentId).canPlay()); //info tour commence
             updateState(players, gameState);
 
@@ -156,10 +155,11 @@ public final class Game {
         int maxLength = 0;
         int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail = new ArrayList<>();
-        List<PlayerId> playerNamesWon = new ArrayList<>();
+        List<PlayerId> playerIdWon = new ArrayList<>();
+        Map<String, Integer> playerNamesWon = new HashMap<>();
+        Map<String, Integer> playerNamesLost = new HashMap<>();
         Map<PlayerId, Integer> mapPlayerPoints = new EnumMap<>(PlayerId.class);
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
-
             Trail longest = Trail.longest(gameState.playerState(playerId).routes());
             if (longest.length() == maxLength) {
                 listLongestTrail.add(playerId);
@@ -176,11 +176,15 @@ public final class Game {
             }
             mapPlayerPoints.put(playerId, pointsFinaux);
             if (pointsFinaux == maxPoints) {
-                playerNamesWon.add(playerId);
+                playerIdWon.add(playerId);
+                playerNamesWon.put(playerId.name(), pointsFinaux);
             } else if (pointsFinaux > maxPoints) {
                 maxPoints = pointsFinaux;
-                playerNamesWon.clear();
-                playerNamesWon.add(playerId);
+                playerNamesLost.putAll(playerNamesWon);
+                playerIdWon.clear();
+                playerIdWon.add(playerId);
+            } else{
+                playerNamesLost.put(playerId.name(), pointsFinaux);
             }
         }
 
@@ -190,16 +194,17 @@ public final class Game {
         }
         updateState(players, gameState);
 
-        PlayerId joueurGagnant = playerNamesWon.get(0);
+        PlayerId joueurGagnant = playerIdWon.get(0);
         players.forEach(((playerId, player) -> {
 
-            if (playerNamesWon.size() >= 2) {
+            if (playerIdWon.size() >= 2) {
                 List<String> playerNamesString = new ArrayList<>();
-                for (PlayerId joueur : playerNamesWon) { playerNamesString.add(joueur.name()); }
+                for (PlayerId joueur : playerIdWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
                 //TODO adapter le message si un a gagné deux ont perdu
                 //TODO players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next())));
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
             }
         }));
 
@@ -213,6 +218,7 @@ public final class Game {
 
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string) {
+        System.out.println("passe dans la méthode");
         for (Player player: playersMap.values()) {
             player.receiveInfo(string);
         }
