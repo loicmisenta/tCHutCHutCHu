@@ -39,6 +39,8 @@ public final class ServerMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         List<String> arguments = this.getParameters().getRaw();
+
+
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);

@@ -59,4 +59,9 @@ public interface ActionHandlers {
          */
         void onChooseCards(SortedBag<Card> cartes);
     }
+
+    @FunctionalInterface
+    interface ChooseNbPlayersHandler{
+        void onChooseNbPlayers(String name);
+    }
 }
