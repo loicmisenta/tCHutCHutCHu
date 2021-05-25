@@ -43,7 +43,7 @@ public final class ServerMainTwoMenus extends Application {
         s.addListener((o, oV, nV)-> {
             nbJoueurs.set((Integer) nV);
             try {
-                startMenu(primaryStage);
+                startGame();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,7 +52,7 @@ public final class ServerMainTwoMenus extends Application {
 
     public void startMenu(Stage primaryStage) {
         StringProperty s = MenuViewCreator.createMenuView(primaryStage);
-        s.addListener((o, oV, nV)-> {
+        s.addListener((o, oV, nV)-> new Thread( () ->{
             joueur.set(nV);
             if (!nV.isEmpty()){
                 try {
@@ -61,7 +61,7 @@ public final class ServerMainTwoMenus extends Application {
                     e.printStackTrace();
                 }
             }
-        });
+        }));
     }
 
     /**

@@ -16,20 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.converter.FormatStringConverter;
 
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.Position;
-import java.text.ChoiceFormat;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import static javafx.application.Platform.runLater;
-//import static com.sun.javafx.application.PlatformImpl.runLater;
 
-//TODO creer des actions et l'interface en séparée ?
-//TODO should the class be static ?
-public final class MenuViewCreator{ //TODO better to create for each player to after show ot in ServerMain ?
-                                        // String in this case ?
+public final class MenuViewCreator{
 
     private static final StringProperty stringProperty = new SimpleStringProperty();
     private static Stage primaryStage1;
@@ -144,7 +136,7 @@ public final class MenuViewCreator{ //TODO better to create for each player to a
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
             //primaryStage1.hide();
-            chooseNameHandler.onChooseName(textField.getText()); //TODO not sure if correct ?
+            chooseNameHandler.onChooseName(textField.getText());
             stringProperty.set(getName());
             stage.hide();
             inTheChooseNameMenu.set(false);

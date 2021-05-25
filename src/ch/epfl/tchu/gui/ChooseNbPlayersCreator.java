@@ -18,6 +18,7 @@ import static com.sun.javafx.application.PlatformImpl.runLater;
 
 public class ChooseNbPlayersCreator {
     private ChooseNbPlayersCreator(){}
+
     static ChoiceBox<String> choice = new ChoiceBox<>();
     static String[] nbPLayers = {"2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs"};
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
