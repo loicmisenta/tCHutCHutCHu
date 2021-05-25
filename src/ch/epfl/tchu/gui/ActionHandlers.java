@@ -59,4 +59,10 @@ public interface ActionHandlers {
          */
         void onChooseCards(SortedBag<Card> cartes);
     }
+
+    //BONUS ETAPER 12
+    @FunctionalInterface
+    interface ChooseInitialName{
+        void onChooseInitialname();
+    }
 }

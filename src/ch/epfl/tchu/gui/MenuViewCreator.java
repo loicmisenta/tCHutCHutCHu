@@ -1,33 +1,42 @@
 package ch.epfl.tchu.gui;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.converter.FormatStringConverter;
+
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.Position;
+import java.text.ChoiceFormat;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
-import static com.sun.javafx.application.PlatformImpl.runLater;
+import static javafx.application.Platform.runLater;
+//import static com.sun.javafx.application.PlatformImpl.runLater;
 
 //TODO creer des actions et l'interface en séparée ?
 //TODO should the class be static ?
-public final class MenuViewCreator { //TODO better to create for each player to after show ot in ServerMain ?
+public final class MenuViewCreator{ //TODO better to create for each player to after show ot in ServerMain ?
                                         // String in this case ?
 
     private static final StringProperty stringProperty = new SimpleStringProperty();
     private static Stage primaryStage1;
-    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
+    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>(1);
+    private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
 
-
+    //
     //TODO à deplacer dans ActionHandlers
     @FunctionalInterface
     interface ChooseNameHandler{
@@ -35,14 +44,15 @@ public final class MenuViewCreator { //TODO better to create for each player to 
     }
 
     public static void chooseName(){
-        ChooseNameHandler chooseNameHandler = name -> {
+
+        ChooseNameHandler chooseNameHandler = name -> new Thread( () -> {
             try {
                 stringBlockingDeque.put(name);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            }catch (InterruptedException e){
+                throw new Error("Erreur dans chooseName");
             }
-        };
-        runLater(() -> enterString(chooseNameHandler));
+        }).start();
+        runLater(()->enterString(chooseNameHandler));
     }
 
     public static String getName(){
@@ -53,54 +63,105 @@ public final class MenuViewCreator { //TODO better to create for each player to 
         }
     }
 
-    public static String createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
+    public static StringProperty createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
+        primaryStage1 = primaryStage;
 
-       primaryStage1 = primaryStage;
-       Pane pane = new Pane();
-       Button play = new Button("PLAY");
-       Node fond = new ImageView();
+        VBox root = new VBox();
+        root.getStylesheets().add("menu.css");
 
-       primaryStage.setScene(new Scene(pane));
-       primaryStage.setTitle("Tchu");
-       pane.getStylesheets().add("menu.css");
-       play.getStyleClass().add("round-red");
-       fond.getStyleClass().add("ImageView");
+        //StackPane
+        AnchorPane anchorPane = new AnchorPane();
+        root.getChildren().add(anchorPane);
 
-       pane.getChildren().addAll(fond, play);
-       play.setOnAction(e -> chooseName());
-       primaryStage.show();
-       return getName();
+        //Ajouter le fond au anchorPane
+        Node fond = new ImageView();
+        fond.getStyleClass().add("ImageView");
+        anchorPane.getChildren().add(fond);
+
+        //Ajouter le bouton au anchorPane
+        Button playButton = new Button("PLAY");
+        playButton.setId("round-red");
+
+        //Action si on passe la souris sur le bouton
+        playButton.hoverProperty().addListener((o, oV, nV)-> {
+            if (nV){
+                playButton.setId("round-red-dragOver");
+            }else{
+                playButton.setId("round-red");
+            }
+        });
+
+        //positioner le bouton
+        playButton.setMinSize(192, 48);
+        AnchorPane.setLeftAnchor(playButton, 400.0);
+        AnchorPane.setRightAnchor(playButton, 400.0);
+        AnchorPane.setBottomAnchor(playButton, 120.0);
+
+        //Actions du bouton
+        playButton.setOnAction(e -> chooseName());
+        playButton.disableProperty().bind(inTheChooseNameMenu);
+
+        //ajouter le bouton au anchorPane
+        anchorPane.getChildren().add(playButton);
+
+
+        //Ajouter la scène
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Tchu");
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+
+        return stringProperty;
 
     }
 
 
     private static void enterString(ChooseNameHandler chooseNameHandler){
-
+        inTheChooseNameMenu.set(true);
         Stage stage = new Stage();
-        GridPane grid = new GridPane();
-        Scene scene = new Scene(grid);
-        stage.setTitle("Choisir nom");
-        stage.initOwner(primaryStage1);
-        stage.setScene(scene);
-        TextInputControl entreeDuNom = new TextField();
 
 
+        //gridPane
+        GridPane gridPane = new GridPane();
+        gridPane.getStylesheets().add("menu.css");
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 0, 0, 20));
+
+        //ajouter le titre
         Label titre = new Label("Entrez votre nom");
-        Label nameL = new Label("Nom : ");
-        Button buttonNom = new Button("Choisir");
+        titre.setId("chooseNameWindow");
+        gridPane.addRow(0, titre);
 
-        stage.setOnCloseRequest(Event::consume);
-        buttonNom.disableProperty().bind(entreeDuNom.textProperty().isEmpty());
-        buttonNom.setOnAction(e -> {
+        //ajouter l'entrée du nom
+        TextInputControl textField = new TextField();
+        gridPane.addRow(2, textField);
+        textField.setPromptText("Nom");
+        textField.setFocusTraversable(false);
+
+        //ajouter le bouton
+        Button buttonChoose = new Button("Choisir");
+        buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
+        buttonChoose.setOnAction(e -> {
+            //primaryStage1.hide();
+            chooseNameHandler.onChooseName(textField.getText()); //TODO not sure if correct ?
+            stringProperty.set(getName());
             stage.hide();
-            chooseNameHandler.onChooseName(entreeDuNom.getText()); //TODO not sure if correct ?
-        });
+            inTheChooseNameMenu.set(false);
 
-        grid.addRow(0, titre);
-        grid.addRow(1, nameL, entreeDuNom);
-        grid.addRow(2, buttonNom);
-        GridPane.setHalignment(titre, HPos.CENTER);
-        GridPane.setHalignment(buttonNom, HPos.CENTER);
+        });
+        gridPane.addRow(4, buttonChoose);
+        GridPane.setHalignment(buttonChoose, HPos.CENTER);
+
+
+        //ajouter la scene
+        Scene scene = new Scene(gridPane, 200, 150);
+        stage.setScene(scene);
+
+        //ajouter le stage
+        stage.setTitle("Nom");
+        stage.initOwner(primaryStage1);
+        stage.setOnCloseRequest(Event::consume);
         stage.show();
     }
 
