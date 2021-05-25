@@ -1,12 +1,14 @@
 package ch.epfl.tchu.gui;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingDeque;
@@ -20,11 +22,22 @@ public class ChooseNbPlayersCreator {
     static String[] nbPLayers = {"2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs"};
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
 
-    public static int ChooseNbPlayers(){
+    @FunctionalInterface
+    interface ChooseNbPlayersHandler{
+        void onChooseNbPlayers(String name);
+    }
+
+    public static IntegerProperty ChooseNbPlayers(){
         Stage stage = new Stage();
         Button button = new Button(StringsFr.CHOOSE);
+        GridPane pane = new GridPane();
+        TextFlow text = new TextFlow();
 
-        stage.setScene(new Scene(choice));
+
+        stage.setScene(new Scene(pane));
+        stage.setTitle("Choisir le nombre de joueurs");
+        text.getChildren().add(new Text("Commencer la partie avec"));
+        pane.getChildren().addAll(text, choice, button);
         choice.getItems().addAll(nbPLayers);
         button.disableProperty().bind(choice.valueProperty().isNull());
         button.setOnAction(e -> {
@@ -33,17 +46,17 @@ public class ChooseNbPlayersCreator {
         });
         stage.show();
         stage.setOnCloseRequest(Event::consume);
-        return Integer.parseInt(String.valueOf(getNumber().charAt(0)));
+        return new SimpleIntegerProperty(Integer.parseInt(String.valueOf(getNumber().charAt(0))));
     }
 
     public static void chooseNbPlayers(){
-        ActionHandlers.ChooseNbPlayersHandler chooseNbPlayersHandler = number -> {
+        ChooseNbPlayersHandler chooseNbPlayersHandler = number -> new Thread(() -> {
             try {
                 stringBlockingDeque.put(number);
             } catch (InterruptedException e) {
                 throw new Error();
             }
-        };
+        }).start();
         runLater(() -> chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue()));
     }
 
@@ -53,6 +66,5 @@ public class ChooseNbPlayersCreator {
         } catch (InterruptedException e) {
             throw new Error();
         }
-
     }
 }

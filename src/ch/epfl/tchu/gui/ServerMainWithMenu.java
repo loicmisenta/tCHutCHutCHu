@@ -7,6 +7,8 @@ import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
@@ -26,6 +28,7 @@ import java.util.Random;
  */
 public final class ServerMainWithMenu extends Application {
     private final StringProperty joueur = new SimpleStringProperty();
+    private final IntegerProperty nbJoueurs = new SimpleIntegerProperty();
 
     /**
      * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
@@ -51,8 +54,6 @@ public final class ServerMainWithMenu extends Application {
                 }
             }
         });
-
-
     }
 
     /**
@@ -64,15 +65,9 @@ public final class ServerMainWithMenu extends Application {
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
 
-
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
-            if (arguments.isEmpty()){
-                map.put(PlayerId.PLAYER_1, "Ada");
-                map.put(PlayerId.PLAYER_2, "Charles");
-            } else{
-                map.put(PlayerId.PLAYER_1, joueur.getValue());
-                map.put(PlayerId.PLAYER_2, arguments.get(1));
-            }
+            map.put(PlayerId.PLAYER_1, joueur.getValue());
+            map.put(PlayerId.PLAYER_2, arguments.get(1));
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));
