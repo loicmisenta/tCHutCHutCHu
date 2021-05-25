@@ -7,6 +7,7 @@ import ch.epfl.tchu.game.Trail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author loicmisenta (330593)
@@ -169,9 +170,37 @@ public final class Info {
      * @param points nb de points données
      * @param loserPoints points de l'adversaire
      * @return un message déclarant le nom du gagnant
-     */
+     */ // Map<String playerNames, int points>
     public String won(int points, int loserPoints){
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
+    }
+
+    public String wonMulti(Map<String, Integer> gagnants, Map<String, Integer> perdants){
+        String nomsG = "";
+        String pointsP = "";
+        String plurier = "";
+        int taille = gagnants.keySet().size();
+        int pointsGagnants = (int) gagnants.values().toArray()[0];
+        if(taille > 2){
+            plurier = "nt";
+        }
+        List<Integer> points = new ArrayList<>(perdants.values());
+        if(points.size() == 1){
+            pointsP = String.valueOf(points.get(0));
+        } else {
+            pointsP += String.join(", ", (CharSequence) points.subList(0, points.size() -1));
+            pointsP += StringsFr.AND_SEPARATOR + points.get(points.size() -1);
+        }
+
+        List<String> noms = new ArrayList<>(gagnants.keySet());
+        if(noms.size() == 1){
+            nomsG = noms.get(0);
+        } else {
+            nomsG += String.join(", ", noms.subList(0, noms.size() - 1));
+            nomsG += StringsFr.AND_SEPARATOR + noms.get(noms.size() - 1);
+        }
+        return String.join("", nomsG,  "remporte", plurier , " la victoire avec", String.valueOf(pointsGagnants), " point",StringsFr.plural(pointsGagnants),
+                "contre" + pointsP + "points");
     }
 
     /**

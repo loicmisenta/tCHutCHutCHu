@@ -48,7 +48,7 @@ public final class GraphicalPlayer {
      */
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
         assert isFxApplicationThread();
-        this.observableGameState = new ObservableGameState(playerId);
+        this.observableGameState = new ObservableGameState(playerId, nomsJoueurs.size());
         this.mainPane = new Stage(StageStyle.UTILITY);
 
         drawTicketsHandlerProperty = new SimpleObjectProperty<>();

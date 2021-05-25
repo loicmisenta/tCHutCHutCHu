@@ -1,5 +1,4 @@
 package ch.epfl.tchu.gui;
-
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.*;
@@ -38,13 +37,15 @@ public final class ObservableGameState {
     private final Map<Card, IntegerProperty> nbTypeCarte;
     private final Map<Route, BooleanProperty> claimableRoutes;
 
+    private final int size;
     /**
      * Constructeur de la classe ObservableGameState qui aura comme paramètres:
      * @param playerId l'id du joueur
+     * @param size
      */
-    public ObservableGameState(PlayerId playerId){
+    public ObservableGameState(PlayerId playerId, int size){
         this.playerId = playerId;
-
+        this.size = size;
         percentageTicketsLeft = new SimpleIntegerProperty();
         percentageCardsLeft = new SimpleIntegerProperty();
         faceUpCards = createFaceUpCards();
@@ -77,14 +78,14 @@ public final class ObservableGameState {
         }
         //ownedroute
         for (Route r : ChMap.routes()) {
-            for (PlayerId playerId: PlayerId.ALL) { //sublist de all de taille du gamestate !
+            for (PlayerId playerId: PlayerId.ALL.subList(0, size)) { //sublist de all de taille du gamestate !
                 if (publicGameState.playerState(playerId).routes().contains(r)) {
                     ownedRoutes.get(r).set(playerId);
                 }
             }
         }
 
-        for (PlayerId playId : PlayerId.ALL) {
+        for (PlayerId playId : PlayerId.ALL.subList(0, size)) {
             //ownedtickets
             ownedTickets.get(playId).set(publicGameState.playerState(playId).ticketCount());
             //ownedcards
@@ -108,7 +109,11 @@ public final class ObservableGameState {
         for (Route r: publicGameState.claimedRoutes()) {
             stationList.add(r.stations());
         }
-        claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));// && (ownedRoutes.get(r) == null) }
+        if(size == 2){
+            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));
+        } else{
+            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) &&  playerState.canClaimRoute(r)));
+        }
 
     }
 
@@ -200,7 +205,8 @@ public final class ObservableGameState {
 
     private Map<PlayerId, IntegerProperty> createOwnedTickets() {
         Map<PlayerId, IntegerProperty> ownedTickets = new EnumMap<>(PlayerId.class);
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL.subList(0, size)) {
+
             ownedTickets.put(playerId, new SimpleIntegerProperty());
         }
 
@@ -210,7 +216,7 @@ public final class ObservableGameState {
 
     private Map<PlayerId, IntegerProperty> createOwnedCards() {
         Map<PlayerId, IntegerProperty> ownedCards = new EnumMap<>(PlayerId.class);
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL.subList(0, size)) {
             ownedCards.put(playerId, new SimpleIntegerProperty());
         }
 
@@ -219,7 +225,7 @@ public final class ObservableGameState {
 
     private Map<PlayerId, IntegerProperty> createOwnedCars() {
         Map<PlayerId, IntegerProperty> ownedCars = new EnumMap<>(PlayerId.class);
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL.subList(0, size)) {
             ownedCars.put(playerId, new SimpleIntegerProperty());
         }
         return ownedCars;
@@ -227,7 +233,7 @@ public final class ObservableGameState {
 
     private Map<PlayerId, IntegerProperty> createOwnedConstructPoints() {
         Map<PlayerId, IntegerProperty> ownedConstructPoints = new EnumMap<>(PlayerId.class);
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL.subList(0, size)) {
             ownedConstructPoints.put(playerId, new SimpleIntegerProperty());
         }
         return ownedConstructPoints;
@@ -263,4 +269,6 @@ public final class ObservableGameState {
     public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }
+
+    //public int nbPlayers(){ return publicGameState.playerCount(); }
 }

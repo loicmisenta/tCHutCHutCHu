@@ -29,7 +29,7 @@ public class PublicGameState {
      * @param lastPlayer  l'identité du dernier joueur
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
-        Preconditions.checkArgument((ticketsCount >= CAN_DRAW_TICKETS ) && (playerState.size() == PlayerId.COUNT));
+        Preconditions.checkArgument((ticketsCount >= CAN_DRAW_TICKETS )); // && (playerState.size() == PlayerId.COUNT));
         if((cardState == null)|| (currentPlayerId == null)) throw new NullPointerException();
         this.ticketsCount = ticketsCount;
         this.cardState = Objects.requireNonNull(cardState);
@@ -87,6 +87,7 @@ public class PublicGameState {
      */
     public PublicPlayerState currentPlayerState(){ return playerState(currentPlayerId);}
 
+
     /**
      * @return la totalité des routes dont l'un ou l'autre des joueurs s'est emparé
      */
@@ -105,6 +106,6 @@ public class PublicGameState {
         return lastPlayer;
     }
 
-
+    public int playerCount(){return playerState.size();}
 
 }

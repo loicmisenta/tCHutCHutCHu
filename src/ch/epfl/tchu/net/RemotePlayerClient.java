@@ -51,7 +51,7 @@ public final class RemotePlayerClient {
                         Map<PlayerId, String> mapJoueurs = new EnumMap<>(PlayerId.class);
                         String[] noms = ls[2].split(",");
                         int i = 0;
-                        for (PlayerId playerId: PlayerId.ALL) {
+                        for (PlayerId playerId: PlayerId.ALL.subList(0, noms.length)) {
                             mapJoueurs.put(playerId, stringSerde.deserialize(noms[i++]));
                         }
                         player.initPlayers(playerIdSerde.deserialize(ls[1]), mapJoueurs);

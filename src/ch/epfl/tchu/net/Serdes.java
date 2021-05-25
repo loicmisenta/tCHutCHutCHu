@@ -116,7 +116,7 @@ public final class Serdes {
      */
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> {
         String stringSerializeMapPlayer = "";
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : PlayerId.ALL.subList(0, i.playerCount())) {
             if(stringSerializeMapPlayer.equals("")){
                 stringSerializeMapPlayer = publicPlayerStateSerde.serialize(i.playerState(playerId));
             } else {
@@ -139,7 +139,7 @@ public final class Serdes {
         Map<PlayerId, PublicPlayerState> mapPlayerState = new EnumMap<>(PlayerId.class);
 
         int i = 3;
-        for (PlayerId playerId: PlayerId.ALL) {
+        for (PlayerId playerId: PlayerId.ALL.subList(0, listeString.length - 4)) {
             mapPlayerState.put(playerId, stringToPublicPlayerState(listeString[i++]));
         }
         PlayerId lastPlayer;

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static ch.epfl.tchu.gui.ChooseNbPlayersCreator.ChooseNbPlayers;
+
 public class Stage12Server extends Application{
 
         /**
@@ -34,27 +36,21 @@ public class Stage12Server extends Application{
          */
         @Override
         public void start(Stage primaryStage) throws Exception {
-
             try (ServerSocket serverSocket = new ServerSocket(5108)) {
                 Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
                 Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
                 List<String> arguments = this.getParameters().getRaw();
-                //TODO nb de joueurs
+
+                int nbJoueur = arguments.size(); //ChooseNbPlayers()
                 mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-                map.put(PlayerId.PLAYER_1, arguments.get(0));
-                map.put(PlayerId.PLAYER_2, arguments.get(1));
-
-
-                for (PlayerId id: PlayerId.ALL) {
-                    //map.put(id, MenuViewCreator.createMenuView(primaryStage));  //TODO faux pas dans une boucle main comment ? Blocking qeue ?
+                int i = 0;
+                for (PlayerId id: PlayerId.ALL.subList(0, nbJoueur)) {
+                    map.put(id, arguments.get(i++));
                     if(id == PlayerId.PLAYER_1) continue;
                     Socket socket = serverSocket.accept();
-                    mapPlayer.put(id, new RemotePlayerProxy(socket)); //TODO nom par defaut  + Remote
+                    mapPlayer.put(id, new RemotePlayerProxy(socket));
                 }
-
-                //TODO comment lancer quand map contient une valeur pour le String  ?
                 new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
-
             }
         }
 }

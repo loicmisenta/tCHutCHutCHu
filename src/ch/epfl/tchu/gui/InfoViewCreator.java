@@ -43,7 +43,7 @@ final class InfoViewCreator {
 
         //statistique joueur
         createPlayerInt(playerId, vboxPlayerStats, playerIdStringMap, obsGS);
-        for (PlayerId id: PlayerId.values()) {
+        for (PlayerId id: playerIdStringMap.keySet()) {
             if (id == playerId) continue;
             createPlayerInt(id, vboxPlayerStats, playerIdStringMap, obsGS);
         }

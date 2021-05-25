@@ -37,14 +37,15 @@ public final class GameState extends PublicGameState{
     /**
      * @param tickets billets donnés au joueur
      * @param rng random qui mélange les cartes
+     * @param nbPlayers nombre de joueurs dans la partie
      * @return un GameState initial
      */
-    public static GameState initial(SortedBag<Ticket> tickets, Random rng){
+    public static GameState initial(SortedBag<Ticket> tickets, Random rng, int nbPlayers){
         Deck<Card> piocheInitiale = Deck.of(Constants.ALL_CARDS, rng);
         Map<PlayerId, PlayerState> map = new EnumMap<>(PlayerId.class);
-        PlayerId firstPlayer = PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT));
+        PlayerId firstPlayer = PlayerId.ALL.subList(0, nbPlayers).get(rng.nextInt(nbPlayers));
 
-        for (PlayerId p: PlayerId.ALL) {
+        for (PlayerId p: PlayerId.ALL.subList(0, nbPlayers)) {
             map.put(p, PlayerState.initial(piocheInitiale.topCards(Constants.INITIAL_CARDS_COUNT)));
             piocheInitiale = piocheInitiale.withoutTopCards(Constants.INITIAL_CARDS_COUNT);
         }
@@ -172,9 +173,9 @@ public final class GameState extends PublicGameState{
      */
     public GameState forNextTurn(){
         if (lastTurnBegins()){
-            return new GameState( cardState, currentPlayerId().next(), playerState, currentPlayerId(), tickets);
+            return new GameState( cardState, currentPlayerId().next(playerCount()), playerState, currentPlayerId(), tickets);
         }
-        else return new GameState( cardState, currentPlayerId().next(), playerState, lastPlayer(), tickets);
+        else return new GameState( cardState, currentPlayerId().next(playerCount()), playerState, lastPlayer(), tickets);
     }
 
     /**
@@ -206,7 +207,7 @@ public final class GameState extends PublicGameState{
     private Map<PlayerId, PlayerState> mapChange(PlayerId playerId, PlayerState playerstate){
         Map<PlayerId, PlayerState> newPlayerState = new EnumMap<>(PlayerId.class);
         newPlayerState.put(playerId, playerstate);
-        for (PlayerId pId: PlayerId.ALL) {
+        for (PlayerId pId: PlayerId.ALL.subList(0, playerCount())) {
             if (pId == playerId) continue;
             newPlayerState.put(pId, playerState.get(pId));
         }
