@@ -44,13 +44,13 @@ public final class ServerMain extends Application {
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
-            //if (arguments.isEmpty()){
+            if (arguments.isEmpty()){
                 map.put(PlayerId.PLAYER_1, "Ada");
                 map.put(PlayerId.PLAYER_2, "Charles");
-            //} else{
-             //   map.put(PlayerId.PLAYER_1, arguments.get(0));
-             //   map.put(PlayerId.PLAYER_2, arguments.get(1));
-            //}
+            } else{
+                map.put(PlayerId.PLAYER_1, arguments.get(0));
+                map.put(PlayerId.PLAYER_2, arguments.get(1));
+            }
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));

@@ -39,7 +39,7 @@ public final class ServerMainTwoMenus extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        IntegerProperty s = ChooseNbPlayersCreator.ChooseNbPlayers();
+        IntegerProperty s = ChooseNbPlayersCreator.ChooseNbPlayers(primaryStage);
         s.addListener((o, oV, nV)-> {
             nbJoueurs.set((Integer) nV);
             try {

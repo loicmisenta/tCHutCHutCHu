@@ -3,6 +3,7 @@ package ch.epfl.tchu.gui;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -28,7 +29,7 @@ public class ChooseNbPlayersCreator {
         void onChooseNbPlayers(String name);
     }
 
-    public static IntegerProperty ChooseNbPlayers(){
+    public static IntegerProperty ChooseNbPlayers(Stage primaryStage){
         Stage stage = new Stage();
         Button button = new Button(StringsFr.CHOOSE);
         GridPane pane = new GridPane();
@@ -38,13 +39,19 @@ public class ChooseNbPlayersCreator {
         stage.setScene(new Scene(pane));
         stage.setTitle("Choisir le nombre de joueurs");
         text.getChildren().add(new Text("Commencer la partie avec"));
-        pane.getChildren().addAll(text, choice, button);
+        pane.setPadding(new Insets(20, 0, 0, 20));
+        pane.setVgap(5);
+
+        pane.addRow(0, text);
+        pane.addRow(1, choice);
+        pane.addRow(2, button);  //pane.getChildren().addAll(text, choice, button);
         choice.getItems().addAll(nbPLayers);
         button.disableProperty().bind(choice.valueProperty().isNull());
         button.setOnAction(e -> {
             chooseNbPlayers();
             stage.hide();
         });
+        stage.initOwner(primaryStage);
         stage.show();
         stage.setOnCloseRequest(Event::consume);
         return new SimpleIntegerProperty(Integer.parseInt(String.valueOf(getNumber().charAt(0))));

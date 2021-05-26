@@ -28,7 +28,6 @@ public final class MenuViewCreator{
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>(1);
     private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
 
-    //
     //TODO à deplacer dans ActionHandlers
     @FunctionalInterface
     interface ChooseNameHandler{
