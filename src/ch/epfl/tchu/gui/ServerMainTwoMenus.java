@@ -41,11 +41,14 @@ public final class ServerMainTwoMenus extends Application {
     public void start(Stage primaryStage) throws Exception {
         IntegerProperty s = ChooseNbPlayersCreator.ChooseNbPlayers(primaryStage);
         s.addListener((o, oV, nV)-> {
-            nbJoueurs.set((Integer) nV);
-            try {
-                startGame();
-            } catch (Exception e) {
-                e.printStackTrace();
+            System.out.println(nV.intValue());
+            nbJoueurs.set(nV.intValue());
+            if (!(nV.intValue() == 0)){
+                try {
+                    startGame();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

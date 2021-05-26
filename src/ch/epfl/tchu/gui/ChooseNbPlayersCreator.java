@@ -14,8 +14,7 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
-
-import static com.sun.javafx.application.PlatformImpl.runLater;
+import static javafx.application.Platform.runLater;
 
 public class ChooseNbPlayersCreator {
     private ChooseNbPlayersCreator(){}
@@ -23,6 +22,7 @@ public class ChooseNbPlayersCreator {
     static ChoiceBox<String> choice = new ChoiceBox<>();
     static String[] nbPLayers = {"2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs"};
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
+    private static final SimpleIntegerProperty simpleIntegerProperty = new SimpleIntegerProperty();
 
     @FunctionalInterface
     interface ChooseNbPlayersHandler{
@@ -54,7 +54,7 @@ public class ChooseNbPlayersCreator {
         stage.initOwner(primaryStage);
         stage.show();
         stage.setOnCloseRequest(Event::consume);
-        return new SimpleIntegerProperty(Integer.parseInt(String.valueOf(getNumber().charAt(0))));
+        return simpleIntegerProperty;
     }
 
     public static void chooseNbPlayers(){
@@ -65,7 +65,10 @@ public class ChooseNbPlayersCreator {
                 throw new Error();
             }
         }).start();
-        runLater(() -> chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue()));
+        runLater(() -> {
+            chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue());
+            simpleIntegerProperty.set(getNumber().charAt(0));
+        });
     }
 
     public static String getNumber(){
