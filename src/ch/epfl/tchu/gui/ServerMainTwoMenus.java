@@ -41,11 +41,11 @@ public final class ServerMainTwoMenus extends Application {
     public void start(Stage primaryStage) throws Exception {
         IntegerProperty s = ChooseNbPlayersCreator.ChooseNbPlayers(primaryStage);
         s.addListener((o, oV, nV)-> {
-            System.out.println(nV.intValue());
+            System.out.println(nV.toString());
             nbJoueurs.set(nV.intValue());
             if (!(nV.intValue() == 0)){
                 try {
-                    startGame();
+                    startMenu(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -74,15 +74,18 @@ public final class ServerMainTwoMenus extends Application {
     public void startGame() throws Exception {
         List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
-            Socket socket = serverSocket.accept();
-
-            Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
-            map.put(PlayerId.PLAYER_1, joueur.getValue());
-            map.put(PlayerId.PLAYER_2, arguments.get(1));
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
+            Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
+            int i = 1;
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-            mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));
-
+            map.put(PlayerId.PLAYER_1, joueur.getValue());
+            System.out.println(nbJoueurs.getValue());
+            for (PlayerId id: PlayerId.ALL.subList(0, nbJoueurs.getValue())) {
+                if(id == PlayerId.PLAYER_1) continue;
+                map.put(id, arguments.get(i++));
+                Socket socket = serverSocket.accept();
+                mapPlayer.put(id, new RemotePlayerProxy(socket));
+            }
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
 
         }

@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -36,7 +37,7 @@ public class ChooseNbPlayersCreator {
         TextFlow text = new TextFlow();
 
 
-        stage.setScene(new Scene(pane));
+        stage.setScene(new Scene(pane, 250, 150));
         stage.setTitle("Choisir le nombre de joueurs");
         text.getChildren().add(new Text("Commencer la partie avec"));
         pane.setPadding(new Insets(20, 0, 0, 20));
@@ -46,6 +47,7 @@ public class ChooseNbPlayersCreator {
         pane.addRow(1, choice);
         pane.addRow(2, button);  //pane.getChildren().addAll(text, choice, button);
         choice.getItems().addAll(nbPLayers);
+        AnchorPane.setRightAnchor(button, 50.0);
         button.disableProperty().bind(choice.valueProperty().isNull());
         button.setOnAction(e -> {
             chooseNbPlayers();
@@ -67,15 +69,15 @@ public class ChooseNbPlayersCreator {
         }).start();
         runLater(() -> {
             chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue());
-            simpleIntegerProperty.set(getNumber().charAt(0));
+            simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0)))); // getNumber().charAt(0)
         });
     }
-
+    /*
     public static String getNumber(){
         try {
             return stringBlockingDeque.take();
         } catch (InterruptedException e) {
             throw new Error();
         }
-    }
+    }*/
 }

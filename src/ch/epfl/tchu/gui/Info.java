@@ -180,7 +180,7 @@ public final class Info {
         String pointsP = "";
         String plurier = "";
         int taille = gagnants.keySet().size();
-        int pointsGagnants = (int) gagnants.values().toArray()[0];
+        int pointsGagnants = (int) gagnants.values().toArray()[0]; //TODO marche pas! Comment obtenir une val d'une Map ?
         if(taille > 2){
             plurier = "nt";
         }
