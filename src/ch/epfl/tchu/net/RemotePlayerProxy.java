@@ -68,6 +68,7 @@ public final class RemotePlayerProxy implements Player {
         String playerNamesSerialize = listStringSerde.serialize(listPlayerNames);
         String initPlayerStringSer = String.join(" ", ownIdSerialize, playerNamesSerialize);
         sendMessage(MessageId.INIT_PLAYERS, initPlayerStringSer);
+        System.out.println(playerNamesSerialize);
     }
 
     /**

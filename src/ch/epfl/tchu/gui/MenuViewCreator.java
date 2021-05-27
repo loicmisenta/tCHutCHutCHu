@@ -7,14 +7,11 @@ import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingDeque;
@@ -134,7 +131,7 @@ public final class MenuViewCreator{
         Button buttonChoose = new Button("Choisir");
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
-            primaryStage1.hide();
+            //primaryStage1.hide();
             chooseNameHandler.onChooseName(textField.getText());
             stringProperty.set(getName());
             stage.hide();

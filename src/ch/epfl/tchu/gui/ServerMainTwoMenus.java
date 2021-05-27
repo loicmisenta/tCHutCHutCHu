@@ -45,6 +45,7 @@ public final class ServerMainTwoMenus extends Application {
             nbJoueurs.set(nV.intValue());
             if (!(nV.intValue() == 0)){
                 try {
+                    //startGame();
                     startMenu(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -52,6 +53,7 @@ public final class ServerMainTwoMenus extends Application {
             }
         });
     }
+    //TODO un par un marche + Mais seul non ?
 
     public void startMenu(Stage primaryStage) {
         StringProperty s = MenuViewCreator.createMenuView(primaryStage);
@@ -78,7 +80,8 @@ public final class ServerMainTwoMenus extends Application {
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
             int i = 1;
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-            map.put(PlayerId.PLAYER_1, joueur.getValue());
+            //map.put(PlayerId.PLAYER_1, joueur.getValue());
+            map.put(PlayerId.PLAYER_1, arguments.get(0));
             System.out.println(nbJoueurs.getValue());
             for (PlayerId id: PlayerId.ALL.subList(0, nbJoueurs.getValue())) {
                 if(id == PlayerId.PLAYER_1) continue;

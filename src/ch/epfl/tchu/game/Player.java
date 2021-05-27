@@ -11,8 +11,6 @@ import java.util.Map;
  * le déroulement de partie
  */
 public interface Player {
-
-
     /**
      * @author loicmisenta
      * @author lagutovaalexandra
