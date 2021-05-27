@@ -134,7 +134,7 @@ public final class MenuViewCreator{
         Button buttonChoose = new Button("Choisir");
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
-            //primaryStage1.hide();
+            primaryStage1.hide();
             chooseNameHandler.onChooseName(textField.getText());
             stringProperty.set(getName());
             stage.hide();
