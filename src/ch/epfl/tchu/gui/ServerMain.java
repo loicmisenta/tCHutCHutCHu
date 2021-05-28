@@ -49,12 +49,6 @@ public final class ServerMain extends Application {
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, player);
-
-
-
-
-
-
             if (arguments.isEmpty()){
                 map.put(PlayerId.PLAYER_1, "Ada");
                 map.put(PlayerId.PLAYER_2, "Charles");

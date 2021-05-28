@@ -97,5 +97,5 @@ public interface Player {
     SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
 
 
-    //String chooseName();
+    String chooseName();
 }
