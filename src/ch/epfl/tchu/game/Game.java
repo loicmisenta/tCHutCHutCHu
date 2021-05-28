@@ -158,6 +158,7 @@ public final class Game {
         int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail = new ArrayList<>();
         List<PlayerId> playerIdWon = new ArrayList<>();
+        List<String> playerNamesWonList = new ArrayList<>();
         Map<String, Integer> playerNamesWon = new HashMap<>();
         Map<String, Integer> playerNamesLost = new HashMap<>();
         Map<PlayerId, Integer> mapPlayerPoints = new EnumMap<>(PlayerId.class);
@@ -179,12 +180,16 @@ public final class Game {
             mapPlayerPoints.put(playerId, pointsFinaux);
             if (pointsFinaux == maxPoints) {
                 playerIdWon.add(playerId);
+                playerNamesWonList.add(playerId.name());
+                System.out.println(playerId.name());
                 playerNamesWon.put(playerId.name(), pointsFinaux);
             } else if (pointsFinaux > maxPoints) {
                 maxPoints = pointsFinaux;
-                playerNamesLost.putAll(playerNamesWon);
                 playerIdWon.clear();
                 playerIdWon.add(playerId);
+                playerNamesWonList.clear();
+                playerNamesWonList.add(playerId.name());
+                playerNamesLost.putAll(playerNamesWon);
             } else{
                 playerNamesLost.put(playerId.name(), pointsFinaux);
             }
@@ -197,17 +202,23 @@ public final class Game {
         updateState(players, gameState);
 
         PlayerId joueurGagnant = playerIdWon.get(0);
+        int finalMaxPoints = maxPoints;
         players.forEach(((playerId, player) -> {
-
             if (playerIdWon.size() >= 2) {
                 List<String> playerNamesString = new ArrayList<>();
                 for (PlayerId joueur : playerIdWon) { playerNamesString.add(joueur.name()); }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
-                //TODO adapter le message si un a gagné deux ont perdu
-                //TODO players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next())));
-                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
-            }
+                System.out.println("won");
+                System.out.println();
+                System.out.println(playerNamesWonList);
+                System.out.println("lost");
+                System.out.println(playerNamesLost.values() + "   " + playerNamesLost.keySet());
+                for (PlayerId joueur : playerIdWon) {
+                    players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti2(playerNamesWonList, finalMaxPoints, playerNamesLost));
+
+                }
+                }
         }));
         isGameOver = true;
         setLongestTrail(longestTrail);

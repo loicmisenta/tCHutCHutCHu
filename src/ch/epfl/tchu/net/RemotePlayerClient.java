@@ -39,12 +39,14 @@ public final class RemotePlayerClient {
      * si cette méthode retourne un résultat, le sérialise pour le renvoyer au mandataire en réponse.
      */
     public void run(){
-        try (Socket socket = new Socket(nom,port);
+        try (Socket socket = new Socket(nom, port);
              BufferedReader r = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedWriter w = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())))
         {
             String s;
+            System.out.println(" r");
             while ((s = r.readLine()) != null){
+                System.out.println(s);
                 String[] ls = s.split(" ");
                 switch (MessageId.valueOf(ls[0])){
                     case INIT_PLAYERS:

@@ -68,7 +68,6 @@ public final class ServerMainWithMenu extends Application {
         List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Socket socket = serverSocket.accept();
-
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
             map.put(PlayerId.PLAYER_1, joueur.getValue());
             map.put(PlayerId.PLAYER_2, arguments.get(1));

@@ -36,7 +36,7 @@ public class ServerMenuMessageId extends Application {
      * @param primaryStage le stage principal
      * @throws Exception exception
      */
-
+    /*
     @Override
     public void start(Stage primaryStage) throws Exception {
         Platform.setImplicitExit(false);
@@ -51,7 +51,7 @@ public class ServerMenuMessageId extends Application {
                 }
             }
         });
-    }
+    }*/
 
 
     //
@@ -59,7 +59,8 @@ public class ServerMenuMessageId extends Application {
      * methode qui va lancer la partie
      * @throws Exception exception
      */
-    public void startGame() throws Exception {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
         List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
@@ -67,8 +68,8 @@ public class ServerMenuMessageId extends Application {
             int i = 1;
             GraphicalPlayerAdapter joueurPrincipal = new GraphicalPlayerAdapter();
             mapPlayer.put(PlayerId.PLAYER_1, joueurPrincipal);
-            map.put(PlayerId.PLAYER_1, joueur.getValue());
-            //map.put(PlayerId.PLAYER_1, joueurPrincipal.chooseName());
+            //map.put(PlayerId.PLAYER_1, joueur.getValue());
+            map.put(PlayerId.PLAYER_1, joueurPrincipal.chooseName());
             for (PlayerId id: PlayerId.ALL.subList(0, nbJoueurs.getValue())) {
                 if(id == PlayerId.PLAYER_1) continue;
                 Socket socket = serverSocket.accept();

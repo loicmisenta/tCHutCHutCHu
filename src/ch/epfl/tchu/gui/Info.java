@@ -8,6 +8,7 @@ import ch.epfl.tchu.game.Trail;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author loicmisenta (330593)
@@ -201,6 +202,35 @@ public final class Info {
         }
         return String.join("", nomsG,  "remporte", plurier , " la victoire avec", String.valueOf(pointsGagnants), " point",StringsFr.plural(pointsGagnants),
                 "contre" + pointsP + "points");
+    }
+
+    public String wonMulti2(List<String> noms, int pointsGagnants, Map<String, Integer> perdants){
+        String nomsG = "";
+        String pointsP = "";
+        String plurier = "";
+        int taille = noms.size();
+
+        if(taille > 2){
+            plurier = "nt";
+        }
+        List<Integer> points = new ArrayList<>(perdants.values());
+        List<String> pointS = points.stream().map(Object::toString).collect(Collectors.toList()); //TODO revoir stream () !
+        if(points.size() == 1){
+            pointsP = String.valueOf(points.get(0));
+        } else {
+            pointsP += String.join(", ", pointS.subList(0, points.size() -1)); //TODO problem avec l'affichage
+            pointsP += StringsFr.AND_SEPARATOR + points.get(points.size() -1);
+        }
+
+        System.out.println(noms);
+        if(noms.size() == 1){
+            nomsG = noms.get(0);
+        } else {
+            nomsG += String.join(", ", noms.subList(0, noms.size() - 1));
+            nomsG += StringsFr.AND_SEPARATOR + noms.get(noms.size() - 1);
+        }
+        return String.join("", nomsG,  " remporte", plurier , " la victoire avec ", String.valueOf(pointsGagnants), " point",StringsFr.plural(pointsGagnants),
+                " contre " + pointsP + " points");
     }
 
     /**

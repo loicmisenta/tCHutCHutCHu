@@ -37,7 +37,6 @@ public final class ServerMainTwoMenus extends Application {
      * @param args les arguments de la méthode
      */
     public static void main(String[] args) { launch(args);}
-    //TODO un par un marche + Mais seul non ?
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -61,14 +60,16 @@ public final class ServerMainTwoMenus extends Application {
         StringProperty s = MenuViewCreator.createMenuView(primaryStage);
         s.addListener((o, oV, nV)-> new Thread( () ->{
             joueur.set(nV);
+            System.out.println(nV);
             if (!nV.isEmpty()){
+                System.out.println("r");
                 try {
                     startGame();
                 } catch (Exception e) {
                     throw new Error();
                 }
 
-        }}));
+        }}).start());
     }
 
     /**
@@ -90,7 +91,6 @@ public final class ServerMainTwoMenus extends Application {
                 Socket socket = serverSocket.accept();
                 mapPlayer.put(id, new RemotePlayerProxy(socket));
             }
-            Platform.setImplicitExit(true);
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
 
         }
