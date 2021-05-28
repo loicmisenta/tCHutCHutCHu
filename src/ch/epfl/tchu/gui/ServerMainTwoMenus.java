@@ -36,6 +36,7 @@ public final class ServerMainTwoMenus extends Application {
      * @param args les arguments de la méthode
      */
     public static void main(String[] args) { launch(args);}
+    //TODO un par un marche + Mais seul non ?
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -53,7 +54,6 @@ public final class ServerMainTwoMenus extends Application {
             }
         });
     }
-    //TODO un par un marche + Mais seul non ?
 
     public void startMenu(Stage primaryStage) {
         StringProperty s = MenuViewCreator.createMenuView(primaryStage);

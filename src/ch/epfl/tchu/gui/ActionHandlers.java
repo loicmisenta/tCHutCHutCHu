@@ -60,10 +60,10 @@ public interface ActionHandlers {
         void onChooseCards(SortedBag<Card> cartes);
     }
 
-    /*
+
     @FunctionalInterface
     interface ChooseNameHandler{
         void onChooseName(String name);
-    }*/
+    }
 
 }

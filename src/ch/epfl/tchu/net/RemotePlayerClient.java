@@ -107,7 +107,7 @@ public final class RemotePlayerClient {
                     //    w.flush();
                 }
         }} catch(IOException e){
-                throw new UncheckedIOException(e); //TODO which exception
+                throw new Error();
             }
 
     }

@@ -220,7 +220,6 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /*
 
-    //TODO mettre en commentaire !
     @Override
     public String chooseName() {
         ActionHandlers.ChooseNameHandler chooseNameHandler = name -> {

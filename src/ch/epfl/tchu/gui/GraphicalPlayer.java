@@ -6,15 +6,18 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import static javafx.application.Platform.isFxApplicationThread;
+
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -250,8 +253,103 @@ public final class GraphicalPlayer {
 
 
     //TODO enlever
-    //
-    // public void chooseName(ActionHandlers.ChooseNameHandler chooseNameHandler){}
+  /*
+    private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
+    private static final StringProperty stringProperty = new SimpleStringProperty();
+    public void chooseName(ActionHandlers.ChooseNameHandler chooseNameHandler){
+        Stage stage = new Stage();
+         VBox root = new VBox();
+         root.getStylesheets().add("menu.css");
 
+         //StackPane
+         AnchorPane anchorPane = new AnchorPane();
+         root.getChildren().add(anchorPane);
+
+         //Ajouter le fond au anchorPane
+         Node fond = new ImageView();
+         fond.getStyleClass().add("ImageView");
+         anchorPane.getChildren().add(fond);
+
+         //Ajouter le bouton au anchorPane
+         Button playButton = new Button("PLAY");
+         playButton.setId("round-red");
+
+         //Action si on passe la souris sur le bouton
+         playButton.hoverProperty().addListener((o, oV, nV)-> {
+             if (nV){
+                 playButton.setId("round-red-dragOver");
+             }else{
+                 playButton.setId("round-red");
+             }
+         });
+
+         //positioner le bouton
+         playButton.setMinSize(192, 48);
+         AnchorPane.setLeftAnchor(playButton, 400.0);
+         AnchorPane.setRightAnchor(playButton, 400.0);
+         AnchorPane.setBottomAnchor(playButton, 120.0);
+
+         //Actions du bouton
+         playButton.setOnAction(e -> enterString(chooseNameHandler));
+         playButton.disableProperty().bind(inTheChooseNameMenu);
+
+         //ajouter le bouton au anchorPane
+         anchorPane.getChildren().add(playButton);
+
+
+         //Ajouter la scène
+         Scene scene = new Scene(root);
+         stage.setTitle("Tchu");
+         stage.setScene(scene);
+
+         stage.show();
+
+    }
+
+    private static void enterString(ActionHandlers.ChooseNameHandler chooseNameHandler){
+        inTheChooseNameMenu.set(true);
+        Stage stage = new Stage();
+
+
+        //gridPane
+        GridPane gridPane = new GridPane();
+        gridPane.getStylesheets().add("menu.css");
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 0, 0, 20));
+
+        //ajouter le titre
+        Label titre = new Label("Entrez votre nom");
+        titre.setId("chooseNameWindow");
+        gridPane.addRow(0, titre);
+
+        //ajouter l'entrée du nom
+        TextInputControl textField = new TextField();
+        gridPane.addRow(2, textField);
+        textField.setPromptText("Nom");
+        textField.setFocusTraversable(false);
+
+        //ajouter le bouton
+        Button buttonChoose = new Button("Choisir");
+        buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
+        buttonChoose.setOnAction(e -> {
+            //primaryStage1.hide();
+            chooseNameHandler.onChooseName(textField.getText());
+            stage.hide();
+            inTheChooseNameMenu.set(false);
+
+        });
+        gridPane.addRow(4, buttonChoose);
+        GridPane.setHalignment(buttonChoose, HPos.CENTER);
+
+
+        //ajouter la scene
+        Scene scene = new Scene(gridPane, 200, 150);
+        stage.setScene(scene);
+
+        //ajouter le stage
+        stage.setTitle("Nom");
+        stage.setOnCloseRequest(Event::consume);
+        stage.show();
+    } */
 
 }
