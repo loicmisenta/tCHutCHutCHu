@@ -11,8 +11,6 @@ import java.util.Map;
  * le déroulement de partie
  */
 public interface Player {
-
-
     /**
      * @author loicmisenta
      * @author lagutovaalexandra
@@ -97,4 +95,7 @@ public interface Player {
      * ou un ensemble vide (si le joueur ne veut ou ne peut pas choisir une des cartes)
      */
     SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
+
+
+    String chooseName();
 }

@@ -7,6 +7,7 @@ import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -43,6 +44,7 @@ public final class ServerMainWithMenu extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Platform.setImplicitExit(false);
         StringProperty s = MenuViewCreator.createMenuView(primaryStage);
         s.addListener((o, oV, nV)-> {
             joueur.set(nV);
@@ -56,6 +58,8 @@ public final class ServerMainWithMenu extends Application {
         });
     }
 
+
+    //
     /**
      * methode qui va lancer la partie
      * @throws Exception exception

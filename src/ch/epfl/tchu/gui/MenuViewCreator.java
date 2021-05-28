@@ -7,14 +7,11 @@ import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.concurrent.BlockingDeque;
@@ -24,7 +21,6 @@ import static javafx.application.Platform.runLater;
 public final class MenuViewCreator{
 
     private static final StringProperty stringProperty = new SimpleStringProperty();
-    private static Stage primaryStage1;
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>(1);
     private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
 
@@ -34,7 +30,7 @@ public final class MenuViewCreator{
         void onChooseName(String name);
     }
 
-    public static void chooseName(){
+    public static void chooseName(Stage stage){
 
         ChooseNameHandler chooseNameHandler = name -> new Thread( () -> {
             try {
@@ -43,7 +39,7 @@ public final class MenuViewCreator{
                 throw new Error("Erreur dans chooseName");
             }
         }).start();
-        runLater(()->enterString(chooseNameHandler));
+        runLater(()->enterString(chooseNameHandler, stage));
     }
 
     public static String getName(){
@@ -55,7 +51,8 @@ public final class MenuViewCreator{
     }
 
     public static StringProperty createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
-        primaryStage1 = primaryStage;
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
 
         VBox root = new VBox();
         root.getStylesheets().add("menu.css");
@@ -89,7 +86,7 @@ public final class MenuViewCreator{
         AnchorPane.setBottomAnchor(playButton, 120.0);
 
         //Actions du bouton
-        playButton.setOnAction(e -> chooseName());
+        playButton.setOnAction(e -> chooseName(stage));
         playButton.disableProperty().bind(inTheChooseNameMenu);
 
         //ajouter le bouton au anchorPane
@@ -98,17 +95,19 @@ public final class MenuViewCreator{
 
         //Ajouter la scène
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Tchu");
-        primaryStage.setScene(scene);
+        //primaryStage.setTitle("Tchu");
+        //primaryStage.setScene(scene);
+        //primaryStage.show();
 
-        primaryStage.show();
-
+        stage.setTitle("Tchu");
+        stage.setScene(scene);
+        stage.show();
         return stringProperty;
 
     }
 
 
-    private static void enterString(ChooseNameHandler chooseNameHandler){
+    private static void enterString(ChooseNameHandler chooseNameHandler, Stage stageM){
         inTheChooseNameMenu.set(true);
         Stage stage = new Stage();
 
@@ -134,12 +133,12 @@ public final class MenuViewCreator{
         Button buttonChoose = new Button("Choisir");
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
-            primaryStage1.hide();
+            //primaryStage1.hide();
+            stageM.hide();
             chooseNameHandler.onChooseName(textField.getText());
             stringProperty.set(getName());
             stage.hide();
             inTheChooseNameMenu.set(false);
-
         });
         gridPane.addRow(4, buttonChoose);
         GridPane.setHalignment(buttonChoose, HPos.CENTER);
@@ -151,7 +150,6 @@ public final class MenuViewCreator{
 
         //ajouter le stage
         stage.setTitle("Nom");
-        stage.initOwner(primaryStage1);
         stage.setOnCloseRequest(Event::consume);
         stage.show();
     }
