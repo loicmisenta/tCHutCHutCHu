@@ -1,13 +1,20 @@
 package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
+import com.sun.javafx.sg.prism.NodeEffectInput;
+import com.sun.scenario.effect.ColorAdjust;
+import com.sun.scenario.effect.Effect;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Shadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import java.util.List;
@@ -93,8 +100,20 @@ final class MapViewCreator {
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);
                 Circle cercle2 = new Circle(24, DIST_CERCLE, RAYON_CERCLE);
                 groupWagons.getChildren().addAll(rect, cercle1, cercle2);
+                Game.getLongestTrail().addListener((o2, oV2, nV2)->{
+                    System.out.println("LISTE ROUTE LONGEST" + nV2.getRoutes());
+                    if (nV2.getRoutes().contains(route)){
+                        groupWagons.setScaleX(1.1);
+                        groupWagons.setScaleY(1.1);
+                        DropShadow shadow = new DropShadow(30, Color.BLACK);
+                        rect.setEffect(shadow);
+
+                    }
+                });
+
             }
         }
+
         return pane;
     }
 

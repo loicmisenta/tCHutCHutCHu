@@ -139,5 +139,10 @@ public final class Trail {
         return list + " (" + length() + ")";
     }
 
-
+    /**
+     * @return les routes du Trail
+     */
+    public List<Route> getRoutes() {
+        return routes;
+    }
 }

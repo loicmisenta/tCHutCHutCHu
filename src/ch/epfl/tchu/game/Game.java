@@ -1,8 +1,11 @@
 package ch.epfl.tchu.game;
 
-import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.*;
 
@@ -11,15 +14,17 @@ import java.util.*;
  * @author lagutovaalexandra (324449)
  */
 public final class Game {
-    private static Trail longestTrailBonus;
-    private static boolean isGameOver = false;
+    private static final ObjectProperty<Trail> longestTrailBonus = new SimpleObjectProperty<>();
+
     /**
      * constructeur privé non-instanciable
      */
-    private Game(){}
+    private Game() {
+    }
 
     /**
      * Fait jouer une partie
+     *
      * @param players     joueurs
      * @param playerNames les noms des joueurs
      * @param tickets     les billets dissponibles
@@ -46,7 +51,8 @@ public final class Game {
 
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
             players.get(playerId).initPlayers(playerId, playerNames);
-            infoMap.put(playerId, new Info(playerNames.get(playerId))); }
+            infoMap.put(playerId, new Info(playerNames.get(playerId)));
+        }
         receiveInfo(players, infoMap.get(gameState.currentPlayerId()).willPlayFirst());
         for (PlayerId playerId : PlayerId.ALL.subList(0, players.size())) {
             players.get(playerId).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
@@ -66,7 +72,7 @@ public final class Game {
     }
 
     private static GameState middleGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, Random rng, GameState gameState) {
-        while(true) {
+        while (true) {
             PlayerId currentId = gameState.currentPlayerId();
             Player joueurCourant = players.get(currentId);
             receiveInfo(players, infoMap.get(currentId).canPlay()); //info tour commence
@@ -148,17 +154,19 @@ public final class Game {
             }
 
             gameState = gameState.forNextTurn();
+
         }
+
         return gameState;
     }
 
     private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, GameState gameState) {
 
+
         int maxLength = 0;
         int maxPoints = Integer.MIN_VALUE;
         List<PlayerId> listLongestTrail = new ArrayList<>();
         List<PlayerId> playerIdWon = new ArrayList<>();
-        List<String> playerNamesWonList = new ArrayList<>();
         Map<String, Integer> playerNamesWon = new HashMap<>();
         Map<String, Integer> playerNamesLost = new HashMap<>();
         Map<PlayerId, Integer> mapPlayerPoints = new EnumMap<>(PlayerId.class);
@@ -180,48 +188,40 @@ public final class Game {
             mapPlayerPoints.put(playerId, pointsFinaux);
             if (pointsFinaux == maxPoints) {
                 playerIdWon.add(playerId);
-                playerNamesWonList.add(playerId.name());
-                System.out.println(playerId.name());
                 playerNamesWon.put(playerId.name(), pointsFinaux);
             } else if (pointsFinaux > maxPoints) {
                 maxPoints = pointsFinaux;
+                playerNamesLost.putAll(playerNamesWon);
                 playerIdWon.clear();
                 playerIdWon.add(playerId);
-                playerNamesWonList.clear();
-                playerNamesWonList.add(playerId.name());
-                playerNamesLost.putAll(playerNamesWon);
-            } else{
+            } else {
                 playerNamesLost.put(playerId.name(), pointsFinaux);
             }
         }
 
         Trail longestTrail = Trail.longest(gameState.playerState(listLongestTrail.get(0)).routes());
-        for (PlayerId playerId: listLongestTrail) {
+        for (PlayerId playerId : listLongestTrail) {
             receiveInfo(players, infoMap.get(playerId).getsLongestTrailBonus(longestTrail));
         }
         updateState(players, gameState);
 
         PlayerId joueurGagnant = playerIdWon.get(0);
-        int finalMaxPoints = maxPoints;
         players.forEach(((playerId, player) -> {
+
             if (playerIdWon.size() >= 2) {
                 List<String> playerNamesString = new ArrayList<>();
-                for (PlayerId joueur : playerIdWon) { playerNamesString.add(joueur.name()); }
+                for (PlayerId joueur : playerIdWon) {
+                    playerNamesString.add(joueur.name());
+                }
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
-                System.out.println("won");
-                System.out.println();
-                System.out.println(playerNamesWonList);
-                System.out.println("lost");
-                System.out.println(playerNamesLost.values() + "   " + playerNamesLost.keySet());
-                for (PlayerId joueur : playerIdWon) {
-                    players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti2(playerNamesWonList, finalMaxPoints, playerNamesLost));
-
-                }
-                }
+                //TODO adapter le message si un a gagné deux ont perdu
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next(players.size()))));
+                //players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
+            }
         }));
-        isGameOver = true;
-        setLongestTrail(longestTrail);
+
+        longestTrailBonus.set(longestTrail);
 
     }
 
@@ -232,15 +232,10 @@ public final class Game {
 
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string) {
-       playersMap.forEach((playerId, player) -> player.receiveInfo(string));
+        playersMap.forEach((playerId, player) -> player.receiveInfo(string));
     }
-    private static void setLongestTrail(Trail trail){
-        longestTrailBonus = trail;
-    }
-    public static Trail getLongestTrail(){
+
+    public static ObjectProperty<Trail> getLongestTrail() {
         return longestTrailBonus;
-    }
-    public static boolean gameIsOver(){
-        return isGameOver;
     }
 }
