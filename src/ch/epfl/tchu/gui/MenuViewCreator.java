@@ -52,7 +52,7 @@ public final class MenuViewCreator{
     }
 
     public static StringProperty createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
-        primaryStage1 = primaryStage;
+        //primaryStage1 = primaryStage;
 
         VBox root = new VBox();
         root.getStylesheets().add("menu.css");
@@ -148,7 +148,6 @@ public final class MenuViewCreator{
 
         //ajouter le stage
         stage.setTitle("Nom");
-        stage.initOwner(primaryStage1);
         stage.setOnCloseRequest(Event::consume);
         stage.show();
     }

@@ -102,7 +102,9 @@ public final class RemotePlayerClient {
                         w.flush();
                         break;
                     //case CHOOSE_INITIAL_NAME:
-                       // w.write(stringSerde.serialize(player.));
+                    //    w.write(stringSerde.serialize(player.chooseName()));
+                    //    w.write('\n');
+                    //    w.flush();
                 }
         }} catch(IOException e){
                 throw new UncheckedIOException(e); //TODO which exception

@@ -95,4 +95,8 @@ public interface Player {
      * ou un ensemble vide (si le joueur ne veut ou ne peut pas choisir une des cartes)
      */
     SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
+
+
+    //TODO enlever
+    //String chooseName();
 }

@@ -13,22 +13,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
-import static javafx.application.Platform.runLater;
 
 public class ChooseNbPlayersCreator {
     private ChooseNbPlayersCreator(){}
 
     static ChoiceBox<String> choice = new ChoiceBox<>();
     static String[] nbPLayers = {"2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs"};
-    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
     private static final SimpleIntegerProperty simpleIntegerProperty = new SimpleIntegerProperty();
-
-    @FunctionalInterface
-    interface ChooseNbPlayersHandler{
-        void onChooseNbPlayers(String name);
-    }
 
     public static IntegerProperty ChooseNbPlayers(Stage primaryStage){
         Stage stageNbMenu = new Stage();
@@ -59,6 +50,20 @@ public class ChooseNbPlayersCreator {
         return simpleIntegerProperty;
     }
 
+
+
+
+    /*
+
+
+     @FunctionalInterface
+    interface ChooseNbPlayersHandler{
+        void onChooseNbPlayers(String name);
+    }
+
+
+    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
+
     public static void chooseNbPlayers(){
         ChooseNbPlayersHandler chooseNbPlayersHandler = number -> new Thread(() -> {
             try {
@@ -71,6 +76,6 @@ public class ChooseNbPlayersCreator {
             chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue());
             simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0)))); // getNumber().charAt(0)
         });
-    }
+    }*/
 
 }

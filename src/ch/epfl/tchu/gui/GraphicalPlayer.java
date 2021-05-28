@@ -249,4 +249,9 @@ public final class GraphicalPlayer {
     }
 
 
+    //TODO enlever
+    //
+    // public void chooseName(ActionHandlers.ChooseNameHandler chooseNameHandler){}
+
+
 }

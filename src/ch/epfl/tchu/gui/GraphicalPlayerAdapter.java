@@ -7,7 +7,9 @@ import ch.epfl.tchu.gui.ActionHandlers.*;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import static javafx.application.Platform.runLater;
 
@@ -25,6 +27,7 @@ public final class GraphicalPlayerAdapter implements Player {
     private final BlockingQueue<SortedBag<Card>> blockingCardsQueue;
     private final BlockingQueue<Route> blockingRouteQueue;
     private final BlockingQueue<TurnKind> blockingTurnKindQueue;
+    private final BlockingDeque<String> stringBlockingDeque;
     GraphicalPlayer graphicalPlayer;
 
     /**
@@ -36,6 +39,7 @@ public final class GraphicalPlayerAdapter implements Player {
         blockingCardsQueue = new ArrayBlockingQueue<>(1);
         blockingRouteQueue = new ArrayBlockingQueue<>(1);
         blockingTurnKindQueue = new ArrayBlockingQueue<>(1);
+        stringBlockingDeque = new LinkedBlockingDeque<>(1);
     }
 
     /**
@@ -213,6 +217,29 @@ public final class GraphicalPlayerAdapter implements Player {
         runLater(() -> graphicalPlayer.chooseAdditionalCards(options, chooseCardsHandler));
         return getValueFromBCQ();
     }
+
+    /*
+
+    //TODO mettre en commentaire !
+    @Override
+    public String chooseName() {
+        ActionHandlers.ChooseNameHandler chooseNameHandler = name -> {
+            try {
+                stringBlockingDeque.put(name);
+            }catch (InterruptedException e){
+                throw new Error("Erreur dans chooseName");
+            }
+        };
+        runLater(()-> graphicalPlayer.chooseName(chooseNameHandler));
+        try {
+            return stringBlockingDeque.take();
+        } catch (InterruptedException e) {
+            throw new Error();
+        }
+    }
+    */
+
+
 
     private SortedBag<Card> getValueFromBCQ(){
         try {

@@ -45,8 +45,8 @@ public final class ServerMainTwoMenus extends Application {
             nbJoueurs.set(nV.intValue());
             if (!(nV.intValue() == 0)){
                 try {
-                    //startGame();
-                    startMenu(primaryStage);
+                    startGame();
+                    //startMenu(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -63,10 +63,10 @@ public final class ServerMainTwoMenus extends Application {
                 try {
                     startGame();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new Error();
                 }
-            }
-        }));
+
+        }}));
     }
 
     /**

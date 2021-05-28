@@ -170,4 +170,12 @@ public final class RemotePlayerProxy implements Player {
         sendMessage(MessageId.CHOOSE_ADDITIONAL_CARDS, listSortedBagOfCard.serialize(options));
         return sortedBagOfCardSerde.deserialize(readMessage());
     }
+
+    /*
+    @Override
+    public String chooseName(){
+        sendMessage(MessageId.CHOOSE_INITIAL_NAME, " ");
+        return stringSerde.deserialize(readMessage());
+    }
+    */
 }

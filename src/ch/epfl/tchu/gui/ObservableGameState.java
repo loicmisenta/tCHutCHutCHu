@@ -109,10 +109,13 @@ public final class ObservableGameState {
         for (Route r: publicGameState.claimedRoutes()) {
             stationList.add(r.stations());
         }
+
+
+
         if(size == 2){
             claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));
         } else{
-            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) &&  playerState.canClaimRoute(r)));
+            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r) == null) && playerState.canClaimRoute(r)));
         }
 
     }
