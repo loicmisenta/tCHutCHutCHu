@@ -11,6 +11,7 @@ import java.util.*;
  */
 class GameTestNous {
 
+    /*
 
     private static final class TestPlayer implements Player {
         private static final int TURN_LIMIT = 1000;
@@ -219,5 +220,5 @@ class GameTestNous {
         Game.play(players, playerName, tickets, new Random());
     }
 
-
+*/
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 import static ch.epfl.tchu.game.PlayerId.*;
 
 public final class TestServer {
+    /*
     public static void main(String[] args) throws IOException {
 
         System.out.println("Starting server!");
@@ -65,5 +66,5 @@ public final class TestServer {
 
         }
         System.out.println("Server done!");
-    }
+    }*/
 }

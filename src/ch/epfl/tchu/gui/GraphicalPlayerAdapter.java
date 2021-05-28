@@ -218,7 +218,7 @@ public final class GraphicalPlayerAdapter implements Player {
         return getValueFromBCQ();
     }
 
-    /*
+
 
     @Override
     public String chooseName() {
@@ -236,7 +236,7 @@ public final class GraphicalPlayerAdapter implements Player {
             throw new Error();
         }
     }
-    */
+
 
 
 

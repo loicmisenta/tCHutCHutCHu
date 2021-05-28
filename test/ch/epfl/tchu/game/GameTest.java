@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ch.epfl.tchu.game.GameTest.PlayerMethod.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
+     /*
     enum PlayerMethod {
         INIT_PLAYERS,
         RECEIVE_INFO,
@@ -642,5 +643,5 @@ public class GameTest {
             if (fr != 0) trips.addAll(Trip.all(from, FR, fr));
             return new Ticket(trips);
         }
-    }
+    }*/
 }

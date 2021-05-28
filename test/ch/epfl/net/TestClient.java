@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class TestClient {
+    /*
     public static void main(String[] args) {
         System.out.println("Starting client!");
         RemotePlayerClient playerClient =
@@ -88,5 +89,5 @@ public final class TestClient {
             return options.get(0);
         }
 
-    }
+    }*/
 }

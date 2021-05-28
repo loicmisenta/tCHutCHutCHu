@@ -252,10 +252,10 @@ public final class GraphicalPlayer {
     }
 
 
-    //TODO enlever
-  /*
+
     private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
     private static final StringProperty stringProperty = new SimpleStringProperty();
+
     public void chooseName(ActionHandlers.ChooseNameHandler chooseNameHandler){
         Stage stage = new Stage();
          VBox root = new VBox();
@@ -350,6 +350,6 @@ public final class GraphicalPlayer {
         stage.setTitle("Nom");
         stage.setOnCloseRequest(Event::consume);
         stage.show();
-    } */
+    }
 
 }
