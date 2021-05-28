@@ -178,6 +178,22 @@ public final class ObservableGameState {
      */
     public ReadOnlyBooleanProperty claimableRoute(Route route){ return claimableRoutes.get(route); }
 
+    /**
+     * @return une liste observable des routes possédées par le joueur.
+     */
+    public ObservableList<Route> ownedRoutesCurrentPlayerReadOnly(){
+        List<Route> routeList= new ArrayList<>();
+        for (Route r : ChMap.routes()) {
+
+            if (!(ownedRoutes.get(r).get() == null)){
+                if (ownedRoutes.get(r).getValue().equals(playerId)) {
+                    routeList.add(r);
+                }
+            }
+        }
+        return FXCollections.observableArrayList(routeList);
+    }
+
 
     private List<ObjectProperty<Card>> createFaceUpCards() {
         List<ObjectProperty<Card>> faceUpCards = new ArrayList<>();

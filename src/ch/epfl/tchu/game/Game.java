@@ -11,6 +11,8 @@ import java.util.*;
  * @author lagutovaalexandra (324449)
  */
 public final class Game {
+    private static Trail longestTrailBonus;
+    private static boolean isGameOver = false;
     /**
      * constructeur privé non-instanciable
      */
@@ -207,7 +209,8 @@ public final class Game {
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
             }
         }));
-
+        isGameOver = true;
+        setLongestTrail(longestTrail);
 
     }
 
@@ -219,5 +222,14 @@ public final class Game {
 
     private static void receiveInfo(Map<PlayerId, Player> playersMap, String string) {
        playersMap.forEach((playerId, player) -> player.receiveInfo(string));
+    }
+    private static void setLongestTrail(Trail trail){
+        longestTrailBonus = trail;
+    }
+    public static Trail getLongestTrail(){
+        return longestTrailBonus;
+    }
+    public static boolean gameIsOver(){
+        return isGameOver;
     }
 }

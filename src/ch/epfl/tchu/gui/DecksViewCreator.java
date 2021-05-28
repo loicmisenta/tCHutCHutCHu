@@ -1,20 +1,27 @@
 package ch.epfl.tchu.gui;
 
-import ch.epfl.tchu.game.Card;
-import ch.epfl.tchu.game.Constants;
+import ch.epfl.tchu.game.*;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+import java.util.List;
+
+import static ch.epfl.tchu.game.ChMap.routes;
 
 
 /**
@@ -36,10 +43,26 @@ final class DecksViewCreator {
      * @param observableGameState état du jeu observable
      * @return la vue de la main
      */
-    public static Node createHandView(ObservableGameState observableGameState ){
+    public static Node createHandView(ObservableGameState observableGameState){
+
+        ObservableList<Ticket> ticketList = observableGameState.ticketListReadOnly();
 
         HBox hBoxView = new HBox();
-        Node billets = new ListView<>(observableGameState.ticketListReadOnly());
+        ListView<Ticket> billets = new ListView<>(ticketList);
+        billets.setCellFactory(e->new ListCell<>(){
+            @Override
+            protected void updateItem(Ticket item, boolean empty) {
+                if (!empty){
+                    if (ticketowned(item, observableGameState.ownedRoutesCurrentPlayerReadOnly())){
+                        setStyle("-fx-control-inner-background: derive(palegreen, 50%);");
+                    }else {
+                        setStyle("-fx-control-inner-background: derive(white, 0%);");
+                    }
+                    setText(item.text());
+                }
+            }
+        });
+
         billets.setId("tickets");
 
         hBoxView.getChildren().add(billets);
@@ -156,6 +179,22 @@ final class DecksViewCreator {
 
         pctProperty.addListener((o, oV, nV) ->  rect_foreground.getStyleClass().add(String.valueOf(nV)));
         rect_foreground.widthProperty().bind(pctProperty.multiply(50).divide(100));
+    }
+
+    //retourne vrai si il a réussi a compléter le ticket
+    private static boolean ticketowned(Ticket t, List<Route> routeList){
+        int maxValeur = 0;
+        for (Route routesPossibles: routeList) {
+            int maximumlocal = Math.max(routesPossibles.station1().id(), routesPossibles.station2().id());
+            if ( maximumlocal> maxValeur){
+                maxValeur = maximumlocal;
+            }
+        }
+        StationPartition.Builder partitionBuild = new StationPartition.Builder(maxValeur + 1);
+        for (Route routesPossibles: routeList) { partitionBuild.connect(routesPossibles.station1(), routesPossibles.station2()); }
+        StationPartition partition = partitionBuild.build();
+        return t.points(partition) > 0;
+
     }
 
 
