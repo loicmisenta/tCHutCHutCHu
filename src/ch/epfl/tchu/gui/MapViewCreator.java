@@ -65,7 +65,6 @@ final class MapViewCreator {
             group.disableProperty().bind(claimRouteH.isNull().or(claimRouteHP.not())); //desactivée quand pas d'actions ou non claimable
 
 
-
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 

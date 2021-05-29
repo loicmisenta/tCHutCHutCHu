@@ -29,7 +29,6 @@ import java.util.Random;
  */
 public final class ServerMainWithMenu extends Application {
     private final StringProperty joueur = new SimpleStringProperty();
-    private final IntegerProperty nbJoueurs = new SimpleIntegerProperty();
 
     /**
      * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
