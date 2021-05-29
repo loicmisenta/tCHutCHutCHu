@@ -42,9 +42,10 @@ public final class Game {
 
         gameState = middleGame(players, infoMap, rng, gameState);
 
-        endGame(players, infoMap, gameState);
+        endGame(players, infoMap, gameState, playerNames);
 
     }
+
 
     private static GameState beginGame(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames,
                                        Map<PlayerId, Info> infoMap, Map<PlayerId, SortedBag<Ticket>> mapTicketsChoisis, GameState gameState) {
@@ -160,7 +161,7 @@ public final class Game {
         return gameState;
     }
 
-    private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, GameState gameState) {
+    private static void endGame(Map<PlayerId, Player> players, Map<PlayerId, Info> infoMap, GameState gameState, Map<PlayerId, String> playerNamesMap) {
 
 
         int maxLength = 0;
@@ -180,7 +181,6 @@ public final class Game {
                 listLongestTrail.add(playerId);
             }
 
-
             int pointsFinaux = gameState.playerState(playerId).finalPoints();
             if (listLongestTrail.contains(playerId)) {
                 pointsFinaux += Constants.LONGEST_TRAIL_BONUS_POINTS;
@@ -188,15 +188,18 @@ public final class Game {
             mapPlayerPoints.put(playerId, pointsFinaux);
             if (pointsFinaux == maxPoints) {
                 playerIdWon.add(playerId);
-                playerNamesWon.put(playerId.name(), pointsFinaux);
+                playerNamesWon.put(playerNamesMap.get(playerId), pointsFinaux);
             } else if (pointsFinaux > maxPoints) {
                 maxPoints = pointsFinaux;
                 playerNamesLost.putAll(playerNamesWon);
                 playerIdWon.clear();
                 playerIdWon.add(playerId);
+                playerNamesWon.clear();
+                playerNamesWon.put(playerNamesMap.get(playerId), pointsFinaux);
             } else {
-                playerNamesLost.put(playerId.name(), pointsFinaux);
+                playerNamesLost.put(playerNamesMap.get(playerId), pointsFinaux);
             }
+
         }
 
         Trail longestTrail = Trail.longest(gameState.playerState(listLongestTrail.get(0)).routes());
@@ -216,8 +219,7 @@ public final class Game {
                 players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
             } else {
                 //TODO adapter le message si un a gagné deux ont perdu
-                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).won(mapPlayerPoints.get(joueurGagnant), mapPlayerPoints.get(joueurGagnant.next(players.size()))));
-                //players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
+                players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
             }
         }));
 

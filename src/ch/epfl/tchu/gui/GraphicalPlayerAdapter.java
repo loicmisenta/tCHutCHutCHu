@@ -219,7 +219,7 @@ public final class GraphicalPlayerAdapter implements Player {
     }
 
 
-
+    /*
     @Override
     public String chooseName() {
         ActionHandlers.ChooseNameHandler chooseNameHandler = name -> {
@@ -235,7 +235,7 @@ public final class GraphicalPlayerAdapter implements Player {
         } catch (InterruptedException e) {
             throw new Error();
         }
-    }
+    }*/
 
 
 

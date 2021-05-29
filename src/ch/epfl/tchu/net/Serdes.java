@@ -122,7 +122,6 @@ public final class Serdes {
             } else {
                 stringSerializeMapPlayer = String.join(":", stringSerializeMapPlayer, publicPlayerStateSerde.serialize(i.playerState(playerId)));
             }
-
         }
         return String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()),
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));

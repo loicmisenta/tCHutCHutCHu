@@ -112,12 +112,27 @@ public final class ObservableGameState {
 
 
 
+
         if(size == 2){
             claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && !(stationList.contains(r.stations())) && playerState.canClaimRoute(r)));
         } else{
-            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r) == null) && playerState.canClaimRoute(r)));
+            claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r).getValue() == null) && !(stations(playerId).contains(r.stations())) && playerState.canClaimRoute(r)));
         }
 
+    }
+
+    public List<List<Station>> stations(PlayerId player){
+        List<Route> routeAssosiatedWithPlayer = new ArrayList<>();
+        for (Route r : ownedRoutes.keySet()) {
+            if (ownedRoutes.get(r).getValue() == player){
+                routeAssosiatedWithPlayer.add(r);
+            }
+        }
+        List<List<Station>> stationListOpp = new ArrayList<>();
+        for (Route r: routeAssosiatedWithPlayer) {
+            stationListOpp.add(r.stations());
+        }
+        return  stationListOpp;
     }
 
     /**

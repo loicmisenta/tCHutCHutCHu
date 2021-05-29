@@ -218,7 +218,7 @@ public final class ChMap {
             new Ticket(ZUR, BAL, 4),
             new Ticket(ZUR, BRU, 11),
             new Ticket(ZUR, LUG, 9),
-            new Ticket(ZUR, VAD, 6),
+            new Ticket(ZUR, VAD, 6), //TODO nb de tickets adaptés 46 au total
 
             // City to country tickets
             ticketToNeighbors(List.of(BER), 6, 11, 8, 5),

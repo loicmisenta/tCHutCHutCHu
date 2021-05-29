@@ -181,57 +181,36 @@ public final class Info {
         String pointsP = "";
         String plurier = "";
         int taille = gagnants.keySet().size();
-        int pointsGagnants = (int) gagnants.values().toArray()[0]; //TODO marche pas! Comment obtenir une val d'une Map ?
         if(taille > 2){
             plurier = "nt";
         }
+        List<Integer> pointsG = new ArrayList<>(gagnants.values());
+        List<String> pointGStream = pointsG.stream().map(Object::toString).collect(Collectors.toList());
+        String pointsGagnants = pointGStream.get(0);
+
         List<Integer> points = new ArrayList<>(perdants.values());
-        if(points.size() == 1){
-            pointsP = String.valueOf(points.get(0));
+        List<String> pointS = points.stream().map(Object::toString).collect(Collectors.toList());
+        if(pointS.size() == 1){
+            pointsP = String.valueOf(pointS.get(0));
         } else {
-            pointsP += String.join(", ", (CharSequence) points.subList(0, points.size() -1));
-            pointsP += StringsFr.AND_SEPARATOR + points.get(points.size() -1);
+            pointsP += String.join(", ", pointS.subList(0, pointS.size() -1));
+            pointsP += StringsFr.AND_SEPARATOR + pointS.get(pointS.size() -1);
         }
 
         List<String> noms = new ArrayList<>(gagnants.keySet());
+        if(noms.size() == 0){
+            nomsG = "";
+        }
         if(noms.size() == 1){
             nomsG = noms.get(0);
         } else {
             nomsG += String.join(", ", noms.subList(0, noms.size() - 1));
             nomsG += StringsFr.AND_SEPARATOR + noms.get(noms.size() - 1);
         }
-        return String.join("", nomsG,  "remporte", plurier , " la victoire avec", String.valueOf(pointsGagnants), " point",StringsFr.plural(pointsGagnants),
-                "contre" + pointsP + "points");
-    }
-
-    public String wonMulti2(List<String> noms, int pointsGagnants, Map<String, Integer> perdants){
-        String nomsG = "";
-        String pointsP = "";
-        String plurier = "";
-        int taille = noms.size();
-
-        if(taille > 2){
-            plurier = "nt";
-        }
-        List<Integer> points = new ArrayList<>(perdants.values());
-        List<String> pointS = points.stream().map(Object::toString).collect(Collectors.toList()); //TODO revoir stream () !
-        if(points.size() == 1){
-            pointsP = String.valueOf(points.get(0));
-        } else {
-            pointsP += String.join(", ", pointS.subList(0, points.size() -1)); //TODO problem avec l'affichage
-            pointsP += StringsFr.AND_SEPARATOR + points.get(points.size() -1);
-        }
-
-        System.out.println(noms);
-        if(noms.size() == 1){
-            nomsG = noms.get(0);
-        } else {
-            nomsG += String.join(", ", noms.subList(0, noms.size() - 1));
-            nomsG += StringsFr.AND_SEPARATOR + noms.get(noms.size() - 1);
-        }
-        return String.join("", nomsG,  " remporte", plurier , " la victoire avec ", String.valueOf(pointsGagnants), " point",StringsFr.plural(pointsGagnants),
+        return String.join("", nomsG ,  " remporte", plurier , " la victoire avec ", pointsGagnants, " point",StringsFr.plural(Integer.parseInt(pointsGagnants)),
                 " contre " + pointsP + " points");
     }
+
 
     /**
      * Methode utilisée pour construire les strings
