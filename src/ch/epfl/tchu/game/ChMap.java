@@ -16,8 +16,14 @@ public final class ChMap {
         return ALL_ROUTES;
     }
 
-    public static List<Ticket> tickets() {
-        return ALL_TICKETS;
+    public static List<Ticket> tickets(int nbPlayers) {
+        if (nbPlayers == 2 ||nbPlayers == 5) {
+            return ALL_TICKETS;
+        } else if (nbPlayers == 3){
+            return ALL_TICKETS.subList(0, ALL_TICKETS.size()-1);
+        } else { //cas de 4 joueurs
+            return ALL_TICKETS.subList(0, ALL_TICKETS.size()-2);
+        }
     }
 
     // Stations - cities
@@ -218,7 +224,7 @@ public final class ChMap {
             new Ticket(ZUR, BAL, 4),
             new Ticket(ZUR, BRU, 11),
             new Ticket(ZUR, LUG, 9),
-            new Ticket(ZUR, VAD, 6), //TODO nb de tickets adaptés 46 au total
+            new Ticket(ZUR, VAD, 6),
 
             // City to country tickets
             ticketToNeighbors(List.of(BER), 6, 11, 8, 5),
