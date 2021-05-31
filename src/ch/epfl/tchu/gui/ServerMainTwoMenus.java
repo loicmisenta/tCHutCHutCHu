@@ -54,7 +54,6 @@ public final class ServerMainTwoMenus extends Application {
     public void startMenu(Stage primaryStage) {
         Platform.setImplicitExit(false);
         BooleanProperty notEmpty = new SimpleBooleanProperty(false);
-        int i = 0;
         int joueur = nbJoueurs.getValue();
         ObservableList<String> s = MenuViewCreator.createMenuView(primaryStage, joueur);
         System.out.println(s);
@@ -88,7 +87,6 @@ public final class ServerMainTwoMenus extends Application {
      * @throws Exception exception
      */
     public void startGame() throws Exception {
-        List<String> arguments = this.getParameters().getRaw();
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);

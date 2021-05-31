@@ -36,7 +36,7 @@ public class ChooseNbPlayersCreator {
 
         pane.addRow(0, text);
         pane.addRow(1, choice);
-        pane.addRow(2, button);  //pane.getChildren().addAll(text, choice, button);
+        pane.addRow(2, button);
         choice.getItems().addAll(nbPLayers);
         AnchorPane.setRightAnchor(button, 50.0);
         button.disableProperty().bind(choice.valueProperty().isNull());
@@ -44,38 +44,9 @@ public class ChooseNbPlayersCreator {
             simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0))));
             stageNbMenu.hide();
         });
-        //stageNbMenu.initOwner(primaryStage);
         stageNbMenu.show();
         stageNbMenu.setOnCloseRequest(Event::consume);
         return simpleIntegerProperty;
     }
-
-
-
-
-    /*
-
-
-     @FunctionalInterface
-    interface ChooseNbPlayersHandler{
-        void onChooseNbPlayers(String name);
-    }
-
-
-    private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>();
-
-    public static void chooseNbPlayers(){
-        ChooseNbPlayersHandler chooseNbPlayersHandler = number -> new Thread(() -> {
-            try {
-                stringBlockingDeque.put(number);
-            } catch (InterruptedException e) {
-                throw new Error();
-            }
-        }).start();
-        runLater(() -> {
-            chooseNbPlayersHandler.onChooseNbPlayers(choice.getValue());
-            simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0)))); // getNumber().charAt(0)
-        });
-    }*/
 
 }

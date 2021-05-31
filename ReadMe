@@ -1,8 +1,21 @@
+Pour lancer le Tchu, il faudra lancer ServerMainTwoMenus, faire dedans le choix du nombre de joueurs, choisir les noms pour tous les joueurs de la partie
+et ensuite lancer tous les clients nécessaires.
+Nous avons réussi à implementer le mode multijoueur (en modifiant nos boucles en fonction de la Map de joueurs à la place d'utiliser PlayerId.ALL).
+Même si le jeu est considéré comme jouable jusqu'à 3 joueurs, nous avons permis à faire lancer la partie jusqu'à 5 joueurs (mais on peut facilement
+augmenter ce nombre encore plus en modifiant la classe PlayerId).
+Nous avons aussi réadapté notre classe Info afin d'afficher si plusieurs joueurs ont gagné la partie, le nombre de points et le nombre de Tickets
+afin qu'il soit divisible (après les tickets initiaux) par le nombre de joueurs et à partir de trois, les joueurs ont la possibilité de prendre les
+routes doubles.
+Nous avons permis au serveur de choisir le nombre de joueurs avec lesquels il veut jouer au début de la partie et on le fait grâce à une ChoiceBox,
+créé dans la classe ChooseNbPlayersCreator dans laquelle on récupére le simpleIntegerProperty.
+Apès avoir choisi le nombre de joueurs, le menu principal, contenant un boutton play, s'ouvre pour le serveur qui peut maintenant
+choisir son nom et celui des autres joueurs. Afin d'implementer cela, nous avons du créer une ObservableList de String qui va se remplir avec
+des Noms 
 
-Nous avons réussi à implementer le mode multijoueur (en se basant sur les tailles de Map de joueurs).
-Même si le jeu est considéré comme jouable jusqu'à 3 joueurs, nous avons permis à faire lâncer la partie jusqu'à 5 jouers.
-Nous avons aussi readapté notre classe Info afin d'afficher si plusieurs joueurs ont gagné la partie et le nombre de points.
-Nous avons permis au serveur de choisir le nombre de joueurs avec lesquels il veut jouer au début de la partie et on le
-fait grâce à un Menu, créé dans la classe ChooseNbPlayersCreator et nous lui avons aussi permis de choisir son nom.
 
--Les tickets qui
+À la fin de la partie le trajet le plus long sera mis en évidence avec une ombre sous cette dernière. Afin que que cela marche pour le server et le(s) clients,
+il a fallu crée un nouveau MessageId (appelé HIGHLIGHT), une nouvelle méthode dans Player également mais aussi modifié RemotePlayerProxy et RemotePlayerClient
+afin qu'elles soient capabables d'envoyer et recevoir une liste de Trail (nous avons fait le choix d'une liste afin de garantir sa validité en cas d'égalité
+sur le chemin le plus long de plusieur joueur) qui sera sérialisée et deéserialisée
+
+-Les tickets

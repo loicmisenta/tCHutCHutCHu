@@ -123,7 +123,6 @@ public final class ObservableGameState {
             claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r).getValue() == null) && !(stations(playerId).contains(r.stations())) && playerState.canClaimRoute(r)));
         }
 
-        //TODO
         if (!publicGameState.getListLongestTrail().isEmpty()){
             for (int i = 0; i < publicGameState.getListLongestTrail().size(); i++) {
                 trailListObjectProperty.set(i, publicGameState.getListLongestTrail().get(i));

@@ -215,17 +215,7 @@ public final class Game {
 
         PlayerId joueurGagnant = playerIdWon.get(0);
         players.forEach(((playerId, player) -> {
-
-            if (playerIdWon.size() >= 2) {
-                List<String> playerNamesString = new ArrayList<>();
-                for (PlayerId joueur : playerIdWon) {
-                    playerNamesString.add(joueur.name());
-                }
-                players.get(playerId).receiveInfo(Info.draw(playerNamesString, mapPlayerPoints.get(playerId)));
-            } else {
-                //TODO adapter le message si un a gagné deux ont perdu
                 players.get(playerId).receiveInfo(infoMap.get(joueurGagnant).wonMulti(playerNamesWon, playerNamesLost));
-            }
         }));
 
 

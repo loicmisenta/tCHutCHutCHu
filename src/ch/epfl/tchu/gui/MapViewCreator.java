@@ -74,10 +74,8 @@ final class MapViewCreator {
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 
-            SequentialTransition seqT = new SequentialTransition(group );
 
             group.setOnMouseClicked(e -> {
-                //seqT.play();
                 List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));

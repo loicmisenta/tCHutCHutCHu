@@ -27,7 +27,6 @@ public final class MenuViewCreator{
     private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
     private static final ObservableList<String> listStringNames = observableArrayList();
 
-    //TODO à deplacer dans ActionHandlers
     @FunctionalInterface
     interface ChooseNameHandler{
         void onChooseName(String name);
@@ -53,7 +52,7 @@ public final class MenuViewCreator{
         }
     }
 
-    public static ObservableList<String> createMenuView(Stage primaryStage, int nbPlayers){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
+    public static ObservableList<String> createMenuView(Stage primaryStage, int nbPlayers){
         nbJoueursProperty.set(nbPlayers);
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
@@ -115,28 +114,10 @@ public final class MenuViewCreator{
         return listStringNames;
 
     }
-    private static List<PlayerId> reverseList(List<PlayerId> myList) { List<PlayerId> invertedList = new ArrayList<PlayerId>(); for (int i = myList.size() - 1; i >= 0; i--) { invertedList.add(myList.get(i)); } return invertedList; }
-
-    private static String playerTitre(PlayerId player){
-        String string;
-        if(player == PlayerId.PLAYER_1){
-            string = "Entrez votre nom";
-        } else if (player == PlayerId.PLAYER_2){
-            string = "Entrez le nom du deuxième joueur";
-        } else if(player == PlayerId.PLAYER_3){
-            string = "Entrez le nom du troisième joueur";
-        } else if(player == PlayerId.PLAYER_4){
-            string = "Entrez le nom du quatrième joueur";
-        } else {
-            string = "Entrez le nom du cinquième joueur";
-        }
-        return string;
-    }
 
     private static void enterString(ChooseNameHandler chooseNameHandler, Stage stageM, PlayerId player){
         inTheChooseNameMenu.set(true);
         Stage stage = new Stage();
-        //gridPane
         GridPane gridPane = new GridPane();
         gridPane.getStylesheets().add("menu.css");
         gridPane.setVgap(10);
@@ -157,10 +138,9 @@ public final class MenuViewCreator{
         Button buttonChoose = new Button("Choisir");
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
-            //primaryStage1.hide();
             stageM.hide();
             chooseNameHandler.onChooseName(textField.getText());
-            listStringNames.add(getName()); //TODO marche ?
+            listStringNames.add(getName());
             stage.hide();
             inTheChooseNameMenu.set(false);
         });
@@ -187,6 +167,24 @@ public final class MenuViewCreator{
         } else {
             return 400;
         }
+    }
+
+    private static List<PlayerId> reverseList(List<PlayerId> myList) { List<PlayerId> invertedList = new ArrayList<PlayerId>(); for (int i = myList.size() - 1; i >= 0; i--) { invertedList.add(myList.get(i)); } return invertedList; }
+
+    private static String playerTitre(PlayerId player){
+        String string;
+        if(player == PlayerId.PLAYER_1){
+            string = "Entrez votre nom";
+        } else if (player == PlayerId.PLAYER_2){
+            string = "Entrez le nom du deuxième joueur";
+        } else if(player == PlayerId.PLAYER_3){
+            string = "Entrez le nom du troisième joueur";
+        } else if(player == PlayerId.PLAYER_4){
+            string = "Entrez le nom du quatrième joueur";
+        } else {
+            string = "Entrez le nom du cinquième joueur";
+        }
+        return string;
     }
 
 }
