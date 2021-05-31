@@ -4,6 +4,7 @@ import ch.epfl.tchu.game.*;
 import com.sun.javafx.sg.prism.NodeEffectInput;
 import com.sun.scenario.effect.ColorAdjust;
 import com.sun.scenario.effect.Effect;
+import javafx.animation.SequentialTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -68,8 +69,10 @@ final class MapViewCreator {
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 
+            SequentialTransition seqT = new SequentialTransition(group );
 
             group.setOnMouseClicked(e -> {
+                //seqT.play();
                 List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
                     claimRouteH.getValue().onClaimRoute(route, possibleClaimCards.get(0));

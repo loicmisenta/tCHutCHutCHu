@@ -8,19 +8,14 @@ import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
-import ch.epfl.tchu.gui.MenuViewCreator;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author loicmisenta (330593)
@@ -28,8 +23,9 @@ import java.util.Random;
  * Classe qui va créer le serveur pour lancer le jeu
  */
 public final class ServerMainTwoMenus extends Application {
-    private final StringProperty joueur = new SimpleStringProperty();
+    private final List<String> joueurs = new ArrayList<>();
     private final IntegerProperty nbJoueurs = new SimpleIntegerProperty();
+
 
     /**
      * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
@@ -57,19 +53,34 @@ public final class ServerMainTwoMenus extends Application {
 
     public void startMenu(Stage primaryStage) {
         Platform.setImplicitExit(false);
-        StringProperty s = MenuViewCreator.createMenuView(primaryStage);
-        s.addListener((o, oV, nV)-> new Thread( () ->{
-            joueur.set(nV);
-            System.out.println(nV);
-            if (!nV.isEmpty()){
-                System.out.println("r");
+        BooleanProperty notEmpty = new SimpleBooleanProperty(false);
+        int i = 0;
+        int joueur = nbJoueurs.getValue();
+        ObservableList<String> s = MenuViewCreator.createMenuView(primaryStage, joueur);
+        System.out.println(s);
+        List<String> stringList = new ArrayList<>();
+        s.addListener((ListChangeListener<String>) c -> {
+            System.out.println(stringList);
+            if(c.getList().size() == nbJoueurs.getValue()){
+                stringList.addAll(c.getList());
+                for (String el: stringList.subList(0, joueur )) {
+                    joueurs.add(el);
+                    notEmpty.set(!el.isEmpty());
+                    System.out.println(el);
+                }
+            }
+        });
+        notEmpty.addListener((o, oV, nV) -> {
+            if (nV){ new Thread(() ->{//TODO comment lancer que après que toute la List<StringProperty> soit pleine ?
                 try {
                     startGame();
                 } catch (Exception e) {
                     throw new Error();
                 }
+            }).start();
+            }
+        });
 
-        }}).start());
     }
 
     /**
@@ -81,16 +92,15 @@ public final class ServerMainTwoMenus extends Application {
         try (ServerSocket serverSocket = new ServerSocket(5108)) {
             Map<PlayerId, Player> mapPlayer = new EnumMap<>(PlayerId.class);
             Map<PlayerId, String> map = new EnumMap<>(PlayerId.class);
-            int i = 1;
+            int i = 0;
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-            map.put(PlayerId.PLAYER_1, joueur.getValue());
-            //map.put(PlayerId.PLAYER_1, arguments.get(0));
+            System.out.println(joueurs);
             for (PlayerId id: PlayerId.ALL.subList(0, nbJoueurs.getValue())) {
+                map.put(id, joueurs.get(i++));
                 if(id == PlayerId.PLAYER_1) continue;
                 Socket socket = serverSocket.accept();
                 RemotePlayerProxy player = new RemotePlayerProxy(socket);
                 mapPlayer.put(id, player);
-                map.put(id, arguments.get(i++));
             }
             new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
