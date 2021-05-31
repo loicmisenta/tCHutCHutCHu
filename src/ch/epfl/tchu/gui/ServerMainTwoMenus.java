@@ -87,11 +87,12 @@ public final class ServerMainTwoMenus extends Application {
             //map.put(PlayerId.PLAYER_1, arguments.get(0));
             for (PlayerId id: PlayerId.ALL.subList(0, nbJoueurs.getValue())) {
                 if(id == PlayerId.PLAYER_1) continue;
-                map.put(id, arguments.get(i++));
                 Socket socket = serverSocket.accept();
-                mapPlayer.put(id, new RemotePlayerProxy(socket));
+                RemotePlayerProxy player = new RemotePlayerProxy(socket);
+                mapPlayer.put(id, player);
+                map.put(id, arguments.get(i++));
             }
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }
     }

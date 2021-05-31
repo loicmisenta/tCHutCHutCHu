@@ -1,6 +1,8 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.MenuViewCreator;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.EnumMap;
@@ -103,10 +105,6 @@ public final class RemotePlayerClient {
                         w.write('\n');
                         w.flush();
                         break;
-                   // case CHOOSE_INITIAL_NAME:
-                    //    w.write(stringSerde.serialize(player.chooseName()));
-                    //    w.write('\n');
-                    //    w.flush();
                 }
         }} catch(IOException e){
                 throw new Error();

@@ -50,7 +50,7 @@ public class Stage12Server extends Application{
                     Socket socket = serverSocket.accept();
                     mapPlayer.put(id, new RemotePlayerProxy(socket));
                 }
-                new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+                new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(map.size())), new Random())).start();
             }
         }
 }

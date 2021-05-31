@@ -74,7 +74,7 @@ public final class ServerMainWithMenu extends Application {
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));
 
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }
     }

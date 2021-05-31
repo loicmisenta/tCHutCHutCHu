@@ -64,7 +64,7 @@ public final class Serdes {
     /**
      * Serdes qui serialise et deserialise un ticket
      */
-    public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets());
+    public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets(5));
 
     /**
      * Serdes qui serialise et deserialise une liste de String

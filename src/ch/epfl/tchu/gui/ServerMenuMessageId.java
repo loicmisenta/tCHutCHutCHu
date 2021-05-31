@@ -47,7 +47,7 @@ public class ServerMenuMessageId extends Application {
                 Socket socket = serverSocket.accept();
                 mapPlayer.put(id, new RemotePlayerProxy(socket));
             }
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }}
 }
