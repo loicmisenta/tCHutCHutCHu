@@ -73,7 +73,7 @@ public class GraphicalPlayerTest extends Application{
 
     private void setState(GraphicalPlayer graphicalPlayer) {
         PlayerState p1State =
-                new PlayerState(SortedBag.of(ChMap.tickets().subList(0, 3)),
+                new PlayerState(SortedBag.of(ChMap.tickets(2).subList(0, 3)),
                         SortedBag.of(1, Card.WHITE, 3, Card.RED),
                         ChMap.routes().subList(0, 3));
 

@@ -65,7 +65,7 @@ public final class Serdes {
     /**
      * Serdes qui serialise et deserialise un ticket
      */
-    public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets());
+    public static final Serde<Ticket> ticketSerde = Serde.oneOf(ChMap.tickets(5));
 
     /**
      * Serdes qui serialise et deserialise une liste de String
@@ -134,7 +134,6 @@ public final class Serdes {
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
     }, Serdes::stringToPublicGameState);
 
-    // public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()), playerIdSerde.serialize(i.currentPlayerId()),publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_1)), publicPlayerStateSerde.serialize(i.playerState(PlayerId.PLAYER_2)) , playerIdSerde.serialize(i.lastPlayer())), Serdes::stringToPublicGameState);
 
 
     private static PublicGameState stringToPublicGameState(String string){

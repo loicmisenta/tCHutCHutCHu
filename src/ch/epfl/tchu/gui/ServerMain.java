@@ -57,7 +57,7 @@ public final class ServerMain extends Application {
                 map.put(PlayerId.PLAYER_2, arguments.get(1));
             }
 
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }
     }

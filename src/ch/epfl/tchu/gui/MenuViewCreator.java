@@ -1,9 +1,8 @@
 package ch.epfl.tchu.gui;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import ch.epfl.tchu.game.PlayerId;
+import javafx.beans.property.*;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -14,15 +13,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import static javafx.application.Platform.runLater;
+import static javafx.collections.FXCollections.observableArrayList;
 
 public final class MenuViewCreator{
-
-    private static final StringProperty stringProperty = new SimpleStringProperty();
+    private static final IntegerProperty nbJoueursProperty = new SimpleIntegerProperty();
     private static final BlockingDeque<String> stringBlockingDeque = new LinkedBlockingDeque<>(1);
     private static final BooleanProperty inTheChooseNameMenu = new SimpleBooleanProperty(false);
+    private static final ObservableList<String> listStringNames = observableArrayList();
 
     //TODO à deplacer dans ActionHandlers
     @FunctionalInterface
@@ -30,7 +33,7 @@ public final class MenuViewCreator{
         void onChooseName(String name);
     }
 
-    public static void chooseName(Stage stage){
+    public static void chooseName(Stage stage, PlayerId player){
 
         ChooseNameHandler chooseNameHandler = name -> new Thread( () -> {
             try {
@@ -39,7 +42,7 @@ public final class MenuViewCreator{
                 throw new Error("Erreur dans chooseName");
             }
         }).start();
-        runLater(()->enterString(chooseNameHandler, stage));
+        runLater(()->enterString(chooseNameHandler, stage, player));
     }
 
     public static String getName(){
@@ -50,12 +53,15 @@ public final class MenuViewCreator{
         }
     }
 
-    public static StringProperty createMenuView(Stage primaryStage){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
+    public static ObservableList<String> createMenuView(Stage primaryStage, int nbPlayers){ //TODO type de retour ? ? ? Et si on veut avoir deux types ?
+        nbJoueursProperty.set(nbPlayers);
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
 
         VBox root = new VBox();
         root.getStylesheets().add("menu.css");
+
+
 
         //StackPane
         AnchorPane anchorPane = new AnchorPane();
@@ -85,8 +91,15 @@ public final class MenuViewCreator{
         AnchorPane.setRightAnchor(playButton, 400.0);
         AnchorPane.setBottomAnchor(playButton, 120.0);
 
+        List<PlayerId> joueurs = PlayerId.ALL.subList(0, nbPlayers);
+
+
         //Actions du bouton
-        playButton.setOnAction(e -> chooseName(stage));
+        playButton.setOnAction(e -> {
+            for (PlayerId player : reverseList(joueurs)) {
+                chooseName(stage, player);
+            }
+        });
         playButton.disableProperty().bind(inTheChooseNameMenu);
 
         //ajouter le bouton au anchorPane
@@ -95,31 +108,42 @@ public final class MenuViewCreator{
 
         //Ajouter la scène
         Scene scene = new Scene(root);
-        //primaryStage.setTitle("Tchu");
-        //primaryStage.setScene(scene);
-        //primaryStage.show();
 
         stage.setTitle("Tchu");
         stage.setScene(scene);
         stage.show();
-        return stringProperty;
+        return listStringNames;
 
     }
+    private static List<PlayerId> reverseList(List<PlayerId> myList) { List<PlayerId> invertedList = new ArrayList<PlayerId>(); for (int i = myList.size() - 1; i >= 0; i--) { invertedList.add(myList.get(i)); } return invertedList; }
 
+    private static String playerTitre(PlayerId player){
+        String string;
+        if(player == PlayerId.PLAYER_1){
+            string = "Entrez votre nom";
+        } else if (player == PlayerId.PLAYER_2){
+            string = "Entrez le nom du deuxième joueur";
+        } else if(player == PlayerId.PLAYER_3){
+            string = "Entrez le nom du troisième joueur";
+        } else if(player == PlayerId.PLAYER_4){
+            string = "Entrez le nom du quatrième joueur";
+        } else {
+            string = "Entrez le nom du cinquième joueur";
+        }
+        return string;
+    }
 
-    private static void enterString(ChooseNameHandler chooseNameHandler, Stage stageM){
+    private static void enterString(ChooseNameHandler chooseNameHandler, Stage stageM, PlayerId player){
         inTheChooseNameMenu.set(true);
         Stage stage = new Stage();
-
-
         //gridPane
         GridPane gridPane = new GridPane();
         gridPane.getStylesheets().add("menu.css");
         gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 0, 0, 20));
+        gridPane.setPadding(new Insets(20, 50, 0, 50));
 
         //ajouter le titre
-        Label titre = new Label("Entrez votre nom");
+        Label titre = new Label(playerTitre(player));
         titre.setId("chooseNameWindow");
         gridPane.addRow(0, titre);
 
@@ -136,7 +160,7 @@ public final class MenuViewCreator{
             //primaryStage1.hide();
             stageM.hide();
             chooseNameHandler.onChooseName(textField.getText());
-            stringProperty.set(getName());
+            listStringNames.add(getName()); //TODO marche ?
             stage.hide();
             inTheChooseNameMenu.set(false);
         });
@@ -145,13 +169,24 @@ public final class MenuViewCreator{
 
 
         //ajouter la scene
-        Scene scene = new Scene(gridPane, 200, 150);
+
+        Scene scene = new Scene(gridPane, width(player), 150);
         stage.setScene(scene);
+
+
 
         //ajouter le stage
         stage.setTitle("Nom");
         stage.setOnCloseRequest(Event::consume);
         stage.show();
+    }
+
+    private static int width(PlayerId player){
+        if (player == PlayerId.PLAYER_1){
+            return 250;
+        } else {
+            return 400;
+        }
     }
 
 }

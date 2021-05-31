@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import static javafx.collections.FXCollections.observableArrayList;
 
+
 /**
  * @author loicmisenta (330593)
  * @author lagutovaalexandra (324449)
@@ -51,6 +52,8 @@ public final class GraphicalPlayer {
      * @param playerId l'identité du player
      * @param nomsJoueurs map du nom des joueur
      */
+
+
     public GraphicalPlayer(PlayerId playerId, Map<PlayerId, String> nomsJoueurs) {
         assert isFxApplicationThread();
         this.observableGameState = new ObservableGameState(playerId, nomsJoueurs.size());

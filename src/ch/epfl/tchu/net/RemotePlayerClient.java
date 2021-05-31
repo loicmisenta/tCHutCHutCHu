@@ -1,6 +1,8 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.MenuViewCreator;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.EnumMap;

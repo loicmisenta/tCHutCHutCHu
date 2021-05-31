@@ -71,7 +71,7 @@ public class SerdeTest {
         List<Card> fu = List.of(RED, WHITE, BLUE, BLACK, RED);
         PublicCardState cs = new PublicCardState(fu, 30, 31);
         List<Route> rs1 = ChMap.routes().subList(0, 2);
-        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets().subList(0, 2));
+        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets(2).subList(0, 2));
         SortedBag<Card> cards = SortedBag.of(2, RED, 2, WHITE);
         PlayerState playerState = new PlayerState(tickets, cards, rs1);
         var expectedValue = "0,1;6,6,7,7;0,1";

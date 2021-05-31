@@ -1,12 +1,8 @@
 
-Nous avons réussi à implementer le mode multijoueur (en modifiant nos boucles dans la classe Game, GameState,
-ObservableGameState RemotePlayerClient RemotePlayerProxy afin qu'elles marchent en fonction des tailles de Map de joueurs).
-Nous avons aussi readapté notre classe Info afin d'afficher si plusieurs joueurs ont gagné la partie et le nombre.
+Nous avons réussi à implementer le mode multijoueur (en se basant sur les tailles de Map de joueurs).
+Même si le jeu est considéré comme jouable jusqu'à 3 joueurs, nous avons permis à faire lâncer la partie jusqu'à 5 jouers.
+Nous avons aussi readapté notre classe Info afin d'afficher si plusieurs joueurs ont gagné la partie et le nombre de points.
 Nous avons permis au serveur de choisir le nombre de joueurs avec lesquels il veut jouer au début de la partie et on le
-fait grâce à un Menu, créé dans la classe ChooseNbPlayersCreator.
-Nous avons permis à faire lâncer la partie jusqu'à 5 jouers, mais elle peut être augmentée à encore plus en rajoutant des types
-énumérés dans la classe PlayerId.
--Mode multijoueur jusqu'à 5 joueurs par défaut
--Menu de sélection du nb de joueurs au début de la partie
--Menu du début de la partie avec une possibilité de mettre le nom au Serveur
+fait grâce à un Menu, créé dans la classe ChooseNbPlayersCreator et nous lui avons aussi permis de choisir son nom.
+
 -Les tickets qui

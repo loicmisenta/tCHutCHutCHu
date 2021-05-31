@@ -41,13 +41,13 @@ public class ServerMenuMessageId extends Application {
             int i = 0;
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             //map.put(PlayerId.PLAYER_1, joueur.getValue());
-            for (PlayerId id: PlayerId.ALL.subList(0, 2)) {
+            for (PlayerId id: PlayerId.ALL.subList(0, 3)) {
                 map.put(id, arguments.get(i++));
                 if(id == PlayerId.PLAYER_1) continue;
                 Socket socket = serverSocket.accept();
                 mapPlayer.put(id, new RemotePlayerProxy(socket));
             }
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }}
 }

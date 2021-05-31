@@ -29,7 +29,6 @@ import java.util.Random;
  */
 public final class ServerMainWithMenu extends Application {
     private final StringProperty joueur = new SimpleStringProperty();
-    private final IntegerProperty nbJoueurs = new SimpleIntegerProperty();
 
     /**
      * Méthode main qui  se contente d'appeler la méthode launch, qui démarre (entre autres) le fil d'application JavaFX,
@@ -45,17 +44,18 @@ public final class ServerMainWithMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Platform.setImplicitExit(false);
-        StringProperty s = MenuViewCreator.createMenuView(primaryStage);
+        //List<StringProperty> s = MenuViewCreator.createMenuView(primaryStage, 2);
+        /*
         s.addListener((o, oV, nV)-> {
             joueur.set(nV);
             if (!nV.isEmpty()){
-                try {
+                try { //TODO comment faire un try que dès qu'une liste est remplie ?
                     startGame();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
     }
 
 
@@ -75,7 +75,7 @@ public final class ServerMainWithMenu extends Application {
             mapPlayer.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
             mapPlayer.put(PlayerId.PLAYER_2, new RemotePlayerProxy(socket));
 
-            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets()), new Random())).start();
+            new Thread(() -> Game.play(mapPlayer, map, SortedBag.of(ChMap.tickets(mapPlayer.size())), new Random())).start();
 
         }
     }

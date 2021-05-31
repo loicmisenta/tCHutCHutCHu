@@ -14,7 +14,7 @@ public class Stage11 extends Application {
     public static void main(String[] args) { launch(args); }
     @Override
     public void start(Stage primaryStage) {
-        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets());
+        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets(2));
         Map<PlayerId, String> names =
                 Map.of(PLAYER_1, "Ada", PLAYER_2, "Charles");
         Map<PlayerId, Player> players =

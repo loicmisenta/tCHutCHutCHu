@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -25,12 +26,12 @@ public class Stage11Test extends Application {
     @Override
     public void start(Stage primaryStage) {
         StringProperty joueur = new SimpleStringProperty();
-        StringProperty s = MenuViewCreator.createMenuView(primaryStage);
-        s.addListener((o, oV, nV)-> joueur.set(nV));
+        //List<StringProperty> s = MenuViewCreator.createMenuView(primaryStage, 2);
+       // s.addListener((o, oV, nV)-> joueur.set(nV));
 
 
 
-        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets());
+        SortedBag<Ticket> tickets = SortedBag.of(ChMap.tickets(2));
         Map<PlayerId, String> names =
                 Map.of(PLAYER_1, joueur.toString(), PLAYER_2, "Charles");
         Map<PlayerId, Player> players =

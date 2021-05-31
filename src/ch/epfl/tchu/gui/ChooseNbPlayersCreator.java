@@ -41,7 +41,7 @@ public class ChooseNbPlayersCreator {
         AnchorPane.setRightAnchor(button, 50.0);
         button.disableProperty().bind(choice.valueProperty().isNull());
         button.setOnAction(e -> {
-            simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0)))); //
+            simpleIntegerProperty.set(Integer.parseInt(String.valueOf(choice.getValue().charAt(0))));
             stageNbMenu.hide();
         });
         //stageNbMenu.initOwner(primaryStage);
