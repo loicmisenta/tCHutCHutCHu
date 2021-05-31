@@ -4,19 +4,31 @@ import ch.epfl.tchu.game.*;
 import com.sun.javafx.sg.prism.NodeEffectInput;
 import com.sun.scenario.effect.ColorAdjust;
 import com.sun.scenario.effect.Effect;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+
 import java.util.List;
 
 /**
@@ -35,7 +47,7 @@ final class MapViewCreator {
      * @param cardChooser un "sélectionneur de cartes"
      * @return un Pane de la vue de la carte
      */
-    public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteH, CardChooser cardChooser){
+    public static Pane createMapView(ObservableGameState observGameState, ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteH, CardChooser cardChooser, ObservableList<Trail> trailObservableList){
         int RECT_LARGEUR = 36;
         int RECT_LONG = 12;
         int RAYON_CERCLE = 3;
@@ -69,7 +81,6 @@ final class MapViewCreator {
             ReadOnlyObjectProperty<PlayerId> RouteOwned = observGameState.ownedRoutesReadOnly(route);
             RouteOwned.addListener((o, oV, nV) -> group.getStyleClass().add(nV.toString()));
 
-
             group.setOnMouseClicked(e -> {
                 List<SortedBag<Card>> possibleClaimCards = observGameState.possibleClaimCards(route);
                 if (possibleClaimCards.size() == 1){ //Cas quand pas de choix au joueur
@@ -100,16 +111,18 @@ final class MapViewCreator {
                 Circle cercle1 = new Circle(12, DIST_CERCLE, RAYON_CERCLE);
                 Circle cercle2 = new Circle(24, DIST_CERCLE, RAYON_CERCLE);
                 groupWagons.getChildren().addAll(rect, cercle1, cercle2);
-                Game.getLongestTrail().addListener((o2, oV2, nV2)->{
-                    System.out.println("LISTE ROUTE LONGEST" + nV2.getRoutes());
-                    if (nV2.getRoutes().contains(route)){
-                        groupWagons.setScaleX(1.1);
-                        groupWagons.setScaleY(1.1);
-                        DropShadow shadow = new DropShadow(30, Color.BLACK);
-                        rect.setEffect(shadow);
+                trailObservableList.addListener((ListChangeListener<Trail>) c -> {
+                    for (Trail trail : c.getList()) {
+                            if (trail.getRoutes().contains(route)){
+                                groupWagons.setScaleX(1.1);
+                                groupWagons.setScaleY(1.1);
+                                DropShadow shadow = new DropShadow(30, Color.BLACK);
+                                rect.setEffect(shadow);
 
+                            }
                     }
                 });
+
 
             }
         }

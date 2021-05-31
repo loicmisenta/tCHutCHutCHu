@@ -68,7 +68,6 @@ public final class RemotePlayerProxy implements Player {
         String playerNamesSerialize = listStringSerde.serialize(listPlayerNames);
         String initPlayerStringSer = String.join(" ", ownIdSerialize, playerNamesSerialize);
         sendMessage(MessageId.INIT_PLAYERS, initPlayerStringSer);
-        System.out.println(playerNamesSerialize);
     }
 
     /**
@@ -171,6 +170,11 @@ public final class RemotePlayerProxy implements Player {
         return sortedBagOfCardSerde.deserialize(readMessage());
     }
 
+    @Override
+    public void highLightLongestTrail(List<Trail> trailList) {
+        sendMessage(MessageId.HIGHLIGHT, listTrailSerde.serialize(trailList));
+
+    }
     /*
     @Override
     public String chooseName(){

@@ -218,7 +218,10 @@ public final class GraphicalPlayerAdapter implements Player {
         return getValueFromBCQ();
     }
 
-
+    @Override
+    public void highLightLongestTrail(List<Trail> listTrail) {
+        runLater(()->graphicalPlayer.highLightLongestTrail(listTrail));
+    }
     /*
     @Override
     public String chooseName() {

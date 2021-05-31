@@ -2,10 +2,9 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
+import static javafx.collections.FXCollections.observableArrayList;
 
 /**
  * @author loicmisenta (330593)
@@ -19,6 +18,7 @@ public class PublicGameState {
     private final Map<PlayerId, PublicPlayerState> playerState;
     private final PlayerId lastPlayer;
     private final int CAN_DRAW_TICKETS = 0;
+    private List<Trail> listLongestTrail;
 
     /**
      * Constructeur public de la partie publique de l'état de partie
@@ -36,6 +36,7 @@ public class PublicGameState {
         this.currentPlayerId = Objects.requireNonNull(currentPlayerId);
         this.playerState = Map.copyOf(Objects.requireNonNull(playerState));
         this.lastPlayer = lastPlayer;
+        listLongestTrail = observableArrayList();
     }
 
     /**
@@ -108,4 +109,13 @@ public class PublicGameState {
 
     public int playerCount(){return playerState.size();}
 
+    public List<Trail> getListLongestTrail() {
+        return listLongestTrail;
+    }
+
+    public void setListLongestTrail(Trail longestTrail) {
+        List<Trail> newListLongestTrail = this.listLongestTrail;
+        newListLongestTrail.add(longestTrail);
+        this.listLongestTrail = newListLongestTrail;
+    }
 }

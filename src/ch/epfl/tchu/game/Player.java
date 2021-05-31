@@ -96,6 +96,9 @@ public interface Player {
      */
     SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
 
+    //TODO
+     void highLightLongestTrail(List<Trail> trailList);
+
 
     //String chooseName();
 }

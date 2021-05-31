@@ -20,7 +20,7 @@ public final class Trail {
     private static Trail longest;
 
 
-   private Trail (List<Route> routes){
+   public Trail(List<Route> routes){
         this.station1 = routes.get(0).station1();
         this.station2 = routes.get(routes.size()-1).station2();
         int temp = 0;

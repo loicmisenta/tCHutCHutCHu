@@ -4,6 +4,7 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Ticket;
+import ch.epfl.tchu.game.Trail;
 
 /**
  * @author loicmisenta (330593)

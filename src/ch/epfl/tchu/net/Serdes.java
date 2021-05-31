@@ -6,6 +6,7 @@ import ch.epfl.tchu.game.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author loicmisenta (330593)
@@ -116,13 +117,19 @@ public final class Serdes {
      */
     public static final Serde<PublicGameState> publicGameStateSerde = Serde.of(i -> {
         String stringSerializeMapPlayer = "";
+
         for (PlayerId playerId : PlayerId.ALL.subList(0, i.playerCount())) {
+
             if(stringSerializeMapPlayer.equals("")){
                 stringSerializeMapPlayer = publicPlayerStateSerde.serialize(i.playerState(playerId));
             } else {
                 stringSerializeMapPlayer = String.join(":", stringSerializeMapPlayer, publicPlayerStateSerde.serialize(i.playerState(playerId)));
             }
         }
+
+
+        ;
+
         return String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()),
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
     }, Serdes::stringToPublicGameState);
@@ -141,11 +148,14 @@ public final class Serdes {
         for (PlayerId playerId: PlayerId.ALL.subList(0, listeString.length - 4)) {
             mapPlayerState.put(playerId, stringToPublicPlayerState(listeString[i++]));
         }
+
+
         PlayerId lastPlayer;
         if(listeString[listeString.length-1].length() == 0){
             lastPlayer = null;
         } else {
             lastPlayer = playerIdSerde.deserialize(listeString[listeString.length-1]);}
+
         return new PublicGameState(ticketsCount, cardState, currentPlayerId, mapPlayerState, lastPlayer);
     }
 
@@ -177,5 +187,22 @@ public final class Serdes {
         return new PublicCardState(faceUpCards, decksize, discardsize);
     }
 
+    //TODO
+    private static Trail stringToTrail(String string){
+
+        return new Trail(listRouteSerde.deserialize(string));
+    }
+    public static final Serde<Trail> trailSerde = Serde.of(i-> listRouteSerde.serialize(i.getRoutes()), Serdes::stringToTrail);
+
+    private static List<Trail> stringToTrailList(String string){
+        String[] listStringTrail = string.split(Pattern.quote(DELIMITER_DEUX_POINTS), -1);
+        List<Trail> listTrail  = new ArrayList<>();
+        for (String s : listStringTrail) {
+            listTrail.add(trailSerde.deserialize(s));
+        }
+        return listTrail;
+    }
+
+    public static final Serde<List<Trail>> listTrailSerde = Serde.listOf(trailSerde, DELIMITER_DEUX_POINTS);
 
 }

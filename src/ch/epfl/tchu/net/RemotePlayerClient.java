@@ -103,6 +103,8 @@ public final class RemotePlayerClient {
                         w.write('\n');
                         w.flush();
                         break;
+                    case HIGHLIGHT:
+                        player.highLightLongestTrail(listTrailSerde.deserialize(ls[1]));
                    // case CHOOSE_INITIAL_NAME:
                     //    w.write(stringSerde.serialize(player.chooseName()));
                     //    w.write('\n');

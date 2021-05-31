@@ -1,6 +1,7 @@
 package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -43,6 +44,7 @@ public final class GraphicalPlayer {
     final private ObservableList<Text> observableList;
     final private Stage mainPane;
     final private int NB_MESSAGES = 5;
+    final private ObservableList<Trail> listTrailObjectProperty;
 
     /**
      * Constructeur de la classe GraphiquePlayer qui aura en parametre:
@@ -58,16 +60,16 @@ public final class GraphicalPlayer {
         drawCardHandlerProperty = new SimpleObjectProperty<>();
         claimRouteHandlerProperty = new SimpleObjectProperty<>();
         observableList = observableArrayList();
+        listTrailObjectProperty = observableArrayList();
 
         Node handView = DecksViewCreator.createHandView(observableGameState);
         Node cardsView = DecksViewCreator.createCardsView(observableGameState, drawTicketsHandlerProperty, drawCardHandlerProperty);
-        Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards);
+        Node mapView = MapViewCreator.createMapView(observableGameState, claimRouteHandlerProperty, this::chooseClaimCards, listTrailObjectProperty);
         Node infoView = InfoViewCreator.createInfoView(playerId, nomsJoueurs, observableGameState, observableList);
         BorderPane mainPaneBorder = new BorderPane(mapView, null, cardsView, handView, infoView);
 
         mainPane.setScene(new Scene(mainPaneBorder));
         mainPane.show();
-
     }
 
     /**
@@ -352,4 +354,18 @@ public final class GraphicalPlayer {
         stage.show();
     }
 
+    //    public void receiveInfo(String message){
+    //        assert isFxApplicationThread();
+    //        if (observableList.size() == NB_MESSAGES){
+    //            observableList.remove( 0 , 1 );
+    //        }
+    //        observableList.add(new Text(message));
+    //
+    //    }
+
+    public void highLightLongestTrail(List<Trail> listTrail){
+        assert isFxApplicationThread();
+        listTrailObjectProperty.setAll(listTrail);
+
+    }
 }

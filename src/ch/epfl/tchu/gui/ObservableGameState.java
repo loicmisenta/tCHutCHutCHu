@@ -4,6 +4,7 @@ import ch.epfl.tchu.game.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 
 import java.util.*;
 
@@ -25,6 +26,8 @@ public final class ObservableGameState {
     private final IntegerProperty percentageCardsLeft;
     private final List<ObjectProperty<Card>> faceUpCards;
     private final Map<Route, ObjectProperty<PlayerId>> ownedRoutes;
+    //TODO
+    private final ObservableList<Trail> trailListObjectProperty;
 
     //groupe2
     private final Map<PlayerId, IntegerProperty> ownedTickets;
@@ -57,6 +60,7 @@ public final class ObservableGameState {
         ticketList = observableArrayList();
         nbTypeCarte = createNbTypeCarte();
         claimableRoutes = createClaimableRoutes();
+        trailListObjectProperty = observableArrayList();
 
     }
 
@@ -118,6 +122,15 @@ public final class ObservableGameState {
         } else{
             claimableRoutes.forEach((r, b) -> b.set((playerId == publicGameState.currentPlayerId()) && (ownedRoutes.get(r).getValue() == null) && !(stations(playerId).contains(r.stations())) && playerState.canClaimRoute(r)));
         }
+
+        //TODO
+        if (!publicGameState.getListLongestTrail().isEmpty()){
+            for (int i = 0; i < publicGameState.getListLongestTrail().size(); i++) {
+                trailListObjectProperty.set(i, publicGameState.getListLongestTrail().get(i));
+            }
+        }
+
+
 
     }
 
@@ -183,7 +196,9 @@ public final class ObservableGameState {
     /**
      * @return la propriété contenant le nombre de ticket possedé par le joueur auquel l'instance de ObservableGameState correspond.
      */
-    public ObservableList<Ticket> ticketListReadOnly(){ return FXCollections.unmodifiableObservableList(ticketList);}
+    public ObservableList<Ticket> ticketListReadOnly(){
+        return FXCollections.unmodifiableObservableList(ticketList);
+    }
 
     /**
      * @return la propriété contenant le nombre de type de carte possedé par le joueur auquel l'instance de ObservableGameState correspond.
@@ -281,6 +296,10 @@ public final class ObservableGameState {
         return claimableRoutes;
     }
 
+    private ObservableList<Trail> createTrailList(){
+        return FXCollections.unmodifiableObservableList(trailListObjectProperty);
+    }
+
 
     /**
      * @return vrai si il est encore possible de tirer des billets
@@ -303,6 +322,11 @@ public final class ObservableGameState {
     public List<SortedBag<Card>> possibleClaimCards(Route route){
         return playerState.possibleClaimCards(route);
     }
+
+
+
+    // public ReadOnlyIntegerProperty ownedConstructPointsReadOnly(PlayerId playerId){ return ownedConstructPoints.get(playerId); }
+    public ObservableList<Trail> longestTrailReadOnly(){ return trailListObjectProperty; }
 
     //public int nbPlayers(){ return publicGameState.playerCount(); }
 }
