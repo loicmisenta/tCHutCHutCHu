@@ -175,10 +175,4 @@ public final class RemotePlayerProxy implements Player {
         sendMessage(MessageId.HIGHLIGHT, listTrailSerde.serialize(trailList));
 
     }
-    /*
-    @Override
-    public String chooseName(){
-        sendMessage(MessageId.CHOOSE_INITIAL_NAME, " ");
-        return stringSerde.deserialize(readMessage());
-    }*/
 }

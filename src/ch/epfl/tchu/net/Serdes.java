@@ -125,11 +125,7 @@ public final class Serdes {
             } else {
                 stringSerializeMapPlayer = String.join(":", stringSerializeMapPlayer, publicPlayerStateSerde.serialize(i.playerState(playerId)));
             }
-        }
-
-
-        ;
-
+        };
         return String.join(DELIMITER_DEUX_POINTS, intSerde.serialize(i.ticketsCount()), publicCardStateSerde.serialize(i.cardState()),
                 playerIdSerde.serialize(i.currentPlayerId()), stringSerializeMapPlayer, playerIdSerde.serialize(i.lastPlayer()));
     }, Serdes::stringToPublicGameState);
@@ -147,8 +143,6 @@ public final class Serdes {
         for (PlayerId playerId: PlayerId.ALL.subList(0, listeString.length - 4)) {
             mapPlayerState.put(playerId, stringToPublicPlayerState(listeString[i++]));
         }
-
-
         PlayerId lastPlayer;
         if(listeString[listeString.length-1].length() == 0){
             lastPlayer = null;
@@ -186,7 +180,6 @@ public final class Serdes {
         return new PublicCardState(faceUpCards, decksize, discardsize);
     }
 
-    //TODO
     private static Trail stringToTrail(String string){
 
         return new Trail(listRouteSerde.deserialize(string));

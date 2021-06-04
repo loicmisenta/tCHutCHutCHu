@@ -44,18 +44,7 @@ public final class ServerMainWithMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Platform.setImplicitExit(false);
-        //List<StringProperty> s = MenuViewCreator.createMenuView(primaryStage, 2);
-        /*
-        s.addListener((o, oV, nV)-> {
-            joueur.set(nV);
-            if (!nV.isEmpty()){
-                try { //TODO comment faire un try que dès qu'une liste est remplie ?
-                    startGame();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });*/
+
     }
 
 

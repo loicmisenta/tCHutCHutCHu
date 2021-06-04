@@ -44,7 +44,7 @@ public final class GraphicalPlayer {
     final private ObjectProperty<ActionHandlers.ClaimRouteHandler> claimRouteHandlerProperty;
     final private ObservableList<Text> observableList;
     final private Stage mainPane;
-    final private int NB_MESSAGES = 5;
+    final private static int NB_MESSAGES = 5;
     final private ObservableList<Trail> listTrailObjectProperty;
 
     /**
@@ -337,11 +337,9 @@ public final class GraphicalPlayer {
         Button buttonChoose = new Button("Choisir");
         buttonChoose.disableProperty().bind(textField.textProperty().isEmpty());
         buttonChoose.setOnAction(e -> {
-            //primaryStage1.hide();
             chooseNameHandler.onChooseName(textField.getText());
             stage.hide();
             inTheChooseNameMenu.set(false);
-
         });
         gridPane.addRow(4, buttonChoose);
         GridPane.setHalignment(buttonChoose, HPos.CENTER);
@@ -357,14 +355,6 @@ public final class GraphicalPlayer {
         stage.show();
     }
 
-    //    public void receiveInfo(String message){
-    //        assert isFxApplicationThread();
-    //        if (observableList.size() == NB_MESSAGES){
-    //            observableList.remove( 0 , 1 );
-    //        }
-    //        observableList.add(new Text(message));
-    //
-    //    }
 
     public void highLightLongestTrail(List<Trail> listTrail){
         assert isFxApplicationThread();
